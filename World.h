@@ -16,7 +16,7 @@ class World {
     void updateVoxel(int x, int y, int z, const Voxel&, Voxel::Updater);
 
     bool raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, float distance);
-    void voxelSphere(L::Point3f center, float radius, Voxel::Updater = Voxel::set);
+    void voxelSphere(L::Point3i center, float radius, byte type, Voxel::Updater = Voxel::set);
 
     static void chunkKey(int x, int y, int z, int& cx, int& cy, int& cz);
     static void voxelKey(int x, int y, int z, int& vx, int& vy, int& vz);

@@ -19,7 +19,7 @@ class Chunk {
     bool update();
     void draw();
     const Voxel& voxel(int x, int y, int z);
-    void setVoxel(int x, int y, int z,const Voxel&);
+    void voxel(int x, int y, int z,const Voxel&);
 };
 
 #endif

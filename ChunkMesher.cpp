@@ -46,7 +46,7 @@ byte getIndex(bool cell[8]) {
 byte getIndex(Voxel cell[8]) {
   byte wtr(0);
   for(int i(0); i<8; i++)
-    if(cell[i].isSolid())
+    if(cell[i].solid())
       wtr |= (byte)(1 << i);
   return wtr;
 }
@@ -197,7 +197,49 @@ uint ChunkMesher::vertex(int x, int y, int z, byte edge, Voxel cell[8]) {
   return wtr;
 }
 void ChunkMesher::color(byte edge, Voxel cell[8]) {
-  _meshBuilder.setVertexColor(Color::white);
+  Color c;
+  switch(edge) {
+    case backBottom:
+      c = (cell[bbl].solid())?cell[bbl].color():cell[bbr].color();
+      break;
+    case backTop:
+      c = (cell[btl].solid())?cell[btl].color():cell[btr].color();
+      break;
+    case backLeft:
+      c = (cell[bbl].solid())?cell[bbl].color():cell[btl].color();
+      break;
+    case backRight:
+      c = (cell[bbr].solid())?cell[bbr].color():cell[btr].color();
+      break;
+    case frontBottom:
+      c = (cell[fbl].solid())?cell[fbl].color():cell[fbr].color();
+      break;
+    case frontTop:
+      c = (cell[ftl].solid())?cell[ftl].color():cell[ftr].color();
+      break;
+    case frontLeft:
+      c = (cell[fbl].solid())?cell[fbl].color():cell[ftl].color();
+      break;
+    case frontRight:
+      c = (cell[fbr].solid())?cell[fbr].color():cell[ftr].color();
+      break;
+    case bottomLeft:
+      c = (cell[bbl].solid())?cell[bbl].color():cell[fbl].color();
+      break;
+    case bottomRight:
+      c = (cell[bbr].solid())?cell[bbr].color():cell[fbr].color();
+      break;
+    case topLeft:
+      c = (cell[btl].solid())?cell[btl].color():cell[ftl].color();
+      break;
+    case topRight:
+      c = (cell[btr].solid())?cell[btr].color():cell[ftr].color();
+      break;
+    default:
+      c = Color::white;
+      break;
+  }
+  _meshBuilder.setVertexColor(c);
 }
 float ChunkMesher::edgeValue(Voxel v1, Voxel v2) {
   return (v1.value()-.5f)/(v1.value()-v2.value());
@@ -300,7 +342,7 @@ ChunkMesher::ChunkMesher() {
 
 void ChunkMesher::build(Chunk& chunk) {
   memset(_edgeVertices,~0,sizeof(_edgeVertices));
-  _meshBuilder.reset(GL::Mesh::VERTEX|GL::Mesh::COLOR,65536,65536);
+  _meshBuilder.reset(GL::Mesh::VERTEX|GL::Mesh::COLOR|GL::Mesh::NORMAL,65536,65536);
   for(int x(0); x<Chunk::size; x++)
     for(int y(0); y<Chunk::size; y++)
       for(int z(0); z<Chunk::size; z++) {
@@ -320,4 +362,5 @@ void ChunkMesher::build(Chunk& chunk) {
                                      vertex(x,y,z,mesh[i+1],cell),
                                      vertex(x,y,z,mesh[i+2],cell));
       }
+    _meshBuilder.computeNormals();
 }

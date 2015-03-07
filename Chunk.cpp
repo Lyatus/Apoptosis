@@ -28,7 +28,8 @@ void Chunk::draw() {
 const Voxel& Chunk::voxel(int x, int y, int z) {
   return _voxels[x][y][z];
 }
-void Chunk::setVoxel(int x, int y, int z, const Voxel& v) {
+void Chunk::voxel(int x, int y, int z, const Voxel& v) {
+  if(_voxels[x][y][z] != v)
+    _changed = true;
   _voxels[x][y][z] = v;
-  _changed = true;
 }

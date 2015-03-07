@@ -6,13 +6,44 @@
 
 class Automaton {
   public:
-    static const int size = 32;
+    typedef Voxel(*Process)(World& world, int x, int y, int z);
   private:
+    World& _world;
     L::Interval3i _zone;
-    Voxel buffer[65536];
-  public:
-    Automaton(int x, int y, int z);
+    Process _process;
+    L::Buffer<65536,Voxel> _buffer;
 
+    L::Point3i _min, _max, _ip, _iw;
+    bool _processing;
+  public:
+    Automaton(World&,const L::Interval3i&, Process);
+    void update();
+    void drawDebug();
+
+    static Voxel rot(World& world, int x, int y, int z);
+    static Voxel cancer(World& world, int x, int y, int z);
+
+    template <int El, int Eu, int Fl, int Fu>
+    static Voxel gol(World& world, int x, int y, int z) {
+      const Voxel& current(world.voxel(x,y,z));
+      int neighbors(0);
+      for(int xi(x-1); xi<=x+1; xi++)
+        for(int yi(y-1); yi<=y+1; yi++)
+          for(int zi(z-1); zi<=z+1; zi++)
+            if(world.voxel(xi,yi,zi).solid())
+              neighbors++;
+      if(current.solid()) { // Environment
+        neighbors--;
+        if(neighbors<El || neighbors >Eu) // Must die
+          return Voxel();
+        else // Survives
+          return current;
+      } else { // Fertility
+        if(neighbors>=Fl && neighbors<=Fu)
+          return Voxel(1.0);
+      }
+      return current; // No change
+    }
 };
 
 #endif

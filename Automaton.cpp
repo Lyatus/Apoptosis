@@ -2,3 +2,85 @@
 
 using namespace L;
 using namespace GL;
+
+Automaton::Automaton(World& world, const L::Interval3i& zone, Process process) : _world(world), _zone(zone), _process(process), _processing(false) {}
+void Automaton::update() {
+  if(!_processing && _buffer.empty()) { // Ready for new processing
+    _ip = _iw = _min = _zone.min();
+    _max = _zone.max()+Point3i(1,1,1);
+    _processing = true;
+  } else { // Still processing
+    if(_processing) {
+      _buffer.write(_process(_world,_ip.x(),_ip.y(),_ip.z()));
+      if(!_ip.increment(_min,_max)) // Increment returns true if we've gone back to the beginning
+        _processing = false;
+    }
+    if(_buffer.full() || !_processing) {
+      Voxel v(_buffer.read());
+      if(v.solid()) {
+        _zone.add(_iw-Point3i(1,1,1));
+        _zone.add(_iw+Point3i(1,1,1));
+      }
+      _buffer.pop();
+      _world.updateVoxel(_iw.x(),_iw.y(),_iw.z(),v,Voxel::set);
+      _iw.increment(_min,_max);
+    }
+  }
+}
+
+void Automaton::drawDebug() {
+  glBegin(GL_QUADS);
+  glColor4ub(255,255,0,50);
+  // Left
+  glVertex3f(_zone.min().x(),_zone.min().y(),_zone.min().z());
+  glVertex3f(_zone.min().x(),_zone.min().y(),_zone.max().z());
+  glVertex3f(_zone.min().x(),_zone.max().y(),_zone.max().z());
+  glVertex3f(_zone.min().x(),_zone.max().y(),_zone.min().z());
+  // Right
+  glVertex3f(_zone.max().x(),_zone.min().y(),_zone.min().z());
+  glVertex3f(_zone.max().x(),_zone.max().y(),_zone.min().z());
+  glVertex3f(_zone.max().x(),_zone.max().y(),_zone.max().z());
+  glVertex3f(_zone.max().x(),_zone.min().y(),_zone.max().z());
+  // Bottom
+  glVertex3f(_zone.min().x(),_zone.min().y(),_zone.min().z());
+  glVertex3f(_zone.max().x(),_zone.min().y(),_zone.min().z());
+  glVertex3f(_zone.max().x(),_zone.min().y(),_zone.max().z());
+  glVertex3f(_zone.min().x(),_zone.min().y(),_zone.max().z());
+  // Top
+  glVertex3f(_zone.min().x(),_zone.max().y(),_zone.min().z());
+  glVertex3f(_zone.min().x(),_zone.max().y(),_zone.max().z());
+  glVertex3f(_zone.max().x(),_zone.max().y(),_zone.max().z());
+  glVertex3f(_zone.max().x(),_zone.max().y(),_zone.min().z());
+  // Front
+  glVertex3f(_zone.min().x(),_zone.min().y(),_zone.min().z());
+  glVertex3f(_zone.min().x(),_zone.max().y(),_zone.min().z());
+  glVertex3f(_zone.max().x(),_zone.max().y(),_zone.min().z());
+  glVertex3f(_zone.max().x(),_zone.min().y(),_zone.min().z());
+  // Back
+  glVertex3f(_zone.min().x(),_zone.min().y(),_zone.max().z());
+  glVertex3f(_zone.max().x(),_zone.min().y(),_zone.max().z());
+  glVertex3f(_zone.max().x(),_zone.max().y(),_zone.max().z());
+  glVertex3f(_zone.min().x(),_zone.max().y(),_zone.max().z());
+  glEnd();
+}
+
+Voxel Automaton::rot(World& world, int x, int y, int z) {
+  const Voxel& current(world.voxel(x,y,z));
+  const Voxel& other(world.voxel(x+Rand::next(-1,2),y+Rand::next(-1,2),z+Rand::next(-1,2)));
+  if((current.solid() || Rand::next(0,2)) && current.type()!=Voxel::CANCER) {
+    if(other.solid() && other.type()==Voxel::CANCER)
+      return Voxel(std::min(1.0,current.value()+Rand::next(0.0,.5)),Voxel::CANCER);
+  } else if(current.type()==Voxel::CANCER && !other.solid())
+    return Voxel(std::max(0.0,current.value()-Rand::next(0.0,.01)),Voxel::CANCER);
+  return current; // No change
+}
+Voxel Automaton::cancer(World& world, int x, int y, int z) {
+  const Voxel& current(world.voxel(x,y,z));
+  const Voxel& other(world.voxel(x+Rand::next(-1,2),y+Rand::next(-1,2),z+Rand::next(-1,2)));
+  if(current.type()==Voxel::CANCER || (other.value()>.9 && other.type()==Voxel::CANCER && current.type()==Voxel::NOTHING)) {
+    //if(other.solid() && other.type()==Voxel::CANCER)
+      return Voxel(std::min(1.0,current.value()+Rand::next(0.0,.05)),Voxel::CANCER);
+  }// else if(current.type()==Voxel::CANCER && !other.solid())
+  //return Voxel(std::max(0.0,current.value()-Rand::next(0.0,.01)),Voxel::CANCER);
+  return current; // No change
+}

@@ -56,45 +56,61 @@
 1382453102 d:\projects\codeblocks\cancer\file.h
 	<iostream>
 
-1424888508 source:d:\projects\codeblocks\cancer\main.cpp
+1425555216 source:d:\projects\codeblocks\cancer\main.cpp
 	<L/L.h>
+	<L/interface/bmp.h>
 	"World.h"
+	"Automaton.h"
 
 1415813111 d:\projects\codeblocks\cancer\main.h
 
-1424825679 source:d:\projects\codeblocks\cancer\world.cpp
+1425129243 source:d:\projects\codeblocks\cancer\world.cpp
 	"World.h"
 
-1424796780 source:d:\projects\codeblocks\cancer\chunk.cpp
+1425126680 source:d:\projects\codeblocks\cancer\chunk.cpp
 	"Chunk.h"
 	"ChunkMesher.h"
 
-1424736675 d:\projects\codeblocks\cancer\chunk.h
+1425549200 d:\projects\codeblocks\cancer\chunk.h
 	<L/L.h>
 	"Voxel.h"
 
-1424606828 d:\projects\codeblocks\cancer\world.h
+1425129252 d:\projects\codeblocks\cancer\world.h
 	<L/L.h>
 	"Chunk.h"
 
-1424727358 d:\projects\codeblocks\cancer\voxel.h
+1425555573 d:\projects\codeblocks\cancer\voxel.h
 	<L/L.h>
 
-1424727398 source:d:\projects\codeblocks\cancer\voxel.cpp
+1425166873 source:d:\projects\codeblocks\cancer\voxel.cpp
 	"Voxel.h"
 
 1424825665 d:\projects\codeblocks\cancer\chunkmesher.h
 	<L/L.h>
 	"Chunk.h"
 
-1424736885 source:d:\projects\codeblocks\cancer\chunkmesher.cpp
+1425547346 source:d:\projects\codeblocks\cancer\chunkmesher.cpp
 	"ChunkMesher.h"
 	"Chunk.h"
 
-1424814508 source:d:\projects\codeblocks\cancer\automaton.cpp
+1425555016 source:d:\projects\codeblocks\cancer\automaton.cpp
 	"Automaton.h"
 
-1424814562 d:\projects\codeblocks\cancer\automaton.h
+1425550548 d:\projects\codeblocks\cancer\automaton.h
 	<L/L.h>
 	"World.h"
+
+1425549623 source:d:\projects\codeblocks\cancer\automata\rot.cpp
+	"Rot.h"
+
+1425549672 source:d:\projects\codeblocks\cancer\automata\automaton.cpp
+	"Automaton.h"
+
+1425549682 d:\projects\codeblocks\cancer\automata\automaton.h
+	<L/L.h>
+	"../World.h"
+
+1425549550 d:\projects\codeblocks\cancer\automata\rot.h
+	<L/L.h>
+	"Automaton.h"
 
