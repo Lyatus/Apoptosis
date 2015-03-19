@@ -1,89 +1,29 @@
 # depslib dependency file v1.0
-1415831181 source:c:\users\lucien\codeblocks projects\ltests\main.cpp
-	<L/L.h>
-	<L/interface/bmp.h>
-	<L/interface/freetype.h>
-	<L/interface/json.h>
-	<L/interface/lbm.h>
-	<L/interface/obj.h>
-	<L/interface/png.h>
-	"main.h"
-
-1328889320 c:\users\lucien\codeblocks projects\l\test.h
-
-1363028804 c:\users\lucien\codeblocks projects\ltests\interface\bmp.h
-	<L/L.h>
-
-1363028746 source:c:\users\lucien\codeblocks projects\ltests\interface\bmp.cpp
-
-1415813111 c:\users\lucien\codeblocks projects\ltests\main.h
-
-1379689110 source:c:\users\lucien\codeblocks projects\ltests\file.cpp
-	"file.h"
-
-1382449502 c:\users\lucien\codeblocks projects\ltests\file.h
-	<iostream>
-
-1392921449 c:\users\lucien\codeblocks projects\ltests\test.h
-	<iostream>
-
-1410798090 c:\users\lucien\codeblocks projects\ltests\superscope.h
-	<L/stl.h>
-	<L/dynamic.h>
-
-1410798112 source:c:\users\lucien\codeblocks projects\ltests\superscope.cpp
-	"SuperScope.h"
-
-1379692710 source:d:\projects\codeblocks\ltests\file.cpp
-	"file.h"
-
-1382453102 d:\projects\codeblocks\ltests\file.h
-	<iostream>
-
-1424508468 source:d:\projects\codeblocks\ltests\main.cpp
-	<L/L.h>
-	<L/interface/bmp.h>
-	<L/interface/freetype.h>
-	<L/interface/json.h>
-	<L/interface/lbm.h>
-	"main.h"
-
-1415813111 d:\projects\codeblocks\ltests\main.h
-
-1379692710 source:d:\projects\codeblocks\cancer\file.cpp
-	"file.h"
-
-1382453102 d:\projects\codeblocks\cancer\file.h
-	<iostream>
-
-1425555216 source:d:\projects\codeblocks\cancer\main.cpp
-	<L/L.h>
-	<L/interface/bmp.h>
-	"World.h"
+1426435851 source:d:\projects\codeblocks\cancer\automaton.cpp
 	"Automaton.h"
 
-1415813111 d:\projects\codeblocks\cancer\main.h
-
-1425129243 source:d:\projects\codeblocks\cancer\world.cpp
+1426358861 d:\projects\codeblocks\cancer\automaton.h
+	<L/L.h>
 	"World.h"
+
+1426513378 d:\projects\codeblocks\cancer\world.h
+	<L/L.h>
+	"Chunk.h"
+	"shapes/Shape.h"
+
+1426107392 d:\projects\codeblocks\cancer\chunk.h
+	<L/L.h>
+	"Voxel.h"
+
+1426432312 d:\projects\codeblocks\cancer\voxel.h
+	<L/L.h>
+
+1426431566 d:\projects\codeblocks\cancer\shapes\shape.h
+	<L/L.h>
 
 1425126680 source:d:\projects\codeblocks\cancer\chunk.cpp
 	"Chunk.h"
 	"ChunkMesher.h"
-
-1425549200 d:\projects\codeblocks\cancer\chunk.h
-	<L/L.h>
-	"Voxel.h"
-
-1425129252 d:\projects\codeblocks\cancer\world.h
-	<L/L.h>
-	"Chunk.h"
-
-1425555573 d:\projects\codeblocks\cancer\voxel.h
-	<L/L.h>
-
-1425166873 source:d:\projects\codeblocks\cancer\voxel.cpp
-	"Voxel.h"
 
 1424825665 d:\projects\codeblocks\cancer\chunkmesher.h
 	<L/L.h>
@@ -93,24 +33,51 @@
 	"ChunkMesher.h"
 	"Chunk.h"
 
-1425555016 source:d:\projects\codeblocks\cancer\automaton.cpp
-	"Automaton.h"
-
-1425550548 d:\projects\codeblocks\cancer\automaton.h
+1426599028 source:d:\projects\codeblocks\cancer\main.cpp
 	<L/L.h>
+	<L/interface/bmp.h>
 	"World.h"
-
-1425549623 source:d:\projects\codeblocks\cancer\automata\rot.cpp
-	"Rot.h"
-
-1425549672 source:d:\projects\codeblocks\cancer\automata\automaton.cpp
 	"Automaton.h"
+	"shapes.h"
 
-1425549682 d:\projects\codeblocks\cancer\automata\automaton.h
-	<L/L.h>
-	"../World.h"
+1426436351 d:\projects\codeblocks\cancer\shapes.h
+	"shapes/Curve.h"
+	"shapes/Line.h"
+	"shapes/Shape.h"
+	"shapes/Sphere.h"
+	"shapes/Triangle.h"
 
-1425549550 d:\projects\codeblocks\cancer\automata\rot.h
+1426368353 d:\projects\codeblocks\cancer\shapes\curve.h
 	<L/L.h>
-	"Automaton.h"
+	"Line.h"
+
+1426284586 d:\projects\codeblocks\cancer\shapes\line.h
+	<L/L.h>
+	"Shape.h"
+
+1426244592 d:\projects\codeblocks\cancer\shapes\sphere.h
+	<L/L.h>
+	"Shape.h"
+
+1426368483 source:d:\projects\codeblocks\cancer\shapes\curve.cpp
+	"Curve.h"
+
+1426431554 source:d:\projects\codeblocks\cancer\shapes\line.cpp
+	"Line.h"
+
+1426431588 source:d:\projects\codeblocks\cancer\shapes\sphere.cpp
+	"Sphere.h"
+
+1426598284 source:d:\projects\codeblocks\cancer\shapes\triangle.cpp
+	"Triangle.h"
+
+1426512457 d:\projects\codeblocks\cancer\shapes\triangle.h
+	<L/L.h>
+	"Line.h"
+
+1426366261 source:d:\projects\codeblocks\cancer\voxel.cpp
+	"Voxel.h"
+
+1426432171 source:d:\projects\codeblocks\cancer\world.cpp
+	"World.h"
 

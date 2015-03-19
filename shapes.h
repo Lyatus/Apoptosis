@@ -1,0 +1,5 @@
+#include "shapes/Curve.h"
+#include "shapes/Line.h"
+#include "shapes/Shape.h"
+#include "shapes/Sphere.h"
+#include "shapes/Triangle.h"

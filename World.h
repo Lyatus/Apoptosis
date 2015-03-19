@@ -3,10 +3,15 @@
 
 #include <L/L.h>
 #include "Chunk.h"
+#include "shapes/Shape.h"
 
 class World {
+  public:
+    static const int size = 64;
+    static const int radius = size/2;
   private:
-    L::Map<L::Point3i,Chunk*> _chunks;
+    Chunk* _chunks[size][size][size];
+    Chunk **_min, **_max; // Pointers to the chunks with the minimum and maximum coordinates (used to optimize iteration)
   public:
     World();
     void draw();
@@ -16,6 +21,9 @@ class World {
     void updateVoxel(int x, int y, int z, const Voxel&, Voxel::Updater);
 
     bool raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, float distance);
+
+    // Drawing
+    void fill(const Shape&, byte type, Voxel::Updater);
     void voxelSphere(L::Point3i center, float radius, byte type, Voxel::Updater = Voxel::set);
 
     static void chunkKey(int x, int y, int z, int& cx, int& cy, int& cz);

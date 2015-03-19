@@ -16,7 +16,8 @@ class Automaton {
     L::Point3i _min, _max, _ip, _iw;
     bool _processing;
   public:
-    Automaton(World&,const L::Interval3i&, Process);
+    Automaton(World&, Process);
+    void include(const L::Point3i&);
     void update();
     void drawDebug();
 

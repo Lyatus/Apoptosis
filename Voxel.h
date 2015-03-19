@@ -5,12 +5,13 @@
 
 class Voxel {
   private:
-    static const int precision = 64;
-    byte _v;
+    static const int precision = 1024;
+    unsigned short _v;
   public:
     static const byte NOTHING = 0;
     static const byte CANCER = 1;
     static const byte LUNG = 2;
+    static const byte VESSEL = 3;
     Voxel(float value = 0, byte type = 0);
     bool operator==(const Voxel& other) const {return _v==other._v;}
     bool operator!=(const Voxel& other) const {return _v!=other._v;}
@@ -21,10 +22,12 @@ class Voxel {
     L::Color color() const;
 
     // Updaters
-    typedef Voxel(*Updater)(Voxel,Voxel);
+    typedef Voxel (*Updater)(Voxel,Voxel);
     static Voxel set(Voxel,Voxel);
     static Voxel add(Voxel,Voxel);
     static Voxel sub(Voxel,Voxel);
+    static Voxel min(Voxel,Voxel);
+    static Voxel max(Voxel,Voxel);
 };
 
 #endif

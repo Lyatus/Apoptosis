@@ -3,11 +3,16 @@
 using namespace L;
 using namespace GL;
 
-Automaton::Automaton(World& world, const L::Interval3i& zone, Process process) : _world(world), _zone(zone), _process(process), _processing(false) {}
+Automaton::Automaton(World& world, Process process) : _world(world), _process(process), _processing(false) {}
+void Automaton::include(const L::Point3i& p) {
+  _zone.add(p);
+}
 void Automaton::update() {
   if(!_processing && _buffer.empty()) { // Ready for new processing
+    if(_zone.empty()) return; // There is nothing to do
     _ip = _iw = _min = _zone.min();
     _max = _zone.max()+Point3i(1,1,1);
+    _zone.clear();
     _processing = true;
   } else { // Still processing
     if(_processing) {
@@ -17,7 +22,7 @@ void Automaton::update() {
     }
     if(_buffer.full() || !_processing) {
       Voxel v(_buffer.read());
-      if(v.solid()) {
+      if(v.type()==Voxel::CANCER) {
         _zone.add(_iw-Point3i(1,1,1));
         _zone.add(_iw+Point3i(1,1,1));
       }
@@ -29,6 +34,7 @@ void Automaton::update() {
 }
 
 void Automaton::drawDebug() {
+  if(_zone.empty()) return;
   glBegin(GL_QUADS);
   glColor4ub(255,255,0,50);
   // Left
@@ -78,8 +84,8 @@ Voxel Automaton::cancer(World& world, int x, int y, int z) {
   const Voxel& current(world.voxel(x,y,z));
   const Voxel& other(world.voxel(x+Rand::next(-1,2),y+Rand::next(-1,2),z+Rand::next(-1,2)));
   if(current.type()==Voxel::CANCER || (other.value()>.9 && other.type()==Voxel::CANCER && current.type()==Voxel::NOTHING)) {
-    //if(other.solid() && other.type()==Voxel::CANCER)
-      return Voxel(std::min(1.0,current.value()+Rand::next(0.0,.05)),Voxel::CANCER);
+    if(other.solid() && other.type()==Voxel::CANCER)
+      return Voxel(std::min(1.0,current.value()+Rand::next(.0,8.0/1024.0)),Voxel::CANCER);
   }// else if(current.type()==Voxel::CANCER && !other.solid())
   //return Voxel(std::max(0.0,current.value()-Rand::next(0.0,.01)),Voxel::CANCER);
   return current; // No change

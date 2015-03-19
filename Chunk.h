@@ -7,7 +7,7 @@
 class ChunkMesher;
 class Chunk {
   public:
-    static const int size = 32;
+    static const int size = 24;
   private:
     int _x, _y, _z;
     bool _changed;

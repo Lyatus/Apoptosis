@@ -60,6 +60,16 @@
 		<Unit filename="World.cpp" />
 		<Unit filename="World.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="shapes.h" />
+		<Unit filename="shapes/Curve.cpp" />
+		<Unit filename="shapes/Curve.h" />
+		<Unit filename="shapes/Line.cpp" />
+		<Unit filename="shapes/Line.h" />
+		<Unit filename="shapes/Shape.h" />
+		<Unit filename="shapes/Sphere.cpp" />
+		<Unit filename="shapes/Sphere.h" />
+		<Unit filename="shapes/Triangle.cpp" />
+		<Unit filename="shapes/Triangle.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

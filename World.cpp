@@ -3,22 +3,26 @@
 using namespace L;
 using namespace GL;
 
-World::World() {}
+World::World() : _chunks {{{0}}} {
+  _min = _max = &_chunks[radius][radius][radius];
+}
 void World::draw() {
-  L_Iter(_chunks,chunk)
-  chunk->second->draw();
+  for(Chunk** c(_min); c<=_max; c++)
+    if(*c)
+      (*c)->draw();
 }
 void World::update() {
-  L_Iter(_chunks,chunk)
-  chunk->second->update();
+  for(Chunk** c(_min); c<=_max; c++)
+    if(*c)
+      (*c)->update();
 }
 Chunk& World::chunk(int x, int y, int z, bool create) {
-  Point3i key(x,y,z);
-  if(_chunks.has(key))
-    return *_chunks[key];
-  else if(create) {
-    Chunk* chunk = new Chunk(x,y,z);
-    return *(_chunks[key] = chunk);
+  Chunk*& chunk(_chunks[x+radius][y+radius][z+radius]);
+  if(chunk) return *chunk; // The chunk is already created
+  else if(create) { // It isn't created and we're allowed to create it
+    if(_max<&chunk) _max = &chunk;
+    if(_min>&chunk) _min = &chunk;
+    return *(chunk = new Chunk(x,y,z));
   } else throw Exception("Tried to access unavailable chunk.");
 }
 const Voxel& World::voxel(int x, int y, int z, bool create) {
@@ -53,6 +57,53 @@ bool World::raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, flo
       return true;
   }
   return false;
+}
+
+void World::fill(const Shape& shape, byte type, Voxel::Updater u) {
+  Set<Point3i> treated;
+  if(shape.convex()) {
+    struct Case {
+      Point3i point;
+      byte direction;
+    };
+    Vector<Case> treating;
+    for(byte i(0); i<8; i++)
+      treating.push_back({shape.start()+Point3i((i&0x1)?1:0,(i&0x2)?1:0,(i&0x4)?1:0),i});
+    while(!treating.empty()) {
+      Case c(treating.back());
+      treating.pop_back();
+      if(!treated.has(c.point)) { // Not yet treated
+        treated.insert(c.point);
+        float value(shape.value(c.point));
+        if(value>0.0) { // In the shape
+          updateVoxel(c.point.x(),c.point.y(),c.point.z(),Voxel(value,type),u);
+          treating.push_back({c.point+Point3i((c.direction&0x1)?1:-1,0,0),c.direction});
+          treating.push_back({c.point+Point3i(0,(c.direction&0x2)?1:-1,0),c.direction});
+          treating.push_back({c.point+Point3i(0,0,(c.direction&0x4)?1:-1),c.direction});
+        }
+      }
+    }
+  } else {
+    Vector<Point3i> treating;
+    treating.push_back(shape.start());
+    while(!treating.empty()) {
+      Point3i p(treating.back());
+      treating.pop_back();
+      if(!treated.has(p)) { // Not yet treated
+        treated.insert(p);
+        float value(shape.value(p));
+        if(value>0.0) { // In the shape
+          updateVoxel(p.x(),p.y(),p.z(),Voxel(value,type),u);
+          treating.push_back(p+Point3i(1,0,0));
+          treating.push_back(p+Point3i(-1,0,0));
+          treating.push_back(p+Point3i(0,1,0));
+          treating.push_back(p+Point3i(0,-1,0));
+          treating.push_back(p+Point3i(0,0,1));
+          treating.push_back(p+Point3i(0,0,-1));
+        }
+      }
+    }
+  }
 }
 void World::voxelSphere(L::Point3i center, float radius, byte type, Voxel::Updater u) {
   int r(radius+1);
