@@ -5,24 +5,29 @@
 
 class Voxel {
   private:
-    static const int precision = 1024;
-    unsigned short _v;
+    typedef unsigned short T;
+    static const T precisionBits = 10;
+    static const T precisionMask = ~((~0)<<precisionBits);
+    static const T precision = 1 << precisionBits;
+    T _v;
   public:
-    static const byte NOTHING = 0;
-    static const byte CANCER = 1;
-    static const byte LUNG = 2;
-    static const byte VESSEL = 3;
+    enum {
+      NOTHING,
+      CANCER,
+      LUNG,
+      VESSEL
+    };
     Voxel(float value = 0, byte type = 0);
     bool operator==(const Voxel& other) const {return _v==other._v;}
     bool operator!=(const Voxel& other) const {return _v!=other._v;}
 
-    bool solid() const;
-    float value() const;
-    byte type() const;
+    inline bool solid() const {return value()>.5f;}
+    inline float value() const {return (_v & precisionMask)/(float)(precision-1);}
+    inline byte type() const {return _v >> precisionBits;}
     L::Color color() const;
 
     // Updaters
-    typedef Voxel (*Updater)(Voxel,Voxel);
+    typedef Voxel(*Updater)(Voxel,Voxel);
     static Voxel set(Voxel,Voxel);
     static Voxel add(Voxel,Voxel);
     static Voxel sub(Voxel,Voxel);

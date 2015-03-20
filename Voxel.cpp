@@ -5,15 +5,6 @@ using namespace GL;
 
 Voxel::Voxel(float value, byte type)
   : _v(type*precision+value*(precision-1)) {}
-bool Voxel::solid() const {
-  return value()>.5f;
-}
-float Voxel::value() const {
-  return (_v % precision)/(float)(precision-1);
-}
-byte Voxel::type() const {
-  return _v / precision;
-}
 Color Voxel::color() const {
   switch(type()) {
     case CANCER:
