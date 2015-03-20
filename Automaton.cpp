@@ -36,7 +36,7 @@ void Automaton::update() {
 void Automaton::drawDebug() {
   if(_zone.empty()) return;
   glBegin(GL_QUADS);
-  glColor4ub(255,255,0,50);
+  glColor3ub(255,255,0);
   // Left
   glVertex3f(_zone.min().x(),_zone.min().y(),_zone.min().z());
   glVertex3f(_zone.min().x(),_zone.min().y(),_zone.max().z());

@@ -1,9 +1,10 @@
 varying vec4 vertex;
+varying vec4 color;
 
 float border(float n){
-	return clamp(abs(fract(n)-.5)*2.0,.9,1.0);
+	return pow(abs(fract(n)-.5)*2.0,32);
 }
 void main(){
-	gl_FragColor.rgb = vec3(1,1,0)*border(vertex.x)*border(vertex.y)*border(vertex.z);
-	gl_FragColor.a = .5;
+	gl_FragColor.rgb = color.rgb*(.5+(border(vertex.x)+border(vertex.y)+border(vertex.z))/6.0);
+	gl_FragColor.a = .75;
 }

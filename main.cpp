@@ -49,7 +49,8 @@ int main(int argc, char* argv[]) {
   Timer timer, atimer;
   //world.fill(Curve(Point3f(0,-32,0),Point3f(128,0,0),Point3f(128,0,128),Point3f(0,32,32),1,.01),Voxel::VESSEL,Voxel::max);
   //world.fill(Curve(Point3f(0,-32,0),Point3f(32,0,0),Point3f(32,0,32),Point3f(0,32,32),64,.1),Voxel::LUNG,Voxel::max);
-  //world.fill(Triangle(Point3f(0,4,0),Point3f(0,16,0),Point3f(16,0,0),1),Voxel::LUNG,Voxel::max);
+  world.fill(Triangle(Point3f(0,4,0),Point3f(0,16,0),Point3f(16,0,0),1),Voxel::LUNG,Voxel::max);
+  /*
   Vector<Point3f> vertices;
   File file("intestine.obj");
   file.open("r");
@@ -60,22 +61,22 @@ int main(int argc, char* argv[]) {
     else if(line[0]=="f")
       world.fill(Triangle(vertices[FromString<int>(line[1])-1],vertices[FromString<int>(line[2])-1],vertices[FromString<int>(line[3])-1],1),Voxel::LUNG,Voxel::max);
   }
+  */
   cout << timer.since().fSeconds() << endl;
   Time start(Time::now());
-  while(Window::opened()) {
+  while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
     world.update();
     while(!atimer.every(Time(0,16)))
       automaton.update();
     while(Window::newEvent(e)) {
-      if(e.type == Window::Event::KEYDOWN)
-        if(e.key == Window::Event::SPACE) {
-          Point3f hit;
-          if(world.raycast(cam.position(),cam.forward(),hit,32)) {
-            world.voxelSphere(hit,1,Voxel::CANCER,Voxel::max);
-            automaton.include(hit);
-          }
+      if(e.type == Window::Event::LBUTTONDOWN) {
+        Point3f hit;
+        if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,64)) {
+          world.voxelSphere(hit,1,Voxel::CANCER,Voxel::max);
+          automaton.include(hit);
         }
+      }
     }
     if(Window::isPressed(Window::Event::ESCAPE))
       break;
@@ -91,22 +92,27 @@ int main(int argc, char* argv[]) {
       cam.phi(2*deltaTime);
     if(Window::isPressed(Window::Event::RIGHT))
       cam.phi(-2*deltaTime);
+    if(Window::isPressed(Window::Event::Z))
+      cam.theta(2*deltaTime);
+    if(Window::isPressed(Window::Event::S))
+      cam.theta(-2*deltaTime);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    cam.update();
-    cam.place();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
     light.set(GL_LIGHT0);
-    GL::Program::unuse();
-    GL::Utils::drawAxes();
     voxelProgram.use();
     voxelProgram.uniform("ambientLevel",.1f);
     voxelProgram.uniform("time",(Time::now()-start).fSeconds());
     voxelProgram.uniform("view",cam.view());
+    voxelProgram.uniform("projection",cam.projection());
     voxelProgram.uniform("texture",voxelTexture,GL_TEXTURE0);
     voxelProgram.uniform("normal",voxelNormal,GL_TEXTURE1);
     voxelProgram.uniform("eye",cam.position());
     world.draw();
     debugProgram.use();
     debugProgram.uniform("view",cam.view());
+    debugProgram.uniform("projection",cam.projection());
+    GL::Utils::drawAxes();
     //automaton.drawDebug();
     //world.draw();
     Window::swapBuffers();
