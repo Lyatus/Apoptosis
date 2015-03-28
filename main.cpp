@@ -1,6 +1,7 @@
 #include <L/L.h>
 #include <L/interface/bmp.h>
 //#include <L/interface/obj.h>
+#include <L/interface/wwise.h>
 
 #include "World.h"
 #include "Automaton.h"
@@ -12,22 +13,19 @@ using namespace L;
 World world;
 Automaton automaton(world,Automaton::cancer);
 
+void fillObj(const char* filename) {
+  Vector<Point3f> vertices;
+  File file(filename);
+  file.open("r");
+  List<String> line;
+  while((line = file.readLine().explode(' ')).size()>0) {
+    if(line[0]=="v")
+      vertices.push_back(Point3f(FromString<float>(line[1]),FromString<float>(line[2]),FromString<float>(line[3]))*.3);
+    else if(line[0]=="f")
+      world.fill(Triangle(vertices[FromString<int>(line[1])-1],vertices[FromString<int>(line[2])-1],vertices[FromString<int>(line[3])-1],1),Voxel::LUNG,Voxel::max);
+  }
+}
 int main(int argc, char* argv[]) {
-  /*
-  Matrix33f m;
-  m(0,0) = 1;
-  m(0,1) = 2;
-  m(0,2) = 3;
-  m(1,0) = 0;
-  m(1,1) = 4;
-  m(1,2) = 5;
-  m(2,0) = 1;
-  m(2,1) = 0;
-  m(2,2) = 6;
-  cout << m << endl;
-  cout << m.inverse() << endl;
-  return 0;
-  */
   new BMP();
   Window::Event e;
   Window::open("Cancer",16*100,9*100);
@@ -49,19 +47,8 @@ int main(int argc, char* argv[]) {
   Timer timer, atimer;
   //world.fill(Curve(Point3f(0,-32,0),Point3f(128,0,0),Point3f(128,0,128),Point3f(0,32,32),1,.01),Voxel::VESSEL,Voxel::max);
   //world.fill(Curve(Point3f(0,-32,0),Point3f(32,0,0),Point3f(32,0,32),Point3f(0,32,32),64,.1),Voxel::LUNG,Voxel::max);
-  world.fill(Triangle(Point3f(0,4,0),Point3f(0,16,0),Point3f(16,0,0),1),Voxel::LUNG,Voxel::max);
-  /*
-  Vector<Point3f> vertices;
-  File file("intestine.obj");
-  file.open("r");
-  List<String> line;
-  while((line = file.readLine().explode(' ')).size()>0) {
-    if(line[0]=="v")
-      vertices.push_back(Point3f(FromString<float>(line[1]),FromString<float>(line[2]),FromString<float>(line[3]))*.2);
-    else if(line[0]=="f")
-      world.fill(Triangle(vertices[FromString<int>(line[1])-1],vertices[FromString<int>(line[2])-1],vertices[FromString<int>(line[3])-1],1),Voxel::LUNG,Voxel::max);
-  }
-  */
+  //world.fill(Triangle(Point3f(0,4,0),Point3f(0,16,0),Point3f(16,0,0),1),Voxel::LUNG,Voxel::max);
+  fillObj("intestine.obj");
   cout << timer.since().fSeconds() << endl;
   Time start(Time::now());
   while(Window::loop()) {
@@ -112,7 +99,7 @@ int main(int argc, char* argv[]) {
     debugProgram.use();
     debugProgram.uniform("view",cam.view());
     debugProgram.uniform("projection",cam.projection());
-    GL::Utils::drawAxes();
+    //GL::Utils::drawAxes();
     //automaton.drawDebug();
     //world.draw();
     Window::swapBuffers();

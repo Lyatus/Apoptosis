@@ -3,21 +3,22 @@
 using namespace L;
 using namespace GL;
 
-World::World() : _chunks {{{0}}} {
+World::World() {
+  memset(_chunks,0,arraySize*sizeof(Chunk*));
   _min = _max = &_chunks[radius][radius][radius];
 }
 void World::draw() {
-  for(Chunk** c(_min); c<=_max; c++)
+  for(Chunk** c = _min; c<=_max; c++)
     if(*c)
       (*c)->draw();
 }
 void World::update() {
-  for(Chunk** c(_min); c<=_max; c++)
+  for(Chunk** c = _min; c<=_max; c++)
     if(*c)
       (*c)->update();
 }
 Chunk& World::chunk(int x, int y, int z, bool create) {
-  Chunk*& chunk(_chunks[x+radius][y+radius][z+radius]);
+  Chunk*& chunk = _chunks[x+radius][y+radius][z+radius];
   if(chunk) return *chunk; // The chunk is already created
   else if(create) { // It isn't created and we're allowed to create it
     if(_max<&chunk) _max = &chunk;
@@ -59,15 +60,15 @@ bool World::raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, flo
   return false;
 }
 
-void World::fill(const Shape& shape, byte type, Voxel::Updater u) {
+void World::fill(const Shape& shape, L::byte type, Voxel::Updater u) {
   Set<Point3i> treated;
   if(shape.convex()) {
     struct Case {
       Point3i point;
-      byte direction;
+      L::byte direction;
     };
     Vector<Case> treating;
-    for(byte i(0); i<8; i++)
+    for(L::byte i(0); i<8; i++)
       treating.push_back({shape.start()+Point3i((i&0x1)?1:0,(i&0x2)?1:0,(i&0x4)?1:0),i});
     while(!treating.empty()) {
       Case c(treating.back());
@@ -105,7 +106,7 @@ void World::fill(const Shape& shape, byte type, Voxel::Updater u) {
     }
   }
 }
-void World::voxelSphere(L::Point3i center, float radius, byte type, Voxel::Updater u) {
+void World::voxelSphere(L::Point3i center, float radius, L::byte type, Voxel::Updater u) {
   int r(radius+1);
   for(int x(-r); x<=r; x++)
     for(int y(-r); y<=r; y++)

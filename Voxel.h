@@ -9,21 +9,22 @@ class Voxel {
     static const T precisionBits = 10;
     static const T precisionMask = ~((~0)<<precisionBits);
     static const T precision = 1 << precisionBits;
+    //static const T types =
     T _v;
   public:
     enum {
       NOTHING,
-      CANCER,
+      CANCER, CANCER_IDLE,
       LUNG,
       VESSEL
     };
-    Voxel(float value = 0, byte type = 0);
+    Voxel(float value = 0, L::byte type = 0);
     bool operator==(const Voxel& other) const {return _v==other._v;}
     bool operator!=(const Voxel& other) const {return _v!=other._v;}
 
     inline bool solid() const {return value()>.5f;}
     inline float value() const {return (_v & precisionMask)/(float)(precision-1);}
-    inline byte type() const {return _v >> precisionBits;}
+    inline L::byte type() const {return _v >> precisionBits;}
     L::Color color() const;
 
     // Updaters

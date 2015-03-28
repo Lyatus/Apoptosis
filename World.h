@@ -9,6 +9,7 @@ class World {
   public:
     static const int size = 64;
     static const int radius = size/2;
+    static const int arraySize = size*size*size;
   private:
     Chunk* _chunks[size][size][size];
     Chunk **_min, **_max; // Pointers to the chunks with the minimum and maximum coordinates (used to optimize iteration)
@@ -23,8 +24,8 @@ class World {
     bool raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, float distance);
 
     // Drawing
-    void fill(const Shape&, byte type, Voxel::Updater);
-    void voxelSphere(L::Point3i center, float radius, byte type, Voxel::Updater = Voxel::set);
+    void fill(const Shape&, L::byte type, Voxel::Updater);
+    void voxelSphere(L::Point3i center, float radius, L::byte type, Voxel::Updater = Voxel::set);
 
     static void chunkKey(int x, int y, int z, int& cx, int& cy, int& cz);
     static void voxelKey(int x, int y, int z, int& vx, int& vy, int& vz);

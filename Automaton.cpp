@@ -82,10 +82,12 @@ Voxel Automaton::rot(World& world, int x, int y, int z) {
 }
 Voxel Automaton::cancer(World& world, int x, int y, int z) {
   const Voxel& current(world.voxel(x,y,z));
+  L::byte currentType(current.type());
+  if(currentType == Voxel::CANCER_IDLE) return current; // No modifications to idle cancer
   const Voxel& other(world.voxel(x+Rand::next(-1,2),y+Rand::next(-1,2),z+Rand::next(-1,2)));
-  if(current.type()==Voxel::CANCER || (other.value()>.9 && other.type()==Voxel::CANCER && current.type()==Voxel::NOTHING)) {
+  if(currentType==Voxel::CANCER || (other.value()>.9 && other.type()==Voxel::CANCER && currentType==Voxel::NOTHING)) {
     if(other.solid() && other.type()==Voxel::CANCER)
-      return Voxel(std::min(1.0,current.value()+Rand::next(.0,8.0/1024.0)),Voxel::CANCER);
+      return Voxel(std::min(1.0,current.value()+Rand::next(.0,16.0/1024.0)),Voxel::CANCER);
   }// else if(current.type()==Voxel::CANCER && !other.solid())
   //return Voxel(std::max(0.0,current.value()-Rand::next(0.0,.01)),Voxel::CANCER);
   return current; // No change

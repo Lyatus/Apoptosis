@@ -5,18 +5,18 @@
 using namespace L;
 using namespace GL;
 
-byte ChunkMesher::meshes[256][5*3] = {{0}};
+L::byte ChunkMesher::meshes[256][5*3] = {{0}};
 bool ChunkMesher::init(false);
 
-byte rotateCornersX[] = {4,5,0,1,6,7,2,3};
-byte rotateCornersY[] = {2,0,3,1,6,4,7,5};
-byte rotateCornersZ[] = {1,5,3,7,0,4,2,6};
-byte rotateEdgesX[] = {1,5,10,11,0,4,8,9,2,3,6,7};
-byte rotateEdgesY[] = {3,2,0,1,7,6,4,5,9,11,8,10};
-byte rotateEdgesZ[] = {8,10,6,2,9,11,7,3,4,0,5,1};
+L::byte rotateCornersX[] = {4,5,0,1,6,7,2,3};
+L::byte rotateCornersY[] = {2,0,3,1,6,4,7,5};
+L::byte rotateCornersZ[] = {1,5,3,7,0,4,2,6};
+L::byte rotateEdgesX[] = {1,5,10,11,0,4,8,9,2,3,6,7};
+L::byte rotateEdgesY[] = {3,2,0,1,7,6,4,5,9,11,8,10};
+L::byte rotateEdgesZ[] = {8,10,6,2,9,11,7,3,4,0,5,1};
 
 template<class T, int n>
-void permutate(T array[n], byte indices[]) {
+void permutate(T array[n], L::byte indices[]) {
   T tmp[n];
   for(int i(0); i<n; i++)
     tmp[i] = array[indices[i]];
@@ -36,40 +36,40 @@ void change(T array[n], T changes[]) {
   for(int i(0); i<n && array[i]!=0xFF; i++)
     array[i] = changes[array[i]];
 }
-byte getIndex(bool cell[8]) {
-  byte wtr;
+L::byte getIndex(bool cell[8]) {
+  L::byte wtr;
   for(int i(0); i<8; i++)
     if(cell[i])
-      wtr |= (byte)(1 << i);
+      wtr |= (L::byte)(1 << i);
   return wtr;
 }
-byte getIndex(Voxel cell[8]) {
-  byte wtr(0);
+L::byte getIndex(Voxel cell[8]) {
+  L::byte wtr(0);
   for(int i(0); i<8; i++)
     if(cell[i].solid())
-      wtr |= (byte)(1 << i);
+      wtr |= (L::byte)(1 << i);
   return wtr;
 }
-void reverseMesh(byte mesh[15]) {
+void reverseMesh(L::byte mesh[15]) {
   int end(0);
   while(mesh[end]!=0xFF) end++;
-  reverse<byte,15>(mesh,end);
+  reverse<L::byte,15>(mesh,end);
 }
-void ChunkMesher::generateCase(bool cell[8],byte mesh[15], bool complementary) {
+void ChunkMesher::generateCase(bool cell[8],L::byte mesh[15], bool complementary) {
   for(int x(0); x<4; x++) {
     for(int y(0); y<4; y++) {
       for(int z(0); z<4; z++) {
-        byte index(getIndex(cell));
+        L::byte index(getIndex(cell));
         if(meshes[index][0]==meshes[index][1]) // Hasn't been set yet
           memcpy(meshes[index],mesh,15);
         permutate<bool,8>(cell,rotateCornersZ);
-        change<byte,15>(mesh,rotateEdgesZ);
+        change<L::byte,15>(mesh,rotateEdgesZ);
       }
       permutate<bool,8>(cell,rotateCornersY);
-      change<byte,15>(mesh,rotateEdgesY);
+      change<L::byte,15>(mesh,rotateEdgesY);
     }
     permutate<bool,8>(cell,rotateCornersX);
-    change<byte,15>(mesh,rotateEdgesX);
+    change<L::byte,15>(mesh,rotateEdgesX);
   }
   if(complementary) {
     for(int i(0); i<8; i++)
@@ -78,7 +78,7 @@ void ChunkMesher::generateCase(bool cell[8],byte mesh[15], bool complementary) {
     generateCase(cell,mesh,false);
   }
 }
-uint ChunkMesher::vertex(int x, int y, int z, byte edge, Voxel cell[8]) {
+uint ChunkMesher::vertex(int x, int y, int z, L::byte edge, Voxel cell[8]) {
   uint wtr;
   int indexEdge = edge;
   int indexX = x;
@@ -196,7 +196,7 @@ uint ChunkMesher::vertex(int x, int y, int z, byte edge, Voxel cell[8]) {
   } else wtr = _edgeVertices[index];
   return wtr;
 }
-void ChunkMesher::color(byte edge, Voxel cell[8]) {
+void ChunkMesher::color(L::byte edge, Voxel cell[8]) {
   Color c;
   switch(edge) {
     case backBottom:
@@ -247,7 +247,7 @@ float ChunkMesher::edgeValue(Voxel v1, Voxel v2) {
 #define LIST(...) {__VA_ARGS__}
 #define GENERATE_CASE(n,cell,triangles,comp) \
   bool n##c[] = LIST cell; \
-  byte n##t[] = LIST triangles; \
+  L::byte n##t[] = LIST triangles; \
   generateCase(n##c,n##t,comp);
 ChunkMesher::ChunkMesher() {
   if(!init) {
@@ -355,7 +355,7 @@ void ChunkMesher::build(Chunk& chunk) {
                          chunk.voxel(x,y+1,z+1),
                          chunk.voxel(x+1,y+1,z+1)
                         };
-        byte* mesh = meshes[getIndex(cell)];
+        L::byte* mesh = meshes[getIndex(cell)];
         if(mesh[0]!=mesh[1])
           for(int i(0); mesh[i]!=0xFF && i<15; i+=3)
             _meshBuilder.addTriangle(vertex(x,y,z,mesh[i],cell),
