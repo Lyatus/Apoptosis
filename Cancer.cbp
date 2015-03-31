@@ -13,26 +13,25 @@
 				<Option type="1" />
 				<Option compiler="microsoft_visual_c_2012" />
 				<Compiler>
-					<Add option="-DL_Debug" />
-					<Add option="/DGLEW_STATIC" />
+					<Add option="/DL_Debug" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Cancer" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="bin/" />
 				<Option object_output="obj/Release/" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="microsoft_visual_c_2012" />
+				<Option use_console_runner="0" />
 				<Compiler>
-					<Add option="-O3" />
+					<Add option="/Ox" />
 				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="/Zc:wchar_t" />
 			<Add option="/DGLEW_STATIC" />
+			<Add option="/DUNICODE" />
 		</Compiler>
 		<Linker>
 			<Add library="L" />
@@ -43,6 +42,16 @@
 			<Add library="opengl32" />
 			<Add library="glew32" />
 			<Add library="winmm" />
+			<Add library="AkMemoryMgr" />
+			<Add library="AkSoundEngine" />
+			<Add library="AkMusicEngine" />
+			<Add library="AkStreamMgr" />
+			<Add library="CommunicationCentral" />
+			<Add library="ole32" />
+			<Add library="oleaut32" />
+			<Add library="d3d9" />
+			<Add library="dsound" />
+			<Add library="dxguid" />
 		</Linker>
 		<Unit filename="Automaton.cpp" />
 		<Unit filename="Automaton.h" />

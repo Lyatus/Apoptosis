@@ -29,6 +29,7 @@ int main(int argc, char* argv[]) {
   new BMP();
   Window::Event e;
   Window::open("Cancer",16*100,9*100);
+  Wwise wwise;
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
@@ -58,6 +59,7 @@ int main(int argc, char* argv[]) {
       automaton.update();
     while(Window::newEvent(e)) {
       if(e.type == Window::Event::LBUTTONDOWN) {
+        wwise.postEvent("click");
         Point3f hit;
         if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,64)) {
           world.voxelSphere(hit,1,Voxel::CANCER,Voxel::max);
