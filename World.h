@@ -27,6 +27,9 @@ class World {
     void fill(const Shape&, L::byte type, Voxel::Updater);
     void voxelSphere(L::Point3i center, float radius, L::byte type, Voxel::Updater = Voxel::set);
 
+    void write(L::File&) const;
+    void read(L::File&);
+
     static void chunkKey(int x, int y, int z, int& cx, int& cy, int& cz);
     static void voxelKey(int x, int y, int z, int& vx, int& vy, int& vz);
 };

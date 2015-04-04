@@ -20,6 +20,9 @@ class Chunk {
     void draw();
     const Voxel& voxel(int x, int y, int z);
     void voxel(int x, int y, int z,const Voxel&);
+
+    void write(L::File&) const;
+    void read(L::File&);
 };
 
 #endif

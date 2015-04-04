@@ -33,3 +33,14 @@ void Chunk::voxel(int x, int y, int z, const Voxel& v) {
     _changed = true;
   _voxels[x][y][z] = v;
 }
+
+void Chunk::write(File& file) const{
+  file.write((char*)&_x,sizeof(int));
+  file.write((char*)&_y,sizeof(int));
+  file.write((char*)&_z,sizeof(int));
+  file.write((char*)_voxels,sizeof(_voxels));
+}
+void Chunk::read(File& file){
+  file.read((char*)_voxels,sizeof(_voxels));
+  _changed = true;
+}

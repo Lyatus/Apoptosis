@@ -30,6 +30,7 @@ int main(int argc, char* argv[]) {
   Window::Event e;
   Window::open("Cancer",16*100,9*100);
   Wwise wwise;
+  wwise.registerObject(100);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
@@ -46,15 +47,22 @@ int main(int argc, char* argv[]) {
   GL::Light light;
   light.position(1,1,1,0);
   Timer timer, atimer;
-  //world.fill(Curve(Point3f(0,-32,0),Point3f(128,0,0),Point3f(128,0,128),Point3f(0,32,32),1,.01),Voxel::VESSEL,Voxel::max);
-  //world.fill(Curve(Point3f(0,-32,0),Point3f(32,0,0),Point3f(32,0,32),Point3f(0,32,32),64,.1),Voxel::LUNG,Voxel::max);
-  //world.fill(Triangle(Point3f(0,4,0),Point3f(0,16,0),Point3f(16,0,0),1),Voxel::LUNG,Voxel::max);
-  fillObj("intestine.obj");
+  File file("world");
+  if(file.exists())
+    world.read(file.open("rb"));
+  else {
+    //world.fill(Curve(Point3f(0,-32,0),Point3f(128,0,0),Point3f(128,0,128),Point3f(0,32,32),1,.01),Voxel::VESSEL,Voxel::max);
+    //world.fill(Curve(Point3f(0,-32,0),Point3f(32,0,0),Point3f(32,0,32),Point3f(0,32,32),64,.1),Voxel::LUNG,Voxel::max);
+    //world.fill(Triangle(Point3f(0,4,0),Point3f(0,16,0),Point3f(16,0,0),1),Voxel::LUNG,Voxel::max);
+    fillObj("intestine.obj");
+    world.write(file.open("wb"));
+  }
   cout << timer.since().fSeconds() << endl;
   Time start(Time::now());
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
     world.update();
+    wwise.update();
     while(!atimer.every(Time(0,16)))
       automaton.update();
     while(Window::newEvent(e)) {

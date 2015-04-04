@@ -106,13 +106,30 @@ void World::fill(const Shape& shape, L::byte type, Voxel::Updater u) {
     }
   }
 }
-void World::voxelSphere(L::Point3i center, float radius, L::byte type, Voxel::Updater u) {
+void World::voxelSphere(Point3i center, float radius, L::byte type, Voxel::Updater u) {
   int r(radius+1);
   for(int x(-r); x<=r; x++)
     for(int y(-r); y<=r; y++)
       for(int z(-r); z<=r; z++)
         if(sqrt(x*x+y*y+z*z)<=radius+1)
           updateVoxel(x+center.x(),y+center.y(),z+center.z(),Voxel(std::min(1.0,std::max(0.0,1.0-(sqrt(x*x+y*y+z*z)-radius))),type),u);
+}
+
+void World::write(File& file) const {
+  for(int x(0); x<size; x++)
+    for(int y(0); y<size; y++)
+      for(int z(0); z<size; z++)
+        if(_chunks[x][y][z])
+          _chunks[x][y][z]->write(file);
+}
+void World::read(File& file) {
+  while(true) {
+    int x, y, z;
+    if(file.read((char*)&x,sizeof(int))<sizeof(int)) break;
+    if(file.read((char*)&y,sizeof(int))<sizeof(int)) break;
+    if(file.read((char*)&z,sizeof(int))<sizeof(int)) break;
+    chunk(x,y,z).read(file);
+  }
 }
 
 void World::chunkKey(int x, int y, int z, int& cx, int& cy, int& cz) {

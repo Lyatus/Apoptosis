@@ -5,3 +5,5 @@
 *.depend
 *.layout
 obj/*
+*.exp
+*.lib
