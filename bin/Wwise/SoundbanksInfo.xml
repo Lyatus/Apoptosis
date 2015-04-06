@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" SchemaVersion="10" SoundbankVersion="112">
+	<RootPaths>
+		<ProjectRoot>F:\Apoptosis test1\</ProjectRoot>
+		<SourceFilesRoot>F:\Apoptosis test1\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>D:\Projects\CodeBlocks\Cancer\bin\Wwise\</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>F:\Apoptosis test1\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<StreamedFiles/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Language="SFX">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="3161908922" Language="SFX">
+			<ShortName>Main</ShortName>
+			<Path>Main.bnk</Path>
+			<IncludedEvents>
+				<Event Id="1584507803" Name="click"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="162007041" Language="SFX">
+					<ShortName>- Unknown SFX V.wav</ShortName>
+					<Path>SFX\- Unknown SFX V_DDC98EF4.wem</Path>
+				</File>
+				<File Id="256955688" Language="SFX">
+					<ShortName>- Unknown SFX II.wav</ShortName>
+					<Path>SFX\- Unknown SFX II_DDC98EF4.wem</Path>
+				</File>
+				<File Id="336006430" Language="SFX">
+					<ShortName>test micro voix 2.wav</ShortName>
+					<Path>SFX\test micro voix 2_DDC98EF4.wem</Path>
+				</File>
+				<File Id="381337876" Language="SFX">
+					<ShortName>test micro voix 1.wav</ShortName>
+					<Path>SFX\test micro voix 1_DDC98EF4.wem</Path>
+				</File>
+				<File Id="575440135" Language="SFX">
+					<ShortName>- Unknown SFX IV.wav</ShortName>
+					<Path>SFX\- Unknown SFX IV_DDC98EF4.wem</Path>
+				</File>
+				<File Id="902629092" Language="SFX">
+					<ShortName>test micro voix 3.wav</ShortName>
+					<Path>SFX\test micro voix 3_DDC98EF4.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+	</SoundBanks>
+</SoundBanksInfo>

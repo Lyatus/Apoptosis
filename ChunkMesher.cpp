@@ -138,7 +138,7 @@ uint ChunkMesher::vertex(int x, int y, int z, L::byte edge, Voxel cell[8]) {
   }
   int index = 3*((indexX * sizePlus * sizePlus) + (indexY * sizePlus) + indexZ)+indexEdge;
   if(_edgeVertices[index]<0) {
-    Point3f vertex(x,y,z);
+    Point3f vertex((float)x,(float)y,(float)z);
     color(edge,cell);
     switch(edge) {
       case backBottom:
@@ -362,5 +362,5 @@ void ChunkMesher::build(Chunk& chunk) {
                                      vertex(x,y,z,mesh[i+1],cell),
                                      vertex(x,y,z,mesh[i+2],cell));
       }
-    _meshBuilder.computeNormals();
+  _meshBuilder.computeNormals();
 }

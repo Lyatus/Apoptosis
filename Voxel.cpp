@@ -4,7 +4,7 @@ using namespace L;
 using namespace GL;
 
 Voxel::Voxel(float value, L::byte type)
-  : _v(type*precision+value*(precision-1)) {}
+  : _v(type*precision+(T)(value*(precision-1))) {}
 Color Voxel::color() const {
   switch(type()) {
     case CANCER:

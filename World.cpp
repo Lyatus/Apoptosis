@@ -107,12 +107,12 @@ void World::fill(const Shape& shape, L::byte type, Voxel::Updater u) {
   }
 }
 void World::voxelSphere(Point3i center, float radius, L::byte type, Voxel::Updater u) {
-  int r(radius+1);
+  int r((int)radius+1);
   for(int x(-r); x<=r; x++)
     for(int y(-r); y<=r; y++)
       for(int z(-r); z<=r; z++)
         if(sqrt(x*x+y*y+z*z)<=radius+1)
-          updateVoxel(x+center.x(),y+center.y(),z+center.z(),Voxel(std::min(1.0,std::max(0.0,1.0-(sqrt(x*x+y*y+z*z)-radius))),type),u);
+          updateVoxel(x+center.x(),y+center.y(),z+center.z(),Voxel(std::min(1.f,std::max(0.f,1.f-((float)sqrt(x*x+y*y+z*z)-radius))),type),u);
 }
 
 void World::write(File& file) const {

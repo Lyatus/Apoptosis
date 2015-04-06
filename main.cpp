@@ -14,16 +14,16 @@ using namespace L;
 World world;
 Automaton automaton(world,Automaton::cancer);
 
-void fillObj(const char* filename) {
+void fillObj(const char* filename, byte type) {
   Vector<Point3f> vertices;
   File file(filename);
   file.open("r");
   List<String> line;
   while((line = file.readLine().explode(' ')).size()>0)
     if(line[0]=="v")
-      vertices.push_back(Point3f(FromString<float>(line[1]),FromString<float>(line[2]),FromString<float>(line[3]))*.3);
+      vertices.push_back(Point3f(FromString<float>(line[1]),FromString<float>(line[2]),FromString<float>(line[3]))*.3f);
     else if(line[0]=="f")
-      world.fill(Triangle(vertices[FromString<int>(line[1])-1],vertices[FromString<int>(line[2])-1],vertices[FromString<int>(line[3])-1],1),Voxel::LUNG,Voxel::max);
+      world.fill(Triangle(vertices[FromString<int>(line[1])-1],vertices[FromString<int>(line[2])-1],vertices[FromString<int>(line[3])-1],1),type,Voxel::max);
 }
 int main(int argc, char* argv[]) {
   // Interfaces initialization
@@ -35,19 +35,21 @@ int main(int argc, char* argv[]) {
   Window::open("Cancer",16*100,9*100);
   // GUI initialization
   Ref<GUI::RelativeContainer> gui(new GUI::RelativeContainer(Point2i(Window::width(),Window::height())));
-  gui->place(new GUI::Image(Image::Bitmap("chat.png")),Point2i(10,10),GUI::TL,GUI::TL);
+  //gui->place(new GUI::Image(Image::Bitmap("chat.png")),Point2i(10,10),GUI::TL,GUI::TL);
   //gui->place(new GUI::Rectangle(Point2i(256,128),Color::blue),Point2i(-10,10),GUI::TR,GUI::TR);
   //gui->place(new GUI::TextInput(Point2i(1024,128)),Point2i(10,-10),GUI::CL,GUI::CL);
   // Wwise initialization
-  Wwise wwise;
+  Wwise wwise(AKTEXT("Wwise/"));
   wwise.registerObject(100);
+  wwise.loadBank(AKTEXT("Init.bnk"));
+  wwise.loadBank(AKTEXT("Main.bnk"));
   // OpenGL initialization
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glEnable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-  glClearColor(.8,.8,.8,1);
+  glClearColor(.8f,.8f,.8f,1.f);
   // Cameras initialization
   GL::Camera cam(Point3f(0,0,50)), guicam(Point3f(0,0,0));
   guicam.pixels();
@@ -73,7 +75,7 @@ int main(int argc, char* argv[]) {
     //world.fill(Curve(Point3f(0,-32,0),Point3f(128,0,0),Point3f(128,0,128),Point3f(0,32,32),1,.01),Voxel::VESSEL,Voxel::max);
     //world.fill(Curve(Point3f(0,-32,0),Point3f(32,0,0),Point3f(32,0,32),Point3f(0,32,32),64,.1),Voxel::LUNG,Voxel::max);
     //world.fill(Triangle(Point3f(0,4,0),Point3f(0,16,0),Point3f(16,0,0),1),Voxel::LUNG,Voxel::max);
-    fillObj("intestine.obj");
+    fillObj("intestine.obj",Voxel::LUNG);
     world.write(file.open("wb"));
   }
   file.close();
@@ -135,7 +137,6 @@ int main(int argc, char* argv[]) {
     //world.draw();
     glClear(GL_DEPTH_BUFFER_BIT); // Start drawing GUI
     guiProgram.use();
-    guiProgram.uniform("view",guicam.view());
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
     Window::swapBuffers();
