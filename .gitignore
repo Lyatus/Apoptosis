@@ -5,5 +5,11 @@
 *.depend
 *.layout
 obj/*
+
+#################
+## Visual Studio
+#################
+
 *.exp
 *.lib
+*.pdb

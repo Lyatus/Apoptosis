@@ -19,12 +19,6 @@ vec4 triplanar(sampler2D sampler, vec3 position, vec3 normal){
 		texture2D(sampler,position.xz)*blending.y +
 		texture2D(sampler,position.xy)*blending.z;
 }
-vec3 x(vec3 v){
-	return v+dFdx(v);
-}
-vec3 y(vec3 v){
-	return v+dFdy(v);
-}
 void main(){
 	// Normal computing
 	//vec3 onormal = normalize(cross(dFdx(overtex.xyz), dFdy(overtex.xyz))); // Original normal
@@ -43,7 +37,7 @@ void main(){
 	// Lighting
 	vec3 lightDirection = normalize(gl_LightSource[0].position.xyz);
 	float diffuse = max(.0,dot(gl_NormalMatrix*normal,lightDirection));
-	float specular = max(.0,pow(dot(reflect(-lightDirection,gl_NormalMatrix*normal),eyeNormal),32.0));
+	float specular = max(.0,pow(dot(reflect(-lightDirection,gl_NormalMatrix*normal),eyeNormal),32.0))*.2;
 	//specular = 0;
 	
 	//
