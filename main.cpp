@@ -52,6 +52,7 @@ int main(int argc, char* argv[]) {
   glClearColor(.8f,.8f,.8f,1.f);
   // Cameras initialization
   GL::Camera cam(Point3f(0,0,50)), guicam(Point3f(0,0,0));
+  cam.perspective(60,Window::aspect(),.1,512);
   guicam.pixels();
   // Light initialization
   GL::Light light;
