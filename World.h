@@ -15,7 +15,7 @@ class World {
     Chunk **_min, **_max; // Pointers to the chunks with the minimum and maximum coordinates (used to optimize iteration)
   public:
     World();
-    void draw();
+    void draw(const L::GL::Camera&);
     void update();
     Chunk& chunk(int x, int y, int z, bool create = true);
     const Voxel& voxel(int x, int y, int z, bool create = true);

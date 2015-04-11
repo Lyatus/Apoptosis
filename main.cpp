@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
   Window::open("Cancer",16*100,9*100);
   // GUI initialization
   Ref<GUI::RelativeContainer> gui(new GUI::RelativeContainer(Point2i(Window::width(),Window::height())));
-  //gui->place(new GUI::Image(Image::Bitmap("chat.png")),Point2i(10,10),GUI::TL,GUI::TL);
+  //gui->place(new GUI::Image(Image::Bitmap("Image/chat.png")),Point2i(10,10),GUI::TL,GUI::TL);
   //gui->place(new GUI::Rectangle(Point2i(256,128),Color::blue),Point2i(-10,10),GUI::TR,GUI::TR);
   //gui->place(new GUI::TextInput(Point2i(1024,128)),Point2i(10,-10),GUI::CL,GUI::CL);
   // Wwise initialization
@@ -58,15 +58,18 @@ int main(int argc, char* argv[]) {
   GL::Light light;
   light.position(1,1,1,0);
   // Programs initialization
-  GL::Program voxelProgram(GL::Shader(File("voxel.vert"),GL_VERTEX_SHADER),
-                           GL::Shader(File("voxel.frag"),GL_FRAGMENT_SHADER));
-  GL::Program debugProgram(GL::Shader(File("debug.vert"),GL_VERTEX_SHADER),
-                           GL::Shader(File("debug.frag"),GL_FRAGMENT_SHADER));
-  GL::Program guiProgram(GL::Shader(File("gui.vert"),GL_VERTEX_SHADER),
-                         GL::Shader(File("gui.frag"),GL_FRAGMENT_SHADER));
+  GL::Program voxelProgram(GL::Shader(File("Shader/voxel.vert"),GL_VERTEX_SHADER),
+                           GL::Shader(File("Shader/voxel.frag"),GL_FRAGMENT_SHADER));
+  GL::Program debugProgram(GL::Shader(File("Shader/debug.vert"),GL_VERTEX_SHADER),
+                           GL::Shader(File("Shader/debug.frag"),GL_FRAGMENT_SHADER));
+  GL::Program guiProgram(GL::Shader(File("Shader/gui.vert"),GL_VERTEX_SHADER),
+                         GL::Shader(File("Shader/gui.frag"),GL_FRAGMENT_SHADER));
+  GL::Program ppProgram(GL::Shader(File("Shader/pp.vert"),GL_VERTEX_SHADER),
+                        GL::Shader(File("Shader/pp.frag"),GL_FRAGMENT_SHADER));
+  GL::PostProcess pp(Window::width(),Window::height());
   // Textures fetching
-  GL::Texture voxelTexture(Image::Bitmap("tissue.bmp"));
-  GL::Texture voxelNormal(Image::Bitmap("normal.bmp"));
+  GL::Texture voxelTexture(Image::Bitmap("Image/tissue.bmp"));
+  GL::Texture voxelNormal(Image::Bitmap("Image/normal.bmp"));
   // World initialization
   Timer timer, atimer;
   File file("world");
@@ -76,7 +79,7 @@ int main(int argc, char* argv[]) {
     //world.fill(Curve(Point3f(0,-32,0),Point3f(128,0,0),Point3f(128,0,128),Point3f(0,32,32),1,.01),Voxel::VESSEL,Voxel::max);
     //world.fill(Curve(Point3f(0,-32,0),Point3f(32,0,0),Point3f(32,0,32),Point3f(0,32,32),64,.1),Voxel::LUNG,Voxel::max);
     //world.fill(Triangle(Point3f(0,4,0),Point3f(0,16,0),Point3f(16,0,0),1),Voxel::LUNG,Voxel::max);
-    fillObj("intestine.obj",Voxel::LUNG);
+    fillObj("Model/intestine.obj",Voxel::LUNG);
     world.write(file.open("wb"));
   }
   file.close();
@@ -117,6 +120,7 @@ int main(int argc, char* argv[]) {
       cam.theta(2*deltaTime);
     if(Window::isPressed(Window::Event::S))
       cam.theta(-2*deltaTime);
+    pp.prerender();
     glMatrixMode(GL_MODELVIEW); // Reset matrix
     glLoadIdentity();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Start drawing 3D
@@ -129,13 +133,14 @@ int main(int argc, char* argv[]) {
     voxelProgram.uniform("texture",voxelTexture,GL_TEXTURE0);
     voxelProgram.uniform("normal",voxelNormal,GL_TEXTURE1);
     voxelProgram.uniform("eye",cam.position());
-    world.draw();
+    world.draw(cam);
     debugProgram.use(); // Draw debug
     debugProgram.uniform("view",cam.view());
     debugProgram.uniform("projection",cam.projection());
     //GL::Utils::drawAxes();
     //automaton.drawDebug();
     //world.draw();
+    pp.postrender(ppProgram);
     glClear(GL_DEPTH_BUFFER_BIT); // Start drawing GUI
     guiProgram.use();
     guiProgram.uniform("projection",guicam.projection());

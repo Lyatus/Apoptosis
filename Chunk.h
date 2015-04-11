@@ -13,11 +13,12 @@ class Chunk {
     bool _changed;
     Voxel _voxels[size+1][size+1][size+1];
     L::GL::Mesh _mesh;
+    L::Interval3f _box;
     static ChunkMesher _chunkMesher;
   public:
     Chunk(int x, int y, int z);
     bool update();
-    void draw();
+    bool draw(const L::GL::Camera&);
     const Voxel& voxel(int x, int y, int z);
     void voxel(int x, int y, int z,const Voxel&);
 

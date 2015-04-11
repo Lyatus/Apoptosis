@@ -7,10 +7,12 @@ World::World() {
   memset(_chunks,0,arraySize*sizeof(Chunk*));
   _min = _max = &_chunks[radius][radius][radius];
 }
-void World::draw() {
+void World::draw(const Camera& camera) {
+  int count(0);
   for(Chunk** c = _min; c<=_max; c++)
-    if(*c)
-      (*c)->draw();
+    if(*c && (*c)->draw(camera))
+      count++;
+  //std::cout << count << std::endl;
 }
 void World::update() {
   for(Chunk** c = _min; c<=_max; c++)
