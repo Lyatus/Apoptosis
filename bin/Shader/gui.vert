@@ -1,3 +1,5 @@
+#version 130
+
 uniform mat4 projection;
 varying vec4 color;
 

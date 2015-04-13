@@ -1,3 +1,5 @@
+#version 130
+
 uniform float time;
 uniform mat4 model;
 uniform mat4 view;

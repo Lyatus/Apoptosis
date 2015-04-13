@@ -1,4 +1,4 @@
-#version 120
+#version 130
 
 uniform float ambientLevel;
 uniform vec3 eye;
