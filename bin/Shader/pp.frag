@@ -7,7 +7,7 @@ vec3 blur(float size){
 	vec3 wtr = vec3(0,0,0);
 	for(int x=-sampling;x<=sampling;x++)
 		for(int y=-sampling;y<=sampling;y++)
-			wtr += texture2D(color,gl_TexCoord[0]+vec2(x*step,y*step));
+			wtr += texture2D(color,gl_TexCoord[0].xy+vec2(x*step,y*step));
 	return wtr/((sampling*2+1)*(sampling*2+1));
 }
 void main(){
