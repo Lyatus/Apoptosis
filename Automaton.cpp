@@ -3,15 +3,19 @@
 using namespace L;
 using namespace GL;
 
-Automaton::Automaton(World& world, Process process) : _world(world), _process(process), _processing(false) {}
+Automaton::Automaton(World& world, Process process) : _world(world), _process(process), _size(0), _processing(false) {}
 void Automaton::include(const L::Point3i& p) {
   _zone.add(p);
 }
 void Automaton::update() {
   if(!_processing && _buffer.empty()) { // Ready for new processing
-    if(_zone.empty()) return; // There is nothing to do
+    if(_zone.empty()){
+        _size = 0;
+        return; // There is nothing to do
+    }
     _ip = _iw = _min = _zone.min();
     _max = _zone.max()+Point3i(1,1,1);
+    _size = (_max.x()-_min.x())*(_max.y()-_min.y())*(_max.z()-_min.z());
     _zone.clear();
     _processing = true;
   } else { // Still processing
@@ -85,7 +89,7 @@ Voxel Automaton::cancer(World& world, int x, int y, int z) {
   L::byte currentType(current.type());
   if(currentType == Voxel::CANCER_IDLE) return current; // No modifications to idle cancer
   const Voxel& other(world.voxel(x+Rand::next(-1,2),y+Rand::next(-1,2),z+Rand::next(-1,2)));
-  if(currentType==Voxel::CANCER || (other.value()>.9 && other.type()==Voxel::CANCER && currentType==Voxel::NOTHING)) {
+  if(currentType==Voxel::CANCER || (other.value()>.9 && other.type()==Voxel::CANCER && (currentType==Voxel::NOTHING || current.value()<.6))) {
     if(other.solid() && other.type()==Voxel::CANCER)
       return Voxel(std::min(1.f,current.value()+Rand::next(.0f,16.f/1024.f)),Voxel::CANCER);
   }// else if(current.type()==Voxel::CANCER && !other.solid())

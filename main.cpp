@@ -68,9 +68,10 @@ void tumorPhase() {
   Time start(Time::now());
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
+    int automatonUpdates(deltaTime*automaton.size()*128);
     world.update();
     Wwise::update();
-    while(!atimer.every(Time(0,10)))
+    for(int i(-1);i<automatonUpdates;i++)
       automaton.update();
     while(Window::newEvent(event)) {
       if(gui->event(event)) continue;
