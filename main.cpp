@@ -13,6 +13,9 @@ using namespace L;
 
 World world;
 Automaton automaton(world,Automaton::cancer);
+Window::Event event;
+Ref<GUI::RelativeContainer> gui;
+GL::Camera guicam;
 
 void fillObj(const char* filename, byte type) {
   Vector<Point3f> vertices;
@@ -25,34 +28,12 @@ void fillObj(const char* filename, byte type) {
     else if(line[0]=="f")
       world.fill(Triangle(vertices[FromString<int>(line[1])-1],vertices[FromString<int>(line[2])-1],vertices[FromString<int>(line[3])-1],1),type,Voxel::max);
 }
-int main(int argc, char* argv[]) {
-  // Interfaces initialization
-  new STB();
-  new OBJ();
-  Font::set(new FTFont("Arial.ttf",128));
-  // Window initialization
-  Window::Event e;
-  Window::open("Cancer",16*100,9*100);
-  // GUI initialization
-  Ref<GUI::RelativeContainer> gui(new GUI::RelativeContainer(Point2i(Window::width(),Window::height())));
-  //gui->place(new GUI::Image(Image::Bitmap("Image/chat.png")),Point2i(10,10),GUI::TL,GUI::TL);
-  //gui->place(new GUI::Rectangle(Point2i(256,128),Color::blue),Point2i(-10,10),GUI::TR,GUI::TR);
-  //gui->place(new GUI::TextInput(Point2i(1024,128)),Point2i(10,-10),GUI::CL,GUI::CL);
-  // Wwise initialization
-  Wwise wwise(AKTEXT("Wwise/"));
-  wwise.registerObject(100);
-  wwise.loadBank(AKTEXT("Init.bnk"));
-  wwise.loadBank(AKTEXT("Main.bnk"));
-  // OpenGL initialization
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_TEXTURE_2D);
-  glEnable(GL_BLEND);
-  glEnable(GL_CULL_FACE);
-  glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-  glClearColor(.8f,.8f,.8f,1.f);
+void cellPhase() {
+}
+void tumorPhase() {
   // Cameras initialization
-  GL::Camera cam(Point3f(0,0,50)), guicam(Point3f(0,0,0));
-  cam.perspective(60,Window::aspect(),.1,512);
+  GL::Camera cam(Point3f(0,0,50));
+  cam.perspective(60,Window::aspect(),.1f,512);
   guicam.pixels();
   // Light initialization
   GL::Light light;
@@ -88,13 +69,13 @@ int main(int argc, char* argv[]) {
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
     world.update();
-    wwise.update();
-    while(!atimer.every(Time(0,16)))
+    Wwise::update();
+    while(!atimer.every(Time(0,10)))
       automaton.update();
-    while(Window::newEvent(e)) {
-      if(gui->event(e)) continue;
-      if(e.type == Window::Event::LBUTTONDOWN) {
-        wwise.postEvent("click");
+    while(Window::newEvent(event)) {
+      if(gui->event(event)) continue;
+      if(event.type == Window::Event::LBUTTONDOWN) {
+        Wwise::postEvent("click");
         Point3f hit;
         if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,64)) {
           world.voxelSphere(hit,1,Voxel::CANCER,Voxel::max);
@@ -147,5 +128,36 @@ int main(int argc, char* argv[]) {
     gui->draw(guiProgram);
     Window::swapBuffers();
   }
+}
+int main(int argc, char* argv[]) {
+  // Interfaces initialization
+  new STB();
+  new OBJ();
+  Font::set(new FTFont("Arial.ttf",128));
+  // Window initialization
+  Window::open("Cancer",16*100,9*100);
+  // GUI initialization
+  gui = new GUI::RelativeContainer(Point2i(Window::width(),Window::height()));
+  guicam.pixels();
+  //gui->place(new GUI::Image(Image::Bitmap("Image/chat.png")),Point2i(10,10),GUI::TL,GUI::TL);
+  //gui->place(new GUI::Rectangle(Point2i(256,128),Color::blue),Point2i(-10,10),GUI::TR,GUI::TR);
+  //gui->place(new GUI::TextInput(Point2i(1024,128)),Point2i(10,-10),GUI::CL,GUI::CL);
+  // Wwise initialization
+  Wwise::init(AKTEXT("Wwise/"));
+  Wwise::registerObject(100);
+  Wwise::loadBank(AKTEXT("Init.bnk"));
+  Wwise::loadBank(AKTEXT("Main.bnk"));
+  // OpenGL initialization
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_BLEND);
+  glEnable(GL_CULL_FACE);
+  glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+  glClearColor(.8f,.8f,.8f,1.f);
+  // Iterate through phases
+  cellPhase();
+  tumorPhase();
+  // Terminate
+  Wwise::term();
   return 0;
 }
