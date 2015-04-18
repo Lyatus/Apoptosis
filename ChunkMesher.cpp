@@ -6,14 +6,13 @@ using namespace L;
 using namespace GL;
 
 L::byte ChunkMesher::meshes[256][5*3] = {{0}};
-bool ChunkMesher::init(false);
 
 L::byte rotateCornersX[] = {4,5,0,1,6,7,2,3};
-L::byte rotateCornersY[] = {2,0,3,1,6,4,7,5};
-L::byte rotateCornersZ[] = {1,5,3,7,0,4,2,6};
+L::byte rotateCornersY[] = {1,5,3,7,0,4,2,6};
+L::byte rotateCornersZ[] = {2,0,3,1,6,4,7,5};
 L::byte rotateEdgesX[] = {1,5,10,11,0,4,8,9,2,3,6,7};
-L::byte rotateEdgesY[] = {3,2,0,1,7,6,4,5,9,11,8,10};
-L::byte rotateEdgesZ[] = {8,10,6,2,9,11,7,3,4,0,5,1};
+L::byte rotateEdgesY[] = {8,10,6,2,9,11,7,3,4,0,5,1};
+L::byte rotateEdgesZ[] = {3,2,0,1,7,6,4,5,9,11,8,10};
 
 template<class T, int n>
 void permutate(T array[n], L::byte indices[]) {
@@ -98,7 +97,7 @@ uint ChunkMesher::vertex(int x, int y, int z, L::byte edge, Voxel cell[8]) {
       break;
     case backTop:
       indexEdge = 0; //backBottom;
-      indexZ++;
+      indexY++;
       break;
     case backRight:
       indexEdge = 1; //backLeft;
@@ -106,7 +105,7 @@ uint ChunkMesher::vertex(int x, int y, int z, L::byte edge, Voxel cell[8]) {
       break;
     case frontBottom:
       indexEdge = 0; //backBottom;
-      indexY++;
+      indexZ++;
       break;
     case frontTop:
       indexEdge = 0; //backBottom;
@@ -115,12 +114,12 @@ uint ChunkMesher::vertex(int x, int y, int z, L::byte edge, Voxel cell[8]) {
       break;
     case frontLeft:
       indexEdge = 1; //backLeft;
-      indexY++;
+      indexZ++;
       break;
     case frontRight:
       indexEdge = 1; //backLeft;
       indexX++;
-      indexY++;
+      indexZ++;
       break;
     case bottomRight:
       indexEdge = 2; //bottomLeft;
@@ -128,12 +127,12 @@ uint ChunkMesher::vertex(int x, int y, int z, L::byte edge, Voxel cell[8]) {
       break;
     case topLeft:
       indexEdge = 2; //bottomLeft;
-      indexZ++;
+      indexY++;
       break;
     case topRight:
       indexEdge = 2; //bottomLeft;
       indexX++;
-      indexZ++;
+      indexY++;
       break;
   }
   int index = 3*((indexX * sizePlus * sizePlus) + (indexY * sizePlus) + indexZ)+indexEdge;
@@ -146,18 +145,18 @@ uint ChunkMesher::vertex(int x, int y, int z, L::byte edge, Voxel cell[8]) {
         break;
       case backTop:
         vertex.x() += edgeValue(cell[btl],cell[btr]);
-        vertex.z() += 1;
+        vertex.y() += 1;
         break;
       case backLeft:
-        vertex.z() += edgeValue(cell[bbl],cell[btl]);
+        vertex.y() += edgeValue(cell[bbl],cell[btl]);
         break;
       case backRight:
         vertex.x() += 1;
-        vertex.z() += edgeValue(cell[bbr],cell[btr]);
+        vertex.y() += edgeValue(cell[bbr],cell[btr]);
         break;
       case frontBottom:
         vertex.x() += edgeValue(cell[fbl],cell[fbr]);
-        vertex.y() += 1;
+        vertex.z() += 1;
         break;
       case frontTop:
         vertex.x() += edgeValue(cell[ftl],cell[ftr]);
@@ -165,29 +164,29 @@ uint ChunkMesher::vertex(int x, int y, int z, L::byte edge, Voxel cell[8]) {
         vertex.z() += 1;
         break;
       case frontLeft:
-        vertex.y() += 1;
-        vertex.z() += edgeValue(cell[fbl],cell[ftl]);
+        vertex.y() += edgeValue(cell[fbl],cell[ftl]);
+        vertex.z() += 1;
         break;
       case frontRight:
         vertex.x() += 1;
-        vertex.y() += 1;
-        vertex.z() += edgeValue(cell[fbr],cell[ftr]);
+        vertex.y() += edgeValue(cell[fbr],cell[ftr]);
+        vertex.z() += 1;
         break;
       case bottomLeft:
-        vertex.y() += edgeValue(cell[bbl],cell[fbl]);
+        vertex.z() += edgeValue(cell[bbl],cell[fbl]);
         break;
       case bottomRight:
         vertex.x() += 1;
-        vertex.y() += edgeValue(cell[bbr],cell[fbr]);
+        vertex.z() += edgeValue(cell[bbr],cell[fbr]);
         break;
       case topLeft:
-        vertex.y() += edgeValue(cell[btl],cell[ftl]);
-        vertex.z() += 1;
+        vertex.y() += 1;
+        vertex.z() += edgeValue(cell[btl],cell[ftl]);
         break;
       case topRight:
         vertex.x() += 1;
-        vertex.y() += edgeValue(cell[btr],cell[ftr]);
-        vertex.z() += 1;
+        vertex.y() += 1;
+        vertex.z() += edgeValue(cell[btr],cell[ftr]);
         break;
     }
     _meshBuilder.setVertex(vertex);
@@ -250,6 +249,7 @@ float ChunkMesher::edgeValue(Voxel v1, Voxel v2) {
   L::byte n##t[] = LIST triangles; \
   generateCase(n##c,n##t,comp);
 ChunkMesher::ChunkMesher() {
+  static bool init(false);
   if(!init) {
     init = true;
     GENERATE_CASE(nothing,(false,false,false,false,false,false,false,false),
@@ -280,18 +280,24 @@ ChunkMesher::ChunkMesher() {
                   (bottomRight,topLeft,topRight,
                    topLeft,bottomRight,bottomLeft,
                    0xFF),true);
-    GENERATE_CASE(triangleCorner,(true,true,true,false,false,false,false,true),
-                  (bottomRight,bottomLeft,topLeft,
-                   bottomRight,backTop,backRight,
-                   backTop,bottomRight,topLeft,
-                   frontRight,topRight,frontTop,
-                   0xFF),true);
-    GENERATE_CASE(quadrupleCorner,(true,false,false,true,false,true,true,false),
+    GENERATE_CASE(shallowTriangleCorner,(false,true,true,false,true,true,false,false),
+                  (backBottom,backRight,bottomLeft,
+                   bottomLeft,backRight,frontLeft,
+                   backRight,frontRight,frontLeft,
+                   backLeft,topLeft,backTop,
+                   0xFF),false);
+    GENERATE_CASE(plainTriangleCorner,(true,false,false,true,false,false,true,true),
+                  (backBottom,bottomLeft,backLeft,
+                   backRight,backTop,frontLeft,
+                   backTop,topLeft,frontLeft,
+                   backRight,frontLeft,frontRight,
+                   0xFF),false);
+    GENERATE_CASE(shallowQuadrupleCorner,(true,false,false,true,false,true,true,false),
                   (backBottom,bottomLeft,backLeft,
                    backRight,backTop,topRight,
                    frontBottom,bottomRight,frontRight,
                    frontLeft,frontTop,topLeft,
-                   0xFF),true);
+                   0xFF),false);
     GENERATE_CASE(hexagone,(true,true,true,false,true,false,false,false),
                   (bottomRight,backTop,backRight,
                    bottomRight,topLeft,backTop,
@@ -320,17 +326,30 @@ ChunkMesher::ChunkMesher() {
                    bottomLeft,bottomRight,frontTop,
                    bottomRight,frontRight,frontTop,
                    0xFF),false);
-    GENERATE_CASE(tripleCorner,(true,false,false,true,false,true,false,false),
-                  (backBottom,bottomLeft,backLeft,
-                   backRight,backTop,topRight,
-                   frontBottom,bottomRight,frontRight,
-                   0xFF),true);
-    GENERATE_CASE(opposingEdges,(true,true,false,false,false,false,true,true),
+    GENERATE_CASE(shallowTripleCorner,(false,true,true,false,false,false,false,true),
+                  (backBottom,bottomRight,backRight,
+                   backLeft,backTop,topLeft,
+                   frontRight,frontTop,topRight,
+                   0xFF),false);
+    GENERATE_CASE(plainTripleCorner,(true,false,false,true,true,true,true,false),
+                  (backBottom,topLeft,backLeft,
+                   backBottom,frontTop,topLeft,
+                   backBottom,bottomRight,frontTop,
+                   bottomRight,frontRight,frontTop,
+                   backLeft,backTop,topRight,
+                   0xFF),false);
+    GENERATE_CASE(shallowOpposingEdges,(true,true,false,false,false,false,true,true),
                   (backLeft,bottomRight,bottomLeft,
                    bottomRight,backLeft,backRight,
                    frontLeft,topRight,topLeft,
                    topRight,frontLeft,frontRight,
-                   0xFF),true);
+                   0xFF),false);
+    GENERATE_CASE(plainOpposingEdges,(false,false,true,true,true,true,false,false),
+                  (backLeft,topLeft,topRight,
+                   backLeft,topRight,backRight,
+                   bottomLeft,frontLeft,frontRight,
+                   bottomLeft,frontRight,bottomRight,
+                   0xFF),false);
     GENERATE_CASE(weird2,(false,true,false,false,true,true,true,false),
                   (bottomLeft,backBottom,topLeft,
                    backBottom,frontRight,topLeft,
@@ -348,10 +367,10 @@ void ChunkMesher::build(Chunk& chunk) {
       for(int z(0); z<Chunk::size; z++) {
         Voxel cell[8] = {chunk.voxel(x,y,z),
                          chunk.voxel(x+1,y,z),
-                         chunk.voxel(x,y,z+1),
-                         chunk.voxel(x+1,y,z+1),
                          chunk.voxel(x,y+1,z),
                          chunk.voxel(x+1,y+1,z),
+                         chunk.voxel(x,y,z+1),
+                         chunk.voxel(x+1,y,z+1),
                          chunk.voxel(x,y+1,z+1),
                          chunk.voxel(x+1,y+1,z+1)
                         };
@@ -359,8 +378,8 @@ void ChunkMesher::build(Chunk& chunk) {
         if(mesh[0]!=mesh[1])
           for(int i(0); mesh[i]!=0xFF && i<15; i+=3)
             _meshBuilder.addTriangle(vertex(x,y,z,mesh[i],cell),
-                                     vertex(x,y,z,mesh[i+1],cell),
-                                     vertex(x,y,z,mesh[i+2],cell));
+                                     vertex(x,y,z,mesh[i+2],cell),
+                                     vertex(x,y,z,mesh[i+1],cell));
       }
   _meshBuilder.computeNormals();
 }

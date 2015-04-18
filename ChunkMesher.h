@@ -28,7 +28,6 @@ class ChunkMesher {
     static const L::byte topLeft = 10;
     static const L::byte topRight = 11;
     static L::byte meshes[256][15];
-    static bool init;
     int _edgeVertices[(Chunk::size+1)*(Chunk::size+1)*(Chunk::size+1)*3];
     L::GL::MeshBuilder _meshBuilder;
 
