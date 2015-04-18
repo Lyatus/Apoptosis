@@ -52,7 +52,6 @@
 			<Add library="dsound" />
 			<Add library="dxguid" />
 			<Add library="freetype" />
-			<Add library="libpng" />
 		</Linker>
 		<Unit filename="Automaton.cpp" />
 		<Unit filename="Automaton.h" />
