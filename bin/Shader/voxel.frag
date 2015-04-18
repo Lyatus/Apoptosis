@@ -46,5 +46,5 @@ void main(){
 	gl_FragColor *= color;
 	
 	// Fresnel
-	gl_FragColor += clamp(.5-abs(dot(-normal,eyeNormal)),.0,1.0);
+	//gl_FragColor += clamp(.5-abs(dot(-normal,eyeNormal)),.0,1.0);
 }
