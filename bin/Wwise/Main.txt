@@ -2,10 +2,10 @@ Event	ID	Name			Wwise Object Path	Notes
 	1584507803	click			\Default Work Unit\click	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	162007041	- Unknown SFX V	F:\Apoptosis test1\.cache\Windows\SFX\- Unknown SFX V_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase1\- Unknown SFX V		626936
-	256955688	- Unknown SFX II	F:\Apoptosis test1\.cache\Windows\SFX\- Unknown SFX II_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase1\- Unknown SFX II		318200
-	336006430	test micro voix 2	F:\Apoptosis test1\.cache\Windows\SFX\test micro voix 2_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase2\test micro voix 2		1046232
-	381337876	test micro voix 1	F:\Apoptosis test1\.cache\Windows\SFX\test micro voix 1_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase2\test micro voix 1		1731660
-	575440135	- Unknown SFX IV	F:\Apoptosis test1\.cache\Windows\SFX\- Unknown SFX IV_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase1\- Unknown SFX IV		299768
-	902629092	test micro voix 3	F:\Apoptosis test1\.cache\Windows\SFX\test micro voix 3_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase2\test micro voix 3		1039020
+	162007041	- Unknown SFX V	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\- Unknown SFX V_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase1\- Unknown SFX V		626936
+	256955688	- Unknown SFX II	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\- Unknown SFX II_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase1\- Unknown SFX II		318200
+	336006430	test micro voix 2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\test micro voix 2_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase2\test micro voix 2		1046232
+	381337876	test micro voix 1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\test micro voix 1_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase2\test micro voix 1		1731660
+	575440135	- Unknown SFX IV	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\- Unknown SFX IV_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase1\- Unknown SFX IV		299768
+	902629092	test micro voix 3	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\test micro voix 3_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase2\test micro voix 3		1039020
 

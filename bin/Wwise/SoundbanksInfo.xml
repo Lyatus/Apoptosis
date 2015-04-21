@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" SchemaVersion="10" SoundbankVersion="112">
 	<RootPaths>
-		<ProjectRoot>F:\Apoptosis test1\</ProjectRoot>
-		<SourceFilesRoot>F:\Apoptosis test1\.cache\Windows\</SourceFilesRoot>
-		<SoundBanksRoot>D:\Projects\CodeBlocks\Cancer\bin\Wwise\</SoundBanksRoot>
+		<ProjectRoot>B:\Projets\Apoptosis\Wwise project\Apoptosis test1\</ProjectRoot>
+		<SourceFilesRoot>B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>B:\Projets\Apoptosis\Cancer\bin\Wwise\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>F:\Apoptosis test1\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
+		<ExternalSourcesOutputRoot>B:\Projets\Apoptosis\Wwise project\Apoptosis test1\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
