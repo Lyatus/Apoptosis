@@ -135,12 +135,18 @@ void World::read(File& file) {
 }
 
 void World::chunkKey(int x, int y, int z, int& cx, int& cy, int& cz) {
-  cx = ((x < 0) ? (x - Chunk::size + 1) : x) / Chunk::size;
-  cy = ((y < 0) ? (y - Chunk::size + 1) : y) / Chunk::size;
-  cz = ((z < 0) ? (z - Chunk::size + 1) : z) / Chunk::size;
+  if(x<0) x -= Chunk::size - 1;
+  if(y<0) y -= Chunk::size - 1;
+  if(z<0) z -= Chunk::size - 1;
+  cx = x / Chunk::size;
+  cy = y / Chunk::size;
+  cz = z / Chunk::size;
 }
 void World::voxelKey(int x, int y, int z, int& vx, int& vy, int& vz) {
-  vx = PMod(x,Chunk::size);
-  vy = PMod(y,Chunk::size);
-  vz = PMod(z,Chunk::size);
+  vx = x%Chunk::size;
+  vy = y%Chunk::size;
+  vz = z%Chunk::size;
+  if(vx<0) vx += Chunk::size;
+  if(vy<0) vy += Chunk::size;
+  if(vz<0) vz += Chunk::size;
 }
