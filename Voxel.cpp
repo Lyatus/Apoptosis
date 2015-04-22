@@ -4,11 +4,11 @@ using namespace L;
 using namespace GL;
 
 Voxel::Voxel(float value, L::byte type)
-  : _v(type*precision+(T)(value*(precision-1))) {}
+  : _value(value*(precision-1)), _type(type) {}
 Color Voxel::color() const {
   switch(type()) {
     case CANCER:
-      return Color(100,50,50);
+      return Color(128,64,64);
     case LUNG:
       return Color(255,128,128);
     case VESSEL:
@@ -28,8 +28,8 @@ Voxel Voxel::sub(Voxel a,Voxel b) {
   return Voxel(std::max(0.f,a.value()-b.value()),b.type());
 }
 Voxel Voxel::min(Voxel a,Voxel b) {
-  return Voxel(std::max(0.f,std::min(a.value(),b.value())),b.type());
+  return (a.value()<b.value())?a:b;
 }
 Voxel Voxel::max(Voxel a,Voxel b) {
-  return Voxel(std::max(0.f,std::max(a.value(),b.value())),b.type());
+  return (a.value()>b.value())?a:b;
 }

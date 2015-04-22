@@ -4,13 +4,18 @@
 #include <L/L.h>
 
 class Voxel {
-  private:
+  public:
     typedef unsigned short T;
     static const T precisionBits = 10;
     static const T precisionMask = ~((~0)<<precisionBits);
     static const T precision = 1 << precisionBits;
-    //static const T types =
-    T _v;
+    static const T typesBits = 4;
+    static const T types = 1 << typesBits;
+  private:
+  T _value:
+    precisionBits;
+  T _type:
+    typesBits;
   public:
     enum {
       NOTHING,
@@ -19,12 +24,12 @@ class Voxel {
       VESSEL
     };
     Voxel(float value = 0, L::byte type = 0);
-    bool operator==(const Voxel& other) const {return _v==other._v;}
-    bool operator!=(const Voxel& other) const {return _v!=other._v;}
+    bool operator==(const Voxel& other) const {return _type==other._type && _value==other._value;}
+    bool operator!=(const Voxel& other) const {return _type!=other._type || _value!=other._value;}
 
     inline bool solid() const {return value()>.5f;}
-    inline float value() const {return (_v & precisionMask)/(float)(precision-1);}
-    inline L::byte type() const {return _v >> precisionBits;}
+    inline float value() const {return _value/(float)(precision-1);}
+    inline L::byte type() const {return _type;}
     L::Color color() const;
 
     // Updaters
