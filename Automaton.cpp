@@ -7,11 +7,11 @@ Automaton::Automaton(World& world, Process process) : _world(world), _process(pr
 void Automaton::include(const L::Point3i& p) {
   _zone.add(p);
 }
-void Automaton::update() {
+bool Automaton::update() {
   if(!_processing && _buffer.empty()) { // Ready for new processing
-    if(_zone.empty()){
-        _size = 0;
-        return; // There is nothing to do
+    if(_zone.empty()) {
+      _size = 0;
+      return false; // There is nothing to do
     }
     _ip = _iw = _min = _zone.min();
     _max = _zone.max()+Point3i(1,1,1);
@@ -35,6 +35,7 @@ void Automaton::update() {
       _iw.increment(_min,_max);
     }
   }
+  return true;
 }
 
 void Automaton::drawDebug() {
@@ -82,17 +83,5 @@ Voxel Automaton::rot(World& world, int x, int y, int z) {
       return Voxel(std::min(1.f,current.value()+Rand::next(0.f,.5f)),Voxel::CANCER);
   } else if(current.type()==Voxel::CANCER && !other.solid())
     return Voxel(std::max(0.f,current.value()-Rand::next(0.f,.01f)),Voxel::CANCER);
-  return current; // No change
-}
-Voxel Automaton::cancer(World& world, int x, int y, int z) {
-  const Voxel& current(world.voxel(x,y,z));
-  L::byte currentType(current.type());
-  if(currentType == Voxel::CANCER_IDLE) return current; // No modifications to idle cancer
-  const Voxel& other(world.voxel(x+Rand::next(-1,2),y+Rand::next(-1,2),z+Rand::next(-1,2)));
-  if(currentType==Voxel::CANCER || (other.value()>.9 && other.type()==Voxel::CANCER && (currentType==Voxel::NOTHING || current.value()<.6))) {
-    if(other.solid() && other.type()==Voxel::CANCER)
-      return Voxel(std::min(1.f,current.value()+Rand::next(.0f,16.f/1024.f)),Voxel::CANCER);
-  }// else if(current.type()==Voxel::CANCER && !other.solid())
-  //return Voxel(std::max(0.0,current.value()-Rand::next(0.0,.01)),Voxel::CANCER);
   return current; // No change
 }

@@ -19,12 +19,11 @@ class Automaton {
   public:
     Automaton(World&, Process);
     void include(const L::Point3i&);
-    void update();
-    inline int size() const{return _size;}
+    bool update();
+    inline int size() const {return _size;}
     void drawDebug();
 
     static Voxel rot(World& world, int x, int y, int z);
-    static Voxel cancer(World& world, int x, int y, int z);
     template <int El, int Eu, int Fl, int Fu>
     static Voxel gol(World& world, int x, int y, int z) {
       const Voxel& current(world.voxel(x,y,z));

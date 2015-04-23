@@ -9,9 +9,9 @@ Color Voxel::color() const {
   switch(type()) {
     case CANCER:
     case CANCER_IDLE:
-      return Color(255,255,255,255);
+      return Color(255,255,255,0);
     case LUNG:
-      return Color(64,64,64,255);
+      return Color(64,64,64,0);
     case VESSEL:
       return Color(128,128,128,0);
     default :

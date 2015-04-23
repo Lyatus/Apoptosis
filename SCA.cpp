@@ -20,7 +20,7 @@ SCA::Branch SCA::Branch::next() {
   Point3f avgDirection(_direction/_growCount);
   avgDirection.normalize();
   reset();
-  return Branch(this,(_position+avgDirection*.5),avgDirection);
+  return Branch(this,(_position+avgDirection*1),avgDirection);
 }
 
 SCA::SCA(float minDist, float maxDist)
