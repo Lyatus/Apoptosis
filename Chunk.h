@@ -7,11 +7,12 @@
 class ChunkMesher;
 class Chunk {
   public:
-    static const int size = 24;
+    static const int size = 16;
   private:
     int _x, _y, _z;
     bool _changed;
     Voxel _voxels[size+1][size+1][size+1];
+    int _typesCount[Voxel::types];
     L::GL::Mesh _mesh;
     L::Interval3f _box;
     static ChunkMesher _chunkMesher;
@@ -27,6 +28,7 @@ class Chunk {
 };
 
 #endif
+
 
 
 
