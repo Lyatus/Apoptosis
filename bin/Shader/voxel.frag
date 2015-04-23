@@ -21,9 +21,10 @@ vec4 triplanar(sampler2D sampler, vec3 position, vec3 normal){
 }
 void main(){
 	// Normal computing
-	//vec3 onormal = normalize(cross(dFdx(overtex.xyz), dFdy(overtex.xyz))); // Original normal
-	//vec3 normal = normalize(cross(dFdx(vertex.xyz),dFdy(vertex.xyz)).xyz); // Normal modified by wobbling
-	vec3 normal = normalize(in_normal);
+	vec3 onormal = normalize(cross(dFdx(overtex.xyz), dFdy(overtex.xyz))); // Original normal
+	vec3 flatnormal = normalize(cross(dFdx(vertex.xyz),dFdy(vertex.xyz)).xyz); // Normal modified by wobbling
+	vec3 smoothnormal = normalize(in_normal);
+	vec3 normal = normalize(color.a*flatnormal+(1-color.a)*smoothnormal);
 	vec3 eyeNormal = normalize(eye-vertex.xyz);
 
 	// Normal mapping
@@ -42,8 +43,8 @@ void main(){
 	
 	//
 	gl_FragColor.rgb = textureColor*(diffuse*(1.0-ambientLevel) + ambientLevel)+specular;
-	gl_FragColor.a = 1;
 	gl_FragColor *= color;
+	gl_FragColor.a = 1;
 	
 	// Fresnel
 	//gl_FragColor += clamp(.5-abs(dot(-normal,eyeNormal)),.0,1.0);
