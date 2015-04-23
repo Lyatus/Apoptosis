@@ -62,4 +62,12 @@ bool SCA::update(World& world) {
   }
   return addedBranch;
 }
-
+float SCA::distance(const Point3f& point) const {
+  float wtr(std::numeric_limits<float>::max());
+  for(int i(0); i<_branches.size(); i++) { // Add new branches
+    float tmp(_branches[i]->position().dist(point));
+    if(tmp<wtr)
+      wtr = tmp;
+  }
+  return wtr;
+}

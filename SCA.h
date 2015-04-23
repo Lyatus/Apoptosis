@@ -29,6 +29,7 @@ class SCA {
     void addBranch(const Branch&);
     void addTarget(const L::Point3f&);
     bool update(World&);
+    float distance(const L::Point3f&) const;
 };
 
 #endif
