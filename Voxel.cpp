@@ -8,6 +8,7 @@ Voxel::Voxel(float value, L::byte type)
 Color Voxel::color() const {
   switch(type()) {
     case CANCER:
+    case CANCER_IDLE:
       return Color(128,64,64);
     case LUNG:
       return Color(255,128,128);
