@@ -13,22 +13,75 @@ using namespace std;
 using namespace L;
 
 World world;
+SCA sca(4,64);
 Window::Event event;
 Ref<GUI::RelativeContainer> gui;
 GL::Camera guicam;
 bool tumorgrowing(false);
 
-Voxel cancer(World& world, int x, int y, int z) {
-  const Voxel& current(world.voxel(x,y,z));
+Voxel tumorGrowth(World& world, int x, int y, int z, bool& processable) {
+  Voxel current(world.voxel(x,y,z));
+  Voxel wtr(current);
   L::byte currentType(current.type());
-  if(!tumorgrowing) return Voxel(current.value(),(currentType==Voxel::CANCER)?Voxel::CANCER_IDLE:currentType);
-  if(currentType == Voxel::CANCER_IDLE) return current; // No modifications to idle cancer
-  const Voxel& other(world.voxel(x+Rand::next(-1,2),y+Rand::next(-1,2),z+Rand::next(-1,2)));
-  if(other.solid() && other.type()==Voxel::CANCER)
-    if(currentType==Voxel::CANCER || (other.value()>.9 && other.type()==Voxel::CANCER
-                                      && (currentType==Voxel::NOTHING || currentType==Voxel::CANCER_IDLE || current.value()<.6)))
-      return Voxel(std::min(1.f,current.value()+Rand::next(.0f,64.f/1024.f)),Voxel::CANCER);
-  return current; // No change
+  bool idle(currentType==Voxel::TUMOR_IDLE || currentType==Voxel::TUMOR_THIRSTY_IDLE);
+  if(!tumorgrowing) // We need to stop the growth
+    switch(currentType) {
+      case Voxel::TUMOR:
+        wtr.type(Voxel::TUMOR_IDLE);
+        break;
+      case Voxel::TUMOR_THIRSTY:
+        wtr.type(Voxel::TUMOR_THIRSTY_IDLE);
+        break;
+      default:
+        wtr.type(currentType);
+        break;
+    }
+  else {
+    Voxel other(world.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2));
+    L::byte otherType(other.type());
+    bool otherTumor(otherType==Voxel::TUMOR || otherType==Voxel::TUMOR_THIRSTY);
+    bool currentTumor(currentType==Voxel::TUMOR || currentType==Voxel::TUMOR_THIRSTY);
+    if(other.solid() && otherTumor
+        && currentTumor || (other.value()>.99 && otherTumor
+                            && (currentType==Voxel::NOTHING || idle || current.value()<.6))) {
+      wtr.value(std::min(1.f,current.value()+Rand::next(32.f/1024.f,64.f/1024.f)));
+      bool thirsty(sca.distance(Point3f(x,y,z))>8);
+      if(thirsty) {
+        if(idle) wtr.type(Voxel::TUMOR_THIRSTY_IDLE);
+        else wtr.type(Voxel::TUMOR_THIRSTY);
+      } else {
+        if(idle) wtr.type(Voxel::TUMOR_IDLE);
+        else wtr.type(Voxel::TUMOR);
+      }
+    }
+    processable = wtr.type()==Voxel::TUMOR || wtr.type()==Voxel::TUMOR_THIRSTY;
+    return wtr;
+  }
+}
+Voxel tumorThirst(World& world, int x, int y, int z, bool& processable) {
+  Voxel wtr(world.voxel(x,y,z));
+  if(wtr.value()<.01f)
+    wtr.type(Voxel::NOTHING);
+  else if(wtr.type()==Voxel::TUMOR_THIRSTY_IDLE
+          && world.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2).value()<.01f)
+    wtr.value(std::max(0.f,wtr.value()-Rand::next(16.f/1024.f,32.f/1024.f)));
+  processable = wtr.type()==Voxel::TUMOR_THIRSTY_IDLE;
+  return wtr;
+}
+Automaton tumorGrowthAutomaton(world,tumorGrowth), tumorThirstAutomaton(world,tumorThirst);
+
+void exterminateThirsty(Chunk* chunk) {
+  if(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE)) {
+    for(int x(0); x<Chunk::size; x++)
+      for(int y(0); y<Chunk::size; y++)
+        for(int z(0); z<Chunk::size; z++)
+          if(chunk->voxel(x,y,z).type()==Voxel::TUMOR_THIRSTY_IDLE) {
+            Point3i position(chunk->position()+Point3i(x,y,z));
+            if(sca.distance(position)>8)
+              tumorThirstAutomaton.include(position);
+            else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
+          }
+  }
 }
 void fillObj(const char* filename, byte type) {
   Vector<Point3f> vertices;
@@ -55,7 +108,7 @@ void cellPhase() {
 }
 void tumorPhase() {
   // Cameras initialization
-  GL::Camera cam(Point3f(0,0,50));
+  GL::Camera cam(Point3f(0,8,50));
   cam.perspective(60,Window::aspect(),.1f,512);
   guicam.pixels();
   // Light initialization
@@ -77,11 +130,11 @@ void tumorPhase() {
   for(int x(0); x<256; x++)
     for(int y(0); y<256; y++)
       noise(x,y) = Color(128+128*perlin.value(Point2f((float)(x-128)/32,(float)(y-128)/32)));
-  //gui->place(new GUI::Image(noise),Point2i(10,10),GUI::TL,GUI::TL);
+  //gui->place(new GUI::Image(noise),Point2i(10,10),GUI::TL,sGUI::TL);
   GL::Texture voxelTexture(Image::Bitmap("Image/tissue.bmp"));
   GL::Texture voxelNormal(Image::Bitmap("Image/normal.bmp"));
   // World initialization
-  Timer timer, atimer, scatimer, tumortimer;
+  Timer timer, tumortimer, thirsttimer;
   File file("world");
   if(false && file.exists())
     world.read(file.open("rb"));
@@ -89,47 +142,44 @@ void tumorPhase() {
     //world.fill(Curve(Point3f(0,-32,0),Point3f(32,0,0),Point3f(32,0,32),Point3f(0,32,32),64,.1),Voxel::LUNG,Voxel::max);
     //world.fill(Triangle(Point3f(0,4,0),Point3f(0,16,0),Point3f(16,0,0),1),Voxel::LUNG,Voxel::max);
     //fillObj("Model/intestine.obj",Voxel::LUNG);
-    fillTerrain(Interval3i(Point3i(-128,0,-128),Point3i(128,8,128)));
+    fillTerrain(Interval3i(Point3i(-128,1,-128),Point3i(128,8,128)));
     //world.fill(Curve(Point3f(-32,0,-32),Point3f(-32,16,-32),Point3f(32,16,32),Point3f(32,0,32),1,.01),Voxel::VESSEL,Voxel::max);
     world.write(file.open("wb"));
   }
   file.close();
-  SCA sca(1,64);
   bool scaworking(false);
-  sca.addBranch(SCA::Branch(NULL,Point3f(0,4,0),Point3f(0,-1,0)));
-  Automaton automaton(world,cancer);
+  sca.addBranch(SCA::Branch(NULL,Point3f(0,4,0),Point3f(0,0,0)));
   int automatonTurns(0);
-  bool automatonworking(false);
+  bool automatonWorking(false);
   cout << timer.since().fSeconds() << endl;
   Time start(Time::now());
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
-    int automatonUpdates(deltaTime*automaton.size()*240);
     world.update();
     Wwise::update();
-    for(int i(-1); i<automatonUpdates; i++)
-      automatonworking = automaton.update();
-    if(automatonUpdates==0) automatonworking = false;
+    tumorGrowthAutomaton.update(std::min(4,(int)(deltaTime*240)));
+    tumorThirstAutomaton.update(std::min(4,(int)(deltaTime*240)));
     if(tumortimer.since()>Time(0,0,5))
       tumorgrowing = false;
-    //if(scatimer.every(Time(0,50)))
-      scaworking = sca.update(world);
+    if(thirsttimer.every(Time(0,100)))
+      world.foreachChunk(exterminateThirsty);
+    scaworking = sca.update(world);
     while(Window::newEvent(event)) {
       if(gui->event(event)) continue;
       if(event.type == Window::Event::LBUTTONDOWN || event.type == Window::Event::RBUTTONDOWN) {
         Wwise::postEvent("click");
         Point3f hit;
-        if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,128)) {
-          std::cout << automatonworking << " " << scaworking << std::endl;
+        if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
+          //std::cout << automatonWorking << " " << scaworking << std::endl;
           if(event.type == Window::Event::LBUTTONDOWN) {
-            if(!automatonworking && !scaworking) {
-              world.voxelSphere(hit,1,Voxel::CANCER,Voxel::max);
-              automaton.include(hit);
+            if(!tumorgrowing && !scaworking) {
+              world.voxelSphere(hit,1,Voxel::TUMOR,Voxel::max);
+              tumorGrowthAutomaton.include(hit);
               tumorgrowing = true;
               tumortimer.setoff();
             }
           } else {
-            if(!automatonworking) sca.addTarget(hit);
+            if(!tumorgrowing) sca.addTarget(hit);
           }
         }
       }
@@ -170,7 +220,8 @@ void tumorPhase() {
     debugProgram.uniform("view",cam.view());
     debugProgram.uniform("projection",cam.projection());
     //GL::Utils::drawAxes();
-    //automaton.drawDebug();
+    //tumorGrowthAutomaton.drawDebug();
+    //tumorThirstAutomaton.drawDebug();
     //world.draw();
     pp.postrender(ppProgram);
     glClear(GL_DEPTH_BUFFER_BIT); // Start drawing GUI

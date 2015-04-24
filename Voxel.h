@@ -7,7 +7,6 @@ class Voxel {
   public:
     typedef unsigned short T;
     static const T precisionBits = 10;
-    static const T precisionMask = ~((~0)<<precisionBits);
     static const T precision = 1 << precisionBits;
     static const T typesBits = 4;
     static const T types = 1 << typesBits;
@@ -19,7 +18,7 @@ class Voxel {
   public:
     enum {
       NOTHING,
-      CANCER, CANCER_IDLE,
+      TUMOR, TUMOR_IDLE, TUMOR_THIRSTY, TUMOR_THIRSTY_IDLE,
       LUNG,
       VESSEL
     };
@@ -30,6 +29,8 @@ class Voxel {
     inline bool solid() const {return value()>.5f;}
     inline float value() const {return _value/(float)(precision-1);}
     inline L::byte type() const {return _type;}
+    inline void value(float value) {_value = value*(precision-1);}
+    inline void type(L::byte type) {_type = type;}
     L::Color color() const;
 
     // Updaters

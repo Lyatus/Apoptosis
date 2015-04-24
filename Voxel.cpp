@@ -7,14 +7,19 @@ Voxel::Voxel(float value, L::byte type)
   : _value(value*(precision-1)), _type(type) {}
 Color Voxel::color() const {
   switch(type()) {
-    case CANCER:
-    case CANCER_IDLE:
-      return Color(255,255,255,0);
+    case TUMOR:
+      return Color(255,0,0,0);
+    case TUMOR_IDLE:
+      return Color(255,255,0,0);
+    case TUMOR_THIRSTY:
+      return Color(0,255,0,0);
+    case TUMOR_THIRSTY_IDLE:
+      return Color(0,255,255,0);
     case LUNG:
       return Color(64,64,64,0);
     case VESSEL:
       return Color(128,128,128,0);
-    default :
+    default:
       return Color::random();
   }
 }

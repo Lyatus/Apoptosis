@@ -6,7 +6,7 @@
 
 class Automaton {
   public:
-    typedef Voxel(*Process)(World& world, int x, int y, int z);
+    typedef Voxel(*Process)(World& world, int x, int y, int z, bool&);
   private:
     World& _world;
     L::Interval3i _zone;
@@ -19,11 +19,11 @@ class Automaton {
   public:
     Automaton(World&, Process);
     void include(const L::Point3i&);
-    bool update();
+    void update(int count = 1);
     inline int size() const {return _size;}
     void drawDebug();
 
-    static Voxel rot(World& world, int x, int y, int z);
+    static Voxel rot(World& world, int x, int y, int z, bool&);
     template <int El, int Eu, int Fl, int Fu>
     static Voxel gol(World& world, int x, int y, int z) {
       const Voxel& current(world.voxel(x,y,z));
