@@ -18,6 +18,7 @@ class SCA {
         void addGrowth(L::Point3f);
         Branch next();
         inline const L::Point3f& position() const {return _position;}
+        inline const L::Point3f& originalDirection() const {return _originalDirection;}
         inline bool growing() const {return _growCount;}
     };
   private:

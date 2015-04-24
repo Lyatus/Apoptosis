@@ -40,7 +40,7 @@ bool SCA::update(World& world) {
     float closestDistance(std::numeric_limits<float>::max());
     for(int j(0); j<_branches.size(); j++) { // Find the closest branch to this target
       SCA::Branch& branch(*_branches[j]);
-      float distance(branch.position().dist(target));
+      float distance(target.dist(branch.position()+branch.originalDirection()));
       if(distance<_maxDist && distance<closestDistance) {
         closestBranch = &branch;
         closestDistance = distance;
