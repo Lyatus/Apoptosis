@@ -12,9 +12,10 @@ class World {
     static const int arraySize = size*size*size;
   private:
     Chunk* _chunks[size][size][size];
-    Chunk **_min, **_max; // Pointers to the chunks with the minimum and maximum coordinates (used to optimize iteration)
+    L::Interval3i _interval;
   public:
     World();
+    void foreachChunk(void (*)(Chunk*));
     void draw(const L::GL::Camera&);
     void update();
     Chunk& chunk(int x, int y, int z, bool create = true);

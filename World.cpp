@@ -5,26 +5,37 @@ using namespace GL;
 
 World::World() {
   memset(_chunks,0,arraySize*sizeof(Chunk*));
-  _min = _max = &_chunks[radius][radius][radius];
+}
+void World::foreachChunk(void (*f)(Chunk*)) {
+  Point3i i(_interval.min());
+  while(i.increment(_interval.min(),_interval.max())) {
+    Chunk* chunk(_chunks[i.x()][i.y()][i.z()]);
+    if(chunk) f(chunk);
+  }
 }
 void World::draw(const Camera& camera) {
   int count(0);
-  for(Chunk** c = _min; c<=_max; c++)
-    if(*c && (*c)->draw(camera))
+  Point3i i(_interval.min());
+  while(i.increment(_interval.min(),_interval.max())) {
+    Chunk* chunk(_chunks[i.x()][i.y()][i.z()]);
+    if(chunk && chunk->draw(camera))
       count++;
+  }
   //std::cout << count << std::endl;
 }
 void World::update() {
-  for(Chunk** c = _min; c<=_max; c++)
-    if(*c)
-      (*c)->update();
+  Point3i i(_interval.min());
+  while(i.increment(_interval.min(),_interval.max())) {
+    Chunk* chunk(_chunks[i.x()][i.y()][i.z()]);
+    if(chunk) chunk->update();
+  }
 }
 Chunk& World::chunk(int x, int y, int z, bool create) {
   Chunk*& chunk = _chunks[x+radius][y+radius][z+radius];
   if(chunk) return *chunk; // The chunk is already created
   else if(create) { // It isn't created and we're allowed to create it
-    if(_max<&chunk) _max = &chunk;
-    if(_min>&chunk) _min = &chunk;
+    _interval.add(Point3i(x+radius,y+radius,z+radius));
+    _interval.add(Point3i(x+radius+1,y+radius+1,z+radius+1));
     return *(chunk = new Chunk(x,y,z));
   } else throw Exception("Tried to access unavailable chunk.");
 }
