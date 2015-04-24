@@ -9,7 +9,8 @@ ChunkMesher Chunk::_chunkMesher;
 
 Chunk::Chunk(int x, int y, int z)
   : _x(x), _y(y), _z(z), _changed(true), _box(Point3f(x*size,y*size,z*size),Point3f((x+1)*size,(y+1)*size,(z+1)*size)) {
-  for(int i(0); i<Voxel::types; i++)
+  _typesCount[0] = (size+1)*(size+1)*(size+1);
+  for(int i(1); i<Voxel::types; i++)
     _typesCount[i] = 0;
 }
 bool Chunk::update() {

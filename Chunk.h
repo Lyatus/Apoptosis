@@ -22,6 +22,8 @@ class Chunk {
     bool draw(const L::GL::Camera&);
     const Voxel& voxel(int x, int y, int z);
     void voxel(int x, int y, int z,const Voxel&);
+    inline int typeCount(L::byte type) const {return _typesCount[type];}
+    inline L::Point3i position() const {return L::Point3i(_x*size,_y*size,_z*size);}
 
     void write(L::File&) const;
     void read(L::File&);
