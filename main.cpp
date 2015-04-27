@@ -237,7 +237,7 @@ int main(int argc, char* argv[]) {
   new OBJ();
   Font::set(new FTFont("Arial.ttf",128));
   // Window initialization
-  Window::open("Cancer",16*100,9*100);
+  Window::openFullscreen("Apoptosis");
   // GUI initialization
   gui = new GUI::RelativeContainer(Point2i(Window::width(),Window::height()));
   guicam.pixels();
