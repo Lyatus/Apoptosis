@@ -23,13 +23,16 @@ class SCA {
     };
   private:
     L::Vector<Branch*> _branches;
+    L::Octree<float,Branch*> _branchTree;
     L::Vector<L::Point3f> _targets;
     float _minDist, _maxDist;
   public:
     SCA(float minDist, float maxDist);
+    ~SCA();
     void addBranch(const Branch&);
     void addTarget(const L::Point3f&);
     bool update(World&);
+    Branch* nearest(const L::Point3f&) const;
     float distance(const L::Point3f&) const;
 };
 

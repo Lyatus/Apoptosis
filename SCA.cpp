@@ -26,8 +26,14 @@ SCA::Branch SCA::Branch::next() {
 SCA::SCA(float minDist, float maxDist)
   : _minDist(minDist), _maxDist(maxDist) {
 }
+SCA::~SCA() {
+  L_Iter(_branches,it)
+  delete *it;
+}
 void SCA::addBranch(const Branch& b) {
-  _branches.push_back(new Branch(b));
+  Branch* branch(new Branch(b));
+  _branches.push_back(branch);
+  _branchTree.insert(b.position(),branch);
 }
 void SCA::addTarget(const Point3f& p) {
   _targets.push_back(p);
@@ -36,20 +42,12 @@ bool SCA::update(World& world) {
   bool addedBranch(false);
   for(int i(0); i<_targets.size(); i++) { // Process targets
     const Point3f& target(_targets[i]);
-    Branch* closestBranch(NULL);
-    float closestDistance(std::numeric_limits<float>::max());
-    for(int j(0); j<_branches.size(); j++) { // Find the closest branch to this target
-      SCA::Branch& branch(*_branches[j]);
-      float distance(target.dist(branch.position()+branch.originalDirection()));
-      if(distance<_maxDist && distance<closestDistance) {
-        closestBranch = &branch;
-        closestDistance = distance;
-      }
-    }
-    if(closestDistance<_minDist) // A branch is close enough to erase the target
+    Branch* nearestBranch(nearest(target));
+    float nearestDistance(target.dist(nearestBranch->position()));
+    if(nearestDistance<_minDist) // A branch is close enough to erase the target
       _targets.erase(_targets.begin()+i--);
-    else if(closestBranch)  // A branch is close enough to be affected by the target
-      closestBranch->addGrowth(target-closestBranch->position());
+    else if(nearestBranch)  // A branch is close enough to be affected by the target
+      nearestBranch->addGrowth(target-nearestBranch->position());
   }
   for(int i(0); i<_branches.size(); i++) { // Add new branches
     SCA::Branch& branch(*_branches[i]);
@@ -62,12 +60,10 @@ bool SCA::update(World& world) {
   }
   return addedBranch;
 }
+SCA::Branch* SCA::nearest(const L::Point3f& point) const {
+  auto node(_branchTree.nearest(point));
+  return (node)?node->value():NULL;
+}
 float SCA::distance(const Point3f& point) const {
-  float wtr(std::numeric_limits<float>::max());
-  for(int i(0); i<_branches.size(); i++) { // Add new branches
-    float tmp(_branches[i]->position().dist(point));
-    if(tmp<wtr)
-      wtr = tmp;
-  }
-  return wtr;
+  return point.dist(nearest(point)->position());
 }
