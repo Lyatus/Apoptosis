@@ -24,7 +24,7 @@ void main(){
 	vec3 onormal = normalize(cross(dFdx(overtex.xyz), dFdy(overtex.xyz))); // Original normal
 	vec3 flatnormal = normalize(cross(dFdx(vertex.xyz),dFdy(vertex.xyz)).xyz); // Normal modified by wobbling
 	vec3 smoothnormal = normalize(in_normal);
-	vec3 normal = normalize(color.a*flatnormal+(1-color.a)*smoothnormal);
+	vec3 normal = normalize(color.a*smoothnormal+(1-color.a)*flatnormal);
 	vec3 eyeNormal = normalize(eye-vertex.xyz);
 
 	// Normal mapping

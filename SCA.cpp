@@ -1,7 +1,6 @@
 #include "SCA.h"
 
 using namespace L;
-using namespace GL;
 
 SCA::Branch::Branch(Branch* parent,const L::Point3f& position,const L::Point3f& direction)
   : _parent(parent), _position(position), _originalDirection(direction) {

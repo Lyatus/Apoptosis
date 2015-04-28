@@ -59,6 +59,8 @@
 		<Unit filename="Chunk.h" />
 		<Unit filename="ChunkMesher.cpp" />
 		<Unit filename="ChunkMesher.h" />
+		<Unit filename="Conf.cpp" />
+		<Unit filename="Conf.h" />
 		<Unit filename="SCA.cpp" />
 		<Unit filename="SCA.h" />
 		<Unit filename="Voxel.cpp" />

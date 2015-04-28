@@ -1,6 +1,7 @@
 #include <L/L.h>
 #include <L/interface/stb.h>
 #include <L/interface/obj.h>
+#include <L/interface/json.h>
 #include <L/interface/wwise.h>
 #include <L/interface/freetype.h>
 
@@ -8,6 +9,7 @@
 #include "Automaton.h"
 #include "shapes.h"
 #include "SCA.h"
+#include "Conf.h"
 
 using namespace std;
 using namespace L;
@@ -101,7 +103,7 @@ void fillTerrain(const Interval3i& interval) {
   while(i.increment(interval.min(),interval.max())) {
     float distance(i.y()-(((perlin.value(Point2f((float)(i.x()-interval.min().x())/32,(float)(i.z()-interval.min().z())/32))+1)/2)*height));
     float value(std::min(1.f,std::max(0.f,.5f-distance)));
-    world.updateVoxel(i.x(),i.y(),i.z(),Voxel(value,Voxel::LUNG),Voxel::max);
+    world.updateVoxel(i.x(),i.y(),i.z(),Voxel(value,Voxel::ORGAN),Voxel::max);
   }
 }
 void cellPhase() {
@@ -141,7 +143,7 @@ void tumorPhase() {
   else {
     //world.fill(Curve(Point3f(0,-32,0),Point3f(32,0,0),Point3f(32,0,32),Point3f(0,32,32),64,.1),Voxel::LUNG,Voxel::max);
     //world.fill(Triangle(Point3f(0,4,0),Point3f(0,16,0),Point3f(16,0,0),1),Voxel::LUNG,Voxel::max);
-    //fillObj("Model/intestine.obj",Voxel::LUNG);
+    //fillObj("Model/intestine.obj",Voxel::ORGAN);
     fillTerrain(Interval3i(Point3i(-128,1,-128),Point3i(128,8,128)));
     //world.fill(Curve(Point3f(-32,0,-32),Point3f(-32,16,-32),Point3f(32,16,32),Point3f(32,0,32),1,.01),Voxel::VESSEL,Voxel::max);
     world.write(file.open("wb"));
@@ -235,9 +237,16 @@ int main(int argc, char* argv[]) {
   // Interfaces initialization
   new STB();
   new OBJ();
+  new JSON();
   Font::set(new FTFont("Arial.ttf",128));
+  // Configuration fetching
+  Conf::open("conf.json");
+  Voxel::configure();
+  Color background(Conf::getColor("background"));
   // Window initialization
-  Window::openFullscreen("Apoptosis");
+  if(Conf::getBool("fullscreen"))
+    Window::openFullscreen("Apoptosis");
+  else Window::open("Apoptosis",Conf::getInt("width"),Conf::getInt("height"));
   // GUI initialization
   gui = new GUI::RelativeContainer(Point2i(Window::width(),Window::height()));
   guicam.pixels();
@@ -255,7 +264,7 @@ int main(int argc, char* argv[]) {
   glEnable(GL_BLEND);
   glEnable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-  glClearColor(.8f,.8f,.8f,1.f);
+  glClearColor((float)background.r()/255,(float)background.g()/255,(float)background.b()/255,1.f);
   // Iterate through phases
   cellPhase();
   tumorPhase();

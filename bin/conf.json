@@ -1,0 +1,12 @@
+{
+	"fullscreen": false,
+	"width": 800, "height": 450,
+	
+	"background": "#ffffff",
+	"tumor": "#ff0000",
+	"tumor_idle": "#ffff00",
+	"tumor_thirsty": "#00ff00",
+	"tumor_thirsty_idle": "#00ffff",
+	"organ": "#444444",
+	"vessel": "#888888"
+}

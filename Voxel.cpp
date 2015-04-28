@@ -1,27 +1,24 @@
 #include "Voxel.h"
 
+#include "Conf.h"
+
 using namespace L;
-using namespace GL;
+
+L::Color Voxel::_colors[types];
 
 Voxel::Voxel(float value, L::byte type)
   : _value(value*(precision-1)), _type(type) {}
 Color Voxel::color() const {
-  switch(type()) {
-    case TUMOR:
-      return Color(255,0,0,0);
-    case TUMOR_IDLE:
-      return Color(255,255,0,0);
-    case TUMOR_THIRSTY:
-      return Color(0,255,0,0);
-    case TUMOR_THIRSTY_IDLE:
-      return Color(0,255,255,0);
-    case LUNG:
-      return Color(64,64,64,0);
-    case VESSEL:
-      return Color(128,128,128,0);
-    default:
-      return Color::random();
-  }
+  return _colors[type()];
+}
+
+void Voxel::configure() {
+  _colors[ORGAN] = Conf::getColor("organ");
+  _colors[VESSEL] = Conf::getColor("organ");
+  _colors[TUMOR] = Conf::getColor("tumor");
+  _colors[TUMOR_IDLE] = Conf::getColor("tumor_idle");
+  _colors[TUMOR_THIRSTY] = Conf::getColor("tumor_thirsty");
+  _colors[TUMOR_THIRSTY_IDLE] = Conf::getColor("tumor_thirsty_idle");
 }
 
 Voxel Voxel::set(Voxel a,Voxel b) {

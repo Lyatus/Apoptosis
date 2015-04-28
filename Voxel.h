@@ -15,12 +15,11 @@ class Voxel {
     precisionBits;
   T _type:
     typesBits;
+    static L::Color _colors[types];
   public:
     enum {
-      NOTHING,
-      TUMOR, TUMOR_IDLE, TUMOR_THIRSTY, TUMOR_THIRSTY_IDLE,
-      LUNG,
-      VESSEL
+      NOTHING, ORGAN, VESSEL,
+      TUMOR, TUMOR_IDLE, TUMOR_THIRSTY, TUMOR_THIRSTY_IDLE
     };
     Voxel(float value = 0, L::byte type = 0);
     bool operator==(const Voxel& other) const {return _type==other._type && _value==other._value;}
@@ -32,6 +31,8 @@ class Voxel {
     inline void value(float value) {_value = value*(precision-1);}
     inline void type(L::byte type) {_type = type;}
     L::Color color() const;
+
+    static void configure();
 
     // Updaters
     typedef Voxel(*Updater)(Voxel,Voxel);
