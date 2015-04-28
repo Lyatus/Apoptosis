@@ -198,42 +198,21 @@ uint ChunkMesher::vertex(int x, int y, int z, L::byte edge, Voxel cell[8]) {
 void ChunkMesher::color(L::byte edge, Voxel cell[8]) {
   Color c;
   switch(edge) {
-    case backBottom:
-      c = (cell[bbl].solid())?cell[bbl].color():cell[bbr].color();
-      break;
-    case backTop:
-      c = (cell[btl].solid())?cell[btl].color():cell[btr].color();
-      break;
-    case backLeft:
-      c = (cell[bbl].solid())?cell[bbl].color():cell[btl].color();
-      break;
-    case backRight:
-      c = (cell[bbr].solid())?cell[bbr].color():cell[btr].color();
-      break;
-    case frontBottom:
-      c = (cell[fbl].solid())?cell[fbl].color():cell[fbr].color();
-      break;
-    case frontTop:
-      c = (cell[ftl].solid())?cell[ftl].color():cell[ftr].color();
-      break;
-    case frontLeft:
-      c = (cell[fbl].solid())?cell[fbl].color():cell[ftl].color();
-      break;
-    case frontRight:
-      c = (cell[fbr].solid())?cell[fbr].color():cell[ftr].color();
-      break;
-    case bottomLeft:
-      c = (cell[bbl].solid())?cell[bbl].color():cell[fbl].color();
-      break;
-    case bottomRight:
-      c = (cell[bbr].solid())?cell[bbr].color():cell[fbr].color();
-      break;
-    case topLeft:
-      c = (cell[btl].solid())?cell[btl].color():cell[ftl].color();
-      break;
-    case topRight:
-      c = (cell[btr].solid())?cell[btr].color():cell[ftr].color();
-      break;
+      //#define TMP(e,c1,c2) case e: c = Color::lerp(cell[c1].color(),cell[c2].color(),1.f-edgeValue(cell[c1],cell[c2])); break;
+#define TMP(e,c1,c2) case e: c = (cell[c1].solid())?cell[c1].color():cell[c2].color(); break;
+      TMP(backBottom,bbl,bbr)
+      TMP(backTop,btl,btr)
+      TMP(backLeft,bbl,btl)
+      TMP(backRight,bbr,btr)
+      TMP(frontBottom,fbl,fbr)
+      TMP(frontTop,ftl,ftr)
+      TMP(frontLeft,fbl,ftl)
+      TMP(frontRight,fbr,ftr)
+      TMP(bottomLeft,bbl,fbl)
+      TMP(bottomRight,bbr,fbr)
+      TMP(topLeft,btl,ftl)
+      TMP(topRight,btr,ftr)
+#undef TMP
     default:
       c = Color::white;
       break;
