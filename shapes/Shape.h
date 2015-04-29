@@ -11,7 +11,7 @@ class Shape {
     virtual L::Point3i start() const = 0;
     virtual float value(const L::Point3f&) const = 0;
     inline bool convex() const {return _convex;}
-    inline float fromDistance(float distance) const {
+    inline static float fromDistance(float distance) {
       return std::min(1.f,std::max(0.f,.5f-distance));
     }
 };

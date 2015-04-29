@@ -1,6 +1,10 @@
 #include "SCA.h"
 
+#include "Conf.h"
+
 using namespace L;
+
+float SCA::randomFactor;
 
 SCA::Branch::Branch(Branch* parent,const L::Point3f& position,const L::Point3f& direction)
   : _parent(parent), _position(position), _originalDirection(direction) {
@@ -16,7 +20,7 @@ void SCA::Branch::addGrowth(L::Point3f direction) {
   _growCount++;
 }
 SCA::Branch SCA::Branch::next() {
-  Point3f avgDirection(_direction/_growCount);
+  Point3f avgDirection(_direction/_growCount + Point3f::random()*randomFactor);
   avgDirection.normalize();
   reset();
   return Branch(this,(_position+avgDirection*1),avgDirection);
@@ -41,12 +45,14 @@ bool SCA::update(World& world) {
   bool addedBranch(false);
   for(int i(0); i<_targets.size(); i++) { // Process targets
     const Point3f& target(_targets[i]);
-    Branch* nearestBranch(nearest(target));
-    float nearestDistance(target.dist(nearestBranch->position()));
-    if(nearestDistance<_minDist) // A branch is close enough to erase the target
-      _targets.erase(_targets.begin()+i--);
-    else if(nearestBranch)  // A branch is close enough to be affected by the target
-      nearestBranch->addGrowth(target-nearestBranch->position());
+    Branch* nearestBranch(nearest(target,_maxDist));
+    if(nearestBranch) {
+      float nearestDistance(target.dist(nearestBranch->position()));
+      if(nearestDistance<_minDist) // A branch is close enough to erase the target
+        _targets.erase(_targets.begin()+i--);
+      else // A branch is close enough to be affected by the target
+        nearestBranch->addGrowth(target-nearestBranch->position());
+    }
   }
   for(int i(0); i<_branches.size(); i++) { // Add new branches
     SCA::Branch& branch(*_branches[i]);
@@ -59,10 +65,15 @@ bool SCA::update(World& world) {
   }
   return addedBranch;
 }
-SCA::Branch* SCA::nearest(const L::Point3f& point) const {
+SCA::Branch* SCA::nearest(const L::Point3f& point, float maxDistance) const {
   auto node(_branchTree.nearest(point));
   return (node)?node->value():NULL;
 }
-float SCA::distance(const Point3f& point) const {
-  return point.dist(nearest(point)->position());
+float SCA::distance(const Point3f& point, float maxDistance) const {
+  SCA::Branch* nearest(nearest(point,maxDistance));
+  return (nearest)?point.dist(nearest->position()):maxDistance;
+}
+
+void SCA::configure() {
+  randomFactor = Conf::getFloat("sca_random_factor");
 }

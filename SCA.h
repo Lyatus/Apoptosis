@@ -26,14 +26,17 @@ class SCA {
     L::Octree<float,Branch*> _branchTree;
     L::Vector<L::Point3f> _targets;
     float _minDist, _maxDist;
+    static float randomFactor;
   public:
     SCA(float minDist, float maxDist);
     ~SCA();
     void addBranch(const Branch&);
     void addTarget(const L::Point3f&);
     bool update(World&);
-    Branch* nearest(const L::Point3f&) const;
-    float distance(const L::Point3f&) const;
+    Branch* nearest(const L::Point3f&, float maxDistance) const;
+    float distance(const L::Point3f&, float maxDistance) const;
+
+    static void configure();
 };
 
 #endif

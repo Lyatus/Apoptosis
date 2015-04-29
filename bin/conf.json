@@ -1,5 +1,5 @@
 {
-	"fullscreen": false,
+	"fullscreen": true,
 	"width": 800, "height": 450,
 	
 	"background": "#ffffff",
@@ -8,5 +8,8 @@
 	"tumor_thirsty": "#00ff00",
 	"tumor_thirsty_idle": "#00ffff",
 	"organ": "#444444",
-	"vessel": "#888888"
+	"vessel": "#0000ff",
+	
+	"irrigation_radius": 8,
+	"sca_random_factor": 0.5
 }
