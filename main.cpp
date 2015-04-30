@@ -21,6 +21,10 @@ Ref<GUI::RelativeContainer> gui;
 GL::Camera guicam;
 bool tumorgrowing(false);
 float irrigationRadius;
+Point3f sphereCenter;
+int centerCount;
+float sphereRadius(16);
+GLUquadricObj* quadric;
 
 Voxel tumorGrowth(World& world, int x, int y, int z, bool& processable) {
   Voxel current(world.voxel(x,y,z));
@@ -33,15 +37,17 @@ Voxel tumorGrowth(World& world, int x, int y, int z, bool& processable) {
     bool otherTumor(otherType==Voxel::TUMOR || otherType==Voxel::TUMOR_THIRSTY);
     bool currentTumor(currentType==Voxel::TUMOR || currentType==Voxel::TUMOR_THIRSTY);
     if(other.solid()
-        && otherTumor // The other needs to exist and to be tumor
+        && otherTumor // Other needs to exist and to be tumor
+        && !current.full() // Current shouldn't already be filled (avoid unnecessary calculations)
         && (currentTumor
-            || (other.value()>.99
+            || (other.full()
                 && otherTumor
                 && (currentType==Voxel::NOTHING
                     || idle
-                    || current.value()<.6)))) {
-      bool thirsty(sca.distance(Point3f(x,y,z),irrigationRadius-.9f)>irrigationRadius-1);
-      wtr.value(std::min(1.f,current.value()+(Rand::next(32.f/1024.f,64.f/1024.f)*((thirsty)?.5f:1.f))));
+                    || !current.full())))) {
+      float distance(sca.distance(Point3f(x,y,z),irrigationRadius-.9f));
+      bool thirsty(distance>irrigationRadius-1);
+      wtr.value(std::min(1.f,current.value()+(Rand::nextFloat()*(irrigationRadius/distance)*(32.f/1024.f))));
       if(thirsty) {
         if(idle) wtr.type(Voxel::TUMOR_THIRSTY_IDLE);
         else wtr.type(Voxel::TUMOR_THIRSTY);
@@ -67,10 +73,10 @@ Voxel tumorGrowth(World& world, int x, int y, int z, bool& processable) {
 }
 Voxel tumorThirst(World& world, int x, int y, int z, bool& processable) {
   Voxel wtr(world.voxel(x,y,z));
-  if(wtr.value()<.01f)
+  if(!wtr.solid())
     wtr.type(Voxel::NOTHING);
   else if(wtr.type()==Voxel::TUMOR_THIRSTY_IDLE
-          && world.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2).value()<.01f) {
+          && !world.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2).solid()) {
     float value(std::max(0.f,wtr.value()-Rand::next(32.f/1024.f,64.f/1024.f)));
     wtr.value(value);
     float distance(sca.distance(Point3f(x,y,z),irrigationRadius+.5f));
@@ -82,7 +88,7 @@ Voxel tumorThirst(World& world, int x, int y, int z, bool& processable) {
 }
 Automaton tumorGrowthAutomaton(world,tumorGrowth), tumorThirstAutomaton(world,tumorThirst);
 
-void exterminateThirsty(Chunk* chunk) {
+void foreachChunk(Chunk* chunk) {
   if(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE))
     for(int x(0); x<Chunk::size; x++)
       for(int y(0); y<Chunk::size; y++)
@@ -93,17 +99,22 @@ void exterminateThirsty(Chunk* chunk) {
               tumorThirstAutomaton.include(position);
             else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
           }
+  if(chunk->typeCount(Voxel::TUMOR_IDLE)) {
+    sphereCenter += (chunk->position()+Point3i(Chunk::size/2,Chunk::size/2,Chunk::size/2))*chunk->typeCount(Voxel::TUMOR_IDLE);
+    centerCount += chunk->typeCount(Voxel::TUMOR_IDLE);
+  }
 }
 void fillObj(const char* filename, byte type) {
   Vector<Point3f> vertices;
   File file(filename);
   file.open("r");
   List<String> line;
-  while((line = file.readLine().explode(' ')).size()>0)
+  while((line = file.readLine().explode(' ')).size()>0) {
     if(line[0]=="v")
-      vertices.push_back(Point3f(FromString<float>(line[1]),FromString<float>(line[2]),FromString<float>(line[3]))*.3f);
+      vertices.push_back(Point3f(FromString<float>(line[1]),FromString<float>(line[2]),FromString<float>(line[3])));
     else if(line[0]=="f")
       world.fill(Triangle(vertices[FromString<int>(line[1])-1],vertices[FromString<int>(line[2])-1],vertices[FromString<int>(line[3])-1],1),type,Voxel::max);
+  }
 }
 void fillTerrain(const Interval3i& interval) {
   Perlin<2> perlin(16);
@@ -145,13 +156,13 @@ void tumorPhase() {
   // World initialization
   Timer timer, tumortimer, thirsttimer;
   File file("world");
-  if(false && file.exists())
+  if(file.exists())
     world.read(file.open("rb"));
   else {
     //world.fill(Curve(Point3f(0,-32,0),Point3f(32,0,0),Point3f(32,0,32),Point3f(0,32,32),64,.1),Voxel::LUNG,Voxel::max);
     //world.fill(Triangle(Point3f(0,4,0),Point3f(0,16,0),Point3f(16,0,0),1),Voxel::LUNG,Voxel::max);
-    //fillObj("Model/intestine.obj",Voxel::ORGAN);
-    fillTerrain(Interval3i(Point3i(-128,1,-128),Point3i(128,8,128)));
+    fillObj("Model/intestine.obj",Voxel::ORGAN);
+    //fillTerrain(Interval3i(Point3i(-128,1,-128),Point3i(128,8,128)));
     //world.fill(Curve(Point3f(-32,0,-32),Point3f(-32,16,-32),Point3f(32,16,32),Point3f(32,0,32),1,.01),Voxel::VESSEL,Voxel::max);
     world.write(file.open("wb"));
   }
@@ -166,12 +177,16 @@ void tumorPhase() {
     float deltaTime(timer.frame().fSeconds());
     world.update();
     Wwise::update();
-    tumorGrowthAutomaton.update(std::min(4,(int)(deltaTime*240)));
-    tumorThirstAutomaton.update(std::min(4,(int)(deltaTime*240)));
+    tumorGrowthAutomaton.update(std::min(4,(int)(deltaTime*120)));
+    tumorThirstAutomaton.update(std::min(4,(int)(deltaTime*120)));
     if(tumortimer.since()>Time(0,0,5))
       tumorgrowing = false;
-    if(thirsttimer.every(Time(0,100)))
-      world.foreachChunk(exterminateThirsty);
+    if(thirsttimer.every(Time(0,100))) {
+      sphereCenter = Point3f(0,0,0);
+      centerCount = 0;
+      world.foreachChunk(foreachChunk);
+      sphereCenter /= centerCount;
+    }
     scaworking = sca.update(world);
     while(Window::newEvent(event)) {
       if(gui->event(event)) continue;
@@ -231,6 +246,10 @@ void tumorPhase() {
     //GL::Utils::drawAxes();
     //tumorGrowthAutomaton.drawDebug();
     //tumorThirstAutomaton.drawDebug();
+    glPushMatrix();
+    glTranslatef(sphereCenter.x(),sphereCenter.y(),sphereCenter.z());
+    gluSphere(quadric, sphereRadius, 16, 16);
+    glPopMatrix();
     //world.draw();
     pp.postrender(ppProgram);
     glClear(GL_DEPTH_BUFFER_BIT); // Start drawing GUI
@@ -274,6 +293,7 @@ int main(int argc, char* argv[]) {
   glEnable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
   glClearColor((float)background.r()/255,(float)background.g()/255,(float)background.b()/255,1.f);
+  quadric = gluNewQuadric();
   // Iterate through phases
   tumorPhase();
   // Terminate
