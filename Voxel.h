@@ -8,6 +8,8 @@ class Voxel {
     typedef unsigned short T;
     static const T precisionBits = 10;
     static const T precision = 1 << precisionBits;
+    static const T precisionMax = precision-1;
+    static const T precisionHalf = precision>>1;
     static const T typesBits = 4;
     static const T types = 1 << typesBits;
   private:
@@ -25,7 +27,9 @@ class Voxel {
     bool operator==(const Voxel& other) const {return _type==other._type && _value==other._value;}
     bool operator!=(const Voxel& other) const {return _type!=other._type || _value!=other._value;}
 
-    inline bool solid() const {return value()>.5f;}
+    inline bool solid() const {return _value>precisionHalf;}
+    inline bool empty() const {return !_value;}
+    inline bool full() const {return _value==precisionMax;}
     inline float value() const {return _value/(float)(precision-1);}
     inline L::byte type() const {return _type;}
     inline void value(float value) {_value = value*(precision-1);}
