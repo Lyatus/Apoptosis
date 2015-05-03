@@ -24,10 +24,7 @@ bool Chunk::update() {
 }
 bool Chunk::draw(const Camera& camera) {
   if(camera.sees(_box)) {
-    glPushMatrix();
-    glTranslatef(_x*size,_y*size,_z*size);
     _mesh.draw();
-    glPopMatrix();
     return true;
   }
   return false;

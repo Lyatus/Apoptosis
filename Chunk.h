@@ -7,7 +7,9 @@
 class ChunkMesher;
 class Chunk {
   public:
-    static const int size = 16;
+    static const int sizeBits = 5;
+    static const int size = 1 << sizeBits;
+    static const int sizeMask = ~(~0 << sizeBits);
   private:
     int _x, _y, _z;
     bool _changed;

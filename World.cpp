@@ -43,7 +43,7 @@ const Voxel& World::voxel(int x, int y, int z, bool create) {
   int cx, cy, cz, vx, vy, vz;
   chunkKey(x,y,z,cx,cy,cz);
   voxelKey(x,y,z,vx,vy,vz);
-  return chunk(cx,cy,cz).voxel(vx,vy,vz);
+  return chunk(cx,cy,cz,create).voxel(vx,vy,vz);
 }
 void World::updateVoxel(int x, int y, int z, const Voxel& v, Voxel::Updater u) {
   int cx, cy, cz, vx, vy, vz;
@@ -71,6 +71,15 @@ bool World::raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, flo
       return true;
   }
   return false;
+}
+bool World::spherecast(L::Point3f center, float radius) {
+  for(int i(0); i<6; i++) {
+    Point3f tmp(center);
+    tmp[i] += ((i<3)?radius:-radius);
+    if(voxel(tmp.x(),tmp.y(),tmp.z()).solid())
+      return true;
+  }
+  return voxel(center.x(),center.y(),center.z()).solid();
 }
 
 void World::fill(const Shape& shape, L::byte type, Voxel::Updater u) {
@@ -146,18 +155,12 @@ void World::read(File& file) {
 }
 
 void World::chunkKey(int x, int y, int z, int& cx, int& cy, int& cz) {
-  if(x<0) x -= Chunk::size - 1;
-  if(y<0) y -= Chunk::size - 1;
-  if(z<0) z -= Chunk::size - 1;
-  cx = x / Chunk::size;
-  cy = y / Chunk::size;
-  cz = z / Chunk::size;
+  cx = x >> Chunk::sizeBits;
+  cy = y >> Chunk::sizeBits;
+  cz = z >> Chunk::sizeBits;
 }
 void World::voxelKey(int x, int y, int z, int& vx, int& vy, int& vz) {
-  vx = x%Chunk::size;
-  vy = y%Chunk::size;
-  vz = z%Chunk::size;
-  if(vx<0) vx += Chunk::size;
-  if(vy<0) vy += Chunk::size;
-  if(vz<0) vz += Chunk::size;
+  vx = x & Chunk::sizeMask;
+  vy = y & Chunk::sizeMask;
+  vz = z & Chunk::sizeMask;
 }

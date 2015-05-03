@@ -32,7 +32,7 @@ class ChunkMesher {
     L::GL::MeshBuilder _meshBuilder;
 
     void generateCase(bool cube[8],L::byte mesh[15],bool complementary = true);
-    L::uint vertex(int x, int y, int z, L::byte edge, Voxel cell[8]);
+    L::uint vertex(const L::Point3i& offset, int x, int y, int z, L::byte edge, Voxel cell[8]);
     void color(L::byte edge, Voxel cell[8]);
     float edgeValue(Voxel, Voxel);
   public:

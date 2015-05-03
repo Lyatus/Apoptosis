@@ -77,7 +77,7 @@ void ChunkMesher::generateCase(bool cell[8],L::byte mesh[15], bool complementary
     generateCase(cell,mesh,false);
   }
 }
-uint ChunkMesher::vertex(int x, int y, int z, L::byte edge, Voxel cell[8]) {
+uint ChunkMesher::vertex(const Point3i& offset, int x, int y, int z, L::byte edge, Voxel cell[8]) {
   uint wtr;
   int indexEdge = edge;
   int indexX = x;
@@ -189,6 +189,7 @@ uint ChunkMesher::vertex(int x, int y, int z, L::byte edge, Voxel cell[8]) {
         vertex.z() += edgeValue(cell[btr],cell[ftr]);
         break;
     }
+    vertex += offset;
     _meshBuilder.setVertex(vertex);
     wtr = _meshBuilder.addVertex();
     _edgeVertices[index] = wtr;
@@ -341,6 +342,7 @@ ChunkMesher::ChunkMesher() {
 void ChunkMesher::build(Chunk& chunk) {
   memset(_edgeVertices,~0,sizeof(_edgeVertices));
   _meshBuilder.reset(GL::Mesh::VERTEX|GL::Mesh::COLOR|GL::Mesh::NORMAL,65536,65536);
+  Point3i offset(chunk.position());
   for(int x(0); x<Chunk::size; x++)
     for(int y(0); y<Chunk::size; y++)
       for(int z(0); z<Chunk::size; z++) {
@@ -356,9 +358,9 @@ void ChunkMesher::build(Chunk& chunk) {
         L::byte* mesh = meshes[getIndex(cell)];
         if(mesh[0]!=mesh[1])
           for(int i(0); mesh[i]!=0xFF && i<15; i+=3)
-            _meshBuilder.addTriangle(vertex(x,y,z,mesh[i],cell),
-                                     vertex(x,y,z,mesh[i+2],cell),
-                                     vertex(x,y,z,mesh[i+1],cell));
+            _meshBuilder.addTriangle(vertex(offset,x,y,z,mesh[i],cell),
+                                     vertex(offset,x,y,z,mesh[i+2],cell),
+                                     vertex(offset,x,y,z,mesh[i+1],cell));
       }
   _meshBuilder.computeNormals();
 }

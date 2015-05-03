@@ -23,6 +23,7 @@ class World {
     void updateVoxel(int x, int y, int z, const Voxel&, Voxel::Updater);
 
     bool raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, float distance);
+    bool spherecast(L::Point3f center, float radius);
 
     // Drawing
     void fill(const Shape&, L::byte type, Voxel::Updater);
