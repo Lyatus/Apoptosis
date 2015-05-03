@@ -10,6 +10,7 @@
 #include "shapes.h"
 #include "SCA.h"
 #include "Conf.h"
+#include "SphericalCamera.h"
 
 using namespace std;
 using namespace L;
@@ -19,12 +20,9 @@ SCA sca(4,512);
 Window::Event event;
 Ref<GUI::RelativeContainer> gui;
 GL::Camera guicam;
+SphericalCamera cam(Point3f(0,0,128));
 bool tumorgrowing(false);
 float irrigationRadius;
-Point3f sphereCenter;
-int centerCount;
-float sphereRadius(16);
-GLUquadricObj* quadric;
 
 Voxel tumorGrowth(World& world, int x, int y, int z, bool& processable) {
   Voxel current(world.voxel(x,y,z));
@@ -56,8 +54,6 @@ Voxel tumorGrowth(World& world, int x, int y, int z, bool& processable) {
         else wtr.type(Voxel::TUMOR);
       }
     }
-    processable = wtr.type()==Voxel::TUMOR || wtr.type()==Voxel::TUMOR_THIRSTY;
-    return wtr;
   } else // We need to stop the growth
     switch(currentType) {
       case Voxel::TUMOR:
@@ -70,6 +66,8 @@ Voxel tumorGrowth(World& world, int x, int y, int z, bool& processable) {
         wtr.type(currentType);
         break;
     }
+  processable = wtr.type()==Voxel::TUMOR || wtr.type()==Voxel::TUMOR_THIRSTY;
+  return wtr;
 }
 Voxel tumorThirst(World& world, int x, int y, int z, bool& processable) {
   Voxel wtr(world.voxel(x,y,z));
@@ -99,10 +97,8 @@ void foreachChunk(Chunk* chunk) {
               tumorThirstAutomaton.include(position);
             else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
           }
-  if(chunk->typeCount(Voxel::TUMOR_IDLE)) {
-    sphereCenter += (chunk->position()+Point3i(Chunk::size/2,Chunk::size/2,Chunk::size/2))*chunk->typeCount(Voxel::TUMOR_IDLE);
-    centerCount += chunk->typeCount(Voxel::TUMOR_IDLE);
-  }
+  if(chunk->typeCount(Voxel::TUMOR))
+    cam.addPoint(chunk->position()+Point3i(Chunk::size/2,Chunk::size/2,Chunk::size/2));
 }
 void fillObj(const char* filename, byte type) {
   Vector<Point3f> vertices;
@@ -128,7 +124,6 @@ void fillTerrain(const Interval3i& interval) {
 }
 void tumorPhase() {
   // Cameras initialization
-  GL::Camera cam(Point3f(0,8,50));
   cam.perspective(60,Window::aspect(),.1f,512);
   guicam.pixels();
   // Light initialization
@@ -168,7 +163,7 @@ void tumorPhase() {
   }
   file.close();
   bool scaworking(false);
-  sca.addBranch(SCA::Branch(NULL,Point3f(0,4,0),Point3f(0,0,0)));
+  sca.addBranch(SCA::Branch(NULL,Point3f(0,0,0),Point3f(0,0,0)));
   int automatonTurns(0);
   bool automatonWorking(false);
   cout << timer.since().fSeconds() << endl;
@@ -177,16 +172,13 @@ void tumorPhase() {
     float deltaTime(timer.frame().fSeconds());
     world.update();
     Wwise::update();
-    tumorGrowthAutomaton.update(std::min(4,(int)(deltaTime*120)));
-    tumorThirstAutomaton.update(std::min(4,(int)(deltaTime*120)));
+    cam.update(deltaTime);
+    tumorGrowthAutomaton.update((int)(deltaTime*60));
+    tumorThirstAutomaton.update((int)(deltaTime*60));
     if(tumortimer.since()>Time(0,0,5))
       tumorgrowing = false;
-    if(thirsttimer.every(Time(0,100))) {
-      sphereCenter = Point3f(0,0,0);
-      centerCount = 0;
+    if(thirsttimer.every(Time(0,100)))
       world.foreachChunk(foreachChunk);
-      sphereCenter /= centerCount;
-    }
     scaworking = sca.update(world);
     while(Window::newEvent(event)) {
       if(gui->event(event)) continue;
@@ -207,9 +199,11 @@ void tumorPhase() {
           }
         }
       }
+      cam.event(event);
     }
     if(Window::isPressed(Window::Event::ESCAPE))
       break;
+    /*
     if(Window::isPressed(Window::Event::SHIFT))
       cam.move(Point3f(0,24*deltaTime,0));
     if(Window::isPressed(Window::Event::CTRL))
@@ -226,8 +220,9 @@ void tumorPhase() {
       cam.theta(2*deltaTime);
     if(Window::isPressed(Window::Event::S))
       cam.theta(-2*deltaTime);
+    */
     pp.prerender();
-    glMatrixMode(GL_MODELVIEW); // Rseset matrix
+    glMatrixMode(GL_MODELVIEW); // Reset matrix
     glLoadIdentity();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Start drawing 3D
     light.set(GL_LIGHT0);
@@ -246,10 +241,6 @@ void tumorPhase() {
     //GL::Utils::drawAxes();
     //tumorGrowthAutomaton.drawDebug();
     //tumorThirstAutomaton.drawDebug();
-    glPushMatrix();
-    glTranslatef(sphereCenter.x(),sphereCenter.y(),sphereCenter.z());
-    gluSphere(quadric, sphereRadius, 16, 16);
-    glPopMatrix();
     //world.draw();
     pp.postrender(ppProgram);
     glClear(GL_DEPTH_BUFFER_BIT); // Start drawing GUI
@@ -293,7 +284,6 @@ int main(int argc, char* argv[]) {
   glEnable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
   glClearColor((float)background.r()/255,(float)background.g()/255,(float)background.b()/255,1.f);
-  quadric = gluNewQuadric();
   // Iterate through phases
   tumorPhase();
   // Terminate
