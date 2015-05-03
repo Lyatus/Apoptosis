@@ -32,7 +32,7 @@ class Voxel {
     inline bool full() const {return _value==precisionMax;}
     inline float value() const {return _value/(float)(precision-1);}
     inline L::byte type() const {return _type;}
-    inline void value(float value) {_value = value*(precision-1);}
+    inline void value(float value) {_value = (T)(value*(precision-1));}
     inline void type(L::byte type) {_type = type;}
     L::Color color() const;
 
