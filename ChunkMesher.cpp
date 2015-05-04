@@ -225,8 +225,8 @@ float ChunkMesher::edgeValue(Voxel v1, Voxel v2) {
 }
 #define LIST(...) {__VA_ARGS__}
 #define GENERATE_CASE(n,cell,triangles,comp) \
-  bool n##c[] = LIST cell; \
-  L::byte n##t[] = LIST triangles; \
+  bool n##c[8] = LIST cell; \
+  L::byte n##t[15] = LIST triangles; \
   generateCase(n##c,n##t,comp);
 ChunkMesher::ChunkMesher() {
   static bool init(false);
@@ -304,8 +304,7 @@ ChunkMesher::ChunkMesher() {
                    backRight,backLeft,frontTop,
                    backLeft,bottomLeft,frontTop,
                    bottomLeft,bottomRight,frontTop,
-                   bottomRight,frontRight,frontTop,
-                   0xFF),false);
+                   bottomRight,frontRight,frontTop),false);
     GENERATE_CASE(shallowTripleCorner,(false,true,true,false,false,false,false,true),
                   (backBottom,bottomRight,backRight,
                    backLeft,backTop,topLeft,
@@ -316,8 +315,7 @@ ChunkMesher::ChunkMesher() {
                    backBottom,frontTop,topLeft,
                    backBottom,bottomRight,frontTop,
                    bottomRight,frontRight,frontTop,
-                   backLeft,backTop,topRight,
-                   0xFF),false);
+                   backLeft,backTop,topRight),false);
     GENERATE_CASE(shallowOpposingEdges,(true,true,false,false,false,false,true,true),
                   (backLeft,bottomRight,bottomLeft,
                    bottomRight,backLeft,backRight,
@@ -355,7 +353,7 @@ void ChunkMesher::build(Chunk& chunk) {
                          chunk.voxel(x,y+1,z+1),
                          chunk.voxel(x+1,y+1,z+1)
                         };
-        L::byte* mesh = meshes[getIndex(cell)];
+        const L::byte* mesh(meshes[getIndex(cell)]);
         if(mesh[0]!=mesh[1])
           for(int i(0); mesh[i]!=0xFF && i<15; i+=3)
             _meshBuilder.addTriangle(vertex(offset,x,y,z,mesh[i],cell),
