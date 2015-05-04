@@ -1,5 +1,5 @@
 {
-	"fullscreen": true,
+	"fullscreen": false,
 	"width": 800, "height": 450,
 	
 	"background": "#ffffff",
