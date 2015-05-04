@@ -16,7 +16,7 @@ class SCA {
         Branch(Branch*,const L::Point3f&,const L::Point3f&);
         void reset();
         void addGrowth(L::Point3f);
-        Branch next();
+        Branch next(World&);
         inline const L::Point3f& position() const {return _position;}
         inline const L::Point3f& originalDirection() const {return _originalDirection;}
         inline bool growing() const {return _growCount;}
@@ -26,7 +26,8 @@ class SCA {
     L::Octree<float,Branch*> _branchTree;
     L::Vector<L::Point3f> _targets;
     float _minDist, _maxDist;
-    static float randomFactor;
+    static float dragFactor, randomFactor, branchLength, branchRadius;
+    static int avoidAttempts;
   public:
     SCA(float minDist, float maxDist);
     ~SCA();

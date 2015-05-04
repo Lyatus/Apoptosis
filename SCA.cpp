@@ -4,14 +4,15 @@
 
 using namespace L;
 
-float SCA::randomFactor;
+float SCA::dragFactor, SCA::randomFactor, SCA::branchLength, SCA::branchRadius;
+int SCA::avoidAttempts;
 
 SCA::Branch::Branch(Branch* parent,const L::Point3f& position,const L::Point3f& direction)
   : _parent(parent), _position(position), _originalDirection(direction) {
   reset();
 }
 void SCA::Branch::reset() {
-  _direction = _originalDirection*3;
+  _direction = _originalDirection*dragFactor;
   _growCount = 0;
 }
 void SCA::Branch::addGrowth(L::Point3f direction) {
@@ -19,11 +20,24 @@ void SCA::Branch::addGrowth(L::Point3f direction) {
   _direction += direction;
   _growCount++;
 }
-SCA::Branch SCA::Branch::next() {
-  Point3f avgDirection(_direction/_growCount + Point3f::random()*randomFactor);
-  avgDirection.normalize();
+SCA::Branch SCA::Branch::next(World& world) {
+  Point3f nextDirection, nextPosition, bestNextDirection, bestNextPosition;
+  float bestValue(2);
+  Voxel voxel;
+  for(int i(0); i<avoidAttempts; i++) {
+    nextDirection = (_direction/_growCount + Point3f::random()*randomFactor);
+    nextDirection.normalize();
+    nextDirection *= branchLength;
+    nextPosition = _position+nextDirection;
+    float value(world.valueAt(nextPosition));
+    if(value<bestValue) {
+      bestNextDirection = nextDirection;
+      bestNextPosition = nextPosition;
+      bestValue = value;
+    }
+  }
   reset();
-  return Branch(this,(_position+avgDirection*1),avgDirection);
+  return Branch(this,bestNextPosition,bestNextDirection);
 }
 
 SCA::SCA(float minDist, float maxDist)
@@ -57,8 +71,8 @@ bool SCA::update(World& world) {
   for(int i(0); i<_branches.size(); i++) { // Add new branches
     SCA::Branch& branch(*_branches[i]);
     if(branch.growing()) { // There's at least one target that affects it
-      Branch newBranch(branch.next());
-      world.fill(Line(branch.position(),newBranch.position(),1),Voxel::VESSEL,Voxel::max);
+      Branch newBranch(branch.next(world));
+      world.fill(Line(branch.position(),newBranch.position(),branchRadius),Voxel::VESSEL,Voxel::max);
       addBranch(newBranch);
       addedBranch = true;
     }
@@ -75,5 +89,9 @@ float SCA::distance(const Point3f& point, float maxDistance) const {
 }
 
 void SCA::configure() {
+  dragFactor = Conf::getFloat("sca_drag_factor");
   randomFactor = Conf::getFloat("sca_random_factor");
+  branchLength = Conf::getFloat("sca_branch_length");
+  branchRadius = Conf::getFloat("sca_branch_radius");
+  avoidAttempts = Conf::getInt("sca_avoid_attempts");
 }
