@@ -1,7 +1,7 @@
 {
-	"fullscreen": false,
+	"fullscreen": true,
 	"width": 800, "height": 450,
-	
+
 	"background": "#ffffff",
 	"tumor": "#ff0000",
 	"tumor_idle": "#ffff00",
@@ -9,9 +9,15 @@
 	"tumor_thirsty_idle": "#00ffff",
 	"organ": "#444444",
 	"vessel": "#0000ff",
-	
+
 	"irrigation_radius": 8,
+	
+	"sca_drag_factor": 2,
 	"sca_random_factor": 0.5,
+	"sca_branch_length": 1,
+	"sca_branch_radius": 1,
+	"sca_avoid_attempts": 4096,
+	
 	"growth_factor": 0.0625,
-	"turns_per_second" : 60
+	"turns_per_second" : 120
 }
