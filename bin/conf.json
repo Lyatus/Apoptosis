@@ -2,6 +2,9 @@
 	"fullscreen": true,
 	"width": 800, "height": 450,
 
+	"texture_path": "Image/tissue.bmp",
+
+	"ambient_level": 0.5,
 	"background": "#ffffff",
 	"tumor": "#ff0000",
 	"tumor_idle": "#ffff00",
@@ -13,10 +16,10 @@
 	"irrigation_radius": 8,
 	
 	"sca_drag_factor": 2,
-	"sca_random_factor": 0.5,
+	"sca_random_factor": 0.75,
 	"sca_branch_length": 1,
 	"sca_branch_radius": 1,
-	"sca_avoid_attempts": 4096,
+	"sca_avoid_attempts": 4,
 	
 	"growth_factor": 0.0625,
 	"turns_per_second" : 120
