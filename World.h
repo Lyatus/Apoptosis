@@ -20,6 +20,7 @@ class World {
     void update();
     Chunk& chunk(int x, int y, int z, bool create = true);
     const Voxel& voxel(int x, int y, int z, bool create = true);
+    float valueAt(const L::Point3f&);
     void updateVoxel(int x, int y, int z, const Voxel&, Voxel::Updater);
 
     bool raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, float distance);

@@ -45,6 +45,21 @@ const Voxel& World::voxel(int x, int y, int z, bool create) {
   voxelKey(x,y,z,vx,vy,vz);
   return chunk(cx,cy,cz,create).voxel(vx,vy,vz);
 }
+float World::valueAt(const Point3f& point) {
+  int x(floor(point.x())), y(floor(point.y())), z(floor(point.z()));
+  Point3f weight(PMod(point.x(),1.f),PMod(point.y(),1.f),PMod(point.z(),1.f));
+  float cell[8] = {
+    voxel(x,y,z).value(),
+    voxel(x,y,z+1).value(),
+    voxel(x,y+1,z).value(),
+    voxel(x,y+1,z+1).value(),
+    voxel(x+1,y,z).value(),
+    voxel(x+1,y,z+1).value(),
+    voxel(x+1,y+1,z).value(),
+    voxel(x+1,y+1,z+1).value()
+  };
+  return Interpolation<3,float>::compute(cell,weight);
+}
 void World::updateVoxel(int x, int y, int z, const Voxel& v, Voxel::Updater u) {
   int cx, cy, cz, vx, vy, vz;
   chunkKey(x,y,z,cx,cy,cz);
