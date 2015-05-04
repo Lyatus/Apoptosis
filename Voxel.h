@@ -6,11 +6,11 @@
 class Voxel {
   public:
     typedef unsigned short T;
-    static const T precisionBits = 10;
+    static const T precisionBits = 13;
     static const T precision = 1 << precisionBits;
     static const T precisionMax = precision-1;
     static const T precisionHalf = precision>>1;
-    static const T typesBits = 4;
+    static const T typesBits = 3;
     static const T types = 1 << typesBits;
   private:
   T _value:
@@ -21,7 +21,8 @@ class Voxel {
   public:
     enum {
       NOTHING, ORGAN, VESSEL,
-      TUMOR, TUMOR_IDLE, TUMOR_THIRSTY, TUMOR_THIRSTY_IDLE
+      TUMOR, TUMOR_IDLE,
+      TUMOR_THIRSTY, TUMOR_THIRSTY_IDLE
     };
     Voxel(float value = 0, L::byte type = 0);
     bool operator==(const Voxel& other) const {return _type==other._type && _value==other._value;}
