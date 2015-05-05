@@ -58,7 +58,7 @@ float World::valueAt(const Point3f& point) {
     voxel(x+1,y+1,z).value(),
     voxel(x+1,y+1,z+1).value()
   };
-  return Interpolation<3,float>::compute(cell,weight);
+  return Interpolation<3,float>::linear(cell,weight);
 }
 void World::updateVoxel(int x, int y, int z, const Voxel& v, Voxel::Updater u) {
   int cx, cy, cz, vx, vy, vz;
