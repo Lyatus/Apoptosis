@@ -5,6 +5,7 @@
 	"texture_path": "Image/tissue.bmp",
 
 	"ambient_level": 0.5,
+	"intro_background": "#ffffff",
 	"background": "#ffffff",
 	"tumor": "#ff0000",
 	"tumor_idle": "#ffff00",

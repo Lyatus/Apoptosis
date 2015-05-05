@@ -124,10 +124,68 @@ void fillTerrain(const Interval3i& interval) {
     world.updateVoxel(i.x(),i.y(),i.z(),Voxel(value,Voxel::ORGAN),Voxel::max);
   }
 }
-void tumorPhase() {
+bool setfalse(GUI::ActionListener* al, Dynamic::Var& v, GUI::Event e) {
+  if(e.type == GUI::Event::leftClick) {
+    *v.as<bool*>() = true;
+    return true;
+  }
+  return false;
+}
+void mask(const Color& color) {
+  glClear(GL_DEPTH_BUFFER_BIT);
+  GL::Program::unuse();
+  glColor4f((float)color.r()/255,(float)color.g()/255,(float)color.b()/255,(float)color.a()/255);
+  glBegin(GL_QUADS);
+  glVertex2f(-1,-1);
+  glVertex2f(100,-1);
+  glVertex2f(100,100);
+  glVertex2f(-1,100);
+  glEnd();
+}
+void clearcolor(const Color& color) {
+  glClearColor((float)color.r()/255,(float)color.g()/255,(float)color.b()/255,(float)color.a()/255);
+}
+void menu() {
+  Timer fadeTimer;
+  float fadeDuration(3);
+  bool clicked(false), fading(false);
+  clearcolor(Conf::getColor("intro_background"));
+  GL::Program guiProgram(GL::Shader(File("Shader/gui.vert"),GL_VERTEX_SHADER),
+                         GL::Shader(File("Shader/gui.frag"),GL_FRAGMENT_SHADER));
+  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/chat.png")),setfalse,&clicked),Point2i(0,0),GUI::CC,GUI::CC);
+  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/noise.jpg")),setfalse,&clicked),Point2i(0,0),GUI::CC,GUI::CC);
+  while(Window::loop()) {
+    while(Window::newEvent(event))
+      gui->event(event);
+    if(Window::isPressed(Window::Event::ESCAPE))
+      Window::close();
+    else if(!fading && clicked) {
+      fading = true;
+      fadeTimer.setoff();
+    }
+    Wwise::update();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    guiProgram.use();
+    guiProgram.uniform("projection",guicam.projection());
+    gui->draw(guiProgram);
+    if(fading) {
+      float fade(fadeTimer.since().fSeconds()/fadeDuration);
+      if(fade>1.f) {
+        Wwise::postEvent("prout");
+        break;
+      } else {
+        mask(Color::from(0,0,0,fade));
+      }
+    }
+    Window::swapBuffers();
+  }
+  gui->clear();
+}
+void game() {
+  Color background(Conf::getColor("background"));
+  glClearColor((float)background.r()/255,(float)background.g()/255,(float)background.b()/255,1.f);
   // Cameras initialization
   cam.perspective(60,Window::aspect(),.1f,512);
-  guicam.pixels();
   // Light initialization
   GL::Light light;
   light.position(1,1,1,0);
@@ -145,20 +203,10 @@ void tumorPhase() {
   GL::Texture voxelTexture(Image::Bitmap(Conf::getString("texture_path")));
   // World initialization
   Timer timer, tumortimer, thirsttimer;
-  File file("world");
-  if(file.exists())
-    world.read(file.open("rb"));
-  else {
-    fillObj("Model/intestine.obj",Voxel::ORGAN);
-    //fillTerrain(Interval3i(Point3i(-128,1,-128),Point3i(128,8,128)));
-    world.write(file.open("wb"));
-  }
-  file.close();
   bool scaworking(false);
   sca.addBranch(SCA::Branch(NULL,Point3f(0,0,0),Point3f(0,0,0)));
   int automatonTurns(0);
   bool automatonWorking(false);
-  cout << timer.since().fSeconds() << endl;
   Time start(Time::now());
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
@@ -180,13 +228,19 @@ void tumorPhase() {
         if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
           if(event.type == Window::Event::LBUTTONDOWN) {
             if(!tumorgrowing && !scaworking) {
-              world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
-              tumorGrowthAutomaton.include(hit);
-              tumorgrowing = true;
-              tumortimer.setoff();
+              for(int i(0); i<4; i++)
+                if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+Point2f::random()*.2f),hit,512)) {
+                  world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
+                  tumorGrowthAutomaton.include(hit);
+                  tumorgrowing = true;
+                  tumortimer.setoff();
+                }
             }
           } else {
-            if(!tumorgrowing) sca.addTarget(hit);
+            if(!tumorgrowing)
+              for(int i(0); i<8; i++)
+                if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+Point2f::random()*.2f),hit,512))
+                  sca.addTarget(hit);
           }
         }
       }
@@ -229,8 +283,8 @@ void tumorPhase() {
     debugProgram.uniform("view",cam.view());
     debugProgram.uniform("projection",cam.projection());
     //GL::Utils::drawAxes();
-    //tumorGrowthAutomaton.drawDebug();
-    //tumorThirstAutomaton.drawDebug();
+    tumorGrowthAutomaton.drawDebug();
+    tumorThirstAutomaton.drawDebug();
     //world.draw();
     pp.postrender(ppProgram);
     glClear(GL_DEPTH_BUFFER_BIT); // Start drawing GUI
@@ -250,7 +304,6 @@ int main(int argc, char* argv[]) {
   Conf::open("conf.json");
   Voxel::configure();
   SCA::configure();
-  Color background(Conf::getColor("background"));
   irrigationRadius = Conf::getFloat("irrigation_radius");
   growthFactor = Conf::getFloat("growth_factor");
   ambientLevel = Conf::getFloat("ambient_level");
@@ -262,9 +315,6 @@ int main(int argc, char* argv[]) {
   // GUI initialization
   gui = new GUI::RelativeContainer(Point2i(Window::width(),Window::height()));
   guicam.pixels();
-  //gui->place(new GUI::Image(Image::Bitmap("Image/chat.png")),Point2i(10,10),GUI::TL,GUI::TL);
-  //gui->place(new GUI::Rectangle(Point2i(256,128),Color::blue),Point2i(-10,10),GUI::TR,GUI::TR);
-  //gui->place(new GUI::TextInput(Point2i(1024,128)),Point2i(10,-10),GUI::CL,GUI::CL);
   // Wwise initialization
   Wwise::init(AKTEXT("Wwise/"));
   Wwise::registerObject(100);
@@ -276,9 +326,20 @@ int main(int argc, char* argv[]) {
   glEnable(GL_BLEND);
   glEnable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-  glClearColor((float)background.r()/255,(float)background.g()/255,(float)background.b()/255,1.f);
+  // Load world first
+  File file("world");
+  if(file.exists())
+    world.read(file.open("rb"));
+  else {
+    fillObj("Model/intestine.obj",Voxel::ORGAN);
+    //fillTerrain(Interval3i(Point3i(-128,1,-128),Point3i(128,8,128)));
+    world.write(file.open("wb"));
+  }
+  file.close();
+  world.update(); // Create VBOs
   // Iterate through phases
-  tumorPhase();
+  menu();
+  game();
   // Terminate
   Wwise::term();
   return 0;
