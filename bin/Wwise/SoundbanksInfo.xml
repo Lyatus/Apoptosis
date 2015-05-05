@@ -19,6 +19,7 @@
 			<Path>Main.bnk</Path>
 			<IncludedEvents>
 				<Event Id="1584507803" Name="click"/>
+				<Event Id="917677325" Name="prout"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
 				<File Id="162007041" Language="SFX">
@@ -36,6 +37,10 @@
 				<File Id="381337876" Language="SFX">
 					<ShortName>test micro voix 1.wav</ShortName>
 					<Path>SFX\test micro voix 1_DDC98EF4.wem</Path>
+				</File>
+				<File Id="472009716" Language="SFX">
+					<ShortName>Glassworks_Opening_01.wav</ShortName>
+					<Path>SFX\Glassworks_Opening_01_DDC98EF4.wem</Path>
 				</File>
 				<File Id="575440135" Language="SFX">
 					<ShortName>- Unknown SFX IV.wav</ShortName>
