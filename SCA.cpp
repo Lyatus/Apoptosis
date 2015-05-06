@@ -41,7 +41,7 @@ SCA::Branch SCA::Branch::next(World& world) {
 }
 
 SCA::SCA(float minDist, float maxDist)
-  : _minDist(minDist), _maxDist(maxDist) {
+  : _minDist(minDist), _maxDist(maxDist), _changed(false) {
 }
 SCA::~SCA() {
   L_Iter(_branches,it)
@@ -74,8 +74,12 @@ bool SCA::update(World& world) {
       Branch newBranch(branch.next(world));
       world.fill(Line(branch.position(),newBranch.position(),branchRadius),Voxel::VESSEL,Voxel::max);
       addBranch(newBranch);
-      addedBranch = true;
+      _changed = addedBranch = true;
     }
+  }
+  if(_changed && _timer.every(Time(0,0,1))) {
+    _branchTree.balance();
+    _changed = false;
   }
   return addedBranch;
 }

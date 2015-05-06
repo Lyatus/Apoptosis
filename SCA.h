@@ -25,7 +25,9 @@ class SCA {
     L::Vector<Branch*> _branches;
     L::Octree<float,Branch*> _branchTree;
     L::Vector<L::Point3f> _targets;
+    L::Timer _timer;
     float _minDist, _maxDist;
+    bool _changed;
     static float dragFactor, randomFactor, branchLength, branchRadius;
     static int avoidAttempts;
   public:
