@@ -17,11 +17,12 @@
 	"irrigation_radius": 8,
 	
 	"sca_drag_factor": 2,
-	"sca_random_factor": 0.75,
+	"sca_random_factor": 0.5,
 	"sca_branch_length": 1,
 	"sca_branch_radius": 1,
-	"sca_avoid_attempts": 4,
+	"sca_avoid_attempts": 1024,
 	
-	"growth_factor": 0.0625,
-	"turns_per_second" : 120
+	"growth_factor": 0.05,
+	"growth_tps" : 60,
+	"thirst_tps" : 30
 }

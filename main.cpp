@@ -23,7 +23,7 @@ GL::Camera guicam;
 SphericalCamera cam(Point3f(0,8,128));
 bool tumorgrowing(false);
 float irrigationRadius, growthFactor, ambientLevel;
-int turnsPerSecond;
+int growthTPS, thirstTPS;
 
 Voxel tumorGrowth(World& world, int x, int y, int z, bool& processable) {
   Voxel current(world.voxel(x,y,z));
@@ -147,7 +147,7 @@ void clearcolor(const Color& color) {
 }
 void menu() {
   Timer fadeTimer;
-  float fadeDuration(3);
+  float fadeDuration(.1f);
   bool clicked(false), fading(false);
   clearcolor(Conf::getColor("intro_background"));
   GL::Program guiProgram(GL::Shader(File("Shader/gui.vert"),GL_VERTEX_SHADER),
@@ -213,8 +213,8 @@ void game() {
     world.update();
     Wwise::update();
     cam.update(deltaTime);
-    tumorGrowthAutomaton.update((int)(deltaTime*turnsPerSecond));
-    tumorThirstAutomaton.update((int)(deltaTime*turnsPerSecond));
+    tumorGrowthAutomaton.update((int)(deltaTime*growthTPS));
+    tumorThirstAutomaton.update((int)(deltaTime*thirstTPS));
     if(tumortimer.since()>Time(0,0,5))
       tumorgrowing = false;
     if(thirsttimer.every(Time(0,0,1)))
@@ -229,7 +229,7 @@ void game() {
           if(event.type == Window::Event::LBUTTONDOWN) {
             if(!tumorgrowing && !scaworking) {
               for(int i(0); i<4; i++)
-                if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+Point2f::random()*.2f),hit,512)) {
+                if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+Point2f::random()*Rand::next(0.f,.2f)),hit,512)) {
                   world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
                   tumorGrowthAutomaton.include(hit);
                   tumorgrowing = true;
@@ -239,7 +239,7 @@ void game() {
           } else {
             if(!tumorgrowing)
               for(int i(0); i<8; i++)
-                if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+Point2f::random()*.2f),hit,512))
+                if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+Point2f::random()*Rand::next(0.f,.2f)),hit,512))
                   sca.addTarget(hit);
           }
         }
@@ -283,8 +283,8 @@ void game() {
     debugProgram.uniform("view",cam.view());
     debugProgram.uniform("projection",cam.projection());
     //GL::Utils::drawAxes();
-    tumorGrowthAutomaton.drawDebug();
-    tumorThirstAutomaton.drawDebug();
+    //tumorGrowthAutomaton.drawDebug();
+    //tumorThirstAutomaton.drawDebug();
     //world.draw();
     pp.postrender(ppProgram);
     glClear(GL_DEPTH_BUFFER_BIT); // Start drawing GUI
@@ -307,7 +307,8 @@ int main(int argc, char* argv[]) {
   irrigationRadius = Conf::getFloat("irrigation_radius");
   growthFactor = Conf::getFloat("growth_factor");
   ambientLevel = Conf::getFloat("ambient_level");
-  turnsPerSecond = Conf::getInt("turns_per_second");
+  growthTPS = Conf::getInt("growth_tps");
+  thirstTPS = Conf::getInt("thirst_tps");
   // Window initialization
   if(Conf::getBool("fullscreen"))
     Window::openFullscreen("Apoptosis");
