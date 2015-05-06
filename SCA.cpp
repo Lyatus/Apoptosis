@@ -84,7 +84,7 @@ bool SCA::update(World& world) {
   return addedBranch;
 }
 SCA::Branch* SCA::nearest(const L::Point3f& point, float maxDistance) const {
-  auto node(_branchTree.nearest(point));
+  auto node(_branchTree.nearest(point,maxDistance));
   return (node)?node->value():NULL;
 }
 float SCA::distance(const Point3f& point, float maxDistance) const {
