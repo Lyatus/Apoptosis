@@ -22,7 +22,7 @@ void SCA::Branch::addGrowth(L::Point3f direction) {
 }
 SCA::Branch SCA::Branch::next(World& world) {
   Point3f nextDirection, nextPosition, bestNextDirection, bestNextPosition;
-  float bestValue(2);
+  float bestValue;
   Voxel voxel;
   for(int i(0); i<avoidAttempts; i++) {
     nextDirection = (_direction/_growCount + Point3f::random()*randomFactor);
@@ -30,7 +30,7 @@ SCA::Branch SCA::Branch::next(World& world) {
     nextDirection *= branchLength;
     nextPosition = _position+nextDirection;
     float value(world.valueAt(nextPosition));
-    if(value<bestValue) {
+    if(!i || abs(value-.5f)<abs(bestValue-.5f)) {
       bestNextDirection = nextDirection;
       bestNextPosition = nextPosition;
       bestValue = value;
