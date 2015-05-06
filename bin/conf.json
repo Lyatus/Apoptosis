@@ -2,17 +2,17 @@
 	"fullscreen": true,
 	"width": 800, "height": 450,
 
-	"texture_path": "Image/tissue.bmp",
+	"texture_path": "Image/tissue.png",
 
 	"ambient_level": 0.5,
 	"intro_background": "#ffffff",
-	"background": "#ffffff",
-	"tumor": "#ff0000",
-	"tumor_idle": "#ffff00",
-	"tumor_thirsty": "#00ff00",
-	"tumor_thirsty_idle": "#00ffff",
-	"organ": "#444444",
-	"vessel": "#0000ff",
+	"background": "#cab7fe",
+	"tumor": "#ff0054",
+	"tumor_idle": "#ff0054",
+	"tumor_thirsty": "#e47d6e",
+	"tumor_thirsty_idle": "#e47d6e",
+	"organ": "#31328f",
+	"vessel": "#c9f502",
 
 	"irrigation_radius": 8,
 	
