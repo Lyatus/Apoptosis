@@ -13,6 +13,10 @@ String Conf::getString(const String& id) {
 Color Conf::getColor(const String& id) {
   return Color::from(getString(id));
 }
+Point3f Conf::getPoint(const String& id) {
+  List<String> components(getString(id).explode(','));
+  return Point3f(FromString<float>(components[0]),FromString<float>(components[1]),FromString<float>(components[2]));
+}
 float Conf::getFloat(const String& id) {
   return _json[id].get<float>();
 }
