@@ -32,7 +32,7 @@ void main(){
 	//normal = normalize(tangentMatrix*((2*triplanar(normalMap,overtex.xyz/32.0,onormal).xyz)-1));
 	
 	// Texture mapping
-	vec3 textureColor = triplanar(texture,overtex.xyz/128.0,normal).rgb;
+	vec4 textureColor = triplanar(texture,overtex.xyz/128.0,normal);
 	//textureColor = vec3(1.0,1.0,1.0);
 	
 	// Lighting
@@ -42,12 +42,11 @@ void main(){
 	//specular = 0;
 	
 	//
-	vec3 shadowColor = vec3(0/255,0/255,255/255);
+	vec4 shadowColor = vec4(0/255,0/255,255/255,1);
 	float chose = (diffuse*(1.0-ambientLevel)+ambientLevel)+specular;
-	gl_FragColor.rgb = textureColor*chose+shadowColor*(1-chose);
-	gl_FragColor *= color;
-	gl_FragColor.a = 1;
+	vec4 color2 = color*chose+shadowColor*(1-chose);
+	gl_FragColor = textureColor.a*textureColor + (1.0-textureColor.a)*color2;
 	
 	// Fresnel
-	//gl_FragColor += clamp(.5-abs(dot(-normal,eyeNormal)),.0,1.0);
+	gl_FragColor += clamp(.5-abs(dot(-normal,eyeNormal)),.0,1.0);
 }
