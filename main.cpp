@@ -16,15 +16,27 @@ using namespace std;
 using namespace L;
 
 World world;
-SCA sca(4,512);
+SCA sca(4,2048);
 Window::Event event;
 Ref<GUI::RelativeContainer> gui;
 GL::Camera guicam;
-SphericalCamera cam(Point3f(0,8,128));
+SphericalCamera cam(Point3f(0,-32,128));
 bool tumorgrowing(false);
+
+// GUI configuration
+float menuFadeDuration, gameFadeDuration, introDarkDuration;
+Timer fadeTimer;
+
+// Gameplay configuration
 float irrigationRadius, growthFactor, ambientLevel;
+Point3f irrigationSphereCenter;
+float irrigationSphereRadius;
 int growthTPS, thirstTPS;
 
+float irrigationValue(const Point3f& p) {
+  return std::max(Shape::fromDistance(p.dist(irrigationSphereCenter)-irrigationSphereRadius),
+                  Shape::fromDistance(sca.distance(p,irrigationRadius+1)-irrigationRadius));
+}
 Voxel tumorGrowth(World& world, int x, int y, int z, bool& processable) {
   Voxel current(world.voxel(x,y,z));
   L::byte currentType(current.type());
@@ -41,9 +53,8 @@ Voxel tumorGrowth(World& world, int x, int y, int z, bool& processable) {
             && (currentTumor || other.full()))) {
       current.value(std::min(1.f,current.value()+(Rand::nextFloat()*growthFactor)));
       if(!currentTumor) {
-        float distance(sca.distance(Point3f(x,y,z),irrigationRadius));
-        float value(Shape::fromDistance(distance-irrigationRadius));
-        bool thirsty(distance>irrigationRadius-1.f);
+        float value(irrigationValue(Point3f(x,y,z)));
+        bool thirsty(value<1.f);
         if(thirsty) {
           if(idle) current.type(Voxel::TUMOR_THIRSTY_IDLE);
           else current.type(Voxel::TUMOR_THIRSTY);
@@ -73,15 +84,14 @@ Voxel tumorGrowth(World& world, int x, int y, int z, bool& processable) {
 }
 Voxel tumorThirst(World& world, int x, int y, int z, bool& processable) {
   Voxel wtr(world.voxel(x,y,z));
-  if(!wtr.solid())
+  if(wtr.empty())
     wtr.type(Voxel::NOTHING);
   else if(wtr.type()==Voxel::TUMOR_THIRSTY_IDLE
-          && (Rand::nextFloat()<.01f || !world.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2).solid())) {
-    float value(std::max(0.f,wtr.value()-Rand::nextFloat()*growthFactor));
-    wtr.value(value);
-    float distance(sca.distance(Point3f(x,y,z),irrigationRadius+1.f));
-    if(value<=Shape::fromDistance(distance-irrigationRadius))
+          && (Rand::nextFloat()<.01f || world.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2).empty())) {
+    if(wtr.value()<=irrigationValue(Point3f(x,y,z)))
       wtr.type(Voxel::TUMOR_IDLE);
+    else
+      wtr.value(std::max(0.f,wtr.value()-Rand::nextFloat()*growthFactor));
   }
   processable = wtr.type()==Voxel::TUMOR_THIRSTY_IDLE || wtr.type()==Voxel::TUMOR_VERY_THIRSTY_IDLE;
   return wtr;
@@ -95,11 +105,12 @@ void foreachChunk(Chunk* chunk) {
         for(int z(0); z<Chunk::size; z++)
           if(chunk->voxel(x,y,z).type()==Voxel::TUMOR_THIRSTY_IDLE) {
             Point3i position(chunk->position()+Point3i(x,y,z));
-            if(sca.distance(position,irrigationRadius-.9f)>irrigationRadius-1)
+            if(irrigationValue(Point3f(x,y,z))<1.f)
               tumorThirstAutomaton.include(position);
             else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
           }
-  if(chunk->typeCount(Voxel::TUMOR))
+  if(chunk->typeCount(Voxel::TUMOR)
+      || chunk->typeCount(Voxel::TUMOR_IDLE))
     cam.addPoint(chunk->position()+Point3i(Chunk::size/2,Chunk::size/2,Chunk::size/2));
 }
 void fillObj(const char* filename, byte type) {
@@ -137,17 +148,16 @@ void mask(const Color& color) {
   glColor4f((float)color.r()/255,(float)color.g()/255,(float)color.b()/255,(float)color.a()/255);
   glBegin(GL_QUADS);
   glVertex2f(-1,-1);
-  glVertex2f(100,-1);
-  glVertex2f(100,100);
-  glVertex2f(-1,100);
+  glVertex2f(1,-1);
+  glVertex2f(1,1);
+  glVertex2f(-1,1);
   glEnd();
 }
+
 void clearcolor(const Color& color) {
   glClearColor((float)color.r()/255,(float)color.g()/255,(float)color.b()/255,(float)color.a()/255);
 }
 void menu() {
-  Timer fadeTimer;
-  float fadeDuration(.1f);
   bool clicked(false), fading(false);
   clearcolor(Conf::getColor("intro_background"));
   GL::Program guiProgram(GL::Shader(File("Shader/gui.vert"),GL_VERTEX_SHADER),
@@ -162,6 +172,7 @@ void menu() {
     else if(!fading && clicked) {
       fading = true;
       fadeTimer.setoff();
+      Wwise::postEvent("prout");
     }
     Wwise::update();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -169,19 +180,18 @@ void menu() {
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
     if(fading) {
-      float fade(fadeTimer.since().fSeconds()/fadeDuration);
-      if(fade>1.f) {
-        Wwise::postEvent("prout");
+      float since(fadeTimer.since().fSeconds());
+      float fade(std::min(1.f,since/menuFadeDuration));
+      mask(Color::from(0,0,0,fade));
+      if(since > menuFadeDuration+introDarkDuration)
         break;
-      } else {
-        mask(Color::from(0,0,0,fade));
-      }
     }
     Window::swapBuffers();
   }
   gui->clear();
 }
 void game() {
+  fadeTimer.setoff();
   Color background(Conf::getColor("background"));
   glClearColor((float)background.r()/255,(float)background.g()/255,(float)background.b()/255,1.f);
   // Cameras initialization
@@ -205,8 +215,6 @@ void game() {
   Timer timer, tumortimer, thirsttimer;
   bool scaworking(false);
   sca.addBranch(SCA::Branch(NULL,Point3f(0,0,0),Point3f(0,0,0)));
-  int automatonTurns(0);
-  bool automatonWorking(false);
   Time start(Time::now());
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
@@ -225,7 +233,7 @@ void game() {
       if(event.type == Window::Event::LBUTTONDOWN || event.type == Window::Event::RBUTTONDOWN) {
         Wwise::postEvent("click");
         Point3f hit;
-        if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
+        if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,2048)) {
           if(event.type == Window::Event::LBUTTONDOWN) {
             if(!tumorgrowing && !scaworking) {
               for(int i(0); i<4; i++)
@@ -291,6 +299,10 @@ void game() {
     guiProgram.use();
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
+    // Fade
+    float since(fadeTimer.since().fSeconds());
+    float fade(std::min(1.f,since/gameFadeDuration));
+    mask(Color::from(0,0,0,1.f-fade));
     Window::swapBuffers();
   }
 }
@@ -304,9 +316,14 @@ int main(int argc, char* argv[]) {
   Conf::open("conf.json");
   Voxel::configure();
   SCA::configure();
+  menuFadeDuration = Conf::getFloat("menu_fade_duration");
+  introDarkDuration = Conf::getFloat("intro_dark_duration");
+  gameFadeDuration = Conf::getFloat("game_fade_duration");
   irrigationRadius = Conf::getFloat("irrigation_radius");
   growthFactor = Conf::getFloat("growth_factor");
   ambientLevel = Conf::getFloat("ambient_level");
+  irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
+  irrigationSphereRadius = Conf::getFloat("irrigation_sphere_radius");
   growthTPS = Conf::getInt("growth_tps");
   thirstTPS = Conf::getInt("thirst_tps");
   // Window initialization

@@ -1,6 +1,12 @@
 {
 	"fullscreen": true,
 	"width": 800, "height": 450,
+	
+	"menu_fade_duration": 0.1,
+	"intro_dark_duration": 0.1,
+	"game_fade_duration": 0.1,
+	"irrigation_sphere_center": "0,-32,100",
+	"irrigation_sphere_radius": 8,
 
 	"texture_path": "Image/tissue.png",
 
