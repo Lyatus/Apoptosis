@@ -349,8 +349,7 @@ int main(int argc, char* argv[]) {
   if(file.exists())
     world.read(file.open("rb"));
   else {
-    fillObj("Model/intestine.obj",Voxel::ORGAN);
-    //fillTerrain(Interval3i(Point3i(-128,1,-128),Point3i(128,8,128)));
+    fillObj(Conf::getString("model_path").c_str(),Voxel::ORGAN);
     world.write(file.open("wb"));
   }
   file.close();

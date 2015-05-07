@@ -9,6 +9,7 @@
 	"irrigation_sphere_radius": 8,
 
 	"texture_path": "Image/tissue.png",
+	"model_path": "Model/intestine.obj",
 
 	"ambient_level": 0.5,
 	"intro_background": "#ffffff",
