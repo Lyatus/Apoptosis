@@ -20,9 +20,9 @@ void SphericalCamera::update(float deltaTime) {
     phiPosition(2*deltaTime);
   if(Window::isPressed(Window::Event::RIGHT))
     phiPosition(-2*deltaTime);
-  if(Window::isPressed(Window::Event::UP))
+  if(forward().dot(Point3f(0,1,0))<.99f && Window::isPressed(Window::Event::UP))
     thetaPosition(2*deltaTime);
-  if(Window::isPressed(Window::Event::DOWN))
+  if(forward().dot(Point3f(0,1,0))>-.99f && Window::isPressed(Window::Event::DOWN))
     thetaPosition(-2*deltaTime);
 }
 void SphericalCamera::event(const L::Window::Event& e) {
