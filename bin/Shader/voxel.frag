@@ -4,6 +4,8 @@ uniform float ambientLevel;
 uniform vec3 eye;
 uniform sampler2D texture;
 uniform sampler2D normalMap;
+uniform vec3 sphereCenter;
+uniform float sphereRadius;
 
 varying vec4 overtex; // Original vertex
 varying vec4 vertex; // Vertex modified by wobbling
@@ -49,4 +51,7 @@ void main(){
 	
 	// Fresnel
 	gl_FragColor += clamp(.5-abs(dot(-normal,eyeNormal)),.0,1.0);
+	
+	// Sphere clipping
+	gl_FragColor.a = min(8,max(0,sphereRadius-distance(vertex.xyz,sphereCenter)))/8;
 }

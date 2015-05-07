@@ -190,6 +190,18 @@ void menu() {
   }
   gui->clear();
 }
+List<Point3f> burst(float screenRadius, float worldRadius, int count) {
+  List<Point3f> wtr;
+  Point3f center;
+  if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),center,512)) {
+    Point3f hit;
+    for(int i(0); i<count; i++)
+      if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+Point2f::random()*Rand::next(0.f,screenRadius)),hit,512)
+          && hit.dist(center)<worldRadius)
+        wtr.push_back(hit);
+  }
+  return wtr;
+}
 void game() {
   fadeTimer.setoff();
   Color background(Conf::getColor("background"));
@@ -232,24 +244,19 @@ void game() {
       if(gui->event(event)) continue;
       if(event.type == Window::Event::LBUTTONDOWN || event.type == Window::Event::RBUTTONDOWN) {
         Wwise::postEvent("click");
-        Point3f hit;
-        if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,2048)) {
-          if(event.type == Window::Event::LBUTTONDOWN) {
-            if(!tumorgrowing && !scaworking) {
-              for(int i(0); i<4; i++)
-                if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+Point2f::random()*Rand::next(0.f,.2f)),hit,512)) {
-                  world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
-                  tumorGrowthAutomaton.include(hit);
-                  tumorgrowing = true;
-                  tumortimer.setoff();
-                }
+        if(event.type == Window::Event::LBUTTONDOWN) {
+          if(!tumorgrowing && !scaworking) {
+            for(auto&& hit : burst(.1f,32,4)) {
+              world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
+              tumorGrowthAutomaton.include(hit);
+              tumorgrowing = true;
+              tumortimer.setoff();
             }
-          } else {
-            if(!tumorgrowing)
-              for(int i(0); i<8; i++)
-                if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+Point2f::random()*Rand::next(0.f,.2f)),hit,512))
-                  sca.addTarget(hit);
           }
+        } else {
+          if(!tumorgrowing)
+            for(auto&& hit : burst(.2f,32,8))
+              sca.addTarget(hit);
         }
       }
       cam.event(event);
@@ -286,6 +293,8 @@ void game() {
     voxelProgram.uniform("projection",cam.projection());
     voxelProgram.uniform("texture",voxelTexture,GL_TEXTURE0);
     voxelProgram.uniform("eye",cam.position());
+    voxelProgram.uniform("sphereCenter",cam.center());
+    voxelProgram.uniform("sphereRadius",cam.radius()*1.25f);
     world.draw(cam);
     debugProgram.use(); // Draw debug
     debugProgram.uniform("view",cam.view());
