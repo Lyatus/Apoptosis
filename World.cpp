@@ -90,7 +90,7 @@ bool World::raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, flo
 bool World::spherecast(L::Point3f center, float radius) {
   for(int i(0); i<6; i++) {
     Point3f tmp(center);
-    tmp[i] += ((i<3)?radius:-radius);
+    tmp[i%3] += ((i<3)?radius:-radius);
     if(voxel(tmp.x(),tmp.y(),tmp.z()).solid())
       return true;
   }
