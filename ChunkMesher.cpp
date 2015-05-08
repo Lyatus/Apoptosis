@@ -5,7 +5,7 @@
 using namespace L;
 using namespace GL;
 
-L::byte ChunkMesher::meshes[256][5*3] = {{0}};
+L::byte ChunkMesher::meshes[256][15] = {{0}};
 
 L::byte rotateCornersX[] = {4,5,0,1,6,7,2,3};
 L::byte rotateCornersY[] = {1,5,3,7,0,4,2,6};
@@ -22,13 +22,10 @@ void permutate(T array[n], L::byte indices[]) {
   for(int i(0); i<n; i++)
     array[i] = tmp[i];
 }
-template<class T, int n>
+template<class T>
 void reverse(T* array, int size) {
-  T tmp[n];
-  for(int i(0); i<size; i++)
-    tmp[i] = array[(size-i)-1];
-  for(int i(0); i<size; i++)
-    array[i] = tmp[i];
+  for(int i(0); i<size/2; i++)
+    swap(array[i],array[(size-i)-1]);
 }
 template<class T, int n>
 void change(T array[n], T changes[]) {
@@ -51,8 +48,8 @@ L::byte getIndex(Voxel cell[8]) {
 }
 void reverseMesh(L::byte mesh[15]) {
   int end(0);
-  while(mesh[end]!=0xFF) end++;
-  reverse<L::byte,15>(mesh,end);
+  while(end<15 && mesh[end]!=0xFF) end++;
+  reverse<L::byte>(mesh,end);
 }
 void ChunkMesher::generateCase(bool cell[8],L::byte mesh[15], bool complementary) {
   for(int x(0); x<4; x++) {
@@ -79,12 +76,12 @@ void ChunkMesher::generateCase(bool cell[8],L::byte mesh[15], bool complementary
 }
 uint ChunkMesher::vertex(const Point3i& offset, int x, int y, int z, L::byte edge, Voxel cell[8]) {
   uint wtr;
-  int indexEdge = edge;
-  int indexX = x;
-  int indexY = y;
-  int indexZ = z;
-  int size = Chunk::size;
-  int sizePlus = size+1;
+  int indexEdge(edge);
+  int indexX(x);
+  int indexY(y);
+  int indexZ(z);
+  static const int size(Chunk::size);
+  static const int sizePlus(size+1);
   switch(edge) { // Avoid doubles
     case backBottom:
       indexEdge = 0;
@@ -135,10 +132,9 @@ uint ChunkMesher::vertex(const Point3i& offset, int x, int y, int z, L::byte edg
       indexY++;
       break;
   }
-  int index = 3*((indexX * sizePlus * sizePlus) + (indexY * sizePlus) + indexZ)+indexEdge;
+  int index(3*((indexX * sizePlus * sizePlus) + (indexY * sizePlus) + indexZ)+indexEdge);
   if(_edgeVertices[index]<0) {
     Point3f vertex((float)x,(float)y,(float)z);
-    color(edge,cell);
     switch(edge) {
       case backBottom:
         vertex.x() += edgeValue(cell[bbl],cell[bbr]);
@@ -191,16 +187,14 @@ uint ChunkMesher::vertex(const Point3i& offset, int x, int y, int z, L::byte edg
     }
     vertex += offset;
     _meshBuilder.setVertex(vertex);
-    wtr = _meshBuilder.addVertex();
-    _edgeVertices[index] = wtr;
+    _meshBuilder.setVertexColor(color(edge,cell));
+    wtr = _edgeVertices[index] = _meshBuilder.addVertex();
   } else wtr = _edgeVertices[index];
   return wtr;
 }
-void ChunkMesher::color(L::byte edge, Voxel cell[8]) {
-  Color c;
+Color ChunkMesher::color(L::byte edge, Voxel cell[8]) {
   switch(edge) {
-      //#define TMP(e,c1,c2) case e: c = Color::lerp(cell[c1].color(),cell[c2].color(),1.f-edgeValue(cell[c1],cell[c2])); break;
-#define TMP(e,c1,c2) case e: c = (cell[c1].solid())?cell[c1].color():cell[c2].color(); break;
+#define TMP(e,c1,c2) case e: return (cell[c1].solid())?cell[c1].color():cell[c2].color();
       TMP(backBottom,bbl,bbr)
       TMP(backTop,btl,btr)
       TMP(backLeft,bbl,btl)
@@ -215,10 +209,8 @@ void ChunkMesher::color(L::byte edge, Voxel cell[8]) {
       TMP(topRight,btr,ftr)
 #undef TMP
     default:
-      c = Color::white;
-      break;
+      return Color::white;
   }
-  _meshBuilder.setVertexColor(c);
 }
 float ChunkMesher::edgeValue(Voxel v1, Voxel v2) {
   return (v1.value()-.5f)/(v1.value()-v2.value());
