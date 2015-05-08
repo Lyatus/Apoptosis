@@ -20,7 +20,7 @@ SCA sca(4,2048);
 Window::Event event;
 Ref<GUI::RelativeContainer> gui;
 GL::Camera guicam;
-SphericalCamera cam(Point3f(0,-32,128));
+SphericalCamera cam;
 bool tumorgrowing(false);
 
 // GUI configuration
@@ -135,13 +135,6 @@ void fillTerrain(const Interval3i& interval) {
     world.updateVoxel(i.x(),i.y(),i.z(),Voxel(value,Voxel::ORGAN),Voxel::max);
   }
 }
-bool setfalse(GUI::ActionListener* al, Dynamic::Var& v, GUI::Event e) {
-  if(e.type == GUI::Event::leftClick) {
-    *v.as<bool*>() = true;
-    return true;
-  }
-  return false;
-}
 void mask(const Color& color) {
   glClear(GL_DEPTH_BUFFER_BIT);
   GL::Program::unuse();
@@ -162,8 +155,13 @@ void menu() {
   clearcolor(Conf::getColor("intro_background"));
   GL::Program guiProgram(GL::Shader(File("Shader/gui.vert"),GL_VERTEX_SHADER),
                          GL::Shader(File("Shader/gui.frag"),GL_FRAGMENT_SHADER));
-  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/chat.png")),setfalse,&clicked),Point2i(0,0),GUI::CC,GUI::CC);
-  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/noise.jpg")),setfalse,&clicked),Point2i(0,0),GUI::CC,GUI::CC);
+  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/chat.png")),[](GUI::ActionListener* al, Dynamic::Var& v, GUI::Event e) {
+    if(e.type == GUI::Event::leftClick) {
+      *v.as<bool*>() = true;
+      return true;
+    }
+    return false;
+  },&clicked),Point2i(0,0),GUI::CC,GUI::CC);
   while(Window::loop()) {
     while(Window::newEvent(event))
       gui->event(event);
@@ -204,8 +202,7 @@ List<Point3f> burst(float screenRadius, float worldRadius, int count) {
 }
 void game() {
   fadeTimer.setoff();
-  Color background(Conf::getColor("background"));
-  glClearColor((float)background.r()/255,(float)background.g()/255,(float)background.b()/255,1.f);
+  clearcolor(Conf::getColor("background"));
   // Cameras initialization
   cam.perspective(60,Window::aspect(),.1f,512);
   // Light initialization
@@ -214,6 +211,8 @@ void game() {
   // Programs initialization
   GL::Program voxelProgram(GL::Shader(File("Shader/voxel.vert"),GL_VERTEX_SHADER),
                            GL::Shader(File("Shader/voxel.frag"),GL_FRAGMENT_SHADER));
+  GL::Program polyProgram(GL::Shader(File("Shader/poly.vert"),GL_VERTEX_SHADER),
+                          GL::Shader(File("Shader/poly.frag"),GL_FRAGMENT_SHADER));
   GL::Program debugProgram(GL::Shader(File("Shader/debug.vert"),GL_VERTEX_SHADER),
                            GL::Shader(File("Shader/debug.frag"),GL_FRAGMENT_SHADER));
   GL::Program guiProgram(GL::Shader(File("Shader/gui.vert"),GL_VERTEX_SHADER),
@@ -223,7 +222,8 @@ void game() {
   GL::PostProcess pp(Window::width(),Window::height());
   // Textures fetching
   GL::Texture voxelTexture(Image::Bitmap(Conf::getString("texture_path")));
-  // World initialization
+  // Model fetching
+  GL::Mesh skeleton(Conf::getString("poly_model_path"));
   Timer timer, tumortimer, thirsttimer;
   bool scaworking(false);
   sca.addBranch(SCA::Branch(NULL,Point3f(0,0,0),Point3f(0,0,0)));
@@ -263,24 +263,6 @@ void game() {
     }
     if(Window::isPressed(Window::Event::ESCAPE))
       break;
-    /*
-    if(Window::isPressed(Window::Event::SHIFT))
-      cam.move(Point3f(0,24*deltaTime,0));
-    if(Window::isPressed(Window::Event::CTRL))
-      cam.move(Point3f(0,-24*deltaTime,0));
-    if(Window::isPressed(Window::Event::UP))
-      cam.move(Point3f(0,0,24*deltaTime));
-    if(Window::isPressed(Window::Event::DOWN))
-      cam.move(Point3f(0,0,-24*deltaTime));
-    if(Window::isPressed(Window::Event::LEFT))
-      cam.phi(2*deltaTime);
-    if(Window::isPressed(Window::Event::RIGHT))
-      cam.phi(-2*deltaTime);
-    if(Window::isPressed(Window::Event::Z))
-      cam.theta(2*deltaTime);
-    if(Window::isPressed(Window::Event::S))
-      cam.theta(-2*deltaTime);
-    */
     pp.prerender();
     glMatrixMode(GL_MODELVIEW); // Reset matrix
     glLoadIdentity();
@@ -296,6 +278,14 @@ void game() {
     voxelProgram.uniform("sphereCenter",cam.center());
     voxelProgram.uniform("sphereRadius",cam.radius()*1.25f);
     world.draw(cam);
+    polyProgram.use(); // Draw voxels
+    polyProgram.uniform("ambientLevel",ambientLevel);
+    polyProgram.uniform("view",cam.view());
+    polyProgram.uniform("projection",cam.projection());
+    polyProgram.uniform("eye",cam.position());
+    polyProgram.uniform("sphereCenter",cam.center());
+    polyProgram.uniform("sphereRadius",cam.radius()*1.25f);
+    skeleton.draw();
     debugProgram.use(); // Draw debug
     debugProgram.uniform("view",cam.view());
     debugProgram.uniform("projection",cam.projection());
@@ -333,6 +323,7 @@ int main(int argc, char* argv[]) {
   ambientLevel = Conf::getFloat("ambient_level");
   irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
   irrigationSphereRadius = Conf::getFloat("irrigation_sphere_radius");
+  cam.reset(irrigationSphereCenter);
   growthTPS = Conf::getInt("growth_tps");
   thirstTPS = Conf::getInt("thirst_tps");
   // Window initialization

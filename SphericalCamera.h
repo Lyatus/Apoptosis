@@ -10,7 +10,7 @@ class SphericalCamera : public L::GL::Camera {
     float _radius;
 
   public:
-    SphericalCamera(const L::Point3f&);
+    void reset(const L::Point3f&);
     void addPoint(const L::Point3f&);
     void update(float deltaTime);
     void event(const L::Window::Event&);

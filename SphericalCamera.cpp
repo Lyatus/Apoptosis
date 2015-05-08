@@ -2,7 +2,11 @@
 
 using namespace L;
 
-SphericalCamera::SphericalCamera(const L::Point3f& center) : GL::Camera(center+Point3f(0,0,1),center), _center(center), _centerTarget(center), _radius(1) {
+void SphericalCamera::reset(const L::Point3f& point) {
+  _interval.clear();
+  addPoint(point-Point3f(8,8,8));
+  addPoint(point+Point3f(8,8,8));
+  position(point+Point3f(0,0,32));
 }
 void SphericalCamera::addPoint(const L::Point3f& point) {
   _interval.add(point);
