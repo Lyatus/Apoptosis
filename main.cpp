@@ -21,14 +21,14 @@ Window::Event event;
 Ref<GUI::RelativeContainer> gui;
 GL::Camera guicam;
 SphericalCamera cam;
-bool tumorgrowing(false);
+bool tumorgrowing(false), tumorthirsting(false);
 
 // GUI configuration
 float menuFadeDuration, gameFadeDuration, introDarkDuration;
 Timer fadeTimer;
 
 // Gameplay configuration
-float irrigationRadius, growthFactor, ambientLevel;
+float irrigationRadius, growthFactor, thirstFactor, ambientLevel;
 Point3f irrigationSphereCenter;
 float irrigationSphereRadius;
 int growthTPS, thirstTPS;
@@ -99,15 +99,16 @@ Voxel tumorThirst(World& world, int x, int y, int z, bool& processable) {
 Automaton tumorGrowthAutomaton(world,tumorGrowth), tumorThirstAutomaton(world,tumorThirst);
 
 void foreachChunk(Chunk* chunk) {
-  if(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()>.9f)
+  if(!tumorthirsting && chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<thirstFactor)
     for(int x(0); x<Chunk::size; x++)
       for(int y(0); y<Chunk::size; y++)
         for(int z(0); z<Chunk::size; z++)
           if(chunk->voxel(x,y,z).type()==Voxel::TUMOR_THIRSTY_IDLE) {
             Point3i position(chunk->position()+Point3i(x,y,z));
-            if(irrigationValue(Point3f(x,y,z))<1.f)
+            if(irrigationValue(Point3f(x,y,z))<1.f) {
               tumorThirstAutomaton.include(position);
-            else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
+              tumorthirsting = true;
+            } else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
           }
   if(chunk->typeCount(Voxel::TUMOR)
       || chunk->typeCount(Voxel::TUMOR_IDLE))
@@ -207,7 +208,7 @@ void game() {
   cam.perspective(60,Window::aspect(),.1f,512);
   // Light initialization
   GL::Light light;
-  light.position(1,1,1,0);
+  light.position(-1,1,-1,0);
   // Programs initialization
   GL::Program voxelProgram(GL::Shader(File("Shader/voxel.vert"),GL_VERTEX_SHADER),
                            GL::Shader(File("Shader/voxel.frag"),GL_FRAGMENT_SHADER));
@@ -222,19 +223,19 @@ void game() {
   GL::PostProcess pp(Window::width(),Window::height());
   // Textures fetching
   GL::Texture voxelTexture(Image::Bitmap(Conf::getString("texture_path")));
-  // Model fetching
-  GL::Mesh skeleton(Conf::getString("poly_model_path"));
   Timer timer, tumortimer, thirsttimer;
   bool scaworking(false);
-  sca.addBranch(SCA::Branch(NULL,Point3f(0,0,0),Point3f(0,0,0)));
+  sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
   Time start(Time::now());
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
     world.update();
     Wwise::update();
-    cam.update(deltaTime);
+    cam.update(world,deltaTime);
     tumorGrowthAutomaton.update((int)(deltaTime*growthTPS));
     tumorThirstAutomaton.update((int)(deltaTime*thirstTPS));
+    if(tumorThirstAutomaton.size()==0)
+      tumorthirsting = false;
     if(tumortimer.since()>Time(0,0,5))
       tumorgrowing = false;
     if(thirsttimer.every(Time(0,0,1)))
@@ -276,16 +277,8 @@ void game() {
     voxelProgram.uniform("texture",voxelTexture,GL_TEXTURE0);
     voxelProgram.uniform("eye",cam.position());
     voxelProgram.uniform("sphereCenter",cam.center());
-    voxelProgram.uniform("sphereRadius",cam.radius()*1.25f);
+    voxelProgram.uniform("sphereRadius",cam.radius()*1.2f);
     world.draw(cam);
-    polyProgram.use(); // Draw voxels
-    polyProgram.uniform("ambientLevel",ambientLevel);
-    polyProgram.uniform("view",cam.view());
-    polyProgram.uniform("projection",cam.projection());
-    polyProgram.uniform("eye",cam.position());
-    polyProgram.uniform("sphereCenter",cam.center());
-    polyProgram.uniform("sphereRadius",cam.radius()*1.25f);
-    skeleton.draw();
     debugProgram.use(); // Draw debug
     debugProgram.uniform("view",cam.view());
     debugProgram.uniform("projection",cam.projection());
@@ -320,6 +313,7 @@ int main(int argc, char* argv[]) {
   gameFadeDuration = Conf::getFloat("game_fade_duration");
   irrigationRadius = Conf::getFloat("irrigation_radius");
   growthFactor = Conf::getFloat("growth_factor");
+  thirstFactor = Conf::getFloat("thirst_factor");
   ambientLevel = Conf::getFloat("ambient_level");
   irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
   irrigationSphereRadius = Conf::getFloat("irrigation_sphere_radius");

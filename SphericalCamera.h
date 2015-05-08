@@ -2,6 +2,7 @@
 #define DEF_Cancer_SphericalCamera
 
 #include <L/L.h>
+#include "World.h"
 
 class SphericalCamera : public L::GL::Camera {
   private:
@@ -12,7 +13,7 @@ class SphericalCamera : public L::GL::Camera {
   public:
     void reset(const L::Point3f&);
     void addPoint(const L::Point3f&);
-    void update(float deltaTime);
+    void update(World&, float deltaTime);
     void event(const L::Window::Event&);
 
     inline const L::Point3f& center() const {return _center;}

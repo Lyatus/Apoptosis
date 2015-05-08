@@ -5,12 +5,11 @@
 	"menu_fade_duration": 0.1,
 	"intro_dark_duration": 0.1,
 	"game_fade_duration": 0.1,
-	"irrigation_sphere_center": "0,32,-16",
+	"irrigation_sphere_center": "0,64,170",
 	"irrigation_sphere_radius": 16,
 
 	"texture_path": "Image/tissue.png",
 	"model_path": "Model/organ.obj",
-	"poly_model_path": "Model/skeleton.obj",
 
 	"ambient_level": 0.5,
 	"intro_background": "#ffffff",
@@ -31,6 +30,7 @@
 	"sca_avoid_attempts": 1024,
 	
 	"growth_factor": 0.05,
+	"thirst_factor": 0.8,
 	"growth_tps" : 100,
 	"thirst_tps" : 60
 }

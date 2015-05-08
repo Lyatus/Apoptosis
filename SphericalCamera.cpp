@@ -6,14 +6,15 @@ void SphericalCamera::reset(const L::Point3f& point) {
   _interval.clear();
   addPoint(point-Point3f(8,8,8));
   addPoint(point+Point3f(8,8,8));
-  position(point+Point3f(0,0,32));
+  position(point+Point3f(0,0,-32));
 }
 void SphericalCamera::addPoint(const L::Point3f& point) {
   _interval.add(point);
   _centerTarget = _interval.center();
   _radius = _interval.size().norm();
 }
-void SphericalCamera::update(float deltaTime) {
+void SphericalCamera::update(World& world, float deltaTime) {
+  Point3f oldPosition(position());
   if(!_interval.empty()) {
     _center += ((_centerTarget-_center)/1.1)*deltaTime;
     lookat(_center);
@@ -28,6 +29,12 @@ void SphericalCamera::update(float deltaTime) {
     thetaPosition(2*deltaTime);
   if(forward().dot(Point3f(0,1,0))>-.99f && Window::isPressed(Window::Event::DOWN))
     thetaPosition(-2*deltaTime);
+  float attenuation(1);
+  if(world.spherecast(position(),4))
+    attenuation = 0;
+  else if(world.spherecast(position(),8))
+    attenuation = .5f;
+  position(position()*attenuation+oldPosition*(1-attenuation));
 }
 void SphericalCamera::event(const L::Window::Event& e) {
 }
