@@ -35,6 +35,8 @@ float irrigationSphereRadius;
 int growthTPS, thirstTPS;
 int tumorIdleCount, tumorThirstyIdleCount;
 
+Dynamic::Var outjson;
+
 float irrigationValue(const Point3f& p) {
   return std::max(Shape::fromDistance(p.dist(irrigationSphereCenter)-irrigationSphereRadius),
                   Shape::fromDistance(sca.distance(p,irrigationRadius+1)-irrigationRadius));
@@ -256,6 +258,7 @@ void game() {
       text->sText("tumor: "+ToString(tumorIdleCount)+"\n"
                   "thirsty: "+ToString(tumorThirstyIdleCount)+"\n"
                   "time: "+Time::format("%M:%S",Time::now()-start)+"\n");
+      outjson.get<Dynamic::Array>()((float)tumorIdleCount);
     }
     scaworking = sca.update(world);
     while(Window::newEvent(event)) {
@@ -371,6 +374,7 @@ int main(int argc, char* argv[]) {
   menu();
   game();
   // Terminate
+  Interface<Dynamic::Var>::toFile(outjson,"out.json");
   Wwise::term();
   return 0;
 }
