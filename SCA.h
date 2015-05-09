@@ -15,7 +15,7 @@ class SCA {
       public:
         Branch(Branch*,const L::Point3f&,const L::Point3f&);
         void reset();
-        void addGrowth(L::Point3f);
+        void addGrowth(const L::Point3f&);
         Branch next(World&);
         inline const L::Point3f& position() const {return _position;}
         inline const L::Point3f& originalDirection() const {return _originalDirection;}

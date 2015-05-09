@@ -15,7 +15,8 @@ void SCA::Branch::reset() {
   _direction = _originalDirection*dragFactor;
   _growCount = 0;
 }
-void SCA::Branch::addGrowth(L::Point3f direction) {
+void SCA::Branch::addGrowth(const L::Point3f& target) {
+  Point3f direction(target-_position);
   direction.normalize();
   _direction += direction;
   _growCount++;
@@ -62,10 +63,10 @@ bool SCA::update(World& world) {
     Branch* nearestBranch(nearest(target,_maxDist));
     if(nearestBranch) {
       float nearestDistance(target.dist(nearestBranch->position()));
-      if(nearestDistance<_minDist) // A branch is close enough to erase the target
+      if(nearestDistance<=_minDist || Rand::nextFloat()<.01f) // A branch is close enough to erase the target
         _targets.erase(_targets.begin()+i--);
       else // A branch is close enough to be affected by the target
-        nearestBranch->addGrowth(target-nearestBranch->position());
+        nearestBranch->addGrowth(target);
     }
   }
   for(int i(0); i<_branches.size(); i++) { // Add new branches
