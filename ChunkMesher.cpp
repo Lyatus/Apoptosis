@@ -331,7 +331,7 @@ ChunkMesher::ChunkMesher() {
 
 void ChunkMesher::build(Chunk& chunk) {
   memset(_edgeVertices,~0,sizeof(_edgeVertices));
-  _meshBuilder.reset(GL::Mesh::VERTEX|GL::Mesh::COLOR|GL::Mesh::NORMAL,65536,65536);
+  _meshBuilder.reset(GL::Mesh::VERTEX|GL::Mesh::COLOR|GL::Mesh::NORMAL,262144,262144);
   Point3i offset(chunk.position());
   for(int x(0); x<Chunk::size; x++)
     for(int y(0); y<Chunk::size; y++)
@@ -347,7 +347,7 @@ void ChunkMesher::build(Chunk& chunk) {
                         };
         const L::byte* mesh(meshes[getIndex(cell)]);
         if(mesh[0]!=mesh[1])
-          for(int i(0); mesh[i]!=0xFF && i<15; i+=3)
+          for(int i(0); i<15 && mesh[i]!=0xFF; i+=3)
             _meshBuilder.addTriangle(vertex(offset,x,y,z,mesh[i],cell),
                                      vertex(offset,x,y,z,mesh[i+2],cell),
                                      vertex(offset,x,y,z,mesh[i+1],cell));
