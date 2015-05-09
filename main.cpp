@@ -26,12 +26,14 @@ bool tumorgrowing(false), tumorthirsting(false);
 // GUI configuration
 float menuFadeDuration, gameFadeDuration, introDarkDuration;
 Timer fadeTimer;
+Time start;
 
 // Gameplay configuration
 float irrigationRadius, growthFactor, thirstFactor, ambientLevel;
 Point3f irrigationSphereCenter;
 float irrigationSphereRadius;
 int growthTPS, thirstTPS;
+int tumorIdleCount, tumorThirstyIdleCount;
 
 float irrigationValue(const Point3f& p) {
   return std::max(Shape::fromDistance(p.dist(irrigationSphereCenter)-irrigationSphereRadius),
@@ -99,6 +101,8 @@ Voxel tumorThirst(World& world, int x, int y, int z, bool& processable) {
 Automaton tumorGrowthAutomaton(world,tumorGrowth), tumorThirstAutomaton(world,tumorThirst);
 
 void foreachChunk(Chunk* chunk) {
+  tumorIdleCount += chunk->typeCount(Voxel::TUMOR_IDLE);
+  tumorThirstyIdleCount += chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE);
   if(!tumorthirsting && chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<thirstFactor)
     for(int x(0); x<Chunk::size; x++)
       for(int y(0); y<Chunk::size; y++)
@@ -172,6 +176,7 @@ void menu() {
       fading = true;
       fadeTimer.setoff();
       Wwise::postEvent("prout");
+      start = Time::now();
     }
     Wwise::update();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -189,13 +194,14 @@ void menu() {
   }
   gui->clear();
 }
-List<Point3f> burst(float screenRadius, float worldRadius, int count) {
+List<Point3f> burst(float pixelRadius, float worldRadius, int count) {
   List<Point3f> wtr;
   Point3f center;
+  Point2f pixelToNormalized(1.f/Window::width(),1.f/Window::height());
   if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),center,512)) {
     Point3f hit;
     for(int i(0); i<count; i++)
-      if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+Point2f::random()*Rand::next(0.f,screenRadius)),hit,512)
+      if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+pixelToNormalized*Point2f::random()*Rand::next(0.f,pixelRadius)),hit,512)
           && hit.dist(center)<worldRadius)
         wtr.push_back(hit);
   }
@@ -223,10 +229,16 @@ void game() {
   GL::PostProcess pp(Window::width(),Window::height());
   // Textures fetching
   GL::Texture voxelTexture(Image::Bitmap(Conf::getString("texture_path")));
+  // GUI initizaliation
+  GUI::Text* text(new GUI::Text());
+  gui->place(text,Point2i(0,0),GUI::TL,GUI::TL);
   Timer timer, tumortimer, thirsttimer;
   bool scaworking(false);
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
-  Time start(Time::now());
+  world.voxelSphere(irrigationSphereCenter,2,Voxel::TUMOR_START,Voxel::max);
+  tumorGrowthAutomaton.include(irrigationSphereCenter);
+  tumorgrowing = true;
+  tumortimer.setoff();
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
     world.update();
@@ -238,8 +250,13 @@ void game() {
       tumorthirsting = false;
     if(tumortimer.since()>Time(0,0,5))
       tumorgrowing = false;
-    if(thirsttimer.every(Time(0,0,1)))
+    if(thirsttimer.every(Time(0,0,1))) {
+      tumorIdleCount = tumorThirstyIdleCount = 0;
       world.foreachChunk(foreachChunk);
+      text->sText("tumor: "+ToString(tumorIdleCount)+"\n"
+                  "thirsty: "+ToString(tumorThirstyIdleCount)+"\n"
+                  "time: "+Time::format("%M:%S",Time::now()-start)+"\n");
+    }
     scaworking = sca.update(world);
     while(Window::newEvent(event)) {
       if(gui->event(event)) continue;
@@ -247,17 +264,19 @@ void game() {
         Wwise::postEvent("click");
         if(event.type == Window::Event::LBUTTONDOWN) {
           if(!tumorgrowing && !scaworking) {
-            for(auto&& hit : burst(.1f,32,4)) {
-              world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
-              tumorGrowthAutomaton.include(hit);
-              tumorgrowing = true;
-              tumortimer.setoff();
-            }
+            for(auto&& hit : burst(0,32,1))
+              if(world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE) {
+                world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
+                tumorGrowthAutomaton.include(hit);
+                tumorgrowing = true;
+                tumortimer.setoff();
+              }
           }
         } else {
           if(!tumorgrowing)
-            for(auto&& hit : burst(.2f,32,8))
-              sca.addTarget(hit);
+            for(auto&& hit : burst(0,32,1))
+              if(world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_THIRSTY_IDLE)
+                sca.addTarget(hit);
         }
       }
       cam.event(event);
@@ -303,7 +322,7 @@ int main(int argc, char* argv[]) {
   new STB();
   new OBJ();
   new JSON();
-  Font::set(new FTFont("Arial.ttf",128));
+  Font::set(new FTFont("Arial.ttf",16));
   // Configuration fetching
   Conf::open("conf.json");
   Voxel::configure();

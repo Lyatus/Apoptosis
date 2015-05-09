@@ -5,8 +5,8 @@
 	"menu_fade_duration": 0.1,
 	"intro_dark_duration": 0.1,
 	"game_fade_duration": 0.1,
-	"irrigation_sphere_center": "0,64,170",
-	"irrigation_sphere_radius": 16,
+	"irrigation_sphere_center": "0,64,180",
+	"irrigation_sphere_radius": 32,
 
 	"texture_path": "Image/tissue.png",
 	"model_path": "Model/organ.obj",
@@ -21,7 +21,7 @@
 	"organ": "#31328f",
 	"vessel": "#c9f502",
 
-	"irrigation_radius": 8,
+	"irrigation_radius": 6.5,
 	
 	"sca_drag_factor": 2,
 	"sca_random_factor": 0.5,
@@ -29,8 +29,8 @@
 	"sca_branch_radius": 1,
 	"sca_avoid_attempts": 1024,
 	
-	"growth_factor": 0.05,
-	"thirst_factor": 0.8,
-	"growth_tps" : 100,
-	"thirst_tps" : 60
+	"growth_factor": 0.06,
+	"thirst_factor": 0.3,
+	"growth_tps" : 150,
+	"thirst_tps" : 110
 }
