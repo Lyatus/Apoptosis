@@ -264,7 +264,7 @@ void game() {
         Wwise::postEvent("click");
         if(event.type == Window::Event::LBUTTONDOWN) {
           if(!tumorgrowing && !scaworking) {
-            for(auto&& hit : burst(0,32,1))
+            for(auto&& hit : burst(32*tumorIdleCount/10000,32,1+tumorIdleCount/10000))
               if(world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE) {
                 world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
                 tumorGrowthAutomaton.include(hit);
