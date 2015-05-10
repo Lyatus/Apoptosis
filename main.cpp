@@ -35,7 +35,7 @@ float irrigationSphereRadius;
 int growthTPS, thirstTPS, chemoTPS;
 int tumorIdleCount, tumorThirstyIdleCount;
 
-Dynamic::Var outjson;
+Dynamic::Var outjson("SURPRISE MOTHERFUCKER");
 
 float irrigationValue(const Point3f& p) {
   return std::max(Shape::fromDistance(p.dist(irrigationSphereCenter)-irrigationSphereRadius),
@@ -102,7 +102,11 @@ Voxel tumorThirst(World& world, int x, int y, int z, bool& processable) {
 }
 Voxel chemo(World& world, int x, int y, int z, bool& processable) {
   Voxel wtr(world.voxel(x,y,z));
-  processable = false;
+  if(wtr.empty())
+    wtr.type(Voxel::NOTHING);
+  else if(wtr.type()==Voxel::TUMOR_IDLE && world.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2).empty())
+    wtr.value(std::max(0.f,wtr.value()-Rand::nextFloat()*chemoFactor));
+  processable = wtr.type()==Voxel::TUMOR_IDLE;
   return wtr;
 }
 Automaton tumorGrowthAutomaton(world,tumorGrowth), tumorThirstAutomaton(world,tumorThirst), chemoAutomaton(world,chemo);
@@ -242,7 +246,7 @@ void game() {
   Timer timer, tumortimer, thirsttimer;
   bool scaworking(false);
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
-  world.voxelSphere(irrigationSphereCenter,2,Voxel::TUMOR_START,Voxel::max);
+  world.voxelSphere(irrigationSphereCenter,1,Voxel::TUMOR_START,Voxel::max);
   tumorGrowthAutomaton.include(irrigationSphereCenter);
   tumorgrowing = true;
   tumortimer.setoff();
@@ -269,30 +273,31 @@ void game() {
     scaworking = sca.update(world);
     while(Window::newEvent(event)) {
       if(gui->event(event)) continue;
-      switch(event.type) {
-        case Window::Event::LBUTTONDOWN:
-          if(!tumorgrowing && !scaworking) {
-            for(auto&& hit : burst(32*tumorIdleCount/10000,32,1+tumorIdleCount/10000))
-              if(world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE) {
-                world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
-                tumorGrowthAutomaton.include(hit);
-                tumorgrowing = true;
-                tumortimer.setoff();
-              }
-          }
-          break;
-        case Window::Event::RBUTTONDOWN:
-          if(!tumorgrowing)
+      if(event.type == Window::Event::BUTTONDOWN)
+        switch(event.button) {
+          case Window::Event::LBUTTON:
+            if(!tumorgrowing && !scaworking) {
+              for(auto&& hit : burst(32*tumorIdleCount/10000,32,1+tumorIdleCount/10000))
+                if(world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE) {
+                  world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
+                  tumorGrowthAutomaton.include(hit);
+                  tumorgrowing = true;
+                  tumortimer.setoff();
+                }
+            }
+            break;
+          case Window::Event::RBUTTON:
+            if(!tumorgrowing)
+              for(auto&& hit : burst(0,32,1))
+                if(world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_THIRSTY_IDLE)
+                  sca.addTarget(hit);
+            break;
+          case Window::Event::SPACE:
             for(auto&& hit : burst(0,32,1))
-              if(world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_THIRSTY_IDLE)
-                sca.addTarget(hit);
-          break;
-        case Window::Event::MBUTTONDOWN:
-          for(auto&& hit : burst(0,32,1))
-            chemoAutomaton.include(hit);
-          break;
-      }
-      cam.event(event);
+              chemoAutomaton.include(hit);
+            break;
+        }
+      cam.event(world,event);
     }
     if(Window::isPressed(Window::Event::ESCAPE))
       break;
@@ -317,6 +322,7 @@ void game() {
     //GL::Utils::drawAxes();
     //tumorGrowthAutomaton.drawDebug();
     //tumorThirstAutomaton.drawDebug();
+    //chemoAutomaton.drawDebug();
     //world.draw();
     pp.postrender(ppProgram);
     glClear(GL_DEPTH_BUFFER_BIT); // Start drawing GUI
