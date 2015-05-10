@@ -1,12 +1,10 @@
 {
 	"fullscreen": true,
 	"width": 800, "height": 450,
-	
+
 	"menu_fade_duration": 0.1,
 	"intro_dark_duration": 0.1,
 	"game_fade_duration": 0.1,
-	"irrigation_sphere_center": "0,64,180",
-	"irrigation_sphere_radius": 24,
 
 	"texture_path": "Image/tissue.png",
 	"model_path": "Model/organ.obj",
@@ -21,16 +19,24 @@
 	"organ": "#31328f",
 	"vessel": "#c9f502",
 
+	"irrigation_sphere_center": "0,64,180",
+	"irrigation_sphere_radius": 24,
 	"irrigation_radius": 5,
-	
+
 	"sca_drag_factor": 2,
 	"sca_random_factor": 0.5,
 	"sca_branch_length": 1,
 	"sca_branch_radius": 1,
 	"sca_avoid_attempts": 1024,
-	
+
 	"growth_factor": 0.015,
-	"thirst_factor": 0.3,
 	"growth_tps" : 320,
-	"thirst_tps" : 80
+
+	"thirst_factor": 0.015,
+	"thirst_appearance_factor": 0.3,
+	"thirst_propagation_factor": 0.2,
+	"thirst_tps" : 80,
+
+	"chemo_factor": 0.015,
+	"chemo_tps" : 80
 }
