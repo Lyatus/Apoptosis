@@ -29,14 +29,23 @@ void SphericalCamera::update(World& world, float deltaTime) {
     thetaPosition(2*deltaTime);
   if(forward().dot(Point3f(0,1,0))>-.99f && Window::isPressed(Window::Event::DOWN))
     thetaPosition(-2*deltaTime);
-  float attenuation(1);
   if(world.spherecast(position(),4))
-    attenuation = 0;
-  else if(world.spherecast(position(),8))
-    attenuation = .5f;
-  position(position()*attenuation+oldPosition*(1-attenuation));
+    position(oldPosition);
 }
-void SphericalCamera::event(const L::Window::Event& e) {
+void SphericalCamera::event(World& world, const L::Window::Event& e) {
+  static int x, y;
+  if(e.type==Window::Event::MOUSEMOVE) {
+    if(Window::isPressed(Window::Event::MBUTTON)) {
+      Point3f oldPosition(position());
+      phiPosition((e.x-x)*-.005f);
+      thetaPosition((e.y-y)*-.005f);
+      float forwardDotUp(forward().dot(Point3f(0,1,0)));
+      if(world.spherecast(position(),4) || forwardDotUp>.99f || forwardDotUp<-.99f)
+        position(oldPosition);
+    }
+    x = e.x;
+    y = e.y;
+  }
 }
 void SphericalCamera::configure() {
 }

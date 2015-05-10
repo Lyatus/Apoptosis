@@ -14,7 +14,7 @@ class SphericalCamera : public L::GL::Camera {
     void reset(const L::Point3f&);
     void addPoint(const L::Point3f&);
     void update(World&, float deltaTime);
-    void event(const L::Window::Event&);
+    void event(World&, const L::Window::Event&);
 
     inline const L::Point3f& center() const {return _center;}
     inline float radius() const {return _center.dist(position());}
