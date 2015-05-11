@@ -20,11 +20,12 @@ class Voxel {
     static L::Color _colors[types];
   public:
     enum {
-      NOTHING, ORGAN, VESSEL,
+      NOTHING,
+      ORGAN, ORGAN_CHEMO,
+      VESSEL,
       TUMOR_START,
-      TUMOR, TUMOR_IDLE,
-      TUMOR_THIRSTY, TUMOR_THIRSTY_IDLE,
-      TUMOR_VERY_THIRSTY, TUMOR_VERY_THIRSTY_IDLE
+      TUMOR, TUMOR_IDLE, TUMOR_IDLE_CHEMO,
+      TUMOR_THIRSTY, TUMOR_THIRSTY_IDLE, TUMOR_THIRSTY_IDLE_CHEMO
     };
     Voxel(float value = 0, L::byte type = 0);
     bool operator==(const Voxel& other) const {return _type==other._type && _value==other._value;}
