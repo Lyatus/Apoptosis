@@ -31,7 +31,7 @@ class ChunkMesher {
     int _edgeVertices[(Chunk::size+1)*(Chunk::size+1)*(Chunk::size+1)*3];
     L::GL::MeshBuilder _meshBuilder;
 
-    void generateCase(bool cube[8],L::byte mesh[15],bool complementary = true);
+    static void generateCase(bool cube[8],L::byte mesh[15],bool complementary = true);
     L::uint vertex(const L::Point3i& offset, int x, int y, int z, L::byte edge, Voxel cell[8]);
     L::Color color(L::byte edge, Voxel cell[8]);
     float edgeValue(Voxel, Voxel);
