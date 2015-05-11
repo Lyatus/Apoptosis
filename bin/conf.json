@@ -12,22 +12,27 @@
 	"ambient_level": 0.5,
 	"intro_background": "#ffffff",
 	"background": "#cab7fe",
+	
 	"tumor": "#ff0054",
 	"tumor_idle": "#ff0054",
 	"tumor_thirsty": "#e47d6e",
 	"tumor_thirsty_idle": "#e47d6e",
 	"organ": "#31328f",
 	"vessel": "#c9f502",
-
-	"irrigation_sphere_center": "0,64,180",
-	"irrigation_sphere_radius": 24,
-	"irrigation_radius": 5,
-
+	
 	"sca_drag_factor": 2,
 	"sca_random_factor": 0.5,
 	"sca_branch_length": 1,
 	"sca_branch_radius": 1,
 	"sca_avoid_attempts": 1024,
+	
+	"burst_radius_log": 1.05,
+	"burst_tumor_count_log": 16,
+	"burst_vessel_count_log": 20,
+
+	"irrigation_sphere_center": "0,64,180",
+	"irrigation_sphere_radius": 24,
+	"irrigation_radius": 5,
 
 	"growth_factor": 0.015,
 	"growth_tps" : 320,
@@ -37,6 +42,7 @@
 	"thirst_propagation_factor": 0.2,
 	"thirst_tps" : 80,
 
-	"chemo_factor": 0.015,
-	"chemo_tps" : 80
+	"chemo_factor": 0.02,
+	"chemo_propagation_factor": 0.01,
+	"chemo_tps" : 50
 }
