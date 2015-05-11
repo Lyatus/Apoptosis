@@ -16,10 +16,10 @@ void SphericalCamera::addPoint(const L::Point3f& point) {
 void SphericalCamera::update(World& world, float deltaTime) {
   Point3f oldPosition(position());
   if(!_interval.empty()) {
-    _center += ((_centerTarget-_center)/1.1)*deltaTime;
+    _center += ((_centerTarget-_center)/1.1f)*deltaTime;
     lookat(_center);
     float distance(_centerTarget.dist(position()));
-    move(Point3f(0,0,-((_radius-distance)/1.1)*deltaTime));
+    move(Point3f(0,0,-((_radius-distance)/1.1f)*deltaTime));
   }
   if(Window::isPressed(Window::Event::LEFT))
     phiPosition(2*deltaTime);
