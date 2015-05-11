@@ -28,7 +28,9 @@
 	
 	"burst_radius_log": 1.05,
 	"burst_tumor_count_log": 16,
+	"burst_tumor_count_factor": 1,
 	"burst_vessel_count_log": 20,
+	"burst_vessel_count_factor": 1,
 
 	"irrigation_sphere_center": "0,64,180",
 	"irrigation_sphere_radius": 24,

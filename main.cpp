@@ -42,7 +42,7 @@ float chemoFactor, chemoPropagationFactor;
 int chemoTPS;
 bool anywhere(false);
 
-float burstRadiusLog, burstTumorCountLog, burstVesselCountLog;
+float burstRadiusLog, burstTumorCountLog, burstTumorCountFactor, burstVesselCountLog, burstVesselCountFactor;
 
 // Gameplay tracking
 bool tumorgrowing(false), tumorthirsting(false);
@@ -292,8 +292,8 @@ void game() {
       tumorIdleCount = tumorThirstyIdleCount = 0;
       world.foreachChunk(foreachChunk);
       burstRadius = ceil(L::log((float)tumorIdleCount,burstRadiusLog));
-      burstTumorCount = ceil(L::log((float)tumorIdleCount,burstTumorCountLog));
-      burstVesselCount = ceil(L::log((float)tumorIdleCount,burstVesselCountLog));
+      burstTumorCount = ceil(L::log(tumorIdleCount*burstTumorCountFactor,burstTumorCountLog));
+      burstVesselCount = ceil(L::log(tumorIdleCount*burstVesselCountFactor,burstVesselCountLog));
       text->sText("tumor: "+ToString(tumorIdleCount)+"\n"
                   "thirsty: "+ToString(tumorThirstyIdleCount)+"\n"
                   "burst radius: "+ToString(burstRadius)+"\n"
@@ -390,7 +390,9 @@ int main(int argc, char* argv[]) {
   gameFadeDuration = Conf::getFloat("game_fade_duration");
   burstRadiusLog = Conf::getFloat("burst_radius_log");
   burstTumorCountLog = Conf::getFloat("burst_tumor_count_log");
+  burstTumorCountFactor = Conf::getFloat("burst_tumor_count_factor");
   burstVesselCountLog = Conf::getFloat("burst_vessel_count_log");
+  burstVesselCountFactor = Conf::getFloat("burst_vessel_count_factor");
   irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
   irrigationSphereRadius = Conf::getFloat("irrigation_sphere_radius");
   irrigationRadius = Conf::getFloat("irrigation_radius");
