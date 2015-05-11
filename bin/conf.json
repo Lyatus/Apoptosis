@@ -36,15 +36,10 @@
 	"irrigation_sphere_radius": 24,
 	"irrigation_radius": 5,
 
-	"growth_factor": 0.015,
-	"growth_tps" : 320,
-
-	"thirst_factor": 0.015,
+	"growth_vps": 5,
+	"thirst_vps": 2.5,
 	"thirst_appearance_factor": 0.3,
 	"thirst_propagation_factor": 0.2,
-	"thirst_tps" : 80,
-
-	"chemo_factor": 0.02,
-	"chemo_propagation_factor": 0.01,
-	"chemo_tps" : 50
+	"chemo_vps": 2.5,
+	"chemo_propagation_factor": 0.01
 }
