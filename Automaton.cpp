@@ -16,7 +16,7 @@ void Automaton::update(int count) {
         else {
           _ip = _iw = _min = _zone.min();
           _max = _zone.max()+Point3i(1,1,1);
-          _size = (_max.x()-_min.x())*(_max.y()-_min.y())*(_max.z()-_min.z());
+          _size = _zone.size().product();
           _zone.clear();
           _processing = true;
         }
