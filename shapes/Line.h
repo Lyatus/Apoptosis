@@ -10,6 +10,8 @@ class Line : public Shape {
     float _thickness, _abDotAb;
   public:
     Line(const L::Point3f& a, const L::Point3f& b, float thickness);
+    virtual ~Line() {}
+
     L::Point3i start() const;
     float value(const L::Point3f&) const;
 };

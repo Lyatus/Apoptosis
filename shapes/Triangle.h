@@ -11,6 +11,8 @@ class Triangle : public Shape {
     float _thickness;
   public:
     Triangle(const L::Point3f& a, const L::Point3f& b, const L::Point3f& c, float thickness);
+    virtual ~Triangle() {}
+
     L::Point3i start() const;
     float value(const L::Point3f&) const;
 };

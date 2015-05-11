@@ -8,6 +8,8 @@ class Shape {
     bool _convex;
   public:
     Shape(bool convex = false) : _convex(convex) {}
+    virtual ~Shape() {}
+
     virtual L::Point3i start() const = 0;
     virtual float value(const L::Point3f&) const = 0;
     inline bool convex() const {return _convex;}

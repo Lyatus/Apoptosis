@@ -10,6 +10,8 @@ class Sphere : public Shape {
     float _radius;
   public:
     Sphere(const L::Point3f& center, float radius);
+    virtual ~Sphere() {}
+
     L::Point3i start() const;
     float value(const L::Point3f&) const;
 };
