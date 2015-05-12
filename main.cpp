@@ -202,6 +202,7 @@ void menu() {
     }
     return false;
   },&clicked),Point2i(0,0),GUI::CC,GUI::CC);
+  Wwise::postEvent("General_start");
   while(Window::loop()) {
     while(Window::newEvent(event))
       gui->event(event);
@@ -210,7 +211,6 @@ void menu() {
     else if(!fading && clicked) {
       fading = true;
       fadeTimer.setoff();
-      Wwise::postEvent("prout");
       start = Time::now();
     }
     Wwise::update();
@@ -267,6 +267,8 @@ void game() {
   // GUI initizaliation
   GUI::Text* text(new GUI::Text());
   gui->place(text,Point2i(0,0),GUI::TL,GUI::TL);
+  GL::Mesh disk;
+  GL::makeDisc(disk,32);
   Timer timer, tumortimer, thirsttimer, atimer;
   bool scaworking(false);
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
@@ -297,15 +299,17 @@ void game() {
     if(thirsttimer.every(Time(0,0,1))) {
       tumorIdleCount = tumorThirstyIdleCount = 0;
       world.foreachChunk(foreachChunk);
-      burstRadius = ceil(L::log((float)tumorIdleCount,burstRadiusLog));
-      burstTumorCount = ceil(L::log(tumorIdleCount*burstTumorCountFactor,burstTumorCountLog));
-      burstVesselCount = ceil(L::log(tumorIdleCount*burstVesselCountFactor,burstVesselCountLog));
-      text->sText("tumor: "+ToString(tumorIdleCount)+"\n"
-                  "thirsty: "+ToString(tumorThirstyIdleCount)+"\n"
-                  "burst radius: "+ToString(burstRadius)+"\n"
-                  "burst tumor count: "+ToString(burstTumorCount)+"\n"
-                  "burst vessel count: "+ToString(burstVesselCount)+"\n"
-                  "time: "+Time::format("%M:%S",Time::now()-start)+"\n");
+      if(tumorIdleCount) {
+        burstRadius = ceil(L::log((float)tumorIdleCount,burstRadiusLog));
+        burstTumorCount = ceil(L::log(tumorIdleCount*burstTumorCountFactor,burstTumorCountLog));
+        burstVesselCount = ceil(L::log(tumorIdleCount*burstVesselCountFactor,burstVesselCountLog));
+        text->sText("tumor: "+ToString(tumorIdleCount)+"\n"
+                    "thirsty: "+ToString(tumorThirstyIdleCount)+"\n"
+                    "burst radius: "+ToString(burstRadius)+"\n"
+                    "burst tumor count: "+ToString(burstTumorCount)+"\n"
+                    "burst vessel count: "+ToString(burstVesselCount)+"\n"
+                    "time: "+Time::format("%M:%S",Time::now()-start)+"\n");
+      }
       outjson.get<Dynamic::Array>()((float)tumorIdleCount);
     }
     scaworking = sca.update(world);
@@ -314,15 +318,21 @@ void game() {
       if(event.type == Window::Event::BUTTONDOWN)
         switch(event.button) {
           case Window::Event::LBUTTON:
-            if(!tumorgrowing && !scaworking) {
-              for(auto&& hit : burst(burstRadius,32,burstTumorCount))
-                if(anywhere || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE) {
-                  world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
-                  growthAutomaton.include(hit);
-                  tumorgrowing = true;
-                  tumortimer.setoff();
-                }
-            }
+            if(!tumorgrowing) {
+              if(!scaworking) {
+                for(auto&& hit : burst(burstRadius,32,burstTumorCount))
+                  if(anywhere || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE) {
+                    world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
+                    growthAutomaton.include(hit);
+                    tumorgrowing = true;
+                    tumortimer.setoff();
+                  }
+              }
+              if(tumorgrowing)
+                Wwise::postEvent("Tumor_right");
+            } else Wwise::postEvent("Tumor_wrong"); // Wrong because already growing
+            if(!tumorgrowing)
+              Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             break;
           case Window::Event::RBUTTON:
             if(!tumorgrowing)
@@ -341,6 +351,9 @@ void game() {
             break;
           case Window::Event::D:
             displayAutomata = !displayAutomata;
+            break;
+          case Window::Event::NUM1:
+            Wwise::postEvent("Voice_event_1");
             break;
           default:
             break;
@@ -378,6 +391,13 @@ void game() {
     guiProgram.use();
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
+    glPushMatrix();
+    glTranslatef(Window::mousePosition().x(),Window::mousePosition().y(),0);
+    glScalef(burstRadius,burstRadius,1);
+    glColor4f(1,0,1,.5f);
+    GL::whiteTexture().bind();
+    disk.draw();
+    glPopMatrix();
     // Fade
     float since(fadeTimer.since().fSeconds());
     float fade(std::min(1.f,since/gameFadeDuration));
