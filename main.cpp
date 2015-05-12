@@ -24,6 +24,7 @@ SphericalCamera cam;
 
 // Graphic configuration
 float ambientLevel;
+bool displayAutomata(false);
 // GUI configuration
 float menuFadeDuration, gameFadeDuration, introDarkDuration;
 Timer fadeTimer;
@@ -338,6 +339,9 @@ void game() {
           case Window::Event::ENTER:
             anywhere = true;
             break;
+          case Window::Event::D:
+            displayAutomata = !displayAutomata;
+            break;
           default:
             break;
         }
@@ -364,10 +368,11 @@ void game() {
     debugProgram.uniform("view",cam.view());
     debugProgram.uniform("projection",cam.projection());
     //GL::Utils::drawAxes();
-    //tumorGrowthAutomaton.drawDebug();
-    //tumorThirstAutomaton.drawDebug();
-    //chemoAutomaton.drawDebug();
-    //world.draw();
+    if(displayAutomata) {
+      growthAutomaton.drawDebug();
+      thirstAutomaton.drawDebug();
+      chemoAutomaton.drawDebug();
+    }
     pp.postrender(ppProgram);
     glClear(GL_DEPTH_BUFFER_BIT); // Start drawing GUI
     guiProgram.use();
