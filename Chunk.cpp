@@ -17,7 +17,7 @@ bool Chunk::update() {
   if(_changed) {
     _changed = false;
     _chunkMesher.build(*this);
-    L_Reconstruct(GL::,Mesh,_mesh,(_chunkMesher.meshBuilder()));
+    reconstruct(_mesh,_chunkMesher.meshBuilder());
     return true;
   }
   return false;
