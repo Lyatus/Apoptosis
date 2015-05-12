@@ -1,13 +1,21 @@
 Event	ID	Name			Wwise Object Path	Notes
-	917677325	prout			\Default Work Unit\prout	
-	1584507803	click			\Default Work Unit\click	
+	1365727304	Tumor_wrong			\Default Work Unit\Actions\Tumor_wrong	
+	2095930298	General_start			\Default Work Unit\Amb-Music\General_start	
+	3212785023	Music_event_1			\Default Work Unit\Amb-Music\Music_event_1	
+	4037692801	Tumor_right			\Default Work Unit\Actions\Tumor_right	
+
+Effect plug-ins	ID	Name	Type				Notes
+	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	162007041	- Unknown SFX V	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\- Unknown SFX V_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase1\- Unknown SFX V		626936
-	256955688	- Unknown SFX II	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\- Unknown SFX II_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase1\- Unknown SFX II		318200
-	336006430	test micro voix 2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\test micro voix 2_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase2\test micro voix 2		1046232
-	381337876	test micro voix 1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\test micro voix 1_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase2\test micro voix 1		1731660
-	472009716	Placeholder	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Glassworks_Opening_01_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Placeholder		67927880
-	575440135	- Unknown SFX IV	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\- Unknown SFX IV_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase1\- Unknown SFX IV		299768
-	902629092	test micro voix 3	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\test micro voix 3_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumeur\phase2\test micro voix 3		1039020
+	104157723	Bubble6	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble6_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble6		97834
+	362923797	Bubble2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble2_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble2		106926
+	391236202	Bubble4	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble4_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble4		142956
+	449711483	Bubble1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble1_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble1		148164
+	465665579	Bubble7	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble7_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble7		142040
+	472009716	Placeholder	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Glassworks_Opening_01_7B320208.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Placeholder		67927880
+	772107398	Bubble5	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble5_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble5		190010
+	879796040	Bubble3	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble3_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble3		105134
+	903042498	Rumble	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Underwater_Rumble_B60CCDB5.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Rumble		24630104
+	929292963	Tumor_right	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\FeedB_click_tumor_right_Mono_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_right		30878
 

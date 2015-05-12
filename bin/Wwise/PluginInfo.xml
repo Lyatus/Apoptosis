@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PluginInfo Project="Apoptosis test1" Platform="Windows" Motion="false">
-	<Plugins/>
+	<Plugins>
+		<Plugin Name="Wwise Parametric EQ" ID="6881283"/>
+	</Plugins>
 </PluginInfo>
