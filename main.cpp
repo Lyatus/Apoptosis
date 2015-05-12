@@ -195,7 +195,7 @@ void menu() {
   clearcolor(Conf::getColor("intro_background"));
   GL::Program guiProgram(GL::Shader(File("Shader/gui.vert"),GL_VERTEX_SHADER),
                          GL::Shader(File("Shader/gui.frag"),GL_FRAGMENT_SHADER));
-  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/chat.png")),[](GUI::ActionListener* al, Dynamic::Var& v, GUI::Event e) {
+  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/logo.png")),[](GUI::ActionListener* al, Dynamic::Var& v, GUI::Event e) {
     if(e.type == GUI::Event::leftClick) {
       *v.as<bool*>() = true;
       return true;
