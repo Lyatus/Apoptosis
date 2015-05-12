@@ -32,7 +32,7 @@
 	"burst_vessel_count_log": 20,
 	"burst_vessel_count_factor": 1,
 
-	"irrigation_sphere_center": "0,60,170",
+	"irrigation_sphere_center": "0,60,160",
 	"irrigation_sphere_radius": 32,
 	"irrigation_radius": 5,
 
