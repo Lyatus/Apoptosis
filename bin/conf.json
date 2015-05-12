@@ -22,18 +22,18 @@
 	
 	"sca_drag_factor": 2,
 	"sca_random_factor": 0.5,
-	"sca_branch_length": 1,
-	"sca_branch_radius": 1,
+	"sca_branch_length": 1.5,
+	"sca_branch_radius": 1.3,
 	"sca_avoid_attempts": 1024,
 	
-	"burst_radius_log": 1.05,
+	"burst_radius_log": 1.3,
 	"burst_tumor_count_log": 16,
 	"burst_tumor_count_factor": 1,
 	"burst_vessel_count_log": 20,
 	"burst_vessel_count_factor": 1,
 
-	"irrigation_sphere_center": "0,64,180",
-	"irrigation_sphere_radius": 24,
+	"irrigation_sphere_center": "0,60,170",
+	"irrigation_sphere_radius": 32,
 	"irrigation_radius": 5,
 
 	"growth_vps": 5,
