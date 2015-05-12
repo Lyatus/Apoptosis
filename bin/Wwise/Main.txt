@@ -5,17 +5,19 @@ Event	ID	Name			Wwise Object Path	Notes
 	4037692801	Tumor_right			\Default Work Unit\Actions\Tumor_right	
 
 Effect plug-ins	ID	Name	Type				Notes
+	701863527	Inside_My_Head	Wwise RoomVerb			
 	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	104157723	Bubble6	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble6_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble6		97834
-	362923797	Bubble2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble2_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble2		106926
-	391236202	Bubble4	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble4_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble4		142956
-	449711483	Bubble1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble1_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble1		148164
-	465665579	Bubble7	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble7_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble7		142040
-	472009716	Placeholder	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Glassworks_Opening_01_7B320208.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Placeholder		67927880
-	772107398	Bubble5	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble5_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble5		190010
-	879796040	Bubble3	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble3_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble3		105134
-	903042498	Rumble	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Underwater_Rumble_B60CCDB5.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Rumble		24630104
-	929292963	Tumor_right	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\FeedB_click_tumor_right_Mono_DDC98EF4.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_right		30878
+	104157723	Bubble6	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble6_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble6		26736
+	362923797	Bubble2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble2_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble2		29904
+	391236202	Bubble4	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble4_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble4		38398
+	449711483	Bubble1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble1_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble1		40019
+	465665579	Bubble7	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble7_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble7		39493
+	472009716	Placeholder	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Glassworks_Opening_01_304B40D5.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Placeholder		18402403
+	772107398	Bubble5	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble5_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble5		51457
+	870835506	Tumor_wrong	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\FeedB_click_tumor_wrong_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_wrong		12468
+	879796040	Bubble3	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble3_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble3		28869
+	903042498	Rumble	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Underwater_Rumble_22F7C9A0.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Rumble		6387544
+	929292963	Tumor_right	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\FeedB_click_tumor_right_Mono_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_right		12602
 
