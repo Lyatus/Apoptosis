@@ -38,8 +38,8 @@
 
 	"growth_vps": 5,
 	"thirst_vps": 2.5,
-	"thirst_appearance_factor": 0.3,
-	"thirst_propagation_factor": 0.2,
+	"thirst_appearance_factor": 1,
+	"thirst_propagation_factor": 1,
 	"chemo_vps": 2.5,
 	"chemo_propagation_factor": 0.01
 }
