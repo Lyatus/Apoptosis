@@ -3,44 +3,44 @@
 using namespace L;
 using namespace GL;
 
-Automaton::Automaton(World& world, Process process) : _world(world), _process(process), _size(0), _processing(false) {}
+Vector<Automaton*> Automaton::_automata;
+
+Automaton::Automaton(World& world, Process process, float vps) : _world(world), _process(process), _vps(vps), _factor(0), _size(0), _processing(false) {}
 void Automaton::include(const L::Point3i& p) {
   _zone.add(p);
 }
-void Automaton::update(int count) {
-  while(count--) {
-    do {
-      if(!_processing && _buffer.empty()) { // Ready for new processing
-        if(_zone.empty())
-          _size = 0;
-        else {
-          _ip = _iw = _min = _zone.min();
-          _max = _zone.max()+Point3i(1,1,1);
-          _size = _zone.size().product();
-          _zone.clear();
-          _processing = true;
+void Automaton::update() {
+  do {
+    if(!_processing && _buffer.empty()) { // Ready for new processing
+      if(_zone.empty())
+        _size = 0;
+      else {
+        _ip = _iw = _min = _zone.min();
+        _max = _zone.max()+Point3i(1,1,1);
+        _size = _zone.size().product();
+        _zone.clear();
+        _processing = true;
+      }
+    } else { // Still processing
+      if(_processing) {
+        bool processable;
+        _buffer.write(_process(*this,_ip.x(),_ip.y(),_ip.z(),processable));
+        if(processable) {
+          _zone.add(_ip-Point3i(1,1,1));
+          _zone.add(_ip+Point3i(1,1,1));
         }
-      } else { // Still processing
-        if(_processing) {
-          bool processable;
-          _buffer.write(_process(_world,_ip.x(),_ip.y(),_ip.z(),processable));
-          if(processable) {
-            _zone.add(_ip-Point3i(1,1,1));
-            _zone.add(_ip+Point3i(1,1,1));
-          }
-          if(!_ip.increment(_min,_max)) { // Increment returns false if we've gone back to the beginning
-            _processing = false;
-          }
-        }
-        if(_buffer.full() || !_processing) {
-          Voxel v(_buffer.read());
-          _buffer.pop();
-          _world.updateVoxel(_iw.x(),_iw.y(),_iw.z(),v,Voxel::set);
-          _iw.increment(_min,_max);
+        if(!_ip.increment(_min,_max)) { // Increment returns false if we've gone back to the beginning
+          _processing = false;
         }
       }
-    } while(_processing || !_buffer.empty());
-  }
+      if(_buffer.full() || !_processing) {
+        Voxel v(_buffer.read());
+        _buffer.pop();
+        _world.updateVoxel(_iw.x(),_iw.y(),_iw.z(),v,Voxel::set);
+        _iw.increment(_min,_max);
+      }
+    }
+  } while(_processing || !_buffer.empty());
 }
 
 void Automaton::drawDebug() {
@@ -80,13 +80,24 @@ void Automaton::drawDebug() {
   glEnd();
 }
 
-Voxel Automaton::rot(World& world, int x, int y, int z, bool& processable) {
-  const Voxel& current(world.voxel(x,y,z));
-  const Voxel& other(world.voxel(x+Rand::next(-1,2),y+Rand::next(-1,2),z+Rand::next(-1,2)));
-  if((current.solid() || Rand::next(0,2)) && current.type()!=Voxel::TUMOR) {
-    if(other.solid() && other.type()==Voxel::TUMOR)
-      return Voxel(std::min(1.f,current.value()+Rand::next(0.f,.5f)),Voxel::TUMOR);
-  } else if(current.type()==Voxel::TUMOR && !other.solid())
-    return Voxel(std::max(0.f,current.value()-Rand::next(0.f,.01f)),Voxel::TUMOR);
-  return current; // No change
+void Automaton::update(const Time& time, float deltaTime) {
+  int aturns(0);
+  Timer atimer;
+  do {
+    for(auto&& a : _automata)
+      a->update();
+    aturns++;
+  } while((atimer.since()*(aturns+1))/aturns<time);
+  for(auto&& a : _automata)
+    a->_factor = a->_vps/(aturns/deltaTime);
+}
+void Automaton::add(Automaton* a) {
+  _automata.push_back(a);
+}
+void Automaton::remove(Automaton* a) {
+  for(int i(0); i<_automata.size(); i++)
+    if(_automata[i]==a) {
+      _automata.erase(_automata.begin()+i);
+      return;
+    }
 }

@@ -6,45 +6,34 @@
 
 class Automaton {
   public:
-    typedef Voxel(*Process)(World& world, int x, int y, int z, bool&);
+    typedef Voxel(*Process)(Automaton&, int x, int y, int z, bool&);
   private:
     World& _world;
     L::Interval3i _zone;
     Process _process;
     L::Buffer<65536,Voxel> _buffer;
+    float _vps, _factor;
 
     L::Point3i _min, _max, _ip, _iw;
     int _size;
     bool _processing;
+
+    static L::Vector<Automaton*> _automata;
+
   public:
-    Automaton(World&, Process);
+    Automaton(World&, Process, float vps);
     void include(const L::Point3i&);
-    void update(int count = 1);
-    inline int size() const {return _size;}
+    void update();
     void drawDebug();
 
-    static Voxel rot(World& world, int x, int y, int z, bool&);
-    template <int El, int Eu, int Fl, int Fu>
-    static Voxel gol(World& world, int x, int y, int z) {
-      const Voxel& current(world.voxel(x,y,z));
-      int neighbors(0);
-      for(int xi(x-1); xi<=x+1; xi++)
-        for(int yi(y-1); yi<=y+1; yi++)
-          for(int zi(z-1); zi<=z+1; zi++)
-            if(world.voxel(xi,yi,zi).solid())
-              neighbors++;
-      if(current.solid()) { // Environment
-        neighbors--;
-        if(neighbors<El || neighbors >Eu) // Must die
-          return Voxel();
-        else // Survives
-          return current;
-      } else { // Fertility
-        if(neighbors>=Fl && neighbors<=Fu)
-          return Voxel(1.0);
-      }
-      return current; // No change
-    }
+    inline int size() const {return _size;}
+    inline float factor() const {return _factor;}
+    inline float vps() const {return _vps;}
+    inline Voxel voxel(int x, int y, int z) const {return _world.voxel(x,y,z);}
+
+    static void update(const L::Time&, float deltaTime);
+    static void add(Automaton*);
+    static void remove(Automaton*);
 };
 
 #endif

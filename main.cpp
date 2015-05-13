@@ -35,28 +35,27 @@ float irrigationRadius;
 Point3f irrigationSphereCenter;
 float irrigationSphereRadius;
 
-float growthVPS, growthFactor;
-float thirstVPS, thirstFactor, thirstAppearanceFactor, thirstPropagationFactor;
-float chemoVPS, chemoFactor, chemoPropagationFactor;
+float thirstAppearanceFactor, thirstPropagationFactor;
+float chemoPropagationFactor;
 bool anywhere(false);
 
 float burstRadiusLog, burstTumorCountLog, burstTumorCountFactor, burstVesselCountLog, burstVesselCountFactor;
 
 // Gameplay tracking
 bool tumorgrowing(false), tumorthirsting(false);
-int tumorIdleCount, tumorThirstyIdleCount, burstRadius, burstTumorCount, burstVesselCount;
+int tumorCount, tumorThirstyCount, burstRadius, burstTumorCount, burstVesselCount;
 Dynamic::Var outjson("SURPRISE MOTHERFUCKER");
 
 float irrigationValue(const Point3f& p) {
   return std::max(Shape::fromDistance(p.dist(irrigationSphereCenter)-irrigationSphereRadius),
                   Shape::fromDistance(sca.distance(p,irrigationRadius+1)-irrigationRadius));
 }
-Voxel growth(World& world, int x, int y, int z, bool& processable) {
-  Voxel current(world.voxel(x,y,z));
+Voxel growth(Automaton& automaton, int x, int y, int z, bool& processable) {
+  Voxel current(automaton.voxel(x,y,z));
   L::byte currentType(current.type());
   bool idle(currentType==Voxel::TUMOR_IDLE || currentType==Voxel::TUMOR_THIRSTY_IDLE);
   if(tumorgrowing) { // The tumor is still growing
-    Voxel other(world.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2));
+    Voxel other(automaton.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2));
     L::byte otherType(other.type());
     bool otherTumor(otherType==Voxel::TUMOR || otherType==Voxel::TUMOR_THIRSTY);
     bool currentTumor(currentType==Voxel::TUMOR || currentType==Voxel::TUMOR_THIRSTY);
@@ -65,7 +64,7 @@ Voxel growth(World& world, int x, int y, int z, bool& processable) {
             && otherTumor // Other needs to be tumor
             && !current.full() // Current shouldn't already be filled (avoid unnecessary calculations)
             && (currentTumor || other.full()))) {
-      current.value(std::min(1.f,current.value()+(Rand::nextFloat()*growthFactor)));
+      current.value(std::min(1.f,current.value()+(Rand::nextFloat()*automaton.factor())));
       if(!currentTumor) {
         float value(irrigationValue(Point3f(x,y,z)));
         bool thirsty(value<1.f);
@@ -93,30 +92,30 @@ Voxel growth(World& world, int x, int y, int z, bool& processable) {
   processable = current.type()==Voxel::TUMOR_START || current.type()==Voxel::TUMOR || current.type()==Voxel::TUMOR_THIRSTY;
   return current;
 }
-Voxel thirst(World& world, int x, int y, int z, bool& processable) {
-  Voxel wtr(world.voxel(x,y,z));
+Voxel thirst(Automaton& automaton, int x, int y, int z, bool& processable) {
+  Voxel wtr(automaton.voxel(x,y,z));
   if(wtr.empty())
     wtr.type(Voxel::NOTHING);
   else if(wtr.type()==Voxel::TUMOR_THIRSTY_IDLE
-          && (Rand::nextFloat()<.01f || world.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2).empty())) {
+          && (Rand::nextFloat()<.01f || automaton.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2).empty())) {
     if(wtr.value()<=irrigationValue(Point3f(x,y,z)))
       wtr.type(Voxel::TUMOR_IDLE);
     else
-      wtr.value(std::max(0.f,wtr.value()-Rand::nextFloat()*thirstFactor));
+      wtr.value(std::max(0.f,wtr.value()-Rand::nextFloat()*automaton.factor()));
   }
   processable = Rand::nextFloat()<thirstPropagationFactor && wtr.type()==Voxel::TUMOR_THIRSTY_IDLE;
   return wtr;
 }
-Voxel chemo(World& world, int x, int y, int z, bool& processable) {
-  Voxel wtr(world.voxel(x,y,z));
+Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
+  Voxel wtr(automaton.voxel(x,y,z));
   if(wtr.empty())
     wtr.type(Voxel::NOTHING);
   else {
     bool chemo(wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_IDLE_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO);
-    Voxel other(world.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2));
+    Voxel other(automaton.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2));
     bool otherChemo(other.type()==Voxel::ORGAN_CHEMO || other.type()==Voxel::TUMOR_IDLE_CHEMO || other.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO);
     if(chemo && other.empty())
-      wtr.value(std::max(0.f,wtr.value()-Rand::nextFloat()*chemoFactor));
+      wtr.value(std::max(0.f,wtr.value()-Rand::nextFloat()*automaton.factor()));
     if(!chemo && otherChemo &&  Rand::nextFloat()<chemoPropagationFactor)
       switch(wtr.type()) {
         case Voxel::ORGAN:
@@ -133,11 +132,11 @@ Voxel chemo(World& world, int x, int y, int z, bool& processable) {
   processable = wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_IDLE_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO;
   return wtr;
 }
-Automaton growthAutomaton(world,growth), thirstAutomaton(world,thirst), chemoAutomaton(world,chemo);
 
+Automaton* thirstAutomatonP;
 void foreachChunk(Chunk* chunk) {
-  tumorIdleCount += chunk->typeCount(Voxel::TUMOR_IDLE);
-  tumorThirstyIdleCount += chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE);
+  tumorCount += chunk->typeCount(Voxel::TUMOR) + chunk->typeCount(Voxel::TUMOR_IDLE);
+  tumorThirstyCount += chunk->typeCount(Voxel::TUMOR_THIRSTY) + chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE);
   if(!tumorthirsting && chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<thirstAppearanceFactor)
     for(int x(0); x<Chunk::size; x++)
       for(int y(0); y<Chunk::size; y++)
@@ -145,7 +144,7 @@ void foreachChunk(Chunk* chunk) {
           if(chunk->voxel(x,y,z).type()==Voxel::TUMOR_THIRSTY_IDLE) {
             Point3i position(chunk->position()+Point3i(x,y,z));
             if(irrigationValue(Point3f(x,y,z))<1.f) {
-              thirstAutomaton.include(position);
+              thirstAutomatonP->include(position);
               tumorthirsting = true;
             } else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
           }
@@ -264,12 +263,20 @@ void game() {
   GL::PostProcess pp(Window::width(),Window::height());
   // Textures fetching
   GL::Texture voxelTexture(Image::Bitmap(Conf::getString("texture_path")));
-  // GUI initizaliation
+  // Automata initialization
+  Automaton growthAutomaton(world,growth,Conf::getFloat("growth_vps")),
+            thirstAutomaton(world,thirst,Conf::getFloat("thirst_vps")),
+            chemoAutomaton(world,chemo,Conf::getFloat("chemo_vps"));
+  Automaton::add(&growthAutomaton);
+  Automaton::add(&thirstAutomaton);
+  Automaton::add(&chemoAutomaton);
+  thirstAutomatonP = &thirstAutomaton;
+  // GUI initialization
   GUI::Text* text(new GUI::Text());
   gui->place(text,Point2i(0,0),GUI::TL,GUI::TL);
   GL::Mesh disk;
   GL::makeDisc(disk,32);
-  Timer timer, tumortimer, thirsttimer, atimer;
+  Timer timer, tumortimer, thirsttimer;
   bool scaworking(false);
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
   world.voxelSphere(irrigationSphereCenter,1.5f,Voxel::TUMOR_START,Voxel::max);
@@ -281,36 +288,26 @@ void game() {
     world.update();
     Wwise::update();
     cam.update(world,deltaTime);
-    atimer.setoff();
-    int aturns(0);
-    do {
-      growthAutomaton.update();
-      thirstAutomaton.update();
-      chemoAutomaton.update();
-      aturns++;
-    } while(atimer.since().milliseconds()<30);
-    growthFactor = growthVPS/(aturns/deltaTime);
-    thirstFactor = thirstVPS/(aturns/deltaTime);
-    chemoFactor = chemoVPS/(aturns/deltaTime);
+    Automaton::update(Time(0,30),deltaTime);
     if(thirstAutomaton.size()==0)
       tumorthirsting = false;
     if(tumortimer.since()>Time(0,0,5))
       tumorgrowing = false;
     if(thirsttimer.every(Time(0,0,1))) {
-      tumorIdleCount = tumorThirstyIdleCount = 0;
+      tumorCount = tumorThirstyCount = 0;
       world.foreachChunk(foreachChunk);
-      if(tumorIdleCount) {
-        burstRadius = ceil(L::log((float)tumorIdleCount,burstRadiusLog));
-        burstTumorCount = ceil(L::log(tumorIdleCount*burstTumorCountFactor,burstTumorCountLog));
-        burstVesselCount = ceil(L::log(tumorIdleCount*burstVesselCountFactor,burstVesselCountLog));
-        text->sText("tumor: "+ToString(tumorIdleCount)+"\n"
-                    "thirsty: "+ToString(tumorThirstyIdleCount)+"\n"
+      if(tumorCount) {
+        burstRadius = ceil(L::log((float)tumorCount,burstRadiusLog));
+        burstTumorCount = ceil(L::log(tumorCount*burstTumorCountFactor,burstTumorCountLog));
+        burstVesselCount = ceil(L::log(tumorCount*burstVesselCountFactor,burstVesselCountLog));
+        text->sText("tumor: "+ToString(tumorCount)+"\n"
+                    "thirsty: "+ToString(tumorThirstyCount)+"\n"
                     "burst radius: "+ToString(burstRadius)+"\n"
                     "burst tumor count: "+ToString(burstTumorCount)+"\n"
                     "burst vessel count: "+ToString(burstVesselCount)+"\n"
                     "time: "+Time::format("%M:%S",Time::now()-start)+"\n");
       }
-      outjson.get<Dynamic::Array>()((float)tumorIdleCount);
+      outjson.get<Dynamic::Array>()((float)tumorCount);
     }
     scaworking = sca.update(world);
     while(Window::newEvent(event)) {
@@ -429,12 +426,9 @@ int main(int argc, char* argv[]) {
   irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
   irrigationSphereRadius = Conf::getFloat("irrigation_sphere_radius");
   irrigationRadius = Conf::getFloat("irrigation_radius");
-  growthVPS = Conf::getInt("growth_vps");
   thirstAppearanceFactor = Conf::getFloat("thirst_appearance_factor");
   thirstPropagationFactor = Conf::getFloat("thirst_propagation_factor");
-  thirstVPS = Conf::getInt("thirst_vps");
   chemoPropagationFactor = Conf::getFloat("chemo_propagation_factor");
-  chemoVPS = Conf::getInt("chemo_vps");
   ambientLevel = Conf::getFloat("ambient_level");
   cam.reset(irrigationSphereCenter);
   // Window initialization
