@@ -137,20 +137,22 @@ Automaton* thirstAutomatonP;
 void foreachChunk(Chunk* chunk) {
   tumorCount += chunk->typeCount(Voxel::TUMOR) + chunk->typeCount(Voxel::TUMOR_IDLE);
   tumorThirstyCount += chunk->typeCount(Voxel::TUMOR_THIRSTY) + chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE);
-  if(!tumorthirsting && chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<thirstAppearanceFactor)
+  bool thirstPotential(!tumorthirsting && chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<thirstAppearanceFactor);
+  bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE));
+  if(thirstPotential || camPotential)
     for(int x(0); x<Chunk::size; x++)
       for(int y(0); y<Chunk::size; y++)
-        for(int z(0); z<Chunk::size; z++)
-          if(chunk->voxel(x,y,z).type()==Voxel::TUMOR_THIRSTY_IDLE) {
+        for(int z(0); z<Chunk::size; z++) {
+          if(thirstPotential && chunk->voxel(x,y,z).type()==Voxel::TUMOR_THIRSTY_IDLE) {
             Point3i position(chunk->position()+Point3i(x,y,z));
             if(irrigationValue(Point3f(x,y,z))<1.f) {
               thirstAutomatonP->include(position);
               tumorthirsting = true;
             } else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
           }
-  if(chunk->typeCount(Voxel::TUMOR)
-      || chunk->typeCount(Voxel::TUMOR_IDLE))
-    cam.addPoint(chunk->position()+Point3i(Chunk::size/2,Chunk::size/2,Chunk::size/2));
+          if(camPotential && (chunk->voxel(x,y,z).type()==Voxel::TUMOR || chunk->voxel(x,y,z).type()==Voxel::TUMOR_IDLE))
+            cam.addPoint(chunk->position()+Point3i(x,y,z));
+        }
 }
 void fillObj(const char* filename, byte type) {
   Vector<Point3f> vertices;
@@ -293,7 +295,7 @@ void game() {
       tumorthirsting = false;
     if(tumortimer.since()>Time(0,0,5))
       tumorgrowing = false;
-    if(thirsttimer.every(Time(0,0,1))) {
+    if(thirsttimer.every(Time(0,100))) {
       tumorCount = tumorThirstyCount = 0;
       world.foreachChunk(foreachChunk);
       if(tumorCount) {
@@ -344,7 +346,7 @@ void game() {
             }
             break;
           case Window::Event::ENTER:
-            anywhere = true;
+            anywhere = !anywhere;
             break;
           case Window::Event::D:
             displayAutomata = !displayAutomata;
@@ -381,11 +383,8 @@ void game() {
     debugProgram.uniform("view",cam.view());
     debugProgram.uniform("projection",cam.projection());
     //GL::Utils::drawAxes();
-    if(displayAutomata) {
-      growthAutomaton.drawDebug();
-      thirstAutomaton.drawDebug();
-      chemoAutomaton.drawDebug();
-    }
+    if(displayAutomata)
+      Automaton::drawAll();
     pp.postrender(ppProgram);
     glClear(GL_DEPTH_BUFFER_BIT); // Start drawing GUI
     guiProgram.use();

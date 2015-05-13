@@ -6,7 +6,7 @@ void SphericalCamera::reset(const L::Point3f& point) {
   _interval.clear();
   addPoint(point-Point3f(8,8,8));
   addPoint(point+Point3f(8,8,8));
-  position(point+Point3f(0,0,-32));
+  position(point+Point3f(0,0,-128));
 }
 void SphericalCamera::addPoint(const L::Point3f& point) {
   _interval.add(point);

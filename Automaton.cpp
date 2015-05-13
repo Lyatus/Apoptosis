@@ -43,7 +43,7 @@ void Automaton::update() {
   } while(_processing || !_buffer.empty());
 }
 
-void Automaton::drawDebug() {
+void Automaton::draw() {
   if(_zone.empty()) return;
   glBegin(GL_QUADS);
   glColor3ub(255,255,0);
@@ -100,4 +100,8 @@ void Automaton::remove(Automaton* a) {
       _automata.erase(_automata.begin()+i);
       return;
     }
+}
+void Automaton::drawAll() {
+  for(auto&& a : _automata)
+    a->draw();
 }

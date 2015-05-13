@@ -24,7 +24,7 @@ class Automaton {
     Automaton(World&, Process, float vps);
     void include(const L::Point3i&);
     void update();
-    void drawDebug();
+    void draw();
 
     inline int size() const {return _size;}
     inline float factor() const {return _factor;}
@@ -34,6 +34,7 @@ class Automaton {
     static void update(const L::Time&, float deltaTime);
     static void add(Automaton*);
     static void remove(Automaton*);
+    static void drawAll();
 };
 
 #endif
