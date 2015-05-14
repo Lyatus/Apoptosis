@@ -131,7 +131,7 @@ Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
     bool otherChemo(other.type()==Voxel::ORGAN_CHEMO || other.type()==Voxel::TUMOR_IDLE_CHEMO || other.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO);
     if(chemo && other.empty())
       wtr.value(std::max(0.f,wtr.value()-Rand::nextFloat()*automaton.factor()*((wtr.type()==Voxel::ORGAN_CHEMO)?chemoOrganFactor:1)));
-    if(!chemo && otherChemo &&  Rand::nextFloat()<chemoPropagationFactor)
+    if(!chemo && otherChemo &&  Rand::nextFloat()<chemoPropagationFactor*((wtr.type()==Voxel::ORGAN)?chemoOrganFactor:1))
       switch(wtr.type()) {
         case Voxel::ORGAN:
           wtr.type(Voxel::ORGAN_CHEMO);
