@@ -41,5 +41,7 @@
 	"thirst_appearance_factor": 1,
 	"thirst_propagation_factor": 1,
 	"chemo_vps": 2.5,
-	"chemo_propagation_factor": 0.01
+	"chemo_target": 0.5,
+	"chemo_propagation_factor": 0.01,
+	"chemo_organ_factor": 0.25
 }

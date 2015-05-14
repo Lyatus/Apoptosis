@@ -36,7 +36,8 @@ Point3f irrigationSphereCenter;
 float irrigationSphereRadius;
 
 float thirstAppearanceFactor, thirstPropagationFactor;
-float chemoPropagationFactor;
+float chemoPropagationFactor, chemoOrganFactor, chemoTarget;
+int chemoTumorTarget, chemoTumorDestroyed;
 bool anywhere(false);
 
 float burstRadiusLog, burstTumorCountLog, burstTumorCountFactor, burstVesselCountLog, burstVesselCountFactor;
@@ -108,14 +109,28 @@ Voxel thirst(Automaton& automaton, int x, int y, int z, bool& processable) {
 }
 Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
   Voxel wtr(automaton.voxel(x,y,z));
-  if(wtr.empty())
+  if(chemoTumorDestroyed>chemoTumorTarget && Rand::nextFloat()<.1f)
+    switch(wtr.type()) {
+      case Voxel::ORGAN_CHEMO:
+        wtr.type(Voxel::ORGAN);
+        break;
+      case Voxel::TUMOR_IDLE_CHEMO:
+        wtr.type(Voxel::TUMOR_IDLE);
+        break;
+      case Voxel::TUMOR_THIRSTY_IDLE_CHEMO:
+        wtr.type(Voxel::TUMOR_THIRSTY_IDLE);
+        break;
+    }
+  else if(wtr.empty()) {
+    if(wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_IDLE_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO)
+      chemoTumorDestroyed++;
     wtr.type(Voxel::NOTHING);
-  else {
+  } else {
     bool chemo(wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_IDLE_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO);
     Voxel other(automaton.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2));
     bool otherChemo(other.type()==Voxel::ORGAN_CHEMO || other.type()==Voxel::TUMOR_IDLE_CHEMO || other.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO);
     if(chemo && other.empty())
-      wtr.value(std::max(0.f,wtr.value()-Rand::nextFloat()*automaton.factor()));
+      wtr.value(std::max(0.f,wtr.value()-Rand::nextFloat()*automaton.factor()*((wtr.type()==Voxel::ORGAN_CHEMO)?chemoOrganFactor:1)));
     if(!chemo && otherChemo &&  Rand::nextFloat()<chemoPropagationFactor)
       switch(wtr.type()) {
         case Voxel::ORGAN:
@@ -343,6 +358,8 @@ void game() {
           case Window::Event::SPACE:
             for(auto&& hit : burst(0,32,1)) {
               world.voxelSphere(hit,1,Voxel::TUMOR_IDLE_CHEMO,Voxel::max);
+              chemoTumorDestroyed = 0;
+              chemoTumorTarget = tumorCount*chemoTarget;
               chemoAutomaton.include(hit);
             }
             break;
@@ -429,6 +446,8 @@ int main(int argc, char* argv[]) {
   thirstAppearanceFactor = Conf::getFloat("thirst_appearance_factor");
   thirstPropagationFactor = Conf::getFloat("thirst_propagation_factor");
   chemoPropagationFactor = Conf::getFloat("chemo_propagation_factor");
+  chemoOrganFactor = Conf::getFloat("chemo_organ_factor");
+  chemoTarget = Conf::getFloat("chemo_target");
   ambientLevel = Conf::getFloat("ambient_level");
   cam.reset(irrigationSphereCenter);
   // Window initialization
