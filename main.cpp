@@ -11,6 +11,7 @@
 #include "SCA.h"
 #include "Conf.h"
 #include "SphericalCamera.h"
+#include "UI.h"
 
 using namespace std;
 using namespace L;
@@ -38,7 +39,7 @@ float irrigationSphereRadius;
 float thirstAppearanceFactor, thirstPropagationFactor;
 float chemoPropagationFactor, chemoOrganFactor, chemoTarget;
 int chemoTumorTarget, chemoTumorDestroyed;
-bool anywhere(false);
+bool anywhere(false), budding(false);
 
 float burstRadiusLog, burstTumorCountLog, burstTumorCountFactor, burstVesselCountLog, burstVesselCountFactor;
 
@@ -154,7 +155,8 @@ void foreachChunk(Chunk* chunk) {
   tumorThirstyCount += chunk->typeCount(Voxel::TUMOR_THIRSTY) + chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE);
   bool thirstPotential(!tumorthirsting && chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<thirstAppearanceFactor);
   bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE) || chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
-  if(thirstPotential || camPotential)
+  bool budPotential(chunk->typeCount(Voxel::TUMOR_IDLE));
+  if(thirstPotential || camPotential || budPotential)
     for(int x(0); x<Chunk::size; x++)
       for(int y(0); y<Chunk::size; y++)
         for(int z(0); z<Chunk::size; z++) {
@@ -292,8 +294,6 @@ void game() {
   // GUI initialization
   GUI::Text* text(new GUI::Text());
   gui->place(text,Point2i(0,0),GUI::TL,GUI::TL);
-  GL::Mesh disk;
-  GL::makeDisc(disk,32);
   Timer timer, tumortimer, thirsttimer;
   bool scaworking(false);
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
@@ -334,7 +334,7 @@ void game() {
         switch(event.button) {
           case Window::Event::LBUTTON:
             if(!tumorgrowing) {
-              if(!scaworking) {
+              if(!scaworking)
                 for(auto&& hit : burst(burstRadius,32,burstTumorCount))
                   if(anywhere || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE) {
                     world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
@@ -342,7 +342,6 @@ void game() {
                     tumorgrowing = true;
                     tumortimer.setoff();
                   }
-              }
               if(tumorgrowing)
                 Wwise::postEvent("Tumor_right");
             } else Wwise::postEvent("Tumor_wrong"); // Wrong because already growing
@@ -366,6 +365,9 @@ void game() {
           case Window::Event::ENTER:
             anywhere = !anywhere;
             break;
+          case Window::Event::B:
+            budding = !budding;
+            break;
           case Window::Event::D:
             displayAutomata = !displayAutomata;
             break;
@@ -382,6 +384,7 @@ void game() {
     }
     if(Window::isPressed(Window::Event::ESCAPE))
       break;
+    glEnable(GL_DEPTH_TEST);
     pp.prerender();
     glMatrixMode(GL_MODELVIEW); // Reset matrix
     glLoadIdentity();
@@ -404,17 +407,11 @@ void game() {
     if(displayAutomata)
       Automaton::drawAll();
     pp.postrender(ppProgram);
-    glClear(GL_DEPTH_BUFFER_BIT); // Start drawing GUI
+    glDisable(GL_DEPTH_TEST); // Start drawing GUI
     guiProgram.use();
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
-    glPushMatrix();
-    glTranslatef(Window::mousePosition().x(),Window::mousePosition().y(),0);
-    glScalef(burstRadius,burstRadius,1);
-    glColor4f(1,0,1,.5f);
-    GL::whiteTexture().bind();
-    disk.draw();
-    glPopMatrix();
+    UI::drawCursor(burstRadius,(Time::now().milliseconds()%1000)/1000.f);
     // Fade
     float since(fadeTimer.since().fSeconds());
     float fade(std::min(1.f,since/gameFadeDuration));
@@ -451,12 +448,14 @@ int main(int argc, char* argv[]) {
   ambientLevel = Conf::getFloat("ambient_level");
   cam.reset(irrigationSphereCenter);
   // Window initialization
+  int flags(Conf::getBool("cursor")?0:Window::nocursor);
   if(Conf::getBool("fullscreen"))
-    Window::openFullscreen("Apoptosis");
-  else Window::open("Apoptosis",Conf::getInt("width"),Conf::getInt("height"));
+    Window::openFullscreen("Apoptosis",flags);
+  else Window::open("Apoptosis",Conf::getInt("width"),Conf::getInt("height"),flags);
   // GUI initialization
   gui = new GUI::RelativeContainer(Point2i(Window::width(),Window::height()));
   guicam.pixels();
+  UI::configure();
   // Wwise initialization
   Wwise::init(AKTEXT("Wwise/"));
   Wwise::registerObject(100);

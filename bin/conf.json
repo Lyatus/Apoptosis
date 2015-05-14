@@ -1,5 +1,6 @@
 {
 	"fullscreen": true,
+	"cursor": false,
 	"width": 800, "height": 450,
 
 	"menu_fade_duration": 0.1,
@@ -12,6 +13,10 @@
 	"ambient_level": 0.5,
 	"intro_background": "#ffffff",
 	"background": "#cab7fe",
+	
+	"cursor_point_color": "#000000ff",
+	"background_disk_color": "#ffffff88",
+	"inner_disk_color": "#00ff0088",
 	
 	"tumor": "#ff0054",
 	"tumor_idle": "#ff0054",

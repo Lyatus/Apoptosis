@@ -1,0 +1,30 @@
+#include "UI.h"
+
+using namespace L;
+
+Color UI::cursorPointColor, UI::backgroundDiskColor, UI::innerDiskColor;
+GL::Mesh* UI::disk;
+
+void ::UI::drawCursor(float radius, float value) {
+  glPushMatrix();
+  glTranslatef(Window::mousePosition().x(),Window::mousePosition().y(),0);
+  GL::whiteTexture().bind();
+  GL::color(backgroundDiskColor);
+  glPushMatrix();
+  glScalef(radius,radius,1);
+  disk->draw();
+  GL::color(innerDiskColor);
+  glScalef(value,value,1);
+  disk->draw();
+  glPopMatrix();
+  GL::color(cursorPointColor);
+  disk->draw();
+  glPopMatrix();
+}
+void ::UI::configure() {
+  cursorPointColor = Conf::getColor("cursor_point_color");
+  backgroundDiskColor = Conf::getColor("background_disk_color");
+  innerDiskColor = Conf::getColor("inner_disk_color");
+  disk = new GL::Mesh();
+  GL::makeDisc(*disk,32);
+}

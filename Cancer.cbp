@@ -93,6 +93,8 @@
 		<Unit filename="SCA.h" />
 		<Unit filename="SphericalCamera.cpp" />
 		<Unit filename="SphericalCamera.h" />
+		<Unit filename="UI.cpp" />
+		<Unit filename="UI.h" />
 		<Unit filename="Voxel.cpp" />
 		<Unit filename="Voxel.h" />
 		<Unit filename="World.cpp" />
