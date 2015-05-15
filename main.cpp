@@ -32,20 +32,24 @@ Timer fadeTimer;
 Time start;
 
 // Gameplay configuration
+float resourceSpeed, tumorCost, vesselCost;
+
 float irrigationRadius;
 Point3f irrigationSphereCenter;
 float irrigationSphereRadius;
 
-float thirstAppearanceFactor, thirstPropagationFactor;
-float chemoPropagationFactor, chemoOrganFactor, chemoTarget;
+float growthVPS;
+float thirstVPS, thirstAppearanceFactor, thirstPropagationFactor;
+float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoTarget;
 int chemoTumorTarget, chemoTumorDestroyed;
 bool anywhere(false), budding(false);
 
-float burstRadiusLog, burstTumorCountLog, burstTumorCountFactor, burstVesselCountLog, burstVesselCountFactor;
+float burstRadiusLog, burstVesselCountLog, burstVesselCountFactor;
 
 // Gameplay tracking
-bool tumorgrowing(false), tumorthirsting(false);
-int tumorCount, tumorThirstyCount, burstRadius, burstTumorCount, burstVesselCount;
+float resource(0);
+bool tumorthirsting(false);
+int tumorCount, tumorThirstyCount, burstRadius, burstVesselCount;
 Dynamic::Var outjson("SURPRISE MOTHERFUCKER");
 
 float irrigationValue(const Point3f& p) {
@@ -56,7 +60,7 @@ Voxel growth(Automaton& automaton, int x, int y, int z, bool& processable) {
   Voxel current(automaton.voxel(x,y,z));
   L::byte currentType(current.type());
   bool idle(currentType==Voxel::TUMOR_IDLE || currentType==Voxel::TUMOR_THIRSTY_IDLE);
-  if(tumorgrowing) { // The tumor is still growing
+  if(!automaton.shouldStop()) { // The tumor is still growing
     Voxel other(automaton.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2));
     L::byte otherType(other.type());
     bool otherTumor(otherType==Voxel::TUMOR || otherType==Voxel::TUMOR_THIRSTY);
@@ -197,7 +201,7 @@ void fillTerrain(const Interval3i& interval) {
 void mask(const Color& color) {
   glClear(GL_DEPTH_BUFFER_BIT);
   GL::Program::unuse();
-  glColor4f((float)color.r()/255,(float)color.g()/255,(float)color.b()/255,(float)color.a()/255);
+  GL::color(color);
   glBegin(GL_QUADS);
   glVertex2f(-1,-1);
   glVertex2f(1,-1);
@@ -261,6 +265,12 @@ List<Point3f> burst(float pixelRadius, float worldRadius, int count) {
   }
   return wtr;
 }
+void startTumor(const Point3f& start) {
+  Automaton* automaton(new Automaton(world,growth,growthVPS,Time::now()+Time(0,0,5)));
+  world.voxelSphere(start,1.5f,Voxel::TUMOR_START,Voxel::max);
+  automaton->include(start);
+  Automaton::add(automaton);
+}
 void game() {
   fadeTimer.setoff();
   clearcolor(Conf::getColor("background"));
@@ -284,82 +294,76 @@ void game() {
   // Textures fetching
   GL::Texture voxelTexture(Image::Bitmap(Conf::getString("texture_path")));
   // Automata initialization
-  Automaton growthAutomaton(world,growth,Conf::getFloat("growth_vps")),
-            thirstAutomaton(world,thirst,Conf::getFloat("thirst_vps")),
-            chemoAutomaton(world,chemo,Conf::getFloat("chemo_vps"));
-  Automaton::add(&growthAutomaton);
-  Automaton::add(&thirstAutomaton);
-  Automaton::add(&chemoAutomaton);
-  thirstAutomatonP = &thirstAutomaton;
+  Automaton *thirstAutomaton(new Automaton(world,thirst,thirstVPS,Time::now()+Time(0,0,0,0,1))),
+            *chemoAutomaton(new Automaton(world,chemo,chemoVPS,Time::now()+Time(0,0,0,0,1)));
+  Automaton::add(thirstAutomaton);
+  Automaton::add(chemoAutomaton);
+  thirstAutomatonP = thirstAutomaton;
   // GUI initialization
+  Point3f hit;
   GUI::Text* text(new GUI::Text());
   gui->place(text,Point2i(0,0),GUI::TL,GUI::TL);
-  Timer timer, tumortimer, thirsttimer;
+  Timer timer, thirsttimer;
   bool scaworking(false);
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
-  world.voxelSphere(irrigationSphereCenter,1.5f,Voxel::TUMOR_START,Voxel::max);
-  growthAutomaton.include(irrigationSphereCenter);
-  tumorgrowing = true;
-  tumortimer.setoff();
+  startTumor(irrigationSphereCenter);
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
     world.update();
     Wwise::update();
     cam.update(world,deltaTime);
-    Automaton::update(Time(0,30),deltaTime);
-    if(thirstAutomaton.size()==0)
+    Automaton::update(Time(0,25),deltaTime);
+    scaworking = sca.update(world);
+    resource = std::min(1.f,resource+deltaTime*resourceSpeed);
+    if(thirstAutomaton->size()==0)
       tumorthirsting = false;
-    if(tumortimer.since()>Time(0,0,5))
-      tumorgrowing = false;
     if(thirsttimer.every(Time(0,100))) {
       tumorCount = tumorThirstyCount = 0;
       world.foreachChunk(foreachChunk);
       if(tumorCount) {
         burstRadius = ceil(L::log((float)tumorCount,burstRadiusLog));
-        burstTumorCount = ceil(L::log(tumorCount*burstTumorCountFactor,burstTumorCountLog));
         burstVesselCount = ceil(L::log(tumorCount*burstVesselCountFactor,burstVesselCountLog));
         text->sText("tumor: "+ToString(tumorCount)+"\n"
                     "thirsty: "+ToString(tumorThirstyCount)+"\n"
                     "burst radius: "+ToString(burstRadius)+"\n"
-                    "burst tumor count: "+ToString(burstTumorCount)+"\n"
                     "burst vessel count: "+ToString(burstVesselCount)+"\n"
                     "time: "+Time::format("%M:%S",Time::now()-start)+"\n");
       }
       outjson.get<Dynamic::Array>()((float)tumorCount);
     }
-    scaworking = sca.update(world);
     while(Window::newEvent(event)) {
       if(gui->event(event)) continue;
       if(event.type == Window::Event::BUTTONDOWN)
         switch(event.button) {
           case Window::Event::LBUTTON:
-            if(!tumorgrowing) {
-              if(!scaworking)
-                for(auto&& hit : burst(burstRadius,32,burstTumorCount))
-                  if(anywhere || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE) {
-                    world.voxelSphere(hit,1,Voxel::TUMOR_START,Voxel::max);
-                    growthAutomaton.include(hit);
-                    tumorgrowing = true;
-                    tumortimer.setoff();
-                  }
-              if(tumorgrowing)
+            if(!scaworking) {
+              if(resource>tumorCost
+                  && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)
+                  && world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE) {
+                startTumor(hit);
+                resource -= tumorCost;
                 Wwise::postEvent("Tumor_right");
+              } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             } else Wwise::postEvent("Tumor_wrong"); // Wrong because already growing
-            if(!tumorgrowing)
-              Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             break;
           case Window::Event::RBUTTON:
-            if(!tumorgrowing)
+            if(resource>vesselCost) {
+              bool vesselAdded(false);
               for(auto&& hit : burst(burstRadius,32,burstVesselCount))
-                if(anywhere || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_THIRSTY_IDLE)
+                if(anywhere || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_THIRSTY_IDLE) {
                   sca.addTarget(hit);
+                  vesselAdded = true;
+                }
+              if(vesselAdded)
+                resource -= vesselCost;
+            }
             break;
           case Window::Event::SPACE:
             for(auto&& hit : burst(0,32,1)) {
               world.voxelSphere(hit,1,Voxel::TUMOR_IDLE_CHEMO,Voxel::max);
               chemoTumorDestroyed = 0;
               chemoTumorTarget = tumorCount*chemoTarget;
-              chemoAutomaton.include(hit);
+              chemoAutomaton->include(hit);
             }
             break;
           case Window::Event::ENTER:
@@ -411,7 +415,7 @@ void game() {
     guiProgram.use();
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
-    UI::drawCursor(burstRadius,(Time::now().milliseconds()%1000)/1000.f);
+    UI::drawCursor(burstRadius,resource);
     // Fade
     float since(fadeTimer.since().fSeconds());
     float fade(std::min(1.f,since/gameFadeDuration));
@@ -433,19 +437,23 @@ int main(int argc, char* argv[]) {
   introDarkDuration = Conf::getFloat("intro_dark_duration");
   gameFadeDuration = Conf::getFloat("game_fade_duration");
   burstRadiusLog = Conf::getFloat("burst_radius_log");
-  burstTumorCountLog = Conf::getFloat("burst_tumor_count_log");
-  burstTumorCountFactor = Conf::getFloat("burst_tumor_count_factor");
   burstVesselCountLog = Conf::getFloat("burst_vessel_count_log");
   burstVesselCountFactor = Conf::getFloat("burst_vessel_count_factor");
   irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
   irrigationSphereRadius = Conf::getFloat("irrigation_sphere_radius");
   irrigationRadius = Conf::getFloat("irrigation_radius");
+  growthVPS = Conf::getFloat("growth_vps");
+  thirstVPS = Conf::getFloat("thirst_vps");
   thirstAppearanceFactor = Conf::getFloat("thirst_appearance_factor");
   thirstPropagationFactor = Conf::getFloat("thirst_propagation_factor");
+  chemoVPS = Conf::getFloat("chemo_vps");
   chemoPropagationFactor = Conf::getFloat("chemo_propagation_factor");
   chemoOrganFactor = Conf::getFloat("chemo_organ_factor");
   chemoTarget = Conf::getFloat("chemo_target");
   ambientLevel = Conf::getFloat("ambient_level");
+  resourceSpeed = Conf::getFloat("resource_speed");
+  tumorCost = Conf::getFloat("tumor_cost");
+  vesselCost = Conf::getFloat("vessel_cost");
   cam.reset(irrigationSphereCenter);
   // Window initialization
   int flags(Conf::getBool("cursor")?0:Window::nocursor);

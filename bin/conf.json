@@ -32,8 +32,6 @@
 	"sca_avoid_attempts": 1024,
 	
 	"burst_radius_log": 1.3,
-	"burst_tumor_count_log": 16,
-	"burst_tumor_count_factor": 1,
 	"burst_vessel_count_log": 20,
 	"burst_vessel_count_factor": 1,
 
@@ -49,4 +47,8 @@
 	"chemo_target": 0.5,
 	"chemo_propagation_factor": 0.01,
 	"chemo_organ_factor": 0.25
+	
+	"resource_speed": 0.1,
+	"tumor_cost": 0.25,
+	"vessel_cost": 0.5
 }

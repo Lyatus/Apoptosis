@@ -5,7 +5,7 @@ using namespace GL;
 
 Vector<Automaton*> Automaton::_automata;
 
-Automaton::Automaton(World& world, Process process, float vps) : _world(world), _process(process), _vps(vps), _factor(0), _size(0), _processing(false) {}
+Automaton::Automaton(World& world, Process process, float vps, const Time& end) : _world(world), _process(process), _vps(vps), _factor(0), _end(end), _shouldStop(false), _size(0), _processing(false) {}
 void Automaton::include(const L::Point3i& p) {
   _zone.add(p);
 }
@@ -81,8 +81,8 @@ void Automaton::draw() {
 }
 
 void Automaton::update(const Time& time, float deltaTime) {
-  int aturns(0);
   Timer atimer;
+  int aturns(0);
   do {
     for(auto&& a : _automata)
       a->update();
@@ -90,6 +90,27 @@ void Automaton::update(const Time& time, float deltaTime) {
   } while((atimer.since()*(aturns+1))/aturns<time);
   for(auto&& a : _automata)
     a->_factor = a->_vps/(aturns/deltaTime);
+  Time now(Time::now());
+  for(int i(0); i<_automata.size(); i++) { // Check for automata that should be removed
+    if(_automata[i]->_end<now) // Automaton should stop
+      _automata[i]->_shouldStop = true;
+    if(_automata[i]->_shouldStop && !_automata[i]->_size) // Automaton is ready to be removed
+      remove(_automata[i]);
+  }
+  for(int i(0); i<_automata.size(); i++)
+    for(int j(0); j<_automata.size(); j++)
+      if(i!=j && _automata[i]->_process==_automata[j]->_process
+          && (_automata[i]->_zone && _automata[j]->_zone)) {
+        Automaton *automaton(new Automaton(_automata[i]->_world,
+                                           _automata[i]->_process,
+                                           std::max(_automata[i]->_vps,_automata[j]->_vps),
+                                           std::max(_automata[i]->_end,_automata[j]->_end)));
+        automaton->_zone = _automata[i]->_zone+_automata[j]->_zone;
+        add(automaton);
+        remove(_automata[std::max(i,j)]);
+        remove(_automata[std::min(i,j)]);
+        i = j = 0;
+      }
 }
 void Automaton::add(Automaton* a) {
   _automata.push_back(a);
@@ -98,6 +119,7 @@ void Automaton::remove(Automaton* a) {
   for(int i(0); i<_automata.size(); i++)
     if(_automata[i]==a) {
       _automata.erase(_automata.begin()+i);
+      delete a;
       return;
     }
 }
