@@ -2,6 +2,7 @@
 	"fullscreen": true,
 	"cursor": false,
 	"width": 800, "height": 450,
+	"target_fps": 40,
 
 	"menu_fade_duration": 0.1,
 	"intro_dark_duration": 0.1,

@@ -26,6 +26,7 @@ SphericalCamera cam;
 // Graphic configuration
 float ambientLevel;
 bool displayAutomata(false);
+float targetFPS;
 // GUI configuration
 float menuFadeDuration, gameFadeDuration, introDarkDuration;
 Timer fadeTimer;
@@ -312,7 +313,7 @@ void game() {
     world.update();
     Wwise::update();
     cam.update(world,deltaTime);
-    Automaton::update(Time(0,30),deltaTime);
+    Automaton::update(Time(1000000/targetFPS),deltaTime);
     scaworking = sca.update(world);
     resource = std::min(1.f,resource+deltaTime*resourceSpeed);
     if(thirstAutomaton->size()==0)
@@ -433,6 +434,7 @@ int main(int argc, char* argv[]) {
   Conf::open("conf.json");
   Voxel::configure();
   SCA::configure();
+  targetFPS = Conf::getFloat("target_fps");
   menuFadeDuration = Conf::getFloat("menu_fade_duration");
   introDarkDuration = Conf::getFloat("intro_dark_duration");
   gameFadeDuration = Conf::getFloat("game_fade_duration");
