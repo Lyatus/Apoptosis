@@ -51,5 +51,7 @@
 	
 	"resource_speed": 0.1,
 	"tumor_cost": 0.25,
-	"vessel_cost": 0.5
+	"vessel_cost": 0.5,
+	
+	"budding_factor": 0.02
 }

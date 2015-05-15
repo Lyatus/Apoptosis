@@ -33,7 +33,7 @@ Timer fadeTimer;
 Time start;
 
 // Gameplay configuration
-float resourceSpeed, tumorCost, vesselCost;
+float resourceSpeed, tumorCost, vesselCost, buddingFactor;
 
 float irrigationRadius;
 Point3f irrigationSphereCenter;
@@ -44,6 +44,7 @@ float thirstVPS, thirstAppearanceFactor, thirstPropagationFactor;
 float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoTarget;
 int chemoTumorTarget, chemoTumorDestroyed;
 bool anywhere(false), budding(false);
+Automaton* thirstAutomatonP;
 
 float burstRadiusLog, burstVesselCountLog, burstVesselCountFactor;
 
@@ -153,21 +154,25 @@ Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
   processable = wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_IDLE_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO;
   return wtr;
 }
-
-Automaton* thirstAutomatonP;
+void startTumor(const Point3f& start) {
+  Automaton* automaton(new Automaton(world,growth,growthVPS,Time::now()+Time(0,0,5)));
+  world.voxelSphere(start,1.5f,Voxel::TUMOR_START,Voxel::max);
+  automaton->include(start);
+  Automaton::add(automaton);
+}
 void foreachChunk(Chunk* chunk) {
   tumorCount += chunk->typeCount(Voxel::TUMOR) + chunk->typeCount(Voxel::TUMOR_IDLE);
   tumorThirstyCount += chunk->typeCount(Voxel::TUMOR_THIRSTY) + chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE);
   bool thirstPotential(!tumorthirsting && chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<thirstAppearanceFactor);
   bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE) || chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
-  bool budPotential(chunk->typeCount(Voxel::TUMOR_IDLE));
+  bool budPotential(budding && chunk->typeCount(Voxel::TUMOR_IDLE));
   if(thirstPotential || camPotential || budPotential)
     for(int x(0); x<Chunk::size; x++)
       for(int y(0); y<Chunk::size; y++)
         for(int z(0); z<Chunk::size; z++) {
           Voxel voxel(chunk->voxel(x,y,z));
+          Point3i position(chunk->position()+Point3i(x,y,z));
           if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) {
-            Point3i position(chunk->position()+Point3i(x,y,z));
             if(irrigationValue(Point3f(x,y,z))<1.f) {
               thirstAutomatonP->include(position);
               tumorthirsting = true;
@@ -175,6 +180,8 @@ void foreachChunk(Chunk* chunk) {
           }
           if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
             cam.addPoint(chunk->position()+Point3i(x,y,z));
+          if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<buddingFactor/tumorCount)
+            startTumor(position);
         }
 }
 void fillObj(const char* filename, byte type) {
@@ -266,12 +273,6 @@ List<Point3f> burst(float pixelRadius, float worldRadius, int count) {
   }
   return wtr;
 }
-void startTumor(const Point3f& start) {
-  Automaton* automaton(new Automaton(world,growth,growthVPS,Time::now()+Time(0,0,5)));
-  world.voxelSphere(start,1.5f,Voxel::TUMOR_START,Voxel::max);
-  automaton->include(start);
-  Automaton::add(automaton);
-}
 void game() {
   fadeTimer.setoff();
   clearcolor(Conf::getColor("background"));
@@ -328,6 +329,8 @@ void game() {
                     "thirsty: "+ToString(tumorThirstyCount)+"\n"
                     "burst radius: "+ToString(burstRadius)+"\n"
                     "burst vessel count: "+ToString(burstVesselCount)+"\n"
+                    "anywhere: "+ToString(anywhere)+"\n"
+                    "budding: "+ToString(budding)+"\n"
                     "time: "+Time::format("%M:%S",Time::now()-start)+"\n");
       }
       outjson.get<Dynamic::Array>()((float)tumorCount);
@@ -456,6 +459,7 @@ int main(int argc, char* argv[]) {
   resourceSpeed = Conf::getFloat("resource_speed");
   tumorCost = Conf::getFloat("tumor_cost");
   vesselCost = Conf::getFloat("vessel_cost");
+  buddingFactor = Conf::getFloat("budding_factor");
   cam.reset(irrigationSphereCenter);
   // Window initialization
   int flags(Conf::getBool("cursor")?0:Window::nocursor);
