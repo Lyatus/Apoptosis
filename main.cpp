@@ -312,7 +312,7 @@ void game() {
     world.update();
     Wwise::update();
     cam.update(world,deltaTime);
-    Automaton::update(Time(0,25),deltaTime);
+    Automaton::update(Time(0,30),deltaTime);
     scaworking = sca.update(world);
     resource = std::min(1.f,resource+deltaTime*resourceSpeed);
     if(thirstAutomaton->size()==0)
