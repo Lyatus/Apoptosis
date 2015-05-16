@@ -1,8 +1,8 @@
 {
-	"fullscreen": true,
+	"fullscreen": false,
 	"cursor": false,
-	"width": 800, "height": 450,
-	"target_fps": 40,
+	"width": 1280, "height": 720,
+	"target_fps": 35,
 
 	"menu_fade_duration": 0.1,
 	"intro_dark_duration": 0.1,
@@ -17,7 +17,7 @@
 	
 	"cursor_point_color": "#000000ff",
 	"background_disk_color": "#ffffff88",
-	"inner_disk_color": "#00ff0088",
+	"inner_disk_color": "#B8B8B888",
 	
 	"tumor": "#ff0054",
 	"tumor_idle": "#ff0054",
@@ -44,16 +44,14 @@
 	"thirst_vps": 2.5,
 	"thirst_appearance_factor": 1,
 	"thirst_propagation_factor": 1,
-	"chemo_vps": 3,
+	"chemo_vps": 2,
 	"chemo_target": 0.15,
-	"chemo_propagation_factor": 0.015,
-	"chemo_organ_factor": 0.30
+	"chemo_propagation_factor": 0.030,
+	"chemo_organ_factor": 0.60
 	
 	"resource_speed": 0.12,
 	"tumor_cost": 0.25,
 	"vessel_cost": 0.4,
 	
-	"budding_factor": 0.02
+	"budding_factor": 0.015
 }
-
--salut
