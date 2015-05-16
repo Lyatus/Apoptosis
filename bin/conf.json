@@ -44,14 +44,16 @@
 	"thirst_vps": 2.5,
 	"thirst_appearance_factor": 1,
 	"thirst_propagation_factor": 1,
-	"chemo_vps": 2.5,
-	"chemo_target": 0.5,
-	"chemo_propagation_factor": 0.01,
-	"chemo_organ_factor": 0.25
+	"chemo_vps": 3,
+	"chemo_target": 0.15,
+	"chemo_propagation_factor": 0.015,
+	"chemo_organ_factor": 0.30
 	
-	"resource_speed": 0.1,
+	"resource_speed": 0.12,
 	"tumor_cost": 0.25,
-	"vessel_cost": 0.5,
+	"vessel_cost": 0.4,
 	
 	"budding_factor": 0.02
 }
+
+-salut
