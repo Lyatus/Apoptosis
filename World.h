@@ -18,6 +18,7 @@ class World {
     void foreachChunk(void (*)(Chunk*));
     void draw(const L::GL::Camera&);
     void update();
+    int typeCount(L::byte type) const;
     Chunk& chunk(int x, int y, int z, bool create = true);
     const Voxel& voxel(int x, int y, int z, bool create = true);
     float valueAt(const L::Point3f&);

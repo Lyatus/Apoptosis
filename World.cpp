@@ -30,6 +30,15 @@ void World::update() {
     if(chunk) chunk->update();
   }
 }
+int World::typeCount(L::byte type) const {
+  int wtr(0);
+  Point3i i(_interval.min());
+  while(i.increment(_interval.min(),_interval.max())) {
+    Chunk* chunk(_chunks[i.x()][i.y()][i.z()]);
+    if(chunk) wtr += chunk->typeCount(type);
+  }
+  return wtr;
+}
 Chunk& World::chunk(int x, int y, int z, bool create) {
   Chunk*& chunk = _chunks[x+radius][y+radius][z+radius];
   if(chunk) return *chunk; // The chunk is already created

@@ -161,8 +161,6 @@ void startTumor(const Point3f& start) {
   Automaton::add(automaton);
 }
 void foreachChunk(Chunk* chunk) {
-  tumorCount += chunk->typeCount(Voxel::TUMOR) + chunk->typeCount(Voxel::TUMOR_IDLE);
-  tumorThirstyCount += chunk->typeCount(Voxel::TUMOR_THIRSTY) + chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE);
   bool thirstPotential(!tumorthirsting && chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<thirstAppearanceFactor);
   bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE) || chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
   bool budPotential(budding && chunk->typeCount(Voxel::TUMOR_IDLE));
@@ -320,7 +318,8 @@ void game() {
     if(thirstAutomaton->size()==0)
       tumorthirsting = false;
     if(thirsttimer.every(Time(0,100))) {
-      tumorCount = tumorThirstyCount = 0;
+      tumorCount = world.typeCount(Voxel::TUMOR) + world.typeCount(Voxel::TUMOR_IDLE);
+      tumorThirstyCount = world.typeCount(Voxel::TUMOR_THIRSTY) + world.typeCount(Voxel::TUMOR_THIRSTY_IDLE);
       world.foreachChunk(foreachChunk);
       if(tumorCount) {
         burstRadius = ceil(L::log((float)tumorCount,burstRadiusLog));
