@@ -103,8 +103,8 @@ void Automaton::update(const Time& time, float deltaTime) {
           && (_automata[i]->_zone && _automata[j]->_zone)) {
         Automaton *automaton(new Automaton(_automata[i]->_world,
                                            _automata[i]->_process,
-                                           std::max(_automata[i]->_vps,_automata[j]->_vps),
-                                           std::max(_automata[i]->_end,_automata[j]->_end)));
+                                           (_automata[i]->_vps+_automata[j]->_vps)/2,
+                                           (_automata[i]->_end+_automata[j]->_end)/2));
         automaton->_zone = _automata[i]->_zone+_automata[j]->_zone;
         add(automaton);
         remove(_automata[std::max(i,j)]);
