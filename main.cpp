@@ -40,9 +40,12 @@ Point3f irrigationSphereCenter;
 float irrigationSphereRadius;
 
 float growthVPS;
+Time growthDuration;
 float thirstVPS, thirstAppearanceFactor, thirstPropagationFactor;
 float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoTarget;
 int chemoTumorTarget, chemoTumorDestroyed;
+float buddingVPS;
+Time buddingDuration;
 bool anywhere(false), budding(false);
 Automaton* thirstAutomatonP;
 
@@ -154,8 +157,8 @@ Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
   processable = wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_IDLE_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO;
   return wtr;
 }
-void startTumor(const Point3f& start) {
-  Automaton* automaton(new Automaton(world,growth,growthVPS,Time::now()+Time(0,0,5)));
+void startTumor(const Point3f& start, float vps, const Time& duration) {
+  Automaton* automaton(new Automaton(world,growth,vps,Time::now()+duration));
   world.voxelSphere(start,1.5f,Voxel::TUMOR_START,Voxel::max);
   automaton->include(start);
   Automaton::add(automaton);
@@ -179,7 +182,7 @@ void foreachChunk(Chunk* chunk) {
           if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
             cam.addPoint(chunk->position()+Point3i(x,y,z));
           if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<buddingFactor/tumorCount)
-            startTumor(position);
+            startTumor(position,buddingVPS,buddingDuration);
         }
 }
 void fillObj(const char* filename, byte type) {
@@ -307,7 +310,7 @@ void game() {
   Timer timer, thirsttimer;
   bool scaworking(false);
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
-  startTumor(irrigationSphereCenter);
+  startTumor(irrigationSphereCenter,growthVPS,growthDuration);
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
     world.update();
@@ -344,7 +347,7 @@ void game() {
               if(resource>tumorCost
                   && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)
                   && (anywhere || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE)) {
-                startTumor(hit);
+                startTumor(hit,growthVPS,growthDuration);
                 resource -= tumorCost;
                 Wwise::postEvent("Tumor_right");
               } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
@@ -455,6 +458,7 @@ int main(int argc, char* argv[]) {
   irrigationSphereRadius = Conf::getFloat("irrigation_sphere_radius");
   irrigationRadius = Conf::getFloat("irrigation_radius");
   growthVPS = Conf::getFloat("growth_vps");
+  growthDuration = Time(Conf::getFloat("growth_duration")*1000000.f);
   thirstVPS = Conf::getFloat("thirst_vps");
   thirstAppearanceFactor = Conf::getFloat("thirst_appearance_factor");
   thirstPropagationFactor = Conf::getFloat("thirst_propagation_factor");
@@ -466,7 +470,9 @@ int main(int argc, char* argv[]) {
   resourceSpeed = Conf::getFloat("resource_speed");
   tumorCost = Conf::getFloat("tumor_cost");
   vesselCost = Conf::getFloat("vessel_cost");
+  buddingVPS = Conf::getFloat("budding_vps");
   buddingFactor = Conf::getFloat("budding_factor");
+  buddingDuration = Time(Conf::getFloat("budding_duration")*1000000.f);
   cam.reset(irrigationSphereCenter);
   // Window initialization
   int flags(Conf::getBool("cursor")?0:Window::nocursor);

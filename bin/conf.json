@@ -41,6 +41,7 @@
 	"irrigation_radius": 5,
 
 	"growth_vps": 5,
+	"growth_duration": 5,
 	"thirst_vps": 2.5,
 	"thirst_appearance_factor": 1,
 	"thirst_propagation_factor": 1,
@@ -53,5 +54,7 @@
 	"tumor_cost": 0.25,
 	"vessel_cost": 0.4,
 	
-	"budding_factor": 0.015
+	"budding_vps": 5,
+	"budding_factor": 0.015,
+	"budding_duration": 2.5
 }
