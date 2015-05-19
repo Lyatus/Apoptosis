@@ -346,7 +346,9 @@ void game() {
             if(!scaworking) {
               if(resource>tumorCost
                   && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)
-                  && (anywhere || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE)) {
+                  && (anywhere
+                      || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE
+                      || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::VESSEL)) {
                 startTumor(hit,growthVPS,growthDuration);
                 resource -= tumorCost;
                 Wwise::postEvent("Tumor_right");
