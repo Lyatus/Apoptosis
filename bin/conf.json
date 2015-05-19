@@ -48,7 +48,7 @@
 	"chemo_propagation_factor": 0.030,
 	"chemo_organ_factor": 0.60
 	
-	"resource_speed": 0.12,
+	"resource_speed": 0.11,
 	"tumor_cost": 0.25,
 	"vessel_cost": 0.4,
 	
