@@ -6,6 +6,7 @@ Color UI::cursorPointColor, UI::backgroundDiskColor, UI::innerDiskColor;
 GL::Mesh* UI::disk;
 
 void ::UI::drawCursor(float radius, float value) {
+  glClear(GL_DEPTH_BUFFER_BIT);
   glPushMatrix();
   glTranslatef(Window::mousePosition().x(),Window::mousePosition().y(),0);
   GL::whiteTexture().bind();
