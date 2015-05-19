@@ -3,13 +3,16 @@ Event	ID	Name			Wwise Object Path	Notes
 	2095930298	General_start			\Default Work Unit\Amb-Music\General_start	
 	3212785023	Music_event_1			\Default Work Unit\Amb-Music\Music_event_1	
 	4037692801	Tumor_right			\Default Work Unit\Actions\Tumor_right	
+	4179009848	Voice_event_1			\Default Work Unit\Narration\Voice_event_1	
 
 Effect plug-ins	ID	Name	Type				Notes
 	701863527	Inside_My_Head	Wwise RoomVerb			
 	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	56660461	Voice-F-08-fx	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Voice-F-08-fx_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\Placeholder\Voice-F-08-fx		642220
 	104157723	Bubble6	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble6_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble6		26736
+	314428476	Voice-F-07-fx	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Voice-F-07-fx_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\Placeholder\Voice-F-07-fx		505403
 	362923797	Bubble2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble2_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble2		29904
 	391236202	Bubble4	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble4_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble4		38398
 	449711483	Bubble1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble1_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble1		40019

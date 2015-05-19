@@ -22,11 +22,20 @@
 				<Event Id="3212785023" Name="Music_event_1"/>
 				<Event Id="4037692801" Name="Tumor_right"/>
 				<Event Id="1365727304" Name="Tumor_wrong"/>
+				<Event Id="4179009848" Name="Voice_event_1"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
+				<File Id="56660461" Language="SFX">
+					<ShortName>Voice-F-08-fx.wav</ShortName>
+					<Path>SFX\Voice-F-08-fx_4231625D.wem</Path>
+				</File>
 				<File Id="104157723" Language="SFX">
 					<ShortName>Bubble6.wav</ShortName>
 					<Path>SFX\Bubble6_4231625D.wem</Path>
+				</File>
+				<File Id="314428476" Language="SFX">
+					<ShortName>Voice-F-07-fx.wav</ShortName>
+					<Path>SFX\Voice-F-07-fx_4231625D.wem</Path>
 				</File>
 				<File Id="362923797" Language="SFX">
 					<ShortName>Bubble2.wav</ShortName>
