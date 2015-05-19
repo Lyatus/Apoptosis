@@ -25,7 +25,7 @@ SphericalCamera cam;
 
 // Graphic configuration
 float ambientLevel;
-bool displayAutomata(false);
+bool displayAutomata(false), displayVessels(false);
 float targetFPS;
 // GUI configuration
 float menuFadeDuration, gameFadeDuration, introDarkDuration;
@@ -277,9 +277,8 @@ List<Point3f> burst(float pixelRadius, float worldRadius, int count) {
 void game() {
   fadeTimer.setoff();
   clearcolor(Conf::getColor("background"));
-  // Cameras initializati
-  float fovy(60);
-  cam.perspective(fovy,Window::aspect(),.1f,512);
+  // Cameras initialization
+  cam.perspective(60,Window::aspect(),.1f,512);
   // Light initialization
   GL::Light light;
   light.position(-1,1,-1,0);
@@ -379,6 +378,9 @@ void game() {
           case Window::Event::B:
             budding = !budding;
             break;
+          case Window::Event::W:
+            displayVessels = !displayVessels;
+            break;
           case Window::Event::D:
             displayAutomata = !displayAutomata;
             break;
@@ -388,16 +390,9 @@ void game() {
           case Window::Event::NUM2:
             Wwise::postEvent("Music_event_1");
             break;
-          case Window::Event::Z:
-            cam.perspective(40,Window::aspect(),.1f,512);
-            break;
           default:
             break;
         }
-      if(event.type == Window::Event::MOUSEWHEEL) {
-        fovy = max(10.f,min(60.f,fovy+(float)-event.y/16));
-        cam.perspective(fovy,Window::aspect(),.1f,512);
-      }
       cam.event(world,event);
     }
     if(Window::isPressed(Window::Event::ESCAPE))
@@ -424,6 +419,12 @@ void game() {
     //GL::Utils::drawAxes();
     if(displayAutomata)
       Automaton::drawAll();
+    if(displayVessels) {
+      glDisable(GL_DEPTH_TEST);
+      GL::color(Color(128,128,128,0));
+      glLineWidth(16);
+      sca.draw();
+    }
     pp.postrender(ppProgram);
     glDisable(GL_DEPTH_TEST); // Start drawing GUI
     guiProgram.use();
