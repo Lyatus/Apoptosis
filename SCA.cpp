@@ -51,16 +51,16 @@ SCA::SCA(float minDist, float maxDist)
   : _minDist(minDist), _maxDist(maxDist), _changed(false) {
 }
 SCA::~SCA() {
-  L_Iter(_branches,it)
-  delete *it;
+  for(int i(0); i<_branches.size(); i++)
+    delete _branches[i];
 }
 void SCA::addBranch(const Branch& b) {
   Branch* branch(new Branch(b));
-  _branches.push_back(branch);
+  _branches.push(branch);
   _branchTree.insert(b.position(),branch);
 }
 void SCA::addTarget(const Point3f& p) {
-  _targets.push_back(p);
+  _targets.push(p);
 }
 bool SCA::update(World& world) {
   bool addedBranch(false);
@@ -70,7 +70,7 @@ bool SCA::update(World& world) {
     if(nearestBranch) {
       float nearestDistance(target.dist(nearestBranch->position()));
       if(nearestDistance<=_minDist || Rand::nextFloat()<.01f) // A branch is close enough to erase the target
-        _targets.erase(_targets.begin()+i--);
+        _targets.erase(i--);
       else // A branch is close enough to be affected by the target
         nearestBranch->addGrowth(target);
     }

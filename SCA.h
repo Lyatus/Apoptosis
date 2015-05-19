@@ -23,9 +23,9 @@ class SCA {
         inline bool growing() const {return _growCount;}
     };
   private:
-    L::Vector<Branch*> _branches;
+    L::Array<Branch*> _branches;
     L::Octree<float,Branch*> _branchTree;
-    L::Vector<L::Point3f> _targets;
+    L::Array<L::Point3f> _targets;
     L::Timer _timer;
     float _minDist, _maxDist;
     bool _changed;

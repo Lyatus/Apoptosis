@@ -20,13 +20,13 @@ class Automaton {
     int _size;
     bool _processing;
 
-    static L::Vector<Automaton*> _automata;
+    static L::Array<Automaton*> _automata;
 
   public:
     Automaton(World&, Process, float vps, const L::Time& end = L::Time(0));
     void include(const L::Point3i&);
     void update();
-    void draw();
+    void draw() const;
 
     inline int size() const {return _size;}
     inline float factor() const {return _factor;}

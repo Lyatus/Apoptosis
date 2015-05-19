@@ -3,7 +3,7 @@
 using namespace L;
 using namespace GL;
 
-Vector<Automaton*> Automaton::_automata;
+Array<Automaton*> Automaton::_automata;
 
 Automaton::Automaton(World& world, Process process, float vps, const Time& end) : _world(world), _process(process), _vps(vps), _factor(0), _end(end), _shouldStop(false), _size(0), _processing(false) {}
 void Automaton::include(const L::Point3i& p) {
@@ -43,7 +43,7 @@ void Automaton::update() {
   } while(_processing || !_buffer.empty());
 }
 
-void Automaton::draw() {
+void Automaton::draw() const {
   if(_zone.empty()) return;
   glBegin(GL_QUADS);
   glColor3ub(255,255,0);
@@ -84,12 +84,11 @@ void Automaton::update(const Time& time, float deltaTime) {
   Timer atimer;
   int aturns(0);
   do {
-    for(auto&& a : _automata)
-      a->update();
+    _automata.foreach([](Automaton*& a) {a->update();});
     aturns++;
   } while((atimer.since()*(aturns+1))/aturns<time);
-  for(auto&& a : _automata)
-    a->_factor = a->_vps/(aturns/deltaTime);
+  for(int i(0); i<_automata.size(); i++)
+    _automata[i]->_factor = _automata[i]->_vps/(aturns/deltaTime);
   Time now(Time::now());
   for(int i(0); i<_automata.size(); i++) { // Check for automata that should be removed
     if(_automata[i]->_end<now) // Automaton should stop
@@ -113,17 +112,18 @@ void Automaton::update(const Time& time, float deltaTime) {
       }
 }
 void Automaton::add(Automaton* a) {
-  _automata.push_back(a);
+  _automata.push(a);
 }
 void Automaton::remove(Automaton* a) {
   for(int i(0); i<_automata.size(); i++)
     if(_automata[i]==a) {
-      _automata.erase(_automata.begin()+i);
+      _automata.erase(i);
       delete a;
       return;
     }
 }
 void Automaton::drawAll() {
-  for(auto&& a : _automata)
+  /*_automata.foreach([](const Automaton*& a) {
     a->draw();
+  });*/
 }

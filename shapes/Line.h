@@ -9,6 +9,7 @@ class Line : public Shape {
     L::Point3f _a, _b, _ab;
     float _thickness, _abDotAb;
   public:
+    Line(){}
     Line(const L::Point3f& a, const L::Point3f& b, float thickness);
     virtual ~Line() {}
 

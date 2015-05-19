@@ -186,13 +186,13 @@ void foreachChunk(Chunk* chunk) {
         }
 }
 void fillObj(const char* filename, byte type) {
-  Vector<Point3f> vertices;
+  Array<Point3f> vertices;
   File file(filename);
   file.open("r");
   List<String> line;
   while((line = file.readLine().explode(' ')).size()>0) {
     if(line[0]=="v")
-      vertices.push_back(Point3f(FromString<float>(line[1]),FromString<float>(line[2]),FromString<float>(line[3])));
+      vertices.push(Point3f(FromString<float>(line[1]),FromString<float>(line[2]),FromString<float>(line[3])));
     else if(line[0]=="f")
       world.fill(Triangle(vertices[FromString<int>(line[1])-1],vertices[FromString<int>(line[2])-1],vertices[FromString<int>(line[3])-1],4),type,Voxel::max);
   }

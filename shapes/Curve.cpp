@@ -5,15 +5,15 @@ using namespace L;
 Curve::Curve(const L::Point3f& a, const L::Point3f& b, const L::Point3f& c, const L::Point3f& d, float thickness, float step)
   : _a(a), _b(b), _c(c), _d(d) {
   for(float i(0); i<1.0; i+=step)
-    _lines.push_back(Line(at(i),at(std::min(1.f,i+step)),thickness));
+    _lines.push(at(i),at(std::min(1.f,i+step)),thickness);
 }
 L::Point3i Curve::start() const {
   return _a;
 }
 float Curve::value(const Point3f& p) const {
   float wtr(0);
-  L_Iter(_lines,line)
-  wtr = std::max(wtr,line->value(p));
+  for(int i(0); i<_lines.size(); i++)
+    wtr = std::max(wtr,_lines[i].value(p));
   return wtr;
 }
 Point3f Curve::at(float t) const {

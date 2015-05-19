@@ -113,40 +113,40 @@ void World::fill(const Shape& shape, L::byte type, Voxel::Updater u) {
       Point3i point;
       L::byte direction;
     };
-    Vector<Case> treating;
+    Array<Case> treating;
     for(L::byte i(0); i<8; i++)
-      treating.push_back({shape.start()+Point3i((i&0x1)?1:0,(i&0x2)?1:0,(i&0x4)?1:0),i});
+      treating.push<Case>({shape.start()+Point3i((i&0x1)?1:0,(i&0x2)?1:0,(i&0x4)?1:0),i});
     while(!treating.empty()) {
       Case c(treating.back());
-      treating.pop_back();
+      treating.pop();
       if(!treated.has(c.point)) { // Not yet treated
         treated.insert(c.point);
         float value(shape.value(c.point));
         if(value>0.0) { // In the shape
           updateVoxel(c.point.x(),c.point.y(),c.point.z(),Voxel(value,type),u);
-          treating.push_back({c.point+Point3i((c.direction&0x1)?1:-1,0,0),c.direction});
-          treating.push_back({c.point+Point3i(0,(c.direction&0x2)?1:-1,0),c.direction});
-          treating.push_back({c.point+Point3i(0,0,(c.direction&0x4)?1:-1),c.direction});
+          treating.push<Case>({c.point+Point3i((c.direction&0x1)?1:-1,0,0),c.direction});
+          treating.push<Case>({c.point+Point3i(0,(c.direction&0x2)?1:-1,0),c.direction});
+          treating.push<Case>({c.point+Point3i(0,0,(c.direction&0x4)?1:-1),c.direction});
         }
       }
     }
   } else {
-    Vector<Point3i> treating;
-    treating.push_back(shape.start());
+    Array<Point3i> treating;
+    treating.push(shape.start());
     while(!treating.empty()) {
       Point3i p(treating.back());
-      treating.pop_back();
+      treating.pop();
       if(!treated.has(p)) { // Not yet treated
         treated.insert(p);
         float value(shape.value(p));
         if(value>0.0) { // In the shape
           updateVoxel(p.x(),p.y(),p.z(),Voxel(value,type),u);
-          treating.push_back(p+Point3i(1,0,0));
-          treating.push_back(p+Point3i(-1,0,0));
-          treating.push_back(p+Point3i(0,1,0));
-          treating.push_back(p+Point3i(0,-1,0));
-          treating.push_back(p+Point3i(0,0,1));
-          treating.push_back(p+Point3i(0,0,-1));
+          treating.push(p+Point3i(1,0,0));
+          treating.push(p+Point3i(-1,0,0));
+          treating.push(p+Point3i(0,1,0));
+          treating.push(p+Point3i(0,-1,0));
+          treating.push(p+Point3i(0,0,1));
+          treating.push(p+Point3i(0,0,-1));
         }
       }
     }
