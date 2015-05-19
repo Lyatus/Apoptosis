@@ -250,7 +250,7 @@ void menu() {
     guiProgram.use();
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
-    UI::drawCursor(burstRadius,resource);
+    UI::drawCursor();
     if(fading) {
       float since(fadeTimer.since().fSeconds());
       float fade(std::min(1.f,since/menuFadeDuration));

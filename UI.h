@@ -10,6 +10,7 @@ class UI {
     static L::GL::Mesh* disk;
   public:
     static void drawCursor(float radius, float value);
+    static void drawCursor();
     static void configure();
 };
 
