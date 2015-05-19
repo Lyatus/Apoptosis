@@ -40,6 +40,12 @@ SCA::Branch SCA::Branch::next(World& world) {
   reset();
   return Branch(this,bestNextPosition,bestNextDirection);
 }
+void SCA::Branch::draw() {
+  glBegin(GL_LINES);
+  glVertex3f(_position.x(),_position.y(),_position.z());
+  glVertex3f((_position-_originalDirection).x(),(_position-_originalDirection).y(),(_position-_originalDirection).z());
+  glEnd();
+}
 
 SCA::SCA(float minDist, float maxDist)
   : _minDist(minDist), _maxDist(maxDist), _changed(false) {
@@ -91,6 +97,11 @@ SCA::Branch* SCA::nearest(const L::Point3f& point, float maxDistance) const {
 float SCA::distance(const Point3f& point, float maxDistance) const {
   SCA::Branch* nearest(nearest(point,maxDistance));
   return (nearest)?point.dist(nearest->position()):maxDistance;
+}
+
+void SCA::draw() {
+  for(int i(0); i<_branches.size(); i++)
+    _branches[i]->draw();
 }
 
 void SCA::configure() {

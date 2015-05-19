@@ -17,6 +17,7 @@ class SCA {
         void reset();
         void addGrowth(const L::Point3f&);
         Branch next(World&);
+        void draw();
         inline const L::Point3f& position() const {return _position;}
         inline const L::Point3f& originalDirection() const {return _originalDirection;}
         inline bool growing() const {return _growCount;}
@@ -38,6 +39,8 @@ class SCA {
     bool update(World&);
     Branch* nearest(const L::Point3f&, float maxDistance) const;
     float distance(const L::Point3f&, float maxDistance) const;
+
+    void draw();
 
     static void configure();
 };
