@@ -15,10 +15,8 @@ Color Voxel::color() const {
 void Voxel::configure() {
   _colors[ORGAN] = Conf::getColor("organ");
   _colors[VESSEL] = Conf::getColor("vessel");
-  _colors[TUMOR] = Conf::getColor("tumor");
-  _colors[TUMOR_IDLE] = Conf::getColor("tumor_idle");
-  _colors[TUMOR_THIRSTY] = Conf::getColor("tumor_thirsty");
-  _colors[TUMOR_THIRSTY_IDLE] = Conf::getColor("tumor_thirsty_idle");
+  _colors[TUMOR] = _colors[TUMOR_IDLE] = _colors[TUMOR_START] = Conf::getColor("tumor");
+  _colors[TUMOR_THIRSTY] = _colors[TUMOR_THIRSTY_IDLE] = Conf::getColor("tumor_thirsty");
 }
 
 Voxel Voxel::set(Voxel a,Voxel b) {
