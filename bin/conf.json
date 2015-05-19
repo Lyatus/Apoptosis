@@ -1,5 +1,5 @@
 {
-	"fullscreen": false,
+	"fullscreen": true,
 	"cursor": false,
 	"width": 1280, "height": 720,
 	"target_fps": 35,
@@ -16,8 +16,8 @@
 	"background": "#cab7fe",
 	
 	"cursor_point_color": "#000000ff",
-	"background_disk_color": "#ffffff88",
-	"inner_disk_color": "#B8B8B888",
+	"background_disk_color": "#ffffff44",
+	"inner_disk_color": "#70f3ff44",
 	
 	"tumor": "#ff0054",
 	"tumor_idle": "#ff0054",
@@ -54,7 +54,7 @@
 	"tumor_cost": 0.25,
 	"vessel_cost": 0.4,
 	
-	"budding_vps": 5,
-	"budding_factor": 0.015,
-	"budding_duration": 2.5
+	"budding_vps": 3.5,
+	"budding_factor": 0.1,
+	"budding_duration": 3
 }
