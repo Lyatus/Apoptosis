@@ -64,13 +64,13 @@
 	
 	"bonuses":[
 		{
-			"position": "-28,60,175",
+			"position": "-28,60,174",
 			"value": "irrigation_radius",
 			"operation": "mult",
 			"parameter": 3
 		},
 		{
-			"position": "28,60,173",
+			"position": "28,60,175",
 			"value": "growth_vps",
 			"operation": "mult",
 			"parameter": 3
