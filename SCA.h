@@ -29,6 +29,7 @@ class SCA {
     L::Timer _timer;
     float _minDist, _maxDist;
     bool _changed;
+    static L::Color color;
     static float dragFactor, randomFactor, branchLength, branchRadius;
     static int avoidAttempts;
   public:

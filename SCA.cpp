@@ -4,6 +4,7 @@
 
 using namespace L;
 
+Color SCA::color;
 float SCA::dragFactor, SCA::randomFactor, SCA::branchLength, SCA::branchRadius;
 int SCA::avoidAttempts;
 
@@ -100,6 +101,7 @@ float SCA::distance(const Point3f& point, float maxDistance) const {
 }
 
 void SCA::draw() {
+  GL::color(color);
   for(int i(0); i<_branches.size(); i++)
     _branches[i]->draw();
 }
@@ -110,4 +112,5 @@ void SCA::configure() {
   branchLength = Conf::getFloat("sca_branch_length");
   branchRadius = Conf::getFloat("sca_branch_radius");
   avoidAttempts = Conf::getInt("sca_avoid_attempts");
+  color = Conf::getColor("sca_color");
 }
