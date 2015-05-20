@@ -105,6 +105,13 @@ void SCA::draw() {
   for(int i(0); i<_branches.size(); i++)
     _branches[i]->draw();
 }
+void SCA::drawTargets() {
+  GL::color(Color::red);
+  glBegin(GL_POINTS);
+  for(int i(0); i<_targets.size(); i++)
+    glVertex3f(_targets[i].x(),_targets[i].y(),_targets[i].z());
+  glEnd();
+}
 
 void SCA::configure() {
   dragFactor = Conf::getFloat("sca_drag_factor");

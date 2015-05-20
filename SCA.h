@@ -42,6 +42,7 @@ class SCA {
     float distance(const L::Point3f&, float maxDistance) const;
 
     void draw();
+    void drawTargets();
 
     static void configure();
 };
