@@ -279,8 +279,7 @@ void game() {
   fadeTimer.setoff();
   clearcolor(Conf::getColor("background"));
   // Cameras initialization
-  float fovy(60);
-  cam.perspective(fovy,Window::aspect(),.1f,512);
+  cam.fovy(60);
   // Light initialization
   GL::Light light;
   light.position(-1,1,-1,0);
@@ -397,10 +396,6 @@ void game() {
           default:
             break;
         }
-      if(event.type == Window::Event::MOUSEWHEEL) {
-        fovy = max(10.f,min(60.f,fovy+(float)-event.y/16));
-        cam.perspective(fovy,Window::aspect(),.1f,512);
-      }
       cam.event(world,event);
     }
     if(Window::isPressed(Window::Event::ESCAPE))

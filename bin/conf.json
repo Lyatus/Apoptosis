@@ -25,6 +25,8 @@
 	"vessel": "#8ce7fe",
 	
 	"camera_min_angle": .75,
+	"camera_min_fovy": 10,
+	"camera_max_fovy": 90,
 	
 	"sca_drag_factor": 2,
 	"sca_random_factor": 0.5,

@@ -4,13 +4,17 @@
 
 using namespace L;
 
-float SphericalCamera::_minAngle;
+float SphericalCamera::_minAngle, SphericalCamera::_minFovy, SphericalCamera::_maxFovy;
 
 void SphericalCamera::reset(const L::Point3f& point) {
   _interval.clear();
   addPoint(point-Point3f(8,8,8));
   addPoint(point+Point3f(8,8,8));
   position(point+Point3f(0,0,-128));
+}
+void SphericalCamera::fovy(float fovy) {
+  _fovy = fovy;
+  perspective(_fovy,Window::aspect(),.1f,512);
 }
 void SphericalCamera::addPoint(const L::Point3f& point) {
   _interval.add(point);
@@ -51,7 +55,11 @@ void SphericalCamera::event(World& world, const L::Window::Event& e) {
     x = e.x;
     y = e.y;
   }
+  if(e.type == Window::Event::MOUSEWHEEL)
+    fovy(std::max(_minFovy,std::min(_maxFovy,_fovy+(float)-e.y/16)));
 }
 void SphericalCamera::configure() {
   _minAngle = Conf::getFloat("camera_min_angle");
+  _minFovy = Conf::getFloat("camera_min_fovy");
+  _maxFovy = Conf::getFloat("camera_max_fovy");
 }
