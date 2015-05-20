@@ -9,6 +9,7 @@ class SphericalCamera : public L::GL::Camera {
     L::Interval3f _interval;
     L::Point3f _center, _centerTarget;
     float _radius;
+    static float _minAngle;
 
   public:
     void reset(const L::Point3f&);

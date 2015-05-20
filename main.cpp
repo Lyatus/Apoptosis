@@ -279,7 +279,8 @@ void game() {
   fadeTimer.setoff();
   clearcolor(Conf::getColor("background"));
   // Cameras initialization
-  cam.perspective(60,Window::aspect(),.1f,512);
+  float fovy(60);
+  cam.perspective(fovy,Window::aspect(),.1f,512);
   // Light initialization
   GL::Light light;
   light.position(-1,1,-1,0);
@@ -396,6 +397,10 @@ void game() {
           default:
             break;
         }
+      if(event.type == Window::Event::MOUSEWHEEL) {
+        fovy = max(10.f,min(60.f,fovy+(float)-event.y/16));
+        cam.perspective(fovy,Window::aspect(),.1f,512);
+      }
       cam.event(world,event);
     }
     if(Window::isPressed(Window::Event::ESCAPE))
@@ -414,7 +419,7 @@ void game() {
     voxelProgram.uniform("texture",voxelTexture,GL_TEXTURE0);
     voxelProgram.uniform("eye",cam.position());
     voxelProgram.uniform("sphereCenter",cam.center());
-    voxelProgram.uniform("sphereRadius",cam.radius()*1.2f);
+    voxelProgram.uniform("sphereRadius",cam.radius()*.6f);
     world.draw(cam);
     debugProgram.use(); // Draw debug
     debugProgram.uniform("view",cam.view());
@@ -451,6 +456,7 @@ int main(int argc, char* argv[]) {
   Conf::open("conf.json");
   Voxel::configure();
   SCA::configure();
+  SphericalCamera::configure();
   targetFPS = Conf::getFloat("target_fps");
   menuFadeDuration = Conf::getFloat("menu_fade_duration");
   introDarkDuration = Conf::getFloat("intro_dark_duration");

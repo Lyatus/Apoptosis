@@ -24,6 +24,8 @@
 	"organ": "#31328f",
 	"vessel": "#8ce7fe",
 	
+	"camera_min_angle": .75,
+	
 	"sca_drag_factor": 2,
 	"sca_random_factor": 0.5,
 	"sca_branch_length": 1.5,

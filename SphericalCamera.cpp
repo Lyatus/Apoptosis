@@ -1,6 +1,10 @@
 #include "SphericalCamera.h"
 
+#include "Conf.h"
+
 using namespace L;
+
+float SphericalCamera::_minAngle;
 
 void SphericalCamera::reset(const L::Point3f& point) {
   _interval.clear();
@@ -39,8 +43,9 @@ void SphericalCamera::event(World& world, const L::Window::Event& e) {
       Point3f oldPosition(position());
       phiPosition((e.x-x)*-.005f);
       thetaPosition((e.y-y)*-.005f);
-      float forwardDotUp(forward().dot(Point3f(0,1,0)));
-      if(world.spherecast(position(),4) || forwardDotUp>.99f || forwardDotUp<-.99f)
+      float forwardDotUp(forward().dot(Point3f(0,1,0))), forwardDotForward(forward().dot(Point3f(0,0,1)));
+      std::cout << forwardDotForward << std::endl;
+      if(world.spherecast(position(),4) || forwardDotUp>.99f || forwardDotUp<-.99f || forwardDotForward<_minAngle)
         position(oldPosition);
     }
     x = e.x;
@@ -48,4 +53,5 @@ void SphericalCamera::event(World& world, const L::Window::Event& e) {
   }
 }
 void SphericalCamera::configure() {
+  _minAngle = Conf::getFloat("camera_min_angle");
 }
