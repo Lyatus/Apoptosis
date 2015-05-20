@@ -48,7 +48,6 @@ void SphericalCamera::event(World& world, const L::Window::Event& e) {
       phiPosition((e.x-x)*-.005f);
       thetaPosition((e.y-y)*-.005f);
       float forwardDotUp(forward().dot(Point3f(0,1,0))), forwardDotForward(forward().dot(Point3f(0,0,1)));
-      std::cout << forwardDotForward << std::endl;
       if(world.spherecast(position(),4) || forwardDotUp>.99f || forwardDotUp<-.99f || forwardDotForward<_minAngle)
         position(oldPosition);
     }
