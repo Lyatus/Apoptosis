@@ -15,6 +15,7 @@
 	"intro_background": "#ffffff",
 	"background": "#cab7fe",
 	
+	"cursor_radius": 32,
 	"cursor_point_color": "#000000ff",
 	"background_disk_color": "#ffffff44",
 	"inner_disk_color": "#70f3ff44",
@@ -30,11 +31,12 @@
 	
 	"sca_drag_factor": 2,
 	"sca_random_factor": 0.5,
-	"sca_branch_length": 1.5,
+	"sca_branch_length": 3,
 	"sca_branch_radius": 1.3,
 	"sca_avoid_attempts": 1024,
+	"sca_color": "#2558e066"
 	
-	"burst_radius_log": 1.3,
+	"burst_radius_log": 1.1,
 	"burst_vessel_count_log": 20,
 	"burst_vessel_count_factor": 1,
 
@@ -58,5 +60,20 @@
 	
 	"budding_vps": 3.5,
 	"budding_factor": 0.1,
-	"budding_duration": 3
+	"budding_duration": 3,
+	
+	"bonuses":[
+		{
+			"position": "-28,60,175",
+			"value": "irrigation_radius",
+			"operation": "mult",
+			"parameter": 3
+		},
+		{
+			"position": "28,60,173",
+			"value": "growth_vps",
+			"operation": "mult",
+			"parameter": 3
+		}
+	]
 }
