@@ -2,17 +2,18 @@
 
 using namespace L;
 
+float UI::cursorRadius;
 Color UI::cursorPointColor, UI::backgroundDiskColor, UI::innerDiskColor;
 GL::Mesh* UI::disk;
 
-void ::UI::drawCursor(float radius, float value) {
+void ::UI::drawCursor(float value) {
   glClear(GL_DEPTH_BUFFER_BIT);
   glPushMatrix();
   glTranslatef(Window::mousePosition().x(),Window::mousePosition().y(),0);
   GL::whiteTexture().bind();
   GL::color(backgroundDiskColor);
   glPushMatrix();
-  glScalef(radius,radius,1);
+  glScalef(cursorRadius,cursorRadius,1);
   disk->draw();
   GL::color(innerDiskColor);
   glScalef(value,value,1);
@@ -34,7 +35,8 @@ void ::UI::drawCursor() {
   glEnd();
   glPopMatrix();
 }
-void ::UI::configure() {
+void UI::configure() {
+  cursorRadius = Conf::getFloat("cursor_radius");
   cursorPointColor = Conf::getColor("cursor_point_color");
   backgroundDiskColor = Conf::getColor("background_disk_color");
   innerDiskColor = Conf::getColor("inner_disk_color");

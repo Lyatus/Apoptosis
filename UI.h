@@ -6,10 +6,11 @@
 
 class UI {
   private:
+    static float cursorRadius;
     static L::Color cursorPointColor, backgroundDiskColor, innerDiskColor;
     static L::GL::Mesh* disk;
   public:
-    static void drawCursor(float radius, float value);
+    static void drawCursor(float value);
     static void drawCursor();
     static void configure();
 };
