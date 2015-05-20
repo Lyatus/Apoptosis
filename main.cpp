@@ -18,7 +18,7 @@ using namespace std;
 using namespace L;
 
 World world;
-SCA sca(1,2048);
+SCA sca(2,2048);
 Window::Event event;
 Ref<GUI::RelativeContainer> gui;
 GL::Camera guicam;
@@ -26,7 +26,7 @@ SphericalCamera cam;
 
 // Graphic configuration
 float ambientLevel;
-bool displayAutomata(false), displayVessels(false);
+bool displayAutomata(false), displayVessels(false), displayTargets(false);
 float targetFPS;
 // GUI configuration
 float menuFadeDuration, gameFadeDuration, introDarkDuration;
@@ -338,7 +338,8 @@ void game() {
                     "anywhere: "+ToString(anywhere)+"\n"
                     "budding: "+ToString(budding)+"\n"
                     "cursor position: "+ToString((Point3i)hit)+"\n"
-                    "time: "+Time::format("%M:%S",Time::now()-start)+"\n");
+                    "time: "+Time::format("%M:%S",Time::now()-start)+"\n"
+                    "fps: "+ToString(1/deltaTime)+"\n");
       }
       outjson.get<Dynamic::Array>()((float)tumorCount);
     }
@@ -386,6 +387,9 @@ void game() {
           case Window::Event::W:
             displayVessels = !displayVessels;
             break;
+          case Window::Event::T:
+            displayTargets = !displayTargets;
+            break;
           case Window::Event::D:
             displayAutomata = !displayAutomata;
             break;
@@ -424,13 +428,14 @@ void game() {
     //GL::Utils::drawAxes();
     if(displayAutomata)
       Automaton::drawAll();
-    polyProgram.use(); // Draw debug
+    glDisable(GL_DEPTH_TEST);
+    polyProgram.use();
     polyProgram.uniform("view",cam.view());
     polyProgram.uniform("projection",cam.projection());
-    if(displayVessels) {
-      glDisable(GL_DEPTH_TEST);
+    if(displayVessels)
       sca.draw();
-    }
+    if(displayTargets)
+      sca.drawTargets();
     Bonus::drawAll();
     pp.postrender(ppProgram);
     glDisable(GL_DEPTH_TEST); // Start drawing GUI

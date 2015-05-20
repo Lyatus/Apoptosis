@@ -29,14 +29,14 @@
 	"camera_min_fovy": 10,
 	"camera_max_fovy": 90,
 	
-	"sca_drag_factor": 2,
+	"sca_drag_factor": .5,
 	"sca_random_factor": 0.5,
 	"sca_branch_length": 3,
 	"sca_branch_radius": 1.3,
 	"sca_avoid_attempts": 1024,
 	"sca_color": "#2558e066"
 	
-	"burst_radius_log": 1.1,
+	"burst_radius_log": 1.05,
 	"burst_vessel_count_log": 20,
 	"burst_vessel_count_factor": 1,
 
