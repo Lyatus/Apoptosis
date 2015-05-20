@@ -83,6 +83,8 @@
 		</Linker>
 		<Unit filename="Automaton.cpp" />
 		<Unit filename="Automaton.h" />
+		<Unit filename="Bonus.cpp" />
+		<Unit filename="Bonus.h" />
 		<Unit filename="Chunk.cpp" />
 		<Unit filename="Chunk.h" />
 		<Unit filename="ChunkMesher.cpp" />
