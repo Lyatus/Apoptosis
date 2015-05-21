@@ -1,5 +1,5 @@
 {
-	"fullscreen": true,
+	"fullscreen": false,
 	"cursor": false,
 	"width": 1280, "height": 720,
 	"target_fps": 35,
@@ -53,9 +53,9 @@
 	"chemo_propagation_factor": 0.030,
 	"chemo_organ_factor": 0.60
 	
-	"resource_speed": 0.11,
-	"tumor_cost": 0.25,
-	"vessel_cost": 0.4,
+	"resource_speed": 0.1,
+	"tumor_cost": 0.35,
+	"vessel_cost": 0.50,
 	
 	"budding_vps": 3.5,
 	"budding_factor": 0.1,
@@ -63,16 +63,34 @@
 	
 	"bonuses":[
 		{
-			"position": "-28,60,174",
-			"value": "irrigation_radius",
-			"operation": "mult",
-			"parameter": 3
+			"position": "3,87,168",
+			"value": "tumor_cost",
+			"operation": "add",
+			"parameter": -0.05
 		},
-		{
-			"position": "28,60,175",
+{
+			"position": "20,107,163",
+			"value": "vessel_cost",
+			"operation": "add",
+			"parameter": -0.05
+		},
+{
+			"position": "-20,107,163",
 			"value": "growth_vps",
-			"operation": "mult",
-			"parameter": 3
+			"operation": "add",
+			"parameter": 1
+		},
+{
+			"position": "40,150,160",
+			"value": "tumor_cost",
+			"operation": "add",
+			"parameter": -0.05
+		},
+{
+			"position": "-90,130,174",
+			"value": "tumor_cost",
+			"operation": "add",
+			"parameter": -0.05
 		}
 	]
 }
