@@ -86,6 +86,7 @@ void Automaton::updateThread(int id) {
   }
 }
 void Automaton::update(const Time& time, float deltaTime) {
+  fuse();
   Timer atimer;
   int aturns(0);
   do {
@@ -109,8 +110,10 @@ void Automaton::update(const Time& time, float deltaTime) {
     if(_automata[i]->_end<now) // Automaton should stop
       _automata[i]->_shouldStop = true;
     if(_automata[i]->_shouldStop && !_automata[i]->_size) // Automaton is ready to be removed
-      remove(_automata[i]);
+      remove(_automata[i--]);
   }
+}
+void Automaton::fuse() {
   for(int i(0); i<_automata.size(); i++) // Check for automata that should fuse
     for(int j(0); j<_automata.size(); j++)
       if(i!=j && _automata[i]->_process==_automata[j]->_process
@@ -123,7 +126,7 @@ void Automaton::update(const Time& time, float deltaTime) {
         add(automaton);
         remove(_automata[std::max(i,j)]);
         remove(_automata[std::min(i,j)]);
-        i = j = 0;
+        return fuse();
       }
 }
 void Automaton::add(Automaton* a) {
