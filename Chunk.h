@@ -2,6 +2,7 @@
 #define DEF_Cancer_Chunk
 
 #include <L/L.h>
+#include <atomic>
 #include "Voxel.h"
 
 class ChunkMesher;
@@ -14,7 +15,7 @@ class Chunk {
     int _x, _y, _z;
     bool _changed;
     Voxel _voxels[size+1][size+1][size+1];
-    int _typesCount[Voxel::types];
+    std::atomic<int> _typesCount[Voxel::types];
     L::GL::Mesh _mesh;
     L::Interval3f _box;
     static ChunkMesher _chunkMesher;
