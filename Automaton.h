@@ -21,7 +21,7 @@ class Automaton {
     int _size;
 
     static L::Array<Automaton*> _automata;
-    static const int threadCount = 8;
+    static const int threadCount = 4;
     static std::thread* threads[threadCount];
     static L::Semaphore startSem, endSem;
     static const L::Point3i delta;
