@@ -40,6 +40,7 @@ class Automaton {
     static void updateThread(int id);
     static void update(const L::Time&, float deltaTime);
     static void fuse();
+    static bool treating(Process, const L::Point3i&);
     static void add(Automaton*);
     static void remove(Automaton*);
     static void drawAll();

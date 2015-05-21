@@ -160,16 +160,18 @@ Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
 void startTumor(const Point3f& start, float vps, const Time& duration) {
   Automaton* automaton(new Automaton(world,growth,vps,Time::now()+duration));
   world.voxelSphere(start,1.5f,Voxel::TUMOR_START,Voxel::max);
-  automaton->include(start);
+  automaton->include(start-Point3i(4,4,4));
+  automaton->include(start+Point3i(4,4,4));
   Automaton::add(automaton);
 }
 void startThirst(const Point3f& start) {
   Automaton* automaton(new Automaton(world,thirst,thirstVPS));
-  automaton->include(start);
+  automaton->include(start-Point3i(4,4,4));
+  automaton->include(start+Point3i(4,4,4));
   Automaton::add(automaton);
 }
 void foreachChunk(Chunk* chunk) {
-  bool thirstPotential(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<thirstAppearanceFactor);
+  bool thirstPotential(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
   bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE) || chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
   bool budPotential(budding && chunk->typeCount(Voxel::TUMOR_IDLE));
   if(thirstPotential || camPotential || budPotential)
@@ -178,10 +180,10 @@ void foreachChunk(Chunk* chunk) {
         for(int z(0); z<Chunk::size; z++) {
           Voxel voxel(chunk->voxel(x,y,z));
           Point3i position(chunk->position()+Point3i(x,y,z));
-          if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE && Rand::nextFloat()<thirstAppearanceFactor) {
-            if(irrigationValue(Point3f(x,y,z))<1.f) {
+          if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE && Rand::nextFloat()<thirstAppearanceFactor  && !Automaton::treating(thirst,position)) {
+            if(irrigationValue(Point3f(x,y,z))<1.f)
               startThirst(position);
-            } else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
+            else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
           }
           if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
             cam.addPoint(chunk->position()+Point3i(x,y,z));

@@ -104,7 +104,7 @@ void Automaton::update(const Time& time, float deltaTime) {
     aturns++;
   } while((atimer.since()*(aturns+1))/aturns<time);
   for(int i(0); i<_automata.size(); i++)
-    _automata[i]->_factor = _automata[i]->_vps/(aturns/deltaTime);
+    _automata[i]->_factor = std::max(.005f,_automata[i]->_vps/(aturns/deltaTime));
   Time now(Time::now());
   for(int i(0); i<_automata.size(); i++) { // Check for automata that should be removed
     if(_automata[i]->_end<now) // Automaton should stop
@@ -128,6 +128,13 @@ void Automaton::fuse() {
         add(automaton);
         return fuse();
       }
+}
+bool Automaton::treating(Process process, const Point3i& point) {
+  for(int i(0); i<_automata.size(); i++)
+    if(_automata[i]->_process==process
+        && _automata[i]->_zone.contains(point))
+      return true;
+  return false;
 }
 void Automaton::add(Automaton* a) {
   _automata.push(a);
