@@ -42,7 +42,7 @@ float irrigationSphereRadius;
 
 float growthVPS;
 float growthDuration;
-float thirstVPS, thirstAppearanceFactor, thirstPropagationFactor;
+float thirstVPS, thirstAppearanceFactor;
 float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoTarget;
 int chemoTumorTarget, chemoTumorDestroyed;
 float buddingVPS;
@@ -54,7 +54,6 @@ float burstRadiusLog, burstVesselCountLog, burstVesselCountFactor;
 
 // Gameplay tracking
 float resource(0);
-bool tumorthirsting(false);
 int tumorCount, tumorThirstyCount, burstRadius, burstVesselCount;
 Dynamic::Var outjson("SURPRISE MOTHERFUCKER");
 
@@ -115,7 +114,7 @@ Voxel thirst(Automaton& automaton, int x, int y, int z, bool& processable) {
     else
       wtr.value(std::max(0.f,wtr.value()-Rand::nextFloat()*automaton.factor()));
   }
-  processable = Rand::nextFloat()<thirstPropagationFactor && wtr.type()==Voxel::TUMOR_THIRSTY_IDLE;
+  processable = wtr.type()==Voxel::TUMOR_THIRSTY_IDLE;
   return wtr;
 }
 Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
@@ -164,8 +163,13 @@ void startTumor(const Point3f& start, float vps, const Time& duration) {
   automaton->include(start);
   Automaton::add(automaton);
 }
+void startThirst(const Point3f& start) {
+  Automaton* automaton(new Automaton(world,thirst,thirstVPS));
+  automaton->include(start);
+  Automaton::add(automaton);
+}
 void foreachChunk(Chunk* chunk) {
-  bool thirstPotential(!tumorthirsting && chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<thirstAppearanceFactor);
+  bool thirstPotential(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<thirstAppearanceFactor);
   bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE) || chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
   bool budPotential(budding && chunk->typeCount(Voxel::TUMOR_IDLE));
   if(thirstPotential || camPotential || budPotential)
@@ -174,10 +178,9 @@ void foreachChunk(Chunk* chunk) {
         for(int z(0); z<Chunk::size; z++) {
           Voxel voxel(chunk->voxel(x,y,z));
           Point3i position(chunk->position()+Point3i(x,y,z));
-          if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) {
+          if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE && Rand::nextFloat()<thirstAppearanceFactor) {
             if(irrigationValue(Point3f(x,y,z))<1.f) {
-              thirstAutomatonP->include(position);
-              tumorthirsting = true;
+              startThirst(position);
             } else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
           }
           if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
@@ -299,11 +302,8 @@ void game() {
   // Textures fetching
   GL::Texture voxelTexture(Image::Bitmap(Conf::getString("texture_path")));
   // Automata initialization
-  Automaton *thirstAutomaton(new Automaton(world,thirst,thirstVPS,Time::now()+Time(0,0,0,0,1))),
-            *chemoAutomaton(new Automaton(world,chemo,chemoVPS,Time::now()+Time(0,0,0,0,1)));
-  Automaton::add(thirstAutomaton);
+  Automaton *chemoAutomaton(new Automaton(world,chemo,chemoVPS,Time::now()+Time(0,0,0,0,1)));
   Automaton::add(chemoAutomaton);
-  thirstAutomatonP = thirstAutomaton;
   // GUI initialization
   Point3f hit;
   GUI::Text* text(new GUI::Text());
@@ -319,8 +319,6 @@ void game() {
     Automaton::update(Time(1000000/targetFPS),deltaTime);
     sca.update(world);
     resource = std::min(1.f,resource+deltaTime*resourceSpeed);
-    if(thirstAutomaton->size()==0)
-      tumorthirsting = false;
     if(thirsttimer.every(Time(0,100))) {
       Bonus::updateAll(world);
       tumorCount = world.typeCount(Voxel::TUMOR) + world.typeCount(Voxel::TUMOR_IDLE);
@@ -466,7 +464,6 @@ int main(int argc, char* argv[]) {
   Bonus::registerValue("growth_duration",&growthDuration);
   Bonus::registerValue("thirst_vps",&thirstVPS);
   Bonus::registerValue("thirst_appearance_factor",&thirstAppearanceFactor);
-  Bonus::registerValue("thirst_propagation_factor",&thirstPropagationFactor);
   Bonus::registerValue("chemo_vps",&chemoVPS);
   Bonus::registerValue("chemo_propagation_factor",&chemoPropagationFactor);
   Bonus::registerValue("chemo_organ_factor",&chemoOrganFactor);
