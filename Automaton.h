@@ -2,6 +2,8 @@
 #define DEF_Cancer_Automaton
 
 #include <L/L.h>
+#include <thread>
+#include <mutex>
 #include "World.h"
 
 class Automaton {
@@ -15,17 +17,18 @@ class Automaton {
     bool _shouldStop;
 
     L::Interval3i _zone;
-    L::Buffer<65536,Voxel> _buffer;
-    L::Point3i _min, _max, _ip, _iw;
+    L::Point3i _min, _max;
     int _size;
-    bool _processing;
 
     static L::Array<Automaton*> _automata;
+    static const int threadCount = 8;
+    static std::thread* threads[threadCount];
+    static L::Semaphore startSem, endSem;
+    static const L::Point3i delta;
 
   public:
     Automaton(World&, Process, float vps, const L::Time& end = L::Time(0));
     void include(const L::Point3i&);
-    void update();
     void draw() const;
 
     inline int size() const {return _size;}
@@ -34,10 +37,12 @@ class Automaton {
     inline bool shouldStop() const { return _shouldStop;}
     inline Voxel voxel(int x, int y, int z) const {return _world.voxel(x,y,z);}
 
+    static void updateThread(int id);
     static void update(const L::Time&, float deltaTime);
     static void add(Automaton*);
     static void remove(Automaton*);
     static void drawAll();
+    static void init();
 };
 
 #endif

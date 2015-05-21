@@ -4,43 +4,13 @@ using namespace L;
 using namespace GL;
 
 Array<Automaton*> Automaton::_automata;
+std::thread* Automaton::threads[threadCount] = {0};
+Semaphore Automaton::startSem(0), Automaton::endSem(0);
+const Point3i Automaton::delta(threadCount,1,1);
 
-Automaton::Automaton(World& world, Process process, float vps, const Time& end) : _world(world), _process(process), _vps(vps), _factor(0), _end(end), _shouldStop(false), _size(0), _processing(false) {}
+Automaton::Automaton(World& world, Process process, float vps, const Time& end) : _world(world), _process(process), _vps(vps), _factor(0), _end(end), _shouldStop(false), _size(0) {}
 void Automaton::include(const L::Point3i& p) {
   _zone.add(p);
-}
-void Automaton::update() {
-  do {
-    if(!_processing && _buffer.empty()) { // Ready for new processing
-      if(_zone.empty())
-        _size = 0;
-      else {
-        _ip = _iw = _min = _zone.min();
-        _max = _zone.max()+Point3i(1,1,1);
-        _size = _zone.size().product();
-        _zone.clear();
-        _processing = true;
-      }
-    } else { // Still processing
-      if(_processing) {
-        bool processable;
-        _buffer.write(_process(*this,_ip.x(),_ip.y(),_ip.z(),processable));
-        if(processable) {
-          _zone.add(_ip-Point3i(1,1,1));
-          _zone.add(_ip+Point3i(1,1,1));
-        }
-        if(!_ip.increment(_min,_max)) { // Increment returns false if we've gone back to the beginning
-          _processing = false;
-        }
-      }
-      if(_buffer.full() || !_processing) {
-        Voxel v(_buffer.read());
-        _buffer.pop();
-        _world.updateVoxel(_iw.x(),_iw.y(),_iw.z(),v,Voxel::set);
-        _iw.increment(_min,_max);
-      }
-    }
-  } while(_processing || !_buffer.empty());
 }
 
 void Automaton::draw() const {
@@ -80,11 +50,56 @@ void Automaton::draw() const {
   glEnd();
 }
 
+void Automaton::updateThread(int id) {
+  L::Buffer<65536,Voxel>* buffer(new L::Buffer<65536,Voxel>());
+  Point3i min, max, ip, iw;
+  while(true) {
+    startSem.wait();
+    for(int i(0); i<_automata.size(); i++) {
+      Automaton& a(*_automata[i]);
+      if(a._size) {
+        bool processing(true);
+        min = a._min;
+        max = a._max;
+        min.x() += id; // Interleave
+        ip = iw = min;
+        while(processing || !buffer->empty()) {
+          if(processing) {
+            bool processable;
+            buffer->write(a._process(a,ip.x(),ip.y(),ip.z(),processable));
+            if(processable) {
+              a.include(ip-Point3i(1,1,1));
+              a.include(ip+Point3i(1,1,1));
+            }
+            if(!ip.increment(min,max,delta)) // Increment returns false if we've gone back to the beginning
+              processing = false;
+          }
+          if(buffer->full() || !processing) {
+            a._world.updateVoxel(iw.x(),iw.y(),iw.z(),buffer->read(),Voxel::set);
+            buffer->pop();
+            iw.increment(min,max,delta);
+          }
+        }
+      }
+    }
+    endSem.post();
+  }
+}
 void Automaton::update(const Time& time, float deltaTime) {
   Timer atimer;
   int aturns(0);
   do {
-    _automata.foreach([](Automaton*& a) {a->update();});
+    _automata.foreach([](Automaton*& a) {
+      if(a->_zone.empty()) a->_size = 0;
+      else {
+        a->_min = a->_zone.min();
+        a->_max = a->_zone.max()+Point3i(1,1,1);
+        a->_size = std::max(1,a->_zone.size().product());
+        a->_zone.clear();
+      }
+    });
+    startSem.post(threadCount);
+    endSem.wait(threadCount);
     aturns++;
   } while((atimer.since()*(aturns+1))/aturns<time);
   for(int i(0); i<_automata.size(); i++)
@@ -96,7 +111,7 @@ void Automaton::update(const Time& time, float deltaTime) {
     if(_automata[i]->_shouldStop && !_automata[i]->_size) // Automaton is ready to be removed
       remove(_automata[i]);
   }
-  for(int i(0); i<_automata.size(); i++)
+  for(int i(0); i<_automata.size(); i++) // Check for automata that should fuse
     for(int j(0); j<_automata.size(); j++)
       if(i!=j && _automata[i]->_process==_automata[j]->_process
           && (_automata[i]->_zone && _automata[j]->_zone)) {
@@ -123,7 +138,11 @@ void Automaton::remove(Automaton* a) {
     }
 }
 void Automaton::drawAll() {
-  /*_automata.foreach([](const Automaton*& a) {
+  _automata.foreach([](Automaton*& a) {
     a->draw();
-  });*/
+  });
+}
+void Automaton::init() {
+  for(int i(0); i<threadCount; i++)
+    threads[i] = new std::thread(updateThread,i);
 }
