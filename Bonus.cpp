@@ -18,7 +18,7 @@ Bonus::Bonus(const L::Dynamic::Var& v)
 }
 void Bonus::update(World& world) {
   Voxel voxel(world.voxel(_position.x(),_position.y(),_position.z()));
-  bool tumored(voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR);
+  bool tumored(voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::VESSEL);
   if(tumored && !_active)
     activate();
   else if(!tumored && _active)
