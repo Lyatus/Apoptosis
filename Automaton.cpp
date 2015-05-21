@@ -123,9 +123,9 @@ void Automaton::fuse() {
                                            (_automata[i]->_vps+_automata[j]->_vps)/2,
                                            (_automata[i]->_end+_automata[j]->_end)/2));
         automaton->_zone = _automata[i]->_zone+_automata[j]->_zone;
-        add(automaton);
         remove(_automata[std::max(i,j)]);
         remove(_automata[std::min(i,j)]);
+        add(automaton);
         return fuse();
       }
 }
