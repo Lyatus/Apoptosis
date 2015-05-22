@@ -326,12 +326,12 @@ ChunkMesher::ChunkMesher() {
                    frontRight,frontTop,topLeft,
                    backBottom,backRight,frontRight,
                    0xFF),true);
-    std::cout << '{';
+    out << '{';
     for(int i(0); i<256; i++) {
-      std::cout << '{';
+      out << '{';
       for(int j(0); j<15; j++)
-        std::cout << (int)meshes[i][j] << ((j<14)?',':'}');
-      std::cout << ((i<255)?',':'}');
+        out << (int)meshes[i][j] << ((j<14)?',':'}');
+      out << ((i<255)?',':'}');
     }
   }
 }
