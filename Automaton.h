@@ -23,6 +23,7 @@ class Automaton {
     static L::Array<Automaton*> _automata;
     static const int threadCount = 4;
     static std::thread* threads[threadCount];
+    static bool stopThread[threadCount];
     static L::Semaphore startSem, endSem;
     static const L::Point3i delta;
 
@@ -45,6 +46,7 @@ class Automaton {
     static void remove(Automaton*);
     static void drawAll();
     static void init();
+    static void term();
 };
 
 #endif

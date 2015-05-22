@@ -526,6 +526,7 @@ int main(int argc, char* argv[]) {
   game();
   // Terminate
   Interface<Dynamic::Var>::toFile(outjson,"out.json");
+  Automaton::term();
   Wwise::term();
   return 0;
 }

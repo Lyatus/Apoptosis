@@ -5,6 +5,7 @@ using namespace GL;
 
 Array<Automaton*> Automaton::_automata;
 std::thread* Automaton::threads[threadCount] = {0};
+bool Automaton::stopThread[threadCount] = {false};
 Semaphore Automaton::startSem(0), Automaton::endSem(0);
 const Point3i Automaton::delta(threadCount,1,1);
 
@@ -55,6 +56,7 @@ void Automaton::updateThread(int id) {
   Point3i min, max, ip, iw;
   while(true) {
     startSem.wait();
+    if(stopThread[id]) return;
     for(int i(0); i<_automata.size(); i++) {
       Automaton& a(*_automata[i]);
       if(a._size) {
@@ -155,4 +157,13 @@ void Automaton::drawAll() {
 void Automaton::init() {
   for(int i(0); i<threadCount; i++)
     threads[i] = new std::thread(updateThread,i);
+}
+void Automaton::term() {
+  for(int i(0); i<threadCount; i++)
+    stopThread[i] = true;
+  startSem.post(threadCount);
+  for(int i(0); i<threadCount; i++) {
+    threads[i]->join();
+    delete threads[i];
+  }
 }
