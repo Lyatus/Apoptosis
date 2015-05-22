@@ -2,7 +2,7 @@
 	"fullscreen": true,
 	"cursor": false,
 	"width": 1280, "height": 720,
-	"target_fps": 60,
+	"target_fps": 45,
 
 	"menu_fade_duration": 0.1,
 	"intro_dark_duration": 0.1,
@@ -25,7 +25,7 @@
 	"organ": "#31328f",
 	"vessel": "#8ce7fe",
 	
-	"camera_min_angle": .45,
+	"camera_min_angle": .20,
 	"camera_min_fovy": 10,
 	"camera_max_fovy": 90,
 	
@@ -45,21 +45,21 @@
 	"irrigation_radius": 5,
 
 	"growth_vps": 5,
-	"growth_duration": 5,
-	"thirst_vps": 2.5,
+	"growth_duration": 3.5,
+	"thirst_vps": 15,
 	"thirst_appearance_factor": 1,
-	"chemo_vps": 2,
-	"chemo_target": 0.15,
-	"chemo_propagation_factor": 0.030,
-	"chemo_organ_factor": 0.60
+	"chemo_vps": 3,
+	"chemo_target": 0.5,
+	"chemo_propagation_factor": 0.015,
+	"chemo_organ_factor": 0.75
 	
 	"resource_speed": 0.1,
 	"tumor_cost": 0.35,
-	"vessel_cost": 0.50,
+	"vessel_cost": 0.45,
 	
-	"budding_vps": 3.5,
-	"budding_factor": 0.1,
-	"budding_duration": 3,
+	"budding_vps": 10,
+	"budding_factor": 0.15,
+	"budding_duration": 0.08,
 	
 	"bonuses":[
 		{
@@ -69,28 +69,29 @@
 			"parameter": -0.05
 		},
 {
-			"position": "20,107,163",
+			"position": "20,107,162",
 			"value": "vessel_cost",
 			"operation": "add",
 			"parameter": -0.05
 		},
 {
 			"position": "-20,107,162",
-			"value": "growth_vps",
+			"value": "tumor_cost",
 			"operation": "add",
-			"parameter": 1
+			"parameter": -0.05
 		},
 {
 			"position": "1,163,159",
-			"value": "tumor_cost",
+			"value": "resource_speed",
 			"operation": "add",
-			"parameter": -0.05
+			"parameter": 0.01
 		},
 {
 			"position": "-55,158,160",
-			"value": "tumor_cost",
-			"operation": "add",
-			"parameter": -0.05
+			"value": "growth_vps",
+			"operation": "mult",
+			"parameter": 1.2
+			
 		}
 	]
 }
