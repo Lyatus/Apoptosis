@@ -6,6 +6,7 @@ using namespace L;
 
 Map<String,float*> Bonus::_values;
 Array<Bonus> Bonus::_bonuses;
+Map<String,Ref<GL::Texture> > Bonus::_images;
 
 Bonus::Bonus(const L::Dynamic::Var& v)
   : _position(Conf::getPointFrom(v["position"])),
@@ -46,12 +47,10 @@ void Bonus::deactivate() {
       break;
   }
 }
-void Bonus::draw() const {
+void Bonus::draw(const L::GL::Camera& cam) const {
+  Point2f p(Window::normalizedToPixels(cam.worldToScreen(_position)));
   GL::color((_active)?Color::yellow:Color::cyan);
-  glPointSize(32);
-  glBegin(GL_POINTS);
-  glVertex3f(_position.x(),_position.y(),_position.z());
-  glEnd();
+  glVertex2f(p.x(),p.y());
 }
 void Bonus::registerValue(const L::String& name, float* p) {
   *p = Conf::getFloat(name);
@@ -62,10 +61,14 @@ void Bonus::updateAll(World& world) {
     bonus.update(world);
   });
 }
-void Bonus::drawAll() {
-  _bonuses.foreach([](const Bonus& bonus) {
-    bonus.draw();
+void Bonus::drawAll(const L::GL::Camera& cam) {
+  GL::whiteTexture().bind();
+  glPointSize(32);
+  glBegin(GL_POINTS);
+  _bonuses.foreach([&cam](const Bonus& bonus) {
+    bonus.draw(cam);
   });
+  glEnd();
 }
 void Bonus::configure() {
   const Dynamic::Array& bonuses(Conf::get()["bonuses"].as<Dynamic::Array>());

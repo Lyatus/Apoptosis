@@ -443,12 +443,12 @@ void game() {
       sca.draw();
     if(displayTargets)
       sca.drawTargets();
-    Bonus::drawAll();
     pp.postrender(ppProgram);
     glDisable(GL_DEPTH_TEST); // Start drawing GUI
     guiProgram.use();
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
+    Bonus::drawAll(cam);
     UI::drawCursor(resource);
     // Fade
     float since(fadeTimer.since().fSeconds());
