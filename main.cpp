@@ -281,6 +281,15 @@ List<Point3f> burst(float pixelRadius, float worldRadius, int count) {
   }
   return wtr;
 }
+bool isTumor(Voxel v) {
+  return v.type()==Voxel::TUMOR
+         ||v.type()==Voxel::TUMOR_IDLE
+         ||v.type()==Voxel::TUMOR_IDLE_CHEMO
+         ||v.type()==Voxel::TUMOR_THIRSTY
+         ||v.type()==Voxel::TUMOR_THIRSTY_IDLE
+         ||v.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO
+         ||v.type()==Voxel::VESSEL;
+}
 void game() {
   fadeTimer.setoff();
   clearcolor(Conf::getColor("background"));
@@ -350,9 +359,7 @@ void game() {
           case Window::Event::LBUTTON:
             if(resource>tumorCost
                 && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)
-                && (anywhere
-                    || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_IDLE
-                    || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::VESSEL)) {
+                && (anywhere || isTumor(world.voxel(hit.x(),hit.y(),hit.z())))) {
               startTumor(hit,growthVPS,Time(growthDuration*1000000.f));
               resource -= tumorCost;
               Wwise::postEvent("Tumor_right");
@@ -362,7 +369,7 @@ void game() {
             if(resource>vesselCost) {
               bool vesselAdded(false);
               for(auto&& hit : burst(burstRadius,32,burstVesselCount))
-                if(anywhere || world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::TUMOR_THIRSTY_IDLE) {
+                if(anywhere || isTumor(world.voxel(hit.x(),hit.y(),hit.z()))) {
                   sca.addTarget(hit);
                   vesselAdded = true;
                 }
