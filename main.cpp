@@ -53,7 +53,7 @@ Automaton* thirstAutomatonP;
 float burstRadiusLog, burstVesselCountLog, burstVesselCountFactor;
 
 // Gameplay tracking
-float resource(0);
+float resource(1);
 int tumorCount, tumorThirstyCount, burstRadius, burstVesselCount;
 Dynamic::Var outjson("SURPRISE MOTHERFUCKER");
 
