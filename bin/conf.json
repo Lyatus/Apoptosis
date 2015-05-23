@@ -78,13 +78,13 @@
 			"position": "15,135,155",
 			"value": "resource_speed",
 			"operation": "add",
-			"parameter": 0.01
+			"parameter": 0.005
 		},
 {
 			"position": "-15,135,155",
 			"value": "resource_speed",
 			"operation": "add",
-			"parameter": 0.01
+			"parameter": 0.005
 		},
 {
 			"position": "-20,107,162",
@@ -106,9 +106,9 @@
 		},
 {
 			"position": "-53,131,162",
-			"value": "tumor_cost",
-			"operation": "add",
-			"parameter": -0.05
+			"value": "growth_vps",
+			"operation": "mult",
+			"parameter": 1.2
 		},
 {
 			"position": "-55,158,160",
