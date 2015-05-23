@@ -273,7 +273,7 @@ List<Point3f> burst(float pixelRadius, float worldRadius, int count) {
     if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),center,512)) {
       wtr.push_back(center);
       Point3f hit;
-      for(int i(11); i<count; i++)
+      for(int i(1); i<count; i++)
         if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+pixelToNormalized*Point2f::random()*Rand::next(0.f,pixelRadius)),hit,512)
             && hit.dist(center)<worldRadius)
           wtr.push_back(hit);
