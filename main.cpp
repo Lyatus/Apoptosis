@@ -26,7 +26,7 @@ SphericalCamera cam;
 
 // Graphic configuration
 float ambientLevel;
-bool displayAutomata(false), displayVessels(false), displayTargets(false);
+bool displayAutomata(false), displayVessels(true), displayTargets(false);
 float targetFPS;
 // GUI configuration
 float menuFadeDuration, gameFadeDuration, introDarkDuration;
