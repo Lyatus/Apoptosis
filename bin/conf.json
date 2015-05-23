@@ -32,7 +32,7 @@
 	"sca_drag_factor": .5,
 	"sca_random_factor": 0.5,
 	"sca_branch_length": 3,
-	"sca_branch_radius": 1.3,
+	"sca_branch_radius": 1,
 	"sca_avoid_attempts": 1024,
 	"sca_color": "#2558e066"
 	
@@ -42,11 +42,11 @@
 
 	"irrigation_sphere_center": "0,60,175",
 	"irrigation_sphere_radius": 32,
-	"irrigation_radius": 5,
+	"irrigation_radius": 5.7,
 
 	"growth_vps": 5,
 	"growth_duration": 3.5,
-	"thirst_vps": 15,
+	"thirst_vps": 12,
 	"thirst_appearance_factor": 1,
 	"chemo_vps": 3,
 	"chemo_target": 0.5,
@@ -69,10 +69,22 @@
 			"parameter": -0.05
 		},
 {
-			"position": "20,107,162",
+			"position": "20,107,164",
 			"value": "vessel_cost",
 			"operation": "add",
 			"parameter": -0.05
+		},
+{
+			"position": "15,135,155",
+			"value": "resource_speed",
+			"operation": "add",
+			"parameter": 0.01
+		},
+{
+			"position": "-15,135,155",
+			"value": "resource_speed",
+			"operation": "add",
+			"parameter": 0.01
 		},
 {
 			"position": "-20,107,162",
@@ -82,9 +94,21 @@
 		},
 {
 			"position": "1,163,159",
-			"value": "resource_speed",
+			"value": "growth_duration",
 			"operation": "add",
-			"parameter": 0.01
+			"parameter": 0.25
+		},
+{
+			"position": "39,149,158",
+			"value": "growth_duration",
+			"operation": "add",
+			"parameter": 0.25
+		},
+{
+			"position": "-53,131,162",
+			"value": "tumor_cost",
+			"operation": "add",
+			"parameter": -0.05
 		},
 {
 			"position": "-55,158,160",
