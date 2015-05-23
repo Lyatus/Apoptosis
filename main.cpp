@@ -157,14 +157,12 @@ Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
 void startTumor(const Point3f& start, float vps, const Time& duration) {
   Automaton* automaton(new Automaton(world,growth,vps,Time::now()+duration));
   world.voxelSphere(start,1.5f,Voxel::TUMOR_START,Voxel::max);
-  automaton->include(start-Point3i(4,4,4));
-  automaton->include(start+Point3i(4,4,4));
+  automaton->include(start);
   Automaton::add(automaton);
 }
 void startThirst(const Point3f& start) {
   Automaton* automaton(new Automaton(world,thirst,thirstVPS));
-  automaton->include(start-Point3i(4,4,4));
-  automaton->include(start+Point3i(4,4,4));
+  automaton->include(start);
   Automaton::add(automaton);
 }
 void foreachChunk(Chunk* chunk) {

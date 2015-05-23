@@ -11,7 +11,8 @@ const Point3i Automaton::delta(threadCount,1,1);
 
 Automaton::Automaton(World& world, Process process, float vps, const Time& end) : _world(world), _process(process), _vps(vps), _factor(0), _end(end), _shouldStop(false), _size(0) {}
 void Automaton::include(const L::Point3i& p) {
-  _zone.add(p);
+  _zone.add(p-Point3i(1,1,1));
+  _zone.add(p+Point3i(1,1,1));
 }
 
 void Automaton::draw() const {
@@ -69,10 +70,8 @@ void Automaton::updateThread(int id) {
           if(processing) {
             bool processable;
             buffer->write(a._process(a,ip.x(),ip.y(),ip.z(),processable));
-            if(processable) {
-              a.include(ip-Point3i(1,1,1));
-              a.include(ip+Point3i(1,1,1));
-            }
+            if(processable)
+              a.include(ip);
             if(!ip.increment(min,max,delta)) // Increment returns false if we've gone back to the beginning
               processing = false;
           }
