@@ -36,9 +36,8 @@
 	"sca_avoid_attempts": 1024,
 	"sca_color": "#2558e066"
 	
-	"burst_radius_log": 1.05,
-	"burst_vessel_count_log": 20,
-	"burst_vessel_count_factor": 1,
+	"vessel_count": 4,
+	"burst_radius": 32,
 
 	"irrigation_sphere_center": "0,60,175",
 	"irrigation_sphere_radius": 32,

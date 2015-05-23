@@ -40,21 +40,18 @@ float irrigationRadius;
 Point3f irrigationSphereCenter;
 float irrigationSphereRadius;
 
-float growthVPS;
-float growthDuration;
+float growthVPS, growthDuration;
 float thirstVPS, thirstAppearanceFactor;
 float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoTarget;
 int chemoTumorTarget, chemoTumorDestroyed;
-float buddingVPS;
-float buddingDuration;
+float buddingVPS, buddingDuration;
+float vesselCount, burstRadius;
 bool anywhere(false), budding(false);
 Automaton* thirstAutomatonP;
 
-float burstRadiusLog, burstVesselCountLog, burstVesselCountFactor;
-
 // Gameplay tracking
 float resource(1);
-int tumorCount, tumorThirstyCount, burstRadius, burstVesselCount;
+int tumorCount, tumorThirstyCount;
 Dynamic::Var outjson("SURPRISE MOTHERFUCKER");
 
 float irrigationValue(const Point3f& p) {
@@ -336,14 +333,10 @@ void game() {
       tumorThirstyCount = world.typeCount(Voxel::TUMOR_THIRSTY) + world.typeCount(Voxel::TUMOR_THIRSTY_IDLE);
       world.foreachChunk(foreachChunk);
       if(tumorCount) {
-        burstRadius = ceil(L::log((float)tumorCount,burstRadiusLog));
-        burstVesselCount = ceil(L::log(tumorCount*burstVesselCountFactor,burstVesselCountLog));
         Point3f hit;
         world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512);
         text->sText("tumor: "+ToString(tumorCount)+"\n"
                     "thirsty: "+ToString(tumorThirstyCount)+"\n"
-                    "burst radius: "+ToString(burstRadius)+"\n"
-                    "burst vessel count: "+ToString(burstVesselCount)+"\n"
                     "anywhere: "+ToString(anywhere)+"\n"
                     "budding: "+ToString(budding)+"\n"
                     "cursor position: "+ToString((Point3i)hit)+"\n"
@@ -368,7 +361,7 @@ void game() {
           case Window::Event::RBUTTON:
             if(resource>vesselCost) {
               bool vesselAdded(false);
-              for(auto&& hit : burst(burstRadius,32,burstVesselCount))
+              for(auto&& hit : burst(burstRadius,32,vesselCount))
                 if(anywhere || isTumor(world.voxel(hit.x(),hit.y(),hit.z()))) {
                   sca.addTarget(hit);
                   vesselAdded = true;
@@ -489,14 +482,13 @@ int main(int argc, char* argv[]) {
   Bonus::registerValue("resource_speed",&resourceSpeed);
   Bonus::registerValue("tumor_cost",&tumorCost);
   Bonus::registerValue("vessel_cost",&vesselCost);
+  Bonus::registerValue("vessel_count",&vesselCount);
+  Bonus::registerValue("burst_radius",&burstRadius);
   Bonus::configure();
   targetFPS = Conf::getFloat("target_fps");
   menuFadeDuration = Conf::getFloat("menu_fade_duration");
   introDarkDuration = Conf::getFloat("intro_dark_duration");
   gameFadeDuration = Conf::getFloat("game_fade_duration");
-  burstRadiusLog = Conf::getFloat("burst_radius_log");
-  burstVesselCountLog = Conf::getFloat("burst_vessel_count_log");
-  burstVesselCountFactor = Conf::getFloat("burst_vessel_count_factor");
   irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
   irrigationSphereRadius = Conf::getFloat("irrigation_sphere_radius");
   ambientLevel = Conf::getFloat("ambient_level");
