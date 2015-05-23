@@ -329,7 +329,7 @@ void game() {
     cam.update(world,deltaTime);
     Automaton::update(Time(1000000/targetFPS),deltaTime);
     sca.update(world);
-    resource = std::min(1.f,resource+deltaTime*((Automaton::has(growth))?resourceSpeed:resourceSpeedIdle));
+    resource = std::min(1.f,resource+deltaTime*((Automaton::has(growth)||Automaton::has(thirst))?resourceSpeed:resourceSpeedIdle));
     if(thirsttimer.every(Time(0,100))) {
       Bonus::updateAll(world);
       tumorCount = world.typeCount(Voxel::TUMOR) + world.typeCount(Voxel::TUMOR_IDLE);
