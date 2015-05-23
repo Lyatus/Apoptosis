@@ -448,7 +448,7 @@ void game() {
     guiProgram.use();
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
-    Bonus::drawAll(cam);
+    Bonus::drawAll(guiProgram,cam);
     UI::drawCursor(resource);
     // Fade
     float since(fadeTimer.since().fSeconds());
@@ -463,8 +463,14 @@ int main(int argc, char* argv[]) {
   new OBJ();
   new JSON();
   Font::set(new FTFont("Arial.ttf",16));
-  // Configuration fetching
+  // Fetch configuration
   Conf::open("conf.json");
+  // Window and OpenGL initialization
+  int flags(Conf::getBool("cursor")?0:Window::nocursor);
+  if(Conf::getBool("fullscreen"))
+    Window::openFullscreen("Apoptosis",flags);
+  else Window::open("Apoptosis",Conf::getInt("width"),Conf::getInt("height"),flags);
+  // Continue configuration
   Voxel::configure();
   SCA::configure();
   SphericalCamera::configure();
@@ -495,11 +501,6 @@ int main(int argc, char* argv[]) {
   irrigationSphereRadius = Conf::getFloat("irrigation_sphere_radius");
   ambientLevel = Conf::getFloat("ambient_level");
   cam.reset(irrigationSphereCenter);
-  // Window initialization
-  int flags(Conf::getBool("cursor")?0:Window::nocursor);
-  if(Conf::getBool("fullscreen"))
-    Window::openFullscreen("Apoptosis",flags);
-  else Window::open("Apoptosis",Conf::getInt("width"),Conf::getInt("height"),flags);
   // GUI initialization
   gui = new GUI::RelativeContainer(Point2i(Window::width(),Window::height()));
   guicam.pixels();

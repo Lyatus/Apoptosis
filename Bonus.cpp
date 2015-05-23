@@ -10,6 +10,7 @@ Map<String,Ref<GL::Texture> > Bonus::_images;
 
 Bonus::Bonus(const L::Dynamic::Var& v)
   : _position(Conf::getPointFrom(v["position"])),
+    _image(_images["test"]),
     _value(_values[v["value"].as<String>()]),
     _parameter(v["parameter"].as<float>()),
     _active(false) {
@@ -47,10 +48,20 @@ void Bonus::deactivate() {
       break;
   }
 }
-void Bonus::draw(const L::GL::Camera& cam) const {
+void Bonus::draw(L::GL::Program& program, const L::GL::Camera& cam) const {
   Point2f p(Window::normalizedToPixels(cam.worldToScreen(_position)));
   GL::color((_active)?Color::yellow:Color::cyan);
-  glVertex2f(p.x(),p.y());
+  program.uniform("texture",*_image);
+  glBegin(GL_QUADS);
+  glTexCoord2f(0,0);
+  glVertex2f(p.x()-16,p.y()-16);
+  glTexCoord2f(0,1);
+  glVertex2f(p.x()-16,p.y()+16);
+  glTexCoord2f(1,1);
+  glVertex2f(p.x()+16,p.y()+16);
+  glTexCoord2f(1,0);
+  glVertex2f(p.x()+16,p.y()-16);
+  glEnd();
 }
 void Bonus::registerValue(const L::String& name, float* p) {
   *p = Conf::getFloat(name);
@@ -61,16 +72,13 @@ void Bonus::updateAll(World& world) {
     bonus.update(world);
   });
 }
-void Bonus::drawAll(const L::GL::Camera& cam) {
-  GL::whiteTexture().bind();
-  glPointSize(32);
-  glBegin(GL_POINTS);
-  _bonuses.foreach([&cam](const Bonus& bonus) {
-    bonus.draw(cam);
+void Bonus::drawAll(L::GL::Program& program, const L::GL::Camera& cam) {
+  _bonuses.foreach([&program,&cam](const Bonus& bonus) {
+    bonus.draw(program,cam);
   });
-  glEnd();
 }
 void Bonus::configure() {
+  _images["test"] = new GL::Texture(Image::Bitmap("Image/chat.png"));
   const Dynamic::Array& bonuses(Conf::get()["bonuses"].as<Dynamic::Array>());
   for(int i(0); i<bonuses.size(); i++)
     _bonuses.push(bonuses[i]);

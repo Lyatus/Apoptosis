@@ -11,6 +11,7 @@ class Bonus {
     static L::Map<L::String,L::Ref<L::GL::Texture> > _images;
 
     L::Point3f _position;
+    L::Ref<L::GL::Texture> _image;
     float _radius;
     float* _value;
     float _parameter;
@@ -25,11 +26,11 @@ class Bonus {
     void update(World&);
     void activate();
     void deactivate();
-    void draw(const L::GL::Camera&) const;
+    void draw(L::GL::Program&, const L::GL::Camera&) const;
 
     static void registerValue(const L::String&,float*);
     static void updateAll(World&);
-    static void drawAll(const L::GL::Camera&);
+    static void drawAll(L::GL::Program&,const L::GL::Camera&);
     static void configure();
 };
 
