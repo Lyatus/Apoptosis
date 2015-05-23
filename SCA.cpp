@@ -72,12 +72,14 @@ bool SCA::update(World& world) {
       float nearestDistance(target.dist(nearestBranch->position()));
       if(nearestDistance<=_minDist) // A branch is close enough to erase the target
         _targets.erase(i--);
-      else // A branch is close enough to be affected by the target
+      else { // A branch is close enough to be affected by the target
         nearestBranch->addGrowth(target);
+        _growingBranches.insert(nearestBranch);
+      }
     }
   }
-  for(int i(0); i<_branches.size(); i++) { // Add new branches
-    SCA::Branch& branch(*_branches[i]);
+  for(int i(0); i<_growingBranches.size(); i++) { // Add new branches
+    SCA::Branch& branch(*_growingBranches[i]);
     if(branch.growing()) { // There's at least one target that affects it
       Branch newBranch(branch.next(world));
       world.fill(Line(branch.position(),newBranch.position(),branchRadius),Voxel::VESSEL,Voxel::max);

@@ -25,6 +25,7 @@ class SCA {
   private:
     L::Array<Branch*> _branches;
     L::Octree<float,Branch*> _branchTree;
+    L::Set<Branch*> _growingBranches;
     L::Array<L::Point3f> _targets;
     L::Timer _timer;
     float _minDist, _maxDist;
