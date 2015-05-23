@@ -149,6 +149,12 @@ void Automaton::remove(Automaton* a) {
       return;
     }
 }
+bool Automaton::has(Process p) {
+  for(int i(0); i<_automata.size(); i++)
+    if(_automata[i]->_process==p)
+      return true;
+  return false;
+}
 void Automaton::drawAll() {
   _automata.foreach([](Automaton*& a) {
     a->draw();

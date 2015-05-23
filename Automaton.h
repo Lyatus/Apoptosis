@@ -44,6 +44,7 @@ class Automaton {
     static bool treating(Process, const L::Point3i&);
     static void add(Automaton*);
     static void remove(Automaton*);
+    static bool has(Process);
     static void drawAll();
     static void init();
     static void term();
