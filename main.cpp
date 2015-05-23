@@ -267,14 +267,17 @@ void menu() {
 }
 List<Point3f> burst(float pixelRadius, float worldRadius, int count) {
   List<Point3f> wtr;
-  Point3f center;
-  Point2f pixelToNormalized(1.f/Window::width(),1.f/Window::height());
-  if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),center,512)) {
-    Point3f hit;
-    for(int i(0); i<count; i++)
-      if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+pixelToNormalized*Point2f::random()*Rand::next(0.f,pixelRadius)),hit,512)
-          && hit.dist(center)<worldRadius)
-        wtr.push_back(hit);
+  if(count) {
+    Point3f center;
+    Point2f pixelToNormalized(1.f/Window::width(),1.f/Window::height());
+    if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),center,512)) {
+      wtr.push_back(center);
+      Point3f hit;
+      for(int i(11); i<count; i++)
+        if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+pixelToNormalized*Point2f::random()*Rand::next(0.f,pixelRadius)),hit,512)
+            && hit.dist(center)<worldRadius)
+          wtr.push_back(hit);
+    }
   }
   return wtr;
 }
