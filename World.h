@@ -26,6 +26,7 @@ class World {
 
     bool raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, float distance);
     bool spherecast(L::Point3f center, float radius);
+    bool spherecast(L::Point3f center, float radius, const std::function<bool(Voxel)>&);
 
     // Drawing
     void fill(const Shape&, L::byte type, Voxel::Updater);

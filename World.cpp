@@ -105,7 +105,15 @@ bool World::spherecast(L::Point3f center, float radius) {
   }
   return voxel(center.x(),center.y(),center.z()).solid();
 }
-
+bool World::spherecast(L::Point3f center, float radius, const std::function<bool(Voxel)>& f) {
+  for(int i(0); i<6; i++) {
+    Point3f tmp(center);
+    tmp[i%3] += ((i<3)?radius:-radius);
+    if(f(voxel(tmp.x(),tmp.y(),tmp.z())))
+      return true;
+  }
+  return f(voxel(center.x(),center.y(),center.z()));
+}
 void World::fill(const Shape& shape, L::byte type, Voxel::Updater u) {
   Set<Point3i> treated;
   if(shape.convex()) {
