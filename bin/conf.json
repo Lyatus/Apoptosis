@@ -53,6 +53,7 @@
 	"chemo_organ_factor": 0.75
 	
 	"resource_speed": 0.1,
+	"resource_speed_idle": 0.2,
 	"tumor_cost": 0.35,
 	"vessel_cost": 0.45,
 	

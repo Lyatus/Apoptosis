@@ -34,7 +34,7 @@ Timer fadeTimer;
 Time start;
 
 // Gameplay configuration
-float resourceSpeed, tumorCost, vesselCost, buddingFactor;
+float resourceSpeed, resourceSpeedIdle, tumorCost, vesselCost, buddingFactor;
 
 float irrigationRadius;
 Point3f irrigationSphereCenter;
@@ -326,7 +326,7 @@ void game() {
     cam.update(world,deltaTime);
     Automaton::update(Time(1000000/targetFPS),deltaTime);
     sca.update(world);
-    resource = std::min(1.f,resource+deltaTime*resourceSpeed);
+    resource = std::min(1.f,resource+deltaTime*((Automaton::has(growth))?resourceSpeed:resourceSpeedIdle));
     if(thirsttimer.every(Time(0,100))) {
       Bonus::updateAll(world);
       tumorCount = world.typeCount(Voxel::TUMOR) + world.typeCount(Voxel::TUMOR_IDLE);
@@ -480,6 +480,7 @@ int main(int argc, char* argv[]) {
   Bonus::registerValue("budding_duration",&buddingDuration);
   Bonus::registerValue("budding_factor",&buddingFactor);
   Bonus::registerValue("resource_speed",&resourceSpeed);
+  Bonus::registerValue("resource_speed_idle",&resourceSpeedIdle);
   Bonus::registerValue("tumor_cost",&tumorCost);
   Bonus::registerValue("vessel_cost",&vesselCost);
   Bonus::registerValue("vessel_count",&vesselCount);
