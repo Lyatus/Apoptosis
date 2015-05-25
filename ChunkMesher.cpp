@@ -25,7 +25,7 @@ void permutate(T array[n], L::byte indices[]) {
 template<class T>
 void reverse(T* array, int size) {
   for(int i(0); i<size/2; i++)
-    swap(array[i],array[(size-i)-1]);
+    Object::swap(array[i],array[(size-i)-1]);
 }
 template<class T, int n>
 void change(T array[n], T changes[]) {
