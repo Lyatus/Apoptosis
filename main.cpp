@@ -300,8 +300,6 @@ bool isTumor(Voxel v) {
 void game() {
   fadeTimer.setoff();
   clearcolor(Conf::getColor("background"));
-  // Cameras initialization
-  cam.fovy(60);
   // Light initialization
   GL::Light light;
   light.position(-1,1,-1,0);
