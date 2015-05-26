@@ -51,7 +51,7 @@
 	"chemo_vps": 5,
 	"chemo_duration": 8,
 	"chemo_propagation_factor": 0.015,
-	"chemo_organ_factor": 0.45
+	"chemo_organ_factor": 0.45,
 	
 	"resource_speed": 0.1,
 	"resource_speed_idle": 0.2,
