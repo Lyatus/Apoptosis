@@ -41,7 +41,7 @@
 
 	"irrigation_sphere_center": "0,60,175",
 	"irrigation_sphere_radius": 32,
-	"irrigation_radius": 5.7,
+	"irrigation_radius": 10,
 
 	"growth_vps": 5,
 	"growth_duration": 3.5,
@@ -67,9 +67,9 @@
 			"position": "3,87,168",
 			"modifications":[
 				{
-					"value": "tumor_cost",
+					"value": "growth_duration",
 					"operation": "add",
-					"parameter": -0.05
+					"parameter": 0.25
 				}
 			]
 		},
@@ -117,9 +117,9 @@
 			"position": "1,163,159",
 			"modifications":[
 				{
-					"value": "growth_duration",
+					"value": "vessel_cost",
 					"operation": "add",
-					"parameter": 0.25
+					"parameter": -0.05
 				}
 			]
 		},
