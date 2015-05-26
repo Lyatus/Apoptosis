@@ -34,7 +34,7 @@ Timer fadeTimer;
 Time start;
 
 // Gameplay configuration
-float resourceSpeed, resourceSpeedIdle, tumorCost, vesselCost, buddingFactor;
+float resourceSpeed, resourceSpeedIdle, tumorCost, vesselCost;
 
 float irrigationRadius;
 Point3f irrigationSphereCenter;
@@ -46,6 +46,7 @@ float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoTarget;
 int chemoTumorTarget, chemoTumorDestroyed;
 float buddingVPS, buddingDuration;
 float vesselCount, burstRadius;
+float buddingFactor, vesselBuddingFactor;
 bool anywhere(false), budding(false);
 Automaton* thirstAutomatonP;
 
@@ -169,7 +170,8 @@ void foreachChunk(Chunk* chunk) {
   bool thirstPotential(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
   bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE) || chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
   bool budPotential(budding && chunk->typeCount(Voxel::TUMOR_IDLE));
-  if(thirstPotential || camPotential || budPotential)
+  bool vesselBudPotential(vesselBuddingFactor>0 && (chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE)));
+  if(thirstPotential || camPotential || budPotential || vesselBudPotential)
     for(int x(0); x<Chunk::size; x++)
       for(int y(0); y<Chunk::size; y++)
         for(int z(0); z<Chunk::size; z++) {
@@ -184,6 +186,8 @@ void foreachChunk(Chunk* chunk) {
             cam.addPoint(chunk->position()+Point3i(x,y,z));
           if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<buddingFactor/tumorCount)
             startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
+          if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
+            sca.addTarget(position);
         }
 }
 void fillObj(const char* filename, byte type) {
@@ -480,6 +484,7 @@ int main(int argc, char* argv[]) {
   Bonus::registerValue("budding_vps",&buddingVPS);
   Bonus::registerValue("budding_duration",&buddingDuration);
   Bonus::registerValue("budding_factor",&buddingFactor);
+  Bonus::registerValue("vessel_budding_factor",&vesselBuddingFactor);
   Bonus::registerValue("resource_speed",&resourceSpeed);
   Bonus::registerValue("resource_speed_idle",&resourceSpeedIdle);
   Bonus::registerValue("tumor_cost",&tumorCost);

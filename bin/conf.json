@@ -31,7 +31,7 @@
 	
 	"sca_drag_factor": .5,
 	"sca_random_factor": 0.5,
-	"sca_branch_length": 3,
+	"sca_branch_length": 2,
 	"sca_branch_radius": 1,
 	"sca_avoid_attempts": 1024,
 	"sca_color": "#2558e066"
@@ -59,7 +59,8 @@
 	
 	"budding_vps": 10,
 	"budding_factor": 0.15,
-	"budding_duration": 0.08,
+	"budding_duration": 2,
+	"vessel_budding_factor": 0,
 	
 	"bonuses":[
 		{
