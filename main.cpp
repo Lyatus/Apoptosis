@@ -192,7 +192,7 @@ void foreachChunk(Chunk* chunk) {
             startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
           if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
             sca.addTarget(position);
-          if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<chemoBuddingFactor)
+          if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<chemoBuddingFactor/tumorCount)
             startChemo(position,Time(buddingDuration*1000000.f));
         }
 }
