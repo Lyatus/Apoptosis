@@ -27,14 +27,15 @@ void SphericalCamera::addPoint(const L::Point3f& point) {
 void SphericalCamera::update(World& world, float deltaTime) {
   Point3f oldPosition(position());
   if(_fovyTarget!=_fovy)
-    fovy(_fovy+((_fovyTarget-_fovy)*10.f)*deltaTime);
+    fovy(_fovy+(_fovyTarget-_fovy)*10.f*deltaTime);
+  _mouse += (Window::normalizedMousePosition()-_mouse)*5.f*deltaTime;
   if(!_interval.empty()) {
     _center += ((_centerTarget-_center)/1.1f)*deltaTime;
     lookat(_center);
     float distance(_centerTarget.dist(position()));
     move(Point3f(0,0,-((_radius-distance)/1.1f)*deltaTime));
-    phiLook(-Window::normalizedMousePosition().x()*((_maxFovx-_fovx)/2)*DEGTORAD<float>());
-    thetaLook(Window::normalizedMousePosition().y()*((_maxFovy-_fovy)/2)*DEGTORAD<float>());
+    phiLook(-_mouse.x()*((_maxFovx-_fovx)/2)*DEGTORAD<float>());
+    thetaLook(_mouse.y()*((_maxFovy-_fovy)/2)*DEGTORAD<float>());
   }
   phiPosition(_speed.x()*-deltaTime);
   thetaPosition(_speed.y()*-deltaTime);
