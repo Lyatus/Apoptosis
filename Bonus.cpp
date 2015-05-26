@@ -45,19 +45,19 @@ void Bonus::activate() {
 }
 void Bonus::deactivate() {
   _active = false;
-   for(int i(0); i<_values.size(); i++)
- switch(_operations[i]) {
-    case ADD:
-      *_values[i] -= _parameters[i];
-      break;
-    case MULT:
-      *_values[i] /= _parameters[i];
-      break;
-  }
+  for(int i(0); i<_values.size(); i++)
+    switch(_operations[i]) {
+      case ADD:
+        *_values[i] -= _parameters[i];
+        break;
+      case MULT:
+        *_values[i] /= _parameters[i];
+        break;
+    }
 }
 void Bonus::draw(L::GL::Program& program, const L::GL::Camera& cam) const {
   Point2f p(Window::normalizedToPixels(cam.worldToScreen(_position)));
-  GL::color((_active)?Color::yellow:Color::cyan);
+  GL::color((_active)?Color::white:Color::black);
   program.uniform("texture",*_image);
   glBegin(GL_QUADS);
   glTexCoord2f(0,0);
