@@ -42,11 +42,10 @@ float irrigationSphereRadius;
 
 float growthVPS, growthDuration;
 float thirstVPS, thirstAppearanceFactor;
-float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoTarget;
-int chemoTumorTarget, chemoTumorDestroyed;
+float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoDuration;
 float buddingVPS, buddingDuration;
 float vesselCount, burstRadius;
-float buddingFactor, vesselBuddingFactor;
+float buddingFactor, vesselBuddingFactor, chemoBuddingFactor;
 bool anywhere(false), budding(false);
 Automaton* thirstAutomatonP;
 
@@ -117,7 +116,7 @@ Voxel thirst(Automaton& automaton, int x, int y, int z, bool& processable) {
 }
 Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
   Voxel wtr(automaton.voxel(x,y,z));
-  if(chemoTumorDestroyed>chemoTumorTarget && Rand::nextFloat()<.1f)
+  if(automaton.shouldStop() && Rand::nextFloat()<.1f)
     switch(wtr.type()) {
       case Voxel::ORGAN_CHEMO:
         wtr.type(Voxel::ORGAN);
@@ -129,11 +128,9 @@ Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
         wtr.type(Voxel::TUMOR_THIRSTY_IDLE);
         break;
     }
-  else if(wtr.empty()) {
-    if(wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_IDLE_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO)
-      chemoTumorDestroyed++;
+  else if(wtr.empty())
     wtr.type(Voxel::NOTHING);
-  } else {
+  else {
     bool chemo(wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_IDLE_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO);
     Voxel other(automaton.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2));
     bool otherChemo(other.type()==Voxel::ORGAN_CHEMO || other.type()==Voxel::TUMOR_IDLE_CHEMO || other.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO);
@@ -166,11 +163,18 @@ void startThirst(const Point3f& start) {
   automaton->include(start);
   Automaton::add(automaton);
 }
+void startChemo(const Point3f& start, const Time& duration) {
+  Automaton* automaton(new Automaton(world,chemo,chemoVPS,Time::now()+duration));
+  world.voxelSphere(start,1.5f,Voxel::TUMOR_IDLE_CHEMO,Voxel::max);
+  automaton->include(start);
+  Automaton::add(automaton);
+}
 void foreachChunk(Chunk* chunk) {
   bool thirstPotential(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
   bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE) || chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
   bool budPotential(budding && chunk->typeCount(Voxel::TUMOR_IDLE));
   bool vesselBudPotential(vesselBuddingFactor>0 && (chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE)));
+  bool chemoBudPotential(chemoBuddingFactor>0 && chunk->typeCount(Voxel::TUMOR_IDLE));
   if(thirstPotential || camPotential || budPotential || vesselBudPotential)
     for(int x(0); x<Chunk::size; x++)
       for(int y(0); y<Chunk::size; y++)
@@ -188,6 +192,8 @@ void foreachChunk(Chunk* chunk) {
             startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
           if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
             sca.addTarget(position);
+          if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<chemoBuddingFactor)
+            startChemo(position,Time(buddingDuration*1000000.f));
         }
 }
 void fillObj(const char* filename, byte type) {
@@ -223,7 +229,6 @@ void mask(const Color& color) {
   glVertex2f(-1,1);
   glEnd();
 }
-
 void clearcolor(const Color& color) {
   glClearColor((float)color.r()/255,(float)color.g()/255,(float)color.b()/255,(float)color.a()/255);
 }
@@ -314,9 +319,6 @@ void game() {
   GL::PostProcess pp(Window::width(),Window::height());
   // Textures fetching
   GL::Texture voxelTexture(Image::Bitmap(Conf::getString("texture_path")));
-  // Automata initialization
-  Automaton *chemoAutomaton(new Automaton(world,chemo,chemoVPS,Time::now()+Time(0,0,0,0,1)));
-  Automaton::add(chemoAutomaton);
   // GUI initialization
   Point3f hit;
   GUI::Text* text(new GUI::Text());
@@ -376,12 +378,8 @@ void game() {
             }
             break;
           case Window::Event::SPACE:
-            for(auto&& hit : burst(0,32,1)) {
-              world.voxelSphere(hit,1,Voxel::TUMOR_IDLE_CHEMO,Voxel::max);
-              chemoTumorDestroyed = 0;
-              chemoTumorTarget = tumorCount*chemoTarget;
-              chemoAutomaton->include(hit);
-            }
+            if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512))
+              startChemo(hit,Time(chemoDuration*1000000.f));
             break;
           case Window::Event::ENTER:
             anywhere = !anywhere;
@@ -480,11 +478,12 @@ int main(int argc, char* argv[]) {
   Bonus::registerValue("chemo_vps",&chemoVPS);
   Bonus::registerValue("chemo_propagation_factor",&chemoPropagationFactor);
   Bonus::registerValue("chemo_organ_factor",&chemoOrganFactor);
-  Bonus::registerValue("chemo_target",&chemoTarget);
+  Bonus::registerValue("chemo_duration",&chemoDuration);
   Bonus::registerValue("budding_vps",&buddingVPS);
   Bonus::registerValue("budding_duration",&buddingDuration);
   Bonus::registerValue("budding_factor",&buddingFactor);
   Bonus::registerValue("vessel_budding_factor",&vesselBuddingFactor);
+  Bonus::registerValue("chemo_budding_factor",&chemoBuddingFactor);
   Bonus::registerValue("resource_speed",&resourceSpeed);
   Bonus::registerValue("resource_speed_idle",&resourceSpeedIdle);
   Bonus::registerValue("tumor_cost",&tumorCost);
