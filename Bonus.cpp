@@ -4,19 +4,22 @@
 
 using namespace L;
 
-Map<String,float*> Bonus::_values;
+Map<String,float*> Bonus::_valueMap;
 Array<Bonus> Bonus::_bonuses;
 Map<String,Ref<GL::Texture> > Bonus::_images;
 
 Bonus::Bonus(const L::Dynamic::Var& v)
   : _position(Conf::getPointFrom(v["position"])),
     _image(_images["test"]),
-    _value(_values[v["value"].as<String>()]),
-    _parameter(v["parameter"].as<float>()),
     _active(false) {
-  if(v["operation"].as<String>()=="mult")
-    _operation = MULT;
-  else _operation = ADD;
+  const Dynamic::Array& modifications(v["modifications"].as<Dynamic::Array>());
+  for(int i(0); i<modifications.size(); i++) {
+    _values.push(_valueMap[modifications[i]["value"].as<String>()]);
+    if(modifications[i]["operation"].as<String>()=="mult")
+      _operations.push(MULT);
+    else _operations.push(ADD);
+    _parameters.push(modifications[i]["parameter"].as<float>());
+  }
 }
 void Bonus::update(World& world) {
   Voxel voxel(world.voxel(_position.x(),_position.y(),_position.z()));
@@ -30,23 +33,25 @@ void Bonus::update(World& world) {
 }
 void Bonus::activate() {
   _active = true;
-  switch(_operation) {
-    case ADD:
-      *_value += _parameter;
-      break;
-    case MULT:
-      *_value *= _parameter;
-      break;
-  }
+  for(int i(0); i<_values.size(); i++)
+    switch(_operations[i]) {
+      case ADD:
+        *_values[i] += _parameters[i];
+        break;
+      case MULT:
+        *_values[i] *= _parameters[i];
+        break;
+    }
 }
 void Bonus::deactivate() {
   _active = false;
-  switch(_operation) {
+   for(int i(0); i<_values.size(); i++)
+ switch(_operations[i]) {
     case ADD:
-      *_value -= _parameter;
+      *_values[i] -= _parameters[i];
       break;
     case MULT:
-      *_value /= _parameter;
+      *_values[i] /= _parameters[i];
       break;
   }
 }
@@ -67,7 +72,7 @@ void Bonus::draw(L::GL::Program& program, const L::GL::Camera& cam) const {
 }
 void Bonus::registerValue(const L::String& name, float* p) {
   *p = Conf::getFloat(name);
-  _values[name] = p;
+  _valueMap[name] = p;
 }
 void Bonus::updateAll(World& world) {
   _bonuses.foreach([&world](Bonus& bonus) {

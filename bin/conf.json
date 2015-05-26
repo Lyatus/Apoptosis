@@ -64,58 +64,93 @@
 	"bonuses":[
 		{
 			"position": "3,87,168",
-			"value": "tumor_cost",
-			"operation": "add",
-			"parameter": -0.05
+			"modifications":[
+				{
+					"value": "tumor_cost",
+					"operation": "add",
+					"parameter": -0.05
+				}
+			]
 		},
-{
+		{
 			"position": "20,107,164",
-			"value": "vessel_cost",
-			"operation": "add",
-			"parameter": -0.05
+			"modifications":[
+				{
+					"value": "vessel_cost",
+					"operation": "add",
+					"parameter": -0.05
+				}
+			]
 		},
-{
+		{
 			"position": "15,135,155",
-			"value": "resource_speed",
-			"operation": "add",
-			"parameter": 0.005
+			"modifications":[
+				{
+					"value": "resource_speed",
+					"operation": "add",
+					"parameter": 0.005
+				}
+			]
 		},
-{
+		{
 			"position": "-15,135,155",
-			"value": "resource_speed",
-			"operation": "add",
-			"parameter": 0.005
+			"modifications":[
+				{
+					"value": "resource_speed",
+					"operation": "add",
+					"parameter": 0.005
+				}
+			]
 		},
-{
+		{
 			"position": "-20,107,162",
-			"value": "tumor_cost",
-			"operation": "add",
-			"parameter": -0.05
+			"modifications":[
+				{
+					"value": "tumor_cost",
+					"operation": "add",
+					"parameter": -0.05
+				}
+			]
 		},
-{
+		{
 			"position": "1,163,159",
-			"value": "growth_duration",
-			"operation": "add",
-			"parameter": 0.25
+			"modifications":[
+				{
+					"value": "growth_duration",
+					"operation": "add",
+					"parameter": 0.25
+				}
+			]
 		},
-{
+		{
 			"position": "39,149,158",
-			"value": "growth_duration",
-			"operation": "add",
-			"parameter": 0.25
+			"modifications":[
+				{
+					"value": "growth_duration",
+					"operation": "add",
+					"parameter": 0.25
+				}
+			]
 		},
-{
+		{
 			"position": "-53,131,162",
-			"value": "growth_vps",
-			"operation": "mult",
-			"parameter": 1.2
+			"modifications":[
+				{
+					"value": "growth_vps",
+					"operation": "mult",
+					"parameter": 1.2
+				}
+			]
 		},
-{
+		{
 			"position": "-55,158,160",
-			"value": "growth_vps",
-			"operation": "mult",
-			"parameter": 1.2
-			
+			"modifications":[
+				{
+					"value": "growth_vps",
+					"operation": "mult",
+					"parameter": 1.2
+				}
+			]
 		}
 	]
 }
