@@ -8,6 +8,7 @@ class SphericalCamera : public L::GL::Camera {
   private:
     L::Interval3f _interval;
     L::Point3f _center, _centerTarget;
+    L::Point2f _speed;
     float _radius, _fovy;
     static float _minAngle, _minFovy, _maxFovy;
 
