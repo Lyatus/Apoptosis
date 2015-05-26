@@ -321,7 +321,7 @@ void game() {
   Point3f hit;
   GUI::Text* text(new GUI::Text());
   gui->place(text,Point2i(0,0),GUI::TL,GUI::TL);
-  Timer timer, thirsttimer;
+  Timer timer, checktimer;
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
   startTumor(irrigationSphereCenter,growthVPS,Time(growthDuration*1000000.f));
   while(Window::loop()) {
@@ -332,7 +332,7 @@ void game() {
     Automaton::update(Time(1000000/targetFPS),deltaTime);
     sca.update(world);
     resource = std::min(1.f,resource+deltaTime*((Automaton::has(growth)||Automaton::has(thirst))?resourceSpeed:resourceSpeedIdle));
-    if(thirsttimer.every(Time(0,100))) {
+    if(checktimer.every(Time(0,100))) {
       Bonus::updateAll(world);
       tumorCount = world.typeCount(Voxel::TUMOR) + world.typeCount(Voxel::TUMOR_IDLE);
       tumorThirstyCount = world.typeCount(Voxel::TUMOR_THIRSTY) + world.typeCount(Voxel::TUMOR_THIRSTY_IDLE);
