@@ -21,7 +21,6 @@ void World::draw(const Camera& camera) {
     if(chunk && chunk->draw(camera))
       count++;
   }
-  //std::cout << count << std::endl;
 }
 void World::update() {
   Point3i i(_interval.min());
@@ -47,6 +46,9 @@ Chunk& World::chunk(int x, int y, int z, bool create) {
     _interval.add(Point3i(x+radius+1,y+radius+1,z+radius+1));
     return *(chunk = new Chunk(x,y,z));
   } else throw Exception("Tried to access unavailable chunk.");
+}
+bool World::chunkExists(int x, int y, int z) {
+  return _chunks[x+radius][y+radius][z+radius];
 }
 const Voxel& World::voxel(int x, int y, int z, bool create) {
   int cx, cy, cz, vx, vy, vz;

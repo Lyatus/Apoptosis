@@ -20,9 +20,11 @@ class World {
     void update();
     int typeCount(L::byte type) const;
     Chunk& chunk(int x, int y, int z, bool create = true);
+    bool chunkExists(int x, int y, int z);
     const Voxel& voxel(int x, int y, int z, bool create = true);
     float valueAt(const L::Point3f&);
     void updateVoxel(int x, int y, int z, const Voxel&, Voxel::Updater);
+    inline const L::Interval3i& interval() const {return _interval;}
 
     bool raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, float distance);
     bool spherecast(L::Point3f center, float radius);
