@@ -2,7 +2,7 @@
 	"fullscreen": true,
 	"cursor": false,
 	"width": 1280, "height": 720,
-	"target_fps": 45,
+	"target_fps": 90,
 
 	"menu_fade_duration": 0.1,
 	"intro_dark_duration": 0.1,
@@ -18,7 +18,7 @@
 	"cursor_radius": 32,
 	"cursor_point_color": "#000000ff",
 	"background_disk_color": "#ffffff44",
-	"inner_disk_color": "#70f3ff44",
+	"inner_disk_color": "#ff005444",
 	
 	"tumor": "#ff0054",
 	"tumor_thirsty": "#e47d6e",
@@ -26,8 +26,8 @@
 	"vessel": "#8ce7fe",
 	
 	"camera_min_angle": .20,
-	"camera_min_fovy": 10,
-	"camera_max_fovy": 90,
+	"camera_min_fovy": 40,
+	"camera_max_fovy": 80,
 	
 	"sca_drag_factor": .5,
 	"sca_random_factor": 0.5,
@@ -59,8 +59,8 @@
 	"vessel_cost": 0.45,
 	
 	"budding_vps": 12,
-	"budding_factor": 0.1,
-	"budding_duration": 2.5,
+	"budding_factor": 0.05,
+	"budding_duration": 4,
 	"vessel_budding_factor": 0,
 	"chemo_budding_factor": 0,
 	
