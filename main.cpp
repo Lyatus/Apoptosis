@@ -26,8 +26,8 @@ SphericalCamera cam;
 
 // Graphic configuration
 float ambientLevel;
-bool displayAutomata(false), displayVessels(true), displayTargets(false);
-float targetFPS;
+bool displayAutomata(false), displayVessels(true), displayTargets(false), debugText(true);
+float automataTPF, searchTPF;
 // GUI configuration
 float menuFadeDuration, gameFadeDuration, introDarkDuration;
 Timer fadeTimer;
@@ -169,32 +169,43 @@ void startChemo(const Point3f& start, const Time& duration) {
   automaton->include(start);
   Automaton::add(automaton);
 }
-void foreachChunk(Chunk* chunk) {
-  bool thirstPotential(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
-  bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE) || chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
-  bool budPotential(budding && chunk->typeCount(Voxel::TUMOR_IDLE));
-  bool vesselBudPotential(vesselBuddingFactor>0 && (chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE)));
-  bool chemoBudPotential(chemoBuddingFactor>0 && chunk->typeCount(Voxel::TUMOR_IDLE));
-  if(thirstPotential || camPotential || budPotential || vesselBudPotential)
-    for(int x(0); x<Chunk::size; x++)
-      for(int y(0); y<Chunk::size; y++)
-        for(int z(0); z<Chunk::size; z++) {
-          Voxel voxel(chunk->voxel(x,y,z));
-          Point3i position(chunk->position()+Point3i(x,y,z));
-          if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE && Rand::nextFloat()<thirstAppearanceFactor  && !Automaton::treating(thirst,position)) {
-            if(irrigationValue(Point3f(x,y,z))<1.f)
-              startThirst(position);
-            else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
-          }
-          if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
-            cam.addPoint(chunk->position()+Point3i(x,y,z));
-          if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<buddingFactor/tumorCount)
-            startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
-          if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
-            sca.addTarget(position);
-          if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<chemoBuddingFactor/tumorCount)
-            startChemo(position,Time(buddingDuration*1000000.f));
-        }
+void search(const Time& time) {
+  static Point3i ci(0), cmin(0), cmax(0);
+  Timer timer;
+  do {
+    if(!ci.increment(cmin,cmax)) {
+      ci = cmin = world.interval().min()-World::radius;
+      cmax = world.interval().max()-World::radius;
+    }
+    if(world.chunkExists(ci.x(),ci.y(),ci.z())) {
+      Chunk* chunk(&world.chunk(ci.x(),ci.y(),ci.z()));
+      bool thirstPotential(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
+      bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE) || chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
+      bool budPotential(budding && chunk->typeCount(Voxel::TUMOR_IDLE));
+      bool vesselBudPotential(vesselBuddingFactor>0 && (chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE)));
+      bool chemoBudPotential(chemoBuddingFactor>0 && chunk->typeCount(Voxel::TUMOR_IDLE));
+      if(thirstPotential || camPotential || budPotential || vesselBudPotential)
+        for(int x(0); x<Chunk::size; x++)
+          for(int y(0); y<Chunk::size; y++)
+            for(int z(0); z<Chunk::size; z++) {
+              Voxel voxel(chunk->voxel(x,y,z));
+              Point3i position(chunk->position()+Point3i(x,y,z));
+              if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE && Rand::nextFloat()<thirstAppearanceFactor  && !Automaton::treating(thirst,position)) {
+                if(irrigationValue(Point3f(x,y,z))<1.f)
+                  startThirst(position);
+                else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
+              }
+              if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
+                cam.addPoint(chunk->position()+Point3i(x,y,z));
+              if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<buddingFactor/tumorCount)
+                startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
+              if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
+                sca.addTarget(position);
+              if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<chemoBuddingFactor/tumorCount)
+                startChemo(position,Time(buddingDuration*1000000.f));
+            }
+    }
+  } while(timer.since()<time);
 }
 void fillObj(const char* filename, byte type) {
   Array<Point3f> vertices;
@@ -329,24 +340,26 @@ void game() {
     world.update();
     Wwise::update();
     cam.update(world,deltaTime);
-    Automaton::update(Time(1000000/targetFPS),deltaTime);
+    Automaton::update(Time(automataTPF*1000000.f),deltaTime);
+    search(Time(searchTPF*1000000.f));
     sca.update(world);
     resource = std::min(1.f,resource+deltaTime*((Automaton::has(growth)||Automaton::has(thirst))?resourceSpeed:resourceSpeedIdle));
     if(checktimer.every(Time(0,100))) {
       Bonus::updateAll(world);
       tumorCount = world.typeCount(Voxel::TUMOR) + world.typeCount(Voxel::TUMOR_IDLE);
       tumorThirstyCount = world.typeCount(Voxel::TUMOR_THIRSTY) + world.typeCount(Voxel::TUMOR_THIRSTY_IDLE);
-      world.foreachChunk(foreachChunk);
       if(tumorCount) {
         Point3f hit;
         world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512);
-        text->sText("tumor: "+ToString(tumorCount)+"\n"
-                    "thirsty: "+ToString(tumorThirstyCount)+"\n"
-                    "anywhere: "+ToString(anywhere)+"\n"
-                    "budding: "+ToString(budding)+"\n"
-                    "cursor position: "+ToString((Point3i)hit)+"\n"
-                    "time: "+Time::format("%M:%S",Time::now()-start)+"\n"
-                    "fps: "+ToString(1/deltaTime)+"\n");
+        if(debugText)
+          text->sText("tumor: "+ToString(tumorCount)+"\n"
+                      "thirsty: "+ToString(tumorThirstyCount)+"\n"
+                      "anywhere: "+ToString(anywhere)+"\n"
+                      "budding: "+ToString(budding)+"\n"
+                      "cursor position: "+ToString((Point3i)hit)+"\n"
+                      "time: "+Time::format("%M:%S",Time::now()-start)+"\n"
+                      "fps: "+ToString(1/deltaTime)+"\n");
+        else text->sText("");
       }
       outjson.get<Dynamic::Array>()((float)tumorCount);
     }
@@ -391,8 +404,11 @@ void game() {
           case Window::Event::T:
             displayTargets = !displayTargets;
             break;
-          case Window::Event::D:
+          case Window::Event::A:
             displayAutomata = !displayAutomata;
+            break;
+          case Window::Event::D:
+            debugText = !debugText;
             break;
           case Window::Event::NUM1:
             Wwise::postEvent("Voice_event_1");
@@ -489,7 +505,8 @@ int main(int argc, char* argv[]) {
   Bonus::registerValue("vessel_count",&vesselCount);
   Bonus::registerValue("burst_radius",&burstRadius);
   Bonus::configure();
-  targetFPS = Conf::getFloat("target_fps");
+  automataTPF = Conf::getFloat("automata_tpf");
+  searchTPF = Conf::getFloat("search_tpf");
   menuFadeDuration = Conf::getFloat("menu_fade_duration");
   introDarkDuration = Conf::getFloat("intro_dark_duration");
   gameFadeDuration = Conf::getFloat("game_fade_duration");
