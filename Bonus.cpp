@@ -84,6 +84,14 @@ void Bonus::drawAll(L::GL::Program& program, const L::GL::Camera& cam) {
     bonus.draw(program,cam);
   });
 }
+float Bonus::distance(const Point3f& p) {
+  float mag(std::numeric_limits<float>::max());
+  _bonuses.foreach([&mag,&p](const Bonus& bonus) {
+    if(!bonus._active)
+      mag = std::min(mag,bonus._position.distSquared(p));
+  });
+  return sqrt(mag);
+}
 void Bonus::configure() {
   _images["test"] = new GL::Texture(Image::Bitmap("Image/chat.png"));
   const Dynamic::Array& bonuses(Conf::get()["bonuses"].as<Dynamic::Array>());

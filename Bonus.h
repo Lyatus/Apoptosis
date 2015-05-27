@@ -29,6 +29,7 @@ class Bonus {
     static void registerValue(const L::String&,float*);
     static void updateAll(World&);
     static void drawAll(L::GL::Program&,const L::GL::Camera&);
+    static float distance(const L::Point3f&);
     static void configure();
 };
 
