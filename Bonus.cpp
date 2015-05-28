@@ -14,6 +14,7 @@ Bonus::Bonus(const L::Dynamic::Var& v)
   if(v.as<Dynamic::Node>().has("icon")) {
     if(!_images.has(v["icon"].as<String>()))
       _image = _images[v["icon"].as<String>()] = new GL::Texture(Image::Bitmap(v["icon"].as<String>()));
+    else _image = _images[v["icon"].as<String>()];
   } else _image = _images["default"];
   const Dynamic::Array& modifications(v["modifications"].as<Dynamic::Array>());
   for(int i(0); i<modifications.size(); i++) {
