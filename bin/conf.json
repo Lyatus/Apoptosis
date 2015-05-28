@@ -2,7 +2,7 @@
 	"fullscreen": true,
 	"cursor": false,
 	"width": 1280, "height": 720,
-	"automata_tpf": .01,
+	"automata_tpf": .012,
 	"search_tpf": .01,
 
 	"menu_fade_duration": 0.1,
@@ -27,7 +27,7 @@
 	"vessel": "#8ce7fe",
 	"chemo": "#ff00ff",
 	
-	"camera_min_angle": .20,
+	"camera_min_angle": .45,
 	"camera_min_fovy": 40,
 	"camera_max_fovy": 80,
 	
@@ -68,7 +68,7 @@
 	
 	"bonuses":[
 		{
-			"icon": "Image/Bonus/picto1_sansfond.png",
+			"icon": "Image/Bonus/tumor.png",
 			"position": "3,87,168",
 			"modifications":[
 				{
@@ -79,6 +79,7 @@
 			]
 		},
 		{
+			"icon": "Image/Bonus/vessel.png",
 			"position": "20,107,164",
 			"modifications":[
 				{
@@ -89,6 +90,7 @@
 			]
 		},
 		{
+			"icon": "Image/Bonus/resource.png",
 			"position": "15,135,155",
 			"modifications":[
 				{
@@ -99,6 +101,7 @@
 			]
 		},
 		{
+			"icon": "Image/Bonus/resource.png",
 			"position": "-15,135,155",
 			"modifications":[
 				{
@@ -109,6 +112,7 @@
 			]
 		},
 		{
+			"icon": "Image/Bonus/tumor.png",
 			"position": "-30,93,167",
 			"modifications":[
 				{
@@ -119,6 +123,7 @@
 			]
 		},
 		{
+			"icon": "Image/Bonus/vessel.png",
 			"position": "1,163,159",
 			"modifications":[
 				{
@@ -129,6 +134,7 @@
 			]
 		},
 		{
+			"icon": "Image/Bonus/tumor.png",
 			"position": "39,149,158",
 			"modifications":[
 				{
@@ -139,6 +145,7 @@
 			]
 		},
 		{
+			"icon": "Image/Bonus/tumor.png",
 			"position": "-53,131,162",
 			"modifications":[
 				{
@@ -149,6 +156,7 @@
 			]
 		},
 		{
+			"icon": "Image/Bonus/tumor.png",
 			"position": "-55,158,160",
 			"modifications":[
 				{
