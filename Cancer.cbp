@@ -91,6 +91,10 @@
 		<Unit filename="ChunkMesher.h" />
 		<Unit filename="Conf.cpp" />
 		<Unit filename="Conf.h" />
+		<Unit filename="Event.cpp" />
+		<Unit filename="Event.h" />
+		<Unit filename="Game.cpp" />
+		<Unit filename="Game.h" />
 		<Unit filename="SCA.cpp" />
 		<Unit filename="SCA.h" />
 		<Unit filename="SphericalCamera.cpp" />

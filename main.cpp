@@ -8,6 +8,8 @@
 #include "Automaton.h"
 #include "Bonus.h"
 #include "Conf.h"
+#include "Event.h"
+#include "Game.h"
 #include "SCA.h"
 #include "shapes.h"
 #include "SphericalCamera.h"
@@ -346,6 +348,7 @@ void game() {
     resource = std::min(1.f,resource+deltaTime*((Automaton::has(growth)||Automaton::has(thirst))?resourceSpeed:resourceSpeedIdle));
     if(checktimer.every(Time(0,100))) {
       Bonus::updateAll(world);
+      Event::updateAll(Time::now()-start);
       tumorCount = world.typeCount(Voxel::TUMOR) + world.typeCount(Voxel::TUMOR_IDLE);
       tumorThirstyCount = world.typeCount(Voxel::TUMOR_THIRSTY) + world.typeCount(Voxel::TUMOR_THIRSTY_IDLE);
       if(tumorCount) {
@@ -484,27 +487,28 @@ int main(int argc, char* argv[]) {
   Voxel::configure();
   SCA::configure();
   SphericalCamera::configure();
-  Bonus::registerValue("irrigation_radius",&irrigationRadius);
-  Bonus::registerValue("growth_vps",&growthVPS);
-  Bonus::registerValue("growth_duration",&growthDuration);
-  Bonus::registerValue("thirst_vps",&thirstVPS);
-  Bonus::registerValue("thirst_appearance_factor",&thirstAppearanceFactor);
-  Bonus::registerValue("chemo_vps",&chemoVPS);
-  Bonus::registerValue("chemo_propagation_factor",&chemoPropagationFactor);
-  Bonus::registerValue("chemo_organ_factor",&chemoOrganFactor);
-  Bonus::registerValue("chemo_duration",&chemoDuration);
-  Bonus::registerValue("budding_vps",&buddingVPS);
-  Bonus::registerValue("budding_duration",&buddingDuration);
-  Bonus::registerValue("budding_factor",&buddingFactor);
-  Bonus::registerValue("vessel_budding_factor",&vesselBuddingFactor);
-  Bonus::registerValue("chemo_budding_factor",&chemoBuddingFactor);
-  Bonus::registerValue("resource_speed",&resourceSpeed);
-  Bonus::registerValue("resource_speed_idle",&resourceSpeedIdle);
-  Bonus::registerValue("tumor_cost",&tumorCost);
-  Bonus::registerValue("vessel_cost",&vesselCost);
-  Bonus::registerValue("vessel_count",&vesselCount);
-  Bonus::registerValue("burst_radius",&burstRadius);
+  Game::registerValue("irrigation_radius",&irrigationRadius);
+  Game::registerValue("growth_vps",&growthVPS);
+  Game::registerValue("growth_duration",&growthDuration);
+  Game::registerValue("thirst_vps",&thirstVPS);
+  Game::registerValue("thirst_appearance_factor",&thirstAppearanceFactor);
+  Game::registerValue("chemo_vps",&chemoVPS);
+  Game::registerValue("chemo_propagation_factor",&chemoPropagationFactor);
+  Game::registerValue("chemo_organ_factor",&chemoOrganFactor);
+  Game::registerValue("chemo_duration",&chemoDuration);
+  Game::registerValue("budding_vps",&buddingVPS);
+  Game::registerValue("budding_duration",&buddingDuration);
+  Game::registerValue("budding_factor",&buddingFactor);
+  Game::registerValue("vessel_budding_factor",&vesselBuddingFactor);
+  Game::registerValue("chemo_budding_factor",&chemoBuddingFactor);
+  Game::registerValue("resource_speed",&resourceSpeed);
+  Game::registerValue("resource_speed_idle",&resourceSpeedIdle);
+  Game::registerValue("tumor_cost",&tumorCost);
+  Game::registerValue("vessel_cost",&vesselCost);
+  Game::registerValue("vessel_count",&vesselCount);
+  Game::registerValue("burst_radius",&burstRadius);
   Bonus::configure();
+  Event::configure();
   automataTPF = Conf::getFloat("automata_tpf");
   searchTPF = Conf::getFloat("search_tpf");
   menuFadeDuration = Conf::getFloat("menu_fade_duration");

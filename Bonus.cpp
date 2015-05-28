@@ -1,10 +1,10 @@
 #include "Bonus.h"
 
 #include "Conf.h"
+#include "Game.h"
 
 using namespace L;
 
-Map<String,float*> Bonus::_valueMap;
 Array<Bonus> Bonus::_bonuses;
 Map<String,Ref<GL::Texture> > Bonus::_images;
 
@@ -18,7 +18,7 @@ Bonus::Bonus(const L::Dynamic::Var& v)
   } else _image = _images["default"];
   const Dynamic::Array& modifications(v["modifications"].as<Dynamic::Array>());
   for(int i(0); i<modifications.size(); i++) {
-    _values.push(_valueMap[modifications[i]["value"].as<String>()]);
+    _values.push(Game::value(modifications[i]["value"].as<String>()));
     if(modifications[i]["operation"].as<String>()=="mult")
       _operations.push(MULT);
     else _operations.push(ADD);
@@ -73,10 +73,6 @@ void Bonus::draw(L::GL::Program& program, const L::GL::Camera& cam) const {
   glTexCoord2f(1,0);
   glVertex2f(p.x()+32,p.y()-32);
   glEnd();
-}
-void Bonus::registerValue(const L::String& name, float* p) {
-  *p = Conf::getFloat(name);
-  _valueMap[name] = p;
 }
 void Bonus::updateAll(World& world) {
   _bonuses.foreach([&world](Bonus& bonus) {

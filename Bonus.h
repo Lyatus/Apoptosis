@@ -6,7 +6,6 @@
 
 class Bonus {
   private:
-    static L::Map<L::String,float*> _valueMap;
     static L::Array<Bonus> _bonuses;
     static L::Map<L::String,L::Ref<L::GL::Texture> > _images;
     typedef enum {ADD,MULT} Operation;
@@ -26,7 +25,6 @@ class Bonus {
     void deactivate();
     void draw(L::GL::Program&, const L::GL::Camera&) const;
 
-    static void registerValue(const L::String&,float*);
     static void updateAll(World&);
     static void drawAll(L::GL::Program&,const L::GL::Camera&);
     static float distance(const L::Point3f&);

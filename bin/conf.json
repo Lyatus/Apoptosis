@@ -158,5 +158,19 @@
 				}
 			]
 		}
+	],
+	"events":[
+		{
+			"time": 20,
+			"value": "chemo_budding_factor",
+			"operation": "add",
+			"parameter": 0.02
+		},
+		{
+			"time": 30,
+			"value": "chemo_budding_factor",
+			"operation": "add",
+			"parameter": -0.02
+		}
 	]
 }
