@@ -25,7 +25,7 @@
 	"tumor_thirsty": "#e47d6e",
 	"organ": "#31328f",
 	"vessel": "#8ce7fe",
-	"chemo": "#ff00ff",
+	"chemo": "#001F00",
 	
 	"camera_min_angle": .45,
 	"camera_min_fovy": 40,
@@ -169,16 +169,64 @@
 	],
 	"events":[
 		{
-			"time": 20,
+			"time": 160,
 			"value": "chemo_budding_factor",
 			"operation": "add",
-			"parameter": 0.02
+			"parameter": 0.08
 		},
 		{
-			"time": 30,
+			"time": 180,
 			"value": "chemo_budding_factor",
 			"operation": "add",
-			"parameter": -0.02
+			"parameter": 0.01
+		},
+		{
+			"time": 180,
+			"value": "chemo_duration",
+			"operation": "add",
+			"parameter": 1
+		},
+		{
+			"time": 200,
+			"value": "chemo_budding_factor",
+			"operation": "add",
+			"parameter": 0.01
+		},
+		{
+			"time": 200,
+			"value": "chemo_duration",
+			"operation": "add",
+			"parameter": 1
+		},
+		{
+			"time": 220,
+			"value": "chemo_budding_factor",
+			"operation": "add",
+			"parameter": 0.01
+		},
+		{
+			"time": 220,
+			"value": "chemo_duration",
+			"operation": "add",
+			"parameter": 1
+		},
+		{
+			"time": 240,
+			"value": "chemo_budding_factor",
+			"operation": "add",
+			"parameter": 0.01
+		},
+		{
+			"time": 240,
+			"value": "chemo_duration",
+			"operation": "add",
+			"parameter": 1
+		},
+		{
+			"time": 260,
+			"value": "chemo_budding_factor",
+			"operation": "add",
+			"parameter": -0.12
 		}
 	]
 }
