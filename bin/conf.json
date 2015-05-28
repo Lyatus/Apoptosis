@@ -67,6 +67,7 @@
 	
 	"bonuses":[
 		{
+			"icon": "Image/Bonus/picto1_sansfond.png",
 			"position": "3,87,168",
 			"modifications":[
 				{

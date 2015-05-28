@@ -9,7 +9,7 @@ class Bonus {
     static L::Map<L::String,float*> _valueMap;
     static L::Array<Bonus> _bonuses;
     static L::Map<L::String,L::Ref<L::GL::Texture> > _images;
-    typedef enum{ADD,MULT} Operation;
+    typedef enum {ADD,MULT} Operation;
     L::Point3f _position;
     L::Ref<L::GL::Texture> _image;
     L::Array<float*> _values;

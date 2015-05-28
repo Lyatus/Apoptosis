@@ -10,8 +10,11 @@ Map<String,Ref<GL::Texture> > Bonus::_images;
 
 Bonus::Bonus(const L::Dynamic::Var& v)
   : _position(Conf::getPointFrom(v["position"])),
-    _image(_images["test"]),
     _active(false) {
+  if(v.as<Dynamic::Node>().has("icon")) {
+    if(!_images.has(v["icon"].as<String>()))
+      _image = _images[v["icon"].as<String>()] = new GL::Texture(Image::Bitmap(v["icon"].as<String>()));
+  } else _image = _images["default"];
   const Dynamic::Array& modifications(v["modifications"].as<Dynamic::Array>());
   for(int i(0); i<modifications.size(); i++) {
     _values.push(_valueMap[modifications[i]["value"].as<String>()]);
@@ -57,17 +60,17 @@ void Bonus::deactivate() {
 }
 void Bonus::draw(L::GL::Program& program, const L::GL::Camera& cam) const {
   Point2f p(Window::normalizedToPixels(cam.worldToScreen(_position)));
-  GL::color((_active)?Color::white:Color::black);
+  GL::color((_active)?Color(255,255,255,128):Color::white);
   program.uniform("texture",*_image);
   glBegin(GL_QUADS);
   glTexCoord2f(0,0);
-  glVertex2f(p.x()-16,p.y()-16);
+  glVertex2f(p.x()-32,p.y()-32);
   glTexCoord2f(0,1);
-  glVertex2f(p.x()-16,p.y()+16);
+  glVertex2f(p.x()-32,p.y()+32);
   glTexCoord2f(1,1);
-  glVertex2f(p.x()+16,p.y()+16);
+  glVertex2f(p.x()+32,p.y()+32);
   glTexCoord2f(1,0);
-  glVertex2f(p.x()+16,p.y()-16);
+  glVertex2f(p.x()+32,p.y()-32);
   glEnd();
 }
 void Bonus::registerValue(const L::String& name, float* p) {
@@ -93,7 +96,7 @@ float Bonus::distance(const Point3f& p) {
   return sqrt(mag);
 }
 void Bonus::configure() {
-  _images["test"] = new GL::Texture(Image::Bitmap("Image/chat.png"));
+  _images["default"] = new GL::Texture(Image::Bitmap("Image/chat.png"));
   const Dynamic::Array& bonuses(Conf::get()["bonuses"].as<Dynamic::Array>());
   for(int i(0); i<bonuses.size(); i++)
     _bonuses.push(bonuses[i]);
