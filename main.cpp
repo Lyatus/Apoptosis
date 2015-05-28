@@ -118,19 +118,20 @@ Voxel thirst(Automaton& automaton, int x, int y, int z, bool& processable) {
 }
 Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
   Voxel wtr(automaton.voxel(x,y,z));
-  if(automaton.shouldStop() && Rand::nextFloat()<.1f)
-    switch(wtr.type()) {
-      case Voxel::ORGAN_CHEMO:
-        wtr.type(Voxel::ORGAN);
-        break;
-      case Voxel::TUMOR_IDLE_CHEMO:
-        wtr.type(Voxel::TUMOR_IDLE);
-        break;
-      case Voxel::TUMOR_THIRSTY_IDLE_CHEMO:
-        wtr.type(Voxel::TUMOR_THIRSTY_IDLE);
-        break;
-    }
-  else if(wtr.empty())
+  if(automaton.shouldStop()) {
+    if(Rand::nextFloat()<.1f)
+      switch(wtr.type()) {
+        case Voxel::ORGAN_CHEMO:
+          wtr.type(Voxel::ORGAN);
+          break;
+        case Voxel::TUMOR_IDLE_CHEMO:
+          wtr.type(Voxel::TUMOR_IDLE);
+          break;
+        case Voxel::TUMOR_THIRSTY_IDLE_CHEMO:
+          wtr.type(Voxel::TUMOR_THIRSTY_IDLE);
+          break;
+      }
+  } else if(wtr.empty())
     wtr.type(Voxel::NOTHING);
   else {
     bool chemo(wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_IDLE_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO);
@@ -199,11 +200,11 @@ void search(const Time& time) {
               }
               if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
                 cam.addPoint(chunk->position()+Point3i(x,y,z));
-              if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<buddingFactor/tumorCount)
+              if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<buddingFactor/tumorCount && !Automaton::has(growth,position))
                 startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
               if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
                 sca.addTarget(position);
-              if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<chemoBuddingFactor/tumorCount)
+              if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<chemoBuddingFactor/tumorCount && !Automaton::has(chemo,position))
                 startChemo(position,Time(chemoDuration*1000000.f));
             }
     }
