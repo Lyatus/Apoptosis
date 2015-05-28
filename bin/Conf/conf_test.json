@@ -50,10 +50,10 @@
 	"thirst_vps": 12,
 	"thirst_appearance_factor": 1,
 
-	"chemo_vps":6 ,
-	"chemo_duration": 4,
-	"chemo_propagation_factor": 1,
-	"chemo_organ_factor": 0,
+	"chemo_vps": 8,
+	"chemo_duration": 3,
+	"chemo_propagation_factor": 0.2,
+	"chemo_organ_factor": 0.45,
 	
 	"resource_speed": 0.1,
 	"resource_speed_idle": 0.2,
@@ -172,7 +172,7 @@
 			"time": 40,
 			"value": "chemo_budding_factor",
 			"operation": "add",
-			"parameter": 0.02
+			"parameter": 0.08
 		},
 		{
 			"time": 60,
