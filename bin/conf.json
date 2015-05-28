@@ -25,6 +25,7 @@
 	"tumor_thirsty": "#e47d6e",
 	"organ": "#31328f",
 	"vessel": "#8ce7fe",
+	"chemo": "#ff00ff",
 	
 	"camera_min_angle": .20,
 	"camera_min_fovy": 40,
