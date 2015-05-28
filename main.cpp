@@ -204,7 +204,7 @@ void search(const Time& time) {
               if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
                 sca.addTarget(position);
               if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<chemoBuddingFactor/tumorCount)
-                startChemo(position,Time(buddingDuration*1000000.f));
+                startChemo(position,Time(chemoDuration*1000000.f));
             }
     }
   } while(timer.since()<time);
