@@ -44,11 +44,11 @@ float irrigationSphereRadius;
 
 float growthVPS, growthDuration;
 float thirstVPS, thirstAppearanceFactor;
-float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoDuration;
+float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoDuration, chemoDisappearanceFactor;
 float buddingVPS, buddingDuration;
 float vesselCount, burstRadius;
 float buddingFactor, vesselBuddingFactor, chemoBuddingFactor;
-float chemoBuddingCurve;
+float buddingCurve, chemoBuddingCurve;
 bool anywhere(false), budding(false);
 Automaton* thirstAutomatonP;
 
@@ -120,7 +120,7 @@ Voxel thirst(Automaton& automaton, int x, int y, int z, bool& processable) {
 Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
   Voxel wtr(automaton.voxel(x,y,z));
   if(automaton.shouldStop()) {
-    if(Rand::nextFloat()<.1f)
+    if(Rand::nextFloat()<chemoDisappearanceFactor)
       switch(wtr.type()) {
         case Voxel::ORGAN_CHEMO:
           wtr.type(Voxel::ORGAN);
@@ -201,7 +201,7 @@ void search(const Time& time) {
               }
               if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
                 cam.addPoint(chunk->position()+Point3i(x,y,z));
-              if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<buddingFactor/tumorCount && !Automaton::has(growth,position))
+              if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<(buddingFactor/tumorCount)*(buddingCurve/(Bonus::distanceToInactive(position)+buddingCurve)) && !Automaton::has(growth,position))
                 startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
               if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
                 sca.addTarget(position);
@@ -498,9 +498,11 @@ int main(int argc, char* argv[]) {
   Game::registerValue("chemo_propagation_factor",&chemoPropagationFactor);
   Game::registerValue("chemo_organ_factor",&chemoOrganFactor);
   Game::registerValue("chemo_duration",&chemoDuration);
+  Game::registerValue("chemo_disappearance_factor",&chemoDisappearanceFactor);
   Game::registerValue("budding_vps",&buddingVPS);
   Game::registerValue("budding_duration",&buddingDuration);
   Game::registerValue("budding_factor",&buddingFactor);
+  Game::registerValue("budding_curve",&buddingCurve);
   Game::registerValue("vessel_budding_factor",&vesselBuddingFactor);
   Game::registerValue("chemo_budding_factor",&chemoBuddingFactor);
   Game::registerValue("chemo_budding_curve",&chemoBuddingCurve);
