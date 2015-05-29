@@ -84,7 +84,15 @@ void Bonus::drawAll(L::GL::Program& program, const L::GL::Camera& cam) {
     bonus.draw(program,cam);
   });
 }
-float Bonus::distance(const Point3f& p) {
+float Bonus::distanceToActive(const Point3f& p) {
+  float mag(std::numeric_limits<float>::max());
+  _bonuses.foreach([&mag,&p](const Bonus& bonus) {
+    if(bonus._active)
+      mag = std::min(mag,bonus._position.distSquared(p));
+  });
+  return sqrt(mag);
+}
+float Bonus::distanceToInactive(const Point3f& p) {
   float mag(std::numeric_limits<float>::max());
   _bonuses.foreach([&mag,&p](const Bonus& bonus) {
     if(!bonus._active)
