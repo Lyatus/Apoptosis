@@ -2,7 +2,7 @@
 	"fullscreen": true,
 	"cursor": false,
 	"width": 1280, "height": 720,
-	"automata_tpf": .012,
+	"automata_tpf": .01,
 	"search_tpf": .01,
 
 	"menu_fade_duration": 0.1,
@@ -27,7 +27,7 @@
 	"vessel": "#8ce7fe",
 	"chemo": "#001F00",
 	
-	"camera_min_angle": .45,
+	"camera_min_angle": .50,
 	"camera_min_fovy": 40,
 	"camera_max_fovy": 80,
 	
@@ -51,12 +51,12 @@
 	"thirst_appearance_factor": 1,
 
 	"chemo_vps":3 ,
-	"chemo_duration": 6,
+	"chemo_duration": 3,
 	"chemo_propagation_factor": 1,
 	"chemo_organ_factor": 0,
 	
 	"resource_speed": 0.1,
-	"resource_speed_idle": 0.2,
+	"resource_speed_idle": 0.3,
 	"tumor_cost": 0.35,
 	"vessel_cost": 0.45,
 	
@@ -171,51 +171,69 @@
 	],
 	"events":[
 		{
-			"time": 60,
+			"time": 180,
 			"value": "chemo_budding_factor",
 			"operation": "add",
-			"parameter": 1
+			"parameter": 1.2
 		},
 		{
-			"time": 75,
-			"value": "chemo_duration",
+			"time": 180,
+			"value": "chemo_budding_curve",
 			"operation": "add",
-			"parameter": 1.5
+			"parameter": 4
 		},
 		{
-			"time": 95,
+			"time": 195,
 			"value": "chemo_duration",
-			"operation": "add",
-			"parameter": -2
-		},
-		{
-			"time": 130,
-			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": 2
 		},
 		{
-			"time": 140,
+			"time": 215,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": -4
+			"parameter": 1
 		},
-		{	"time": 140,
+		{
+			"time": 230,
+			"value": "chemo_duration",
+			"operation": "add",
+			"parameter": 0.5
+		},
+		{
+			"time": 240,
+			"value": "chemo_budding_factor",
+			"operation": "add",
+			"parameter": -1.5
+		},
+		{
+			"time": 240,
+			"value": "chemo_duration",
+			"operation": "add",
+			"parameter": -0.5
+		},
+		{
+			"time": 260,
+			"value": "chemo_budding_curve",
+			"operation": "add",
+			"parameter": -1
+		},
+		{	"time": 260,
+			"value": "chemo_budding_factor",
+			"operation": "add",
+			"parameter": 1.7
+		},
+		{
+			"time": 275,
+			"value": "chemo_duration",
+			"operation": "add",
+			"parameter": -1.5
+		},
+		{
+			"time": 310,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": -2
-		},
-		{
-			"time": 160,
-			"value": "chemo_duration",
-			"operation": "add",
-			"parameter": 3
-		},
-		{
-			"time": 180,
-			"value": "chemo_budding_factor",
-			"operation": "add",
-			"parameter": -1
 		}
 	]
 }
