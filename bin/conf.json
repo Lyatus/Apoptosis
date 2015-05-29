@@ -194,23 +194,12 @@
 			"parameter": 1
 		},
 		{
-			"time": 230,
-			"value": "chemo_duration",
-			"operation": "add",
-			"parameter": 0.5
-		},
-		{
 			"time": 240,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": -1.5
 		},
-		{
-			"time": 240,
-			"value": "chemo_duration",
-			"operation": "add",
-			"parameter": -0.5
-		},
+
 		{
 			"time": 260,
 			"value": "chemo_budding_curve",
