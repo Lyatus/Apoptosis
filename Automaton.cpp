@@ -118,6 +118,7 @@ void Automaton::fuse() {
   for(int i(0); i<_automata.size(); i++) // Check for automata that should fuse
     for(int j(0); j<_automata.size(); j++)
       if(i!=j && _automata[i]->_process==_automata[j]->_process
+          && !_automata[i]->shouldStop() && !_automata[j]->shouldStop()
           && (_automata[i]->_zone && _automata[j]->_zone)) {
         Automaton *automaton(new Automaton(_automata[i]->_world,
                                            _automata[i]->_process,
