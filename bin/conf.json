@@ -2,7 +2,7 @@
 	"fullscreen": true,
 	"cursor": false,
 	"width": 1280, "height": 720,
-	"automata_tpf": .012,
+	"automata_tpf": .01,
 	"search_tpf": .01,
 
 	"menu_fade_duration": 0.1,
@@ -27,7 +27,7 @@
 	"vessel": "#8ce7fe",
 	"chemo": "#001F00",
 	
-	"camera_min_angle": .45,
+	"camera_min_angle": .50,
 	"camera_min_fovy": 40,
 	"camera_max_fovy": 80,
 	
@@ -56,7 +56,7 @@
 	"chemo_organ_factor": 0,
 	
 	"resource_speed": 0.1,
-	"resource_speed_idle": 0.2,
+	"resource_speed_idle": 0.3,
 	"tumor_cost": 0.35,
 	"vessel_cost": 0.45,
 	
@@ -194,10 +194,22 @@
 			"parameter": 1
 		},
 		{
+			"time": 230,
+			"value": "chemo_duration",
+			"operation": "add",
+			"parameter": 0.5
+		},
+		{
 			"time": 240,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": -1.5
+		},
+		{
+			"time": 240,
+			"value": "chemo_duration",
+			"operation": "add",
+			"parameter": -0.5
 		},
 		{
 			"time": 260,
@@ -211,7 +223,7 @@
 			"parameter": 1.7
 		},
 		{
-			"time": 285,
+			"time": 275,
 			"value": "chemo_duration",
 			"operation": "add",
 			"parameter": -1.5
