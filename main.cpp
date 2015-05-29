@@ -204,7 +204,7 @@ void search(const Time& time) {
                 startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
               if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
                 sca.addTarget(position);
-              if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<(chemoBuddingFactor/tumorCount)*(1.f/Bonus::distanceToActive(position)) && !Automaton::has(chemo,position))
+              if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<(chemoBuddingFactor/tumorCount)*std::min(1.f,1.f/Bonus::distanceToActive(position)) && !Automaton::has(chemo,position))
                 startChemo(position,Time(chemoDuration*1000000.f));
             }
     }
