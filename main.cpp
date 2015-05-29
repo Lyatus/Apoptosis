@@ -44,7 +44,7 @@ float irrigationSphereRadius;
 
 float growthVPS, growthDuration;
 float thirstVPS, thirstAppearanceFactor;
-float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoDuration;
+float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoDuration, chemoDisappearanceFactor;
 float buddingVPS, buddingDuration;
 float vesselCount, burstRadius;
 float buddingFactor, vesselBuddingFactor, chemoBuddingFactor;
@@ -120,7 +120,7 @@ Voxel thirst(Automaton& automaton, int x, int y, int z, bool& processable) {
 Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
   Voxel wtr(automaton.voxel(x,y,z));
   if(automaton.shouldStop()) {
-    if(Rand::nextFloat()<.1f)
+    if(Rand::nextFloat()<chemoDisappearanceFactor)
       switch(wtr.type()) {
         case Voxel::ORGAN_CHEMO:
           wtr.type(Voxel::ORGAN);
@@ -498,6 +498,7 @@ int main(int argc, char* argv[]) {
   Game::registerValue("chemo_propagation_factor",&chemoPropagationFactor);
   Game::registerValue("chemo_organ_factor",&chemoOrganFactor);
   Game::registerValue("chemo_duration",&chemoDuration);
+  Game::registerValue("chemo_disappearance_factor",&chemoDisappearanceFactor);
   Game::registerValue("budding_vps",&buddingVPS);
   Game::registerValue("budding_duration",&buddingDuration);
   Game::registerValue("budding_factor",&buddingFactor);
