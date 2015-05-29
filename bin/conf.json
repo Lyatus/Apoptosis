@@ -51,7 +51,7 @@
 	"thirst_appearance_factor": 1,
 
 	"chemo_vps":3 ,
-	"chemo_duration": 6,
+	"chemo_duration": 3,
 	"chemo_propagation_factor": 1,
 	"chemo_organ_factor": 0,
 	
@@ -170,51 +170,57 @@
 	],
 	"events":[
 		{
-			"time": 60,
+			"time": 180,
 			"value": "chemo_budding_factor",
 			"operation": "add",
-			"parameter": 1
+			"parameter": 1.2
 		},
 		{
-			"time": 75,
-			"value": "chemo_duration",
+			"time": 180,
+			"value": "chemo_budding_curve",
 			"operation": "add",
-			"parameter": 1.5
+			"parameter": 4
 		},
 		{
-			"time": 95,
+			"time": 195,
 			"value": "chemo_duration",
-			"operation": "add",
-			"parameter": -2
-		},
-		{
-			"time": 130,
-			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": 2
 		},
 		{
-			"time": 140,
+			"time": 215,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": -4
+			"parameter": 1
 		},
-		{	"time": 140,
+		{
+			"time": 240,
+			"value": "chemo_budding_factor",
+			"operation": "add",
+			"parameter": -1.5
+		},
+		{
+			"time": 260,
+			"value": "chemo_budding_curve",
+			"operation": "add",
+			"parameter": -1
+		},
+		{	"time": 260,
+			"value": "chemo_budding_factor",
+			"operation": "add",
+			"parameter": 1.7
+		},
+		{
+			"time": 285,
+			"value": "chemo_duration",
+			"operation": "add",
+			"parameter": -1.5
+		},
+		{
+			"time": 310,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": -2
-		},
-		{
-			"time": 160,
-			"value": "chemo_duration",
-			"operation": "add",
-			"parameter": 3
-		},
-		{
-			"time": 180,
-			"value": "chemo_budding_factor",
-			"operation": "add",
-			"parameter": -1
 		}
 	]
 }

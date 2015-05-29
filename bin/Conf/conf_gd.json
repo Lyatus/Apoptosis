@@ -50,10 +50,10 @@
 	"thirst_vps": 12,
 	"thirst_appearance_factor": 1,
 
-	"chemo_vps": 8,
+	"chemo_vps":3 ,
 	"chemo_duration": 3,
-	"chemo_propagation_factor": 0.2,
-	"chemo_organ_factor": 0.45,
+	"chemo_propagation_factor": 1,
+	"chemo_organ_factor": 0,
 	
 	"resource_speed": 0.1,
 	"resource_speed_idle": 0.2,
@@ -65,6 +65,7 @@
 	"budding_duration": 4,
 	"vessel_budding_factor": 0,
 	"chemo_budding_factor": 0,
+	"chemo_budding_curve": 1,
 	
 	"bonuses":[
 		{
@@ -169,43 +170,25 @@
 	],
 	"events":[
 		{
-			"time": 160,
-			"value": "chemo_budding_factor",
-			"operation": "add",
-			"parameter": 0.08
-		},
-		{
 			"time": 180,
 			"value": "chemo_budding_factor",
-			"operation": "add",
-			"parameter": 0.01
-		},
-		{
-			"time": 180,
-			"value": "chemo_duration",
 			"operation": "add",
 			"parameter": 1
 		},
 		{
-			"time": 200,
-			"value": "chemo_budding_factor",
+			"time": 180,
+			"value": "chemo_budding_curve",
 			"operation": "add",
-			"parameter": 0.01
+			"parameter": 4
 		},
 		{
-			"time": 200,
+			"time": 195,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": 1
+			"parameter": 1.5
 		},
 		{
-			"time": 220,
-			"value": "chemo_budding_factor",
-			"operation": "add",
-			"parameter": 0.01
-		},
-		{
-			"time": 220,
+			"time": 215,
 			"value": "chemo_duration",
 			"operation": "add",
 			"parameter": 1
@@ -214,19 +197,30 @@
 			"time": 240,
 			"value": "chemo_budding_factor",
 			"operation": "add",
-			"parameter": 0.01
+			"parameter": -1
 		},
 		{
-			"time": 240,
-			"value": "chemo_duration",
+			"time": 270,
+			"value": "chemo_budding_curve",
+			"operation": "add",
+			"parameter": -1
+		},
+		{	"time": 270,
+			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": 1
 		},
 		{
-			"time": 260,
+			"time": 290,
+			"value": "chemo_duration",
+			"operation": "add",
+			"parameter": -2
+		},
+		{
+			"time": 310,
 			"value": "chemo_budding_factor",
 			"operation": "add",
-			"parameter": -0.12
+			"parameter": -2
 		}
 	]
 }
