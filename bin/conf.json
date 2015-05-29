@@ -64,7 +64,7 @@
 	"budding_factor": 0.05,
 	"budding_duration": 4,
 	"budding_curve": 0.5,
-	"vessel_budding_factor": 0.02,
+	"vessel_budding_factor": 0,
 	"chemo_budding_factor": 0,
 	"chemo_budding_curve": 1,
 	
