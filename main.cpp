@@ -48,6 +48,7 @@ float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoDuration;
 float buddingVPS, buddingDuration;
 float vesselCount, burstRadius;
 float buddingFactor, vesselBuddingFactor, chemoBuddingFactor;
+float chemoBuddingCurve;
 bool anywhere(false), budding(false);
 Automaton* thirstAutomatonP;
 
@@ -204,7 +205,7 @@ void search(const Time& time) {
                 startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
               if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
                 sca.addTarget(position);
-              if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<(chemoBuddingFactor/tumorCount)*std::min(1.f,1.f/Bonus::distanceToActive(position)) && !Automaton::has(chemo,position))
+              if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<(chemoBuddingFactor/tumorCount)*(chemoBuddingCurve/(Bonus::distanceToActive(position)+chemoBuddingCurve)) && !Automaton::has(chemo,position))
                 startChemo(position,Time(chemoDuration*1000000.f));
             }
     }
@@ -502,6 +503,7 @@ int main(int argc, char* argv[]) {
   Game::registerValue("budding_factor",&buddingFactor);
   Game::registerValue("vessel_budding_factor",&vesselBuddingFactor);
   Game::registerValue("chemo_budding_factor",&chemoBuddingFactor);
+  Game::registerValue("chemo_budding_curve",&chemoBuddingCurve);
   Game::registerValue("resource_speed",&resourceSpeed);
   Game::registerValue("resource_speed_idle",&resourceSpeedIdle);
   Game::registerValue("tumor_cost",&tumorCost);
