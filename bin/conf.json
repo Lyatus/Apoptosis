@@ -63,7 +63,8 @@
 	"budding_vps": 12,
 	"budding_factor": 0.05,
 	"budding_duration": 4,
-	"vessel_budding_factor": 0,
+	"budding_curve": 0.5,
+	"vessel_budding_factor": 0.02,
 	"chemo_budding_factor": 0,
 	"chemo_budding_curve": 1,
 	
