@@ -60,19 +60,22 @@ void Bonus::deactivate() {
     }
 }
 void Bonus::draw(L::GL::Program& program, const L::GL::Camera& cam) const {
-  Point2f p(Window::normalizedToPixels(cam.worldToScreen(_position)));
-  GL::color((_active)?Color(255,255,255,128):Color::white);
-  program.uniform("texture",*_image);
-  glBegin(GL_QUADS);
-  glTexCoord2f(0,0);
-  glVertex2f(p.x()-32,p.y()-32);
-  glTexCoord2f(0,1);
-  glVertex2f(p.x()-32,p.y()+32);
-  glTexCoord2f(1,1);
-  glVertex2f(p.x()+32,p.y()+32);
-  glTexCoord2f(1,0);
-  glVertex2f(p.x()+32,p.y()-32);
-  glEnd();
+  Point2f p;
+  if(cam.worldToScreen(_position,p)) {
+    p = Window::normalizedToPixels(p);
+    GL::color((_active)?Color(255,255,255,128):Color::white);
+    program.uniform("texture",*_image);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,0);
+    glVertex2f(p.x()-32,p.y()-32);
+    glTexCoord2f(0,1);
+    glVertex2f(p.x()-32,p.y()+32);
+    glTexCoord2f(1,1);
+    glVertex2f(p.x()+32,p.y()+32);
+    glTexCoord2f(1,0);
+    glVertex2f(p.x()+32,p.y()-32);
+    glEnd();
+  }
 }
 void Bonus::updateAll(World& world) {
   _bonuses.foreach([&world](Bonus& bonus) {
