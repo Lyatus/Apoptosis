@@ -186,7 +186,7 @@ void search() {
       bool budPotential(budding && chunk->typeCount(Voxel::TUMOR_IDLE) && chunk->typeCount(Voxel::ORGAN));
       bool vesselBudPotential(vesselBuddingFactor>0 && (chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE)));
       bool chemoBudPotential(chemoBuddingFactor>0 && chunk->typeCount(Voxel::TUMOR_IDLE));
-      if(thirstPotential || camPotential || budPotential || vesselBudPotential)
+      if(thirstPotential || camPotential || budPotential || vesselBudPotential || chemoBudPotential)
         for(int x(0); x<Chunk::size; x++)
           for(int y(0); y<Chunk::size; y++)
             for(int z(0); z<Chunk::size; z++) {
