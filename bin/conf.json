@@ -64,7 +64,7 @@
 	"budding_vps": 7,
 	"budding_factor": 0,
 	"budding_duration": 2,
-	"budding_max_distance": 32,
+	"budding_max_distance": 80,
 	"budding_min_y": 260,
 	"budding_count": 4,
 	"vessel_budding_factor": 0,
@@ -221,8 +221,14 @@
 				{
 					"value": "budding_factor",
 					"operation": "add",
-					"parameter": 0.3
+					"parameter": 0.003
+				},
+				{
+					"value": "vessel_budding_factor",
+					"operation": "add",
+					"parameter": 0.002
 				}
+
 			]
 		},
 		{
@@ -254,7 +260,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "115,278,175",
+			"position": "83,272,156",
 			"modifications":[
 				{
 					"value": "growth_duration",
