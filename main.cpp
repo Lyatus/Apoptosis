@@ -55,7 +55,6 @@ Automaton* thirstAutomatonP;
 // Gameplay tracking
 float resource(1);
 int tumorCount, tumorThirstyCount;
-Dynamic::Var outjson("SURPRISE MOTHERFUCKER");
 
 float irrigationValue(const Point3f& p) {
   return std::max(Shape::fromDistance(p.dist(irrigationSphereCenter)-irrigationSphereRadius),
@@ -367,7 +366,6 @@ void game() {
                       "fps: "+ToString(1/deltaTime)+"\n");
         else text->sText("");
       }
-      outjson.get<Dynamic::Array>()((float)tumorCount);
     }
     while(Window::newEvent(event)) {
       if(gui->event(event)) continue;
@@ -558,7 +556,6 @@ int main(int argc, char* argv[]) {
   menu();
   game();
   // Terminate
-  Interface<Dynamic::Var>::toFile(outjson,"out.json");
   Automaton::term();
   Wwise::term();
   return 0;
