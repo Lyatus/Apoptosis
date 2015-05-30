@@ -193,7 +193,7 @@ void search() {
             for(int z(0); z<Chunk::size; z++) {
               Voxel voxel(chunk->voxel(x,y,z));
               Point3i position(chunk->position()+Point3i(x,y,z));
-              if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE && Rand::nextFloat()<thirstAppearanceFactor  && !Automaton::treating(thirst,position)) {
+              if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE && Rand::nextFloat()<thirstAppearanceFactor  && !Automaton::has(thirst,position)) {
                 if(irrigationValue(Point3f(x,y,z))<1.f)
                   startThirst(position);
                 else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);

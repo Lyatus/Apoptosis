@@ -132,13 +132,6 @@ void Automaton::fuse() {
         return fuse();
       }
 }
-bool Automaton::treating(Process process, const Point3i& point) {
-  for(int i(0); i<_automata.size(); i++)
-    if(_automata[i]->_process==process
-        && _automata[i]->_zone.contains(point))
-      return true;
-  return false;
-}
 void Automaton::add(Automaton* a) {
   _automata.push(a);
 }
