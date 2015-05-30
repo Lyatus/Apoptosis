@@ -155,6 +155,12 @@ bool Automaton::has(Process p, const Point3i& pt) {
       return true;
   return false;
 }
+bool Automaton::has(Process p, int count) {
+  for(int i(0); i<_automata.size(); i++)
+    if(_automata[i]->_process==p && --count<=0)
+      return true;
+  return false;
+}
 void Automaton::drawAll() {
   _automata.foreach([](Automaton*& a) {
     a->draw();
