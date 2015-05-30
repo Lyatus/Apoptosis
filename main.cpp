@@ -49,7 +49,7 @@ float buddingVPS, buddingDuration;
 float vesselCount, burstRadius;
 float buddingFactor, vesselBuddingFactor, chemoBuddingFactor;
 float buddingCurve, chemoBuddingCurve;
-bool anywhere(false), budding(false);
+bool anywhere(false), budding(true);
 Automaton* thirstAutomatonP;
 
 // Gameplay tracking
@@ -173,10 +173,9 @@ void startChemo(const Point3f& start, const Time& duration) {
   automaton->include(start);
   Automaton::add(automaton);
 }
-void search(const Time& time) {
-  static Point3i ci(0), cmin(0), cmax(0);
-  Timer timer;
-  do {
+void search() {
+  Point3i ci(0), cmin(0), cmax(0);
+  while(true) {
     if(!ci.increment(cmin,cmax)) {
       ci = cmin = world.interval().min()-World::radius;
       cmax = world.interval().max()-World::radius;
@@ -208,8 +207,9 @@ void search(const Time& time) {
               if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<(chemoBuddingFactor/tumorCount)*(chemoBuddingCurve/(Bonus::distanceToActive(position)+chemoBuddingCurve)) && !Automaton::has(chemo,position))
                 startChemo(position,Time(chemoDuration*1000000.f));
             }
+      Coroutine::yield();
     }
-  } while(timer.since()<time);
+  }
 }
 void fillObj(const char* filename, byte type) {
   Array<Point3f> vertices;
@@ -339,13 +339,14 @@ void game() {
   Timer timer, checktimer;
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
   startTumor(irrigationSphereCenter,growthVPS,Time(growthDuration*1000000.f));
+  Coroutine searchCoroutine(search);
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
     world.update();
     Wwise::update();
     cam.update(world,deltaTime);
     Automaton::update(Time(automataTPF*1000000.f),deltaTime);
-    search(Time(searchTPF*1000000.f));
+    searchCoroutine.jumpFor(Time(searchTPF*1000000.f));
     sca.update(world);
     resource = std::min(1.f,resource+deltaTime*((Automaton::has(growth)||Automaton::has(thirst))?resourceSpeed:resourceSpeedIdle));
     if(checktimer.every(Time(0,100))) {
