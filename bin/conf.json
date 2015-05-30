@@ -203,7 +203,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "67,218,181",
+			"position": "67,218,166",
 			"modifications":[
 				{
 					"value": "growth_duration",
@@ -213,7 +213,7 @@
 			]
 		},
 		{
-			"icon": "Image/Bonus/vessel.png",
+			"icon": "Image/Bonus/tumor.png",
 			"position": "27,267,140",
 			"modifications":[
 				{
