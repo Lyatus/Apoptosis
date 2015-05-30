@@ -64,7 +64,7 @@
 	"budding_vps": 7,
 	"budding_factor": 0,
 	"budding_duration": 2,
-	"budding_curve": 3,
+	"budding_max_distance": 32,
 	"budding_min_y": 260,
 	"budding_count": 4,
 	"vessel_budding_factor": 0,
