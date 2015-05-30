@@ -443,7 +443,7 @@ void game() {
     voxelProgram.uniform("texture",voxelTexture,GL_TEXTURE0);
     voxelProgram.uniform("eye",cam.position());
     voxelProgram.uniform("sphereCenter",cam.center());
-    voxelProgram.uniform("sphereRadius",cam.radius()*.6f);
+    voxelProgram.uniform("sphereRadius",cam.radius()*.75f);
     world.draw(cam);
     debugProgram.use(); // Draw debug
     debugProgram.uniform("view",cam.view());

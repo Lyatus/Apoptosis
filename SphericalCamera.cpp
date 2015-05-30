@@ -22,7 +22,7 @@ void SphericalCamera::fovy(float fovy) {
 void SphericalCamera::addPoint(const L::Point3f& point) {
   _interval.add(point);
   _centerTarget = _interval.center();
-  _radius = _interval.size().norm();
+  _radius = _interval.size().norm()*.75f;
 }
 void SphericalCamera::update(World& world, float deltaTime) {
   Point3f oldPosition(position());
