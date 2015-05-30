@@ -49,7 +49,7 @@ float buddingVPS, buddingDuration;
 float vesselCount, burstRadius;
 float buddingFactor, vesselBuddingFactor, chemoBuddingFactor;
 float buddingCurve, chemoBuddingCurve;
-bool anywhere(false), budding(false);
+bool anywhere(false), budding(true);
 Automaton* thirstAutomatonP;
 
 // Gameplay tracking
