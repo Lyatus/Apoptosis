@@ -45,7 +45,7 @@ float irrigationSphereRadius;
 float growthVPS, growthDuration;
 float thirstVPS, thirstAppearanceFactor;
 float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoDuration, chemoDisappearanceFactor;
-float buddingVPS, buddingDuration;
+float buddingVPS, buddingDuration, buddingMinY;
 float vesselCount, burstRadius;
 float buddingFactor, vesselBuddingFactor, chemoBuddingFactor;
 float buddingCurve, chemoBuddingCurve;
@@ -200,7 +200,7 @@ void search() {
               }
               if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
                 cam.addPoint(chunk->position()+Point3i(x,y,z));
-              if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<(buddingFactor/tumorCount)*(buddingCurve/(Bonus::distanceToInactive(position)+buddingCurve)) && !Automaton::has(growth,position))
+              if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && position.y()>buddingMinY && Rand::nextFloat()<(buddingFactor/tumorCount)*(buddingCurve/(Bonus::distanceToInactive(position)+buddingCurve)) && !Automaton::has(growth,position))
                 startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
               if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
                 sca.addTarget(position);
@@ -504,6 +504,7 @@ int main(int argc, char* argv[]) {
   Game::registerValue("budding_duration",&buddingDuration);
   Game::registerValue("budding_factor",&buddingFactor);
   Game::registerValue("budding_curve",&buddingCurve);
+  Game::registerValue("budding_min_y",&buddingMinY);
   Game::registerValue("vessel_budding_factor",&vesselBuddingFactor);
   Game::registerValue("chemo_budding_factor",&chemoBuddingFactor);
   Game::registerValue("chemo_budding_curve",&chemoBuddingCurve);
