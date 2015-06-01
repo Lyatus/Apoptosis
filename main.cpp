@@ -199,7 +199,7 @@ void search() {
               }
               if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
                 cam.addPoint(chunk->position()+Point3i(x,y,z));
-              if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && position.y()>buddingMinY && !Automaton::has(growth,(int)buddingCount) && Bonus::distanceToInactive(position)<buddingMaxDistance && Rand::nextFloat()<buddingFactor && !Automaton::has(growth,position))
+              if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && position.y()>buddingMinY && !Automaton::has(growth,(int)buddingCount) && Rand::nextFloat()<(buddingFactor * ((buddingMaxDistance-Bonus::distanceToInactive(position))/buddingMaxDistance)) && !Automaton::has(growth,position))
                 startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
               if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
                 sca.addTarget(position);
