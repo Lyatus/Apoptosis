@@ -362,6 +362,7 @@ void game() {
                       "anywhere: "+ToString(anywhere)+"\n"
                       "budding: "+ToString(budding)+"\n"
                       "cursor position: "+ToString((Point3i)hit)+"\n"
+                      "distance to bonus: "+ToString(Bonus::distanceToInactive(hit))+"\n"
                       "time: "+Time::format("%M:%S",Time::now()-start)+"\n"
                       "fps: "+ToString(1/deltaTime)+"\n");
         else text->sText("");
