@@ -18,6 +18,7 @@ class World {
     void foreachChunk(void (*)(Chunk*));
     void draw(const L::GL::Camera&);
     void update();
+    void updateAll();
     int typeCount(L::byte type) const;
     Chunk& chunk(int x, int y, int z, bool create = true);
     bool chunkExists(int x, int y, int z);

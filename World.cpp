@@ -31,6 +31,13 @@ void World::update() {
       return;
   }
 }
+void World::updateAll() {
+  Point3i i(_interval.min());
+  while(i.increment(_interval.min(),_interval.max())) {
+    Chunk* chunk(_chunks[i.x()][i.y()][i.z()]);
+    if(chunk) chunk->update();
+  }
+}
 int World::typeCount(L::byte type) const {
   int wtr(0);
   Point3i i(_interval.min());
