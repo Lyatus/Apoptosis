@@ -23,10 +23,12 @@ void World::draw(const Camera& camera) {
   }
 }
 void World::update() {
-  Point3i i(_interval.min());
+  static Point3i i(_interval.min());
+  int count(0);
   while(i.increment(_interval.min(),_interval.max())) {
     Chunk* chunk(_chunks[i.x()][i.y()][i.z()]);
-    if(chunk) chunk->update();
+    if(chunk && chunk->update() && ++count==4)
+      return;
   }
 }
 int World::typeCount(L::byte type) const {
