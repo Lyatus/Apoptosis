@@ -47,6 +47,8 @@
 
 	"growth_vps": 5,
 	"growth_duration": 3.5,
+	"growth_start_radius": 1,
+	
 	"thirst_vps": 12,
 	"thirst_appearance_factor": 1,
 

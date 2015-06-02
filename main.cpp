@@ -42,7 +42,7 @@ float irrigationRadius;
 Point3f irrigationSphereCenter;
 float irrigationSphereRadius;
 
-float growthVPS, growthDuration;
+float growthVPS, growthDuration, growthStartRadius;
 float thirstVPS, thirstAppearanceFactor;
 float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoDuration, chemoDisappearanceFactor;
 float buddingVPS, buddingDuration, buddingMinY, buddingCount, buddingMaxDistance;
@@ -157,7 +157,7 @@ Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
 }
 void startTumor(const Point3f& start, float vps, const Time& duration) {
   Automaton* automaton(new Automaton(world,growth,vps,Time::now()+duration));
-  world.voxelSphere(start,1.f,Voxel::TUMOR_START,Voxel::max);
+  world.voxelSphere(start,growthStartRadius,Voxel::TUMOR_START,Voxel::max);
   automaton->include(start);
   Automaton::add(automaton);
 }
@@ -500,6 +500,7 @@ int main(int argc, char* argv[]) {
   Game::registerValue("irrigation_radius",&irrigationRadius);
   Game::registerValue("growth_vps",&growthVPS);
   Game::registerValue("growth_duration",&growthDuration);
+  Game::registerValue("growth_start_radius",&growthStartRadius);
   Game::registerValue("thirst_vps",&thirstVPS);
   Game::registerValue("thirst_appearance_factor",&thirstAppearanceFactor);
   Game::registerValue("chemo_vps",&chemoVPS);
