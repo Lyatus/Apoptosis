@@ -373,9 +373,17 @@ void game() {
       if(event.type == Window::Event::BUTTONDOWN)
         switch(event.button) {
           case Window::Event::LBUTTON:
-            if(resource>tumorCost
-                && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)
-                && (anywhere || isTumor(world.voxel(hit.x(),hit.y(),hit.z())))) {
+            if(resource>tumorCost && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
+              if(world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::ORGAN) {
+                SCA::Branch* branch(sca.nearest(hit,64));
+                if(branch!=NULL) {
+                  Point3f inc(branch->position()-hit);
+                  inc.normalize();
+                  inc *= .5f;
+                  for(int i(0); i<128 && !isTumor(world.voxel(hit.x(),hit.y(),hit.z())); i++)
+                    hit += inc;
+                }
+              }
               startTumor(hit,growthVPS,Time(growthDuration*1000000.f));
               resource -= tumorCost;
               Wwise::postEvent("Tumor_right");
