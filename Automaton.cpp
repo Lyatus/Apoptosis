@@ -7,12 +7,6 @@ Array<Automaton*> Automaton::_automata;
 L::Buffer<65536,Voxel> Automaton::_buffer;
 L::Timer Automaton::_timer;
 
-void Automaton::yield() {
-  _timer.pause();
-  Coroutine::yield();
-  _timer.unpause();
-}
-
 Automaton::Automaton(World& world, Process process, float vps, const Time& end) : _world(world), _process(process), _vps(vps), _factor(0), _end(end), _shouldStop(false), _size(0) {}
 void Automaton::include(const L::Point3i& p) {
   _zone.add(p-Point3i(1,1,1));
@@ -45,7 +39,7 @@ void Automaton::update() {
         iw.increment(_min,_max);
       }
       if(!(++i&0xFF))
-        yield();
+        Coroutine::yield();
     }
   }
 }
@@ -92,7 +86,7 @@ void Automaton::updateAll() {
     for(int i(0); i<_automata.size(); i++)
       _automata[i]->update();
     for(int i(0); i<_automata.size(); i++)
-      _automata[i]->_factor = std::max(.005f,_timer.since().fSeconds()*67.f/_automata[i]->_vps);
+      _automata[i]->_factor = std::max(.002f,_automata[i]->_vps*_timer.since().fSeconds());
     clean();
     Coroutine::yield();
   }
