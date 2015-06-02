@@ -23,6 +23,7 @@ class Automaton {
     static L::Array<Automaton*> _automata;
     static L::Buffer<65536,Voxel> _buffer;
     static L::Timer _timer;
+    static void yield();
 
   public:
     Automaton(World&, Process, float vps, const L::Time& end = L::Time(0));
