@@ -36,7 +36,7 @@ Timer fadeTimer;
 Time start;
 
 // Gameplay configuration
-float resourceSpeed, resourceSpeedIdle, tumorCost, vesselCost;
+float resourceSpeed, resourceSpeedIdle, tumorCost, vesselCost, autoclickDuration;
 
 float irrigationRadius;
 Point3f irrigationSphereCenter;
@@ -335,7 +335,7 @@ void game() {
   Point3f hit;
   GUI::Text* text(new GUI::Text());
   gui->place(text,Point2i(0,0),GUI::TL,GUI::TL);
-  Timer timer, checktimer;
+  Timer timer, checktimer, clicktimer;
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
   startTumor(irrigationSphereCenter,growthVPS,Time(growthDuration*1000000.f));
   Coroutine searchCoroutine(search), automataCoroutine(Automaton::updateAll);
@@ -372,23 +372,6 @@ void game() {
       if(gui->event(event)) continue;
       if(event.type == Window::Event::BUTTONDOWN)
         switch(event.button) {
-          case Window::Event::LBUTTON:
-            if(resource>tumorCost && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
-              if(world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::ORGAN) {
-                SCA::Branch* branch(sca.nearest(hit,64));
-                if(branch!=NULL) {
-                  Point3f inc(branch->position()-hit);
-                  inc.normalize();
-                  inc *= .5f;
-                  for(int i(0); i<128 && !isTumor(world.voxel(hit.x(),hit.y(),hit.z())); i++)
-                    hit += inc;
-                }
-              }
-              startTumor(hit,growthVPS,Time(growthDuration*1000000.f));
-              resource -= tumorCost;
-              Wwise::postEvent("Tumor_right");
-            } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
-            break;
           case Window::Event::RBUTTON:
             if(resource>vesselCost) {
               bool vesselAdded(false);
@@ -436,6 +419,23 @@ void game() {
     }
     if(Window::isPressed(Window::Event::ESCAPE))
       break;
+    if(Window::isPressed(Window::Event::LBUTTON) && clicktimer.every(Time(autoclickDuration*1000000.f))) {
+      if(resource>tumorCost && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
+        if(world.voxel(hit.x(),hit.y(),hit.z()).type()==Voxel::ORGAN) {
+          SCA::Branch* branch(sca.nearest(hit,64));
+          if(branch!=NULL) {
+            Point3f inc(branch->position()-hit);
+            inc.normalize();
+            inc *= .5f;
+            for(int i(0); i<128 && !isTumor(world.voxel(hit.x(),hit.y(),hit.z())); i++)
+              hit += inc;
+          }
+        }
+        startTumor(hit,growthVPS,Time(growthDuration*1000000.f));
+        resource -= tumorCost;
+        Wwise::postEvent("Tumor_right");
+      } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
+    }
     glEnable(GL_DEPTH_TEST);
     pp.prerender();
     glMatrixMode(GL_MODELVIEW); // Reset matrix
