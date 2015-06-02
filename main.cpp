@@ -338,13 +338,13 @@ void game() {
   Timer timer, checktimer;
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
   startTumor(irrigationSphereCenter,growthVPS,Time(growthDuration*1000000.f));
-  Coroutine searchCoroutine(search);
+  Coroutine searchCoroutine(search), automataCoroutine(Automaton::updateAll);
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
     world.update();
     Wwise::update();
     cam.update(world,deltaTime);
-    Automaton::update(Time(automataTPF*1000000.f),deltaTime);
+    automataCoroutine.jumpFor(Time(automataTPF*1000000.f));
     searchCoroutine.jumpFor(Time(searchTPF*1000000.f));
     sca.update(world);
     resource = std::min(1.f,resource+deltaTime*((Automaton::has(growth)||Automaton::has(thirst))?resourceSpeed:resourceSpeedIdle));
@@ -541,8 +541,6 @@ int main(int argc, char* argv[]) {
   glEnable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
   glLineWidth(16);
-  // Automata initialization
-  Automaton::init();
   // Load world first
   File file("world");
   if(file.exists())
@@ -552,12 +550,11 @@ int main(int argc, char* argv[]) {
     world.write(file.open("wb"));
   }
   file.close();
-  world.update(); // Create VBOs
+  world.updateAll(); // Create VBOs
   // Iterate through phases
   menu();
   game();
   // Terminate
-  Automaton::term();
   Wwise::term();
   return 0;
 }

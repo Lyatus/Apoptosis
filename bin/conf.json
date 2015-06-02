@@ -2,8 +2,8 @@
 	"fullscreen": true,
 	"cursor": false,
 	"width": 1280, "height": 720,
-	"automata_tpf": .01,
-	"search_tpf": .01,
+	"automata_tpf": .015,
+	"search_tpf": .002,
 
 	"menu_fade_duration": 0.1,
 	"intro_dark_duration": 0.1,

@@ -21,15 +21,14 @@ class Automaton {
     int _size;
 
     static L::Array<Automaton*> _automata;
-    static const int threadCount = 4;
-    static std::thread* threads[threadCount];
-    static bool stopThread[threadCount];
-    static L::Semaphore startSem, endSem;
-    static const L::Point3i delta;
+    static L::Buffer<65536,Voxel> _buffer;
+    static L::Timer _timer;
+    static void yield();
 
   public:
     Automaton(World&, Process, float vps, const L::Time& end = L::Time(0));
     void include(const L::Point3i&);
+    void update();
     void draw() const;
 
     inline int size() const {return _size;}
@@ -38,17 +37,15 @@ class Automaton {
     inline bool shouldStop() const { return _shouldStop;}
     inline Voxel voxel(int x, int y, int z) const {return _world.voxel(x,y,z);}
 
-    static void updateThread(int id);
-    static void update(const L::Time&, float deltaTime);
+    static void updateAll();
     static void fuse();
+    static void clean();
     static void add(Automaton*);
     static void remove(Automaton*);
     static bool has(Process);
     static bool has(Process,const L::Point3i&);
     static bool has(Process,int);
     static void drawAll();
-    static void init();
-    static void term();
 };
 
 #endif
