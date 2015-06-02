@@ -27,7 +27,7 @@ void World::update() {
   int count(0);
   while(i.increment(_interval.min(),_interval.max())) {
     Chunk* chunk(_chunks[i.x()][i.y()][i.z()]);
-    if(chunk && chunk->update() && ++count==4)
+    if(chunk && chunk->update() && ++count==8)
       return;
   }
 }
