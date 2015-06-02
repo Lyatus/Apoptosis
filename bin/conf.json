@@ -58,7 +58,7 @@
 	"chemo_organ_factor": 0,
 	"chemo_disappearance_factor": 0.5,
 	
-	"resource_speed": 0.03,
+	"resource_speed": 0.1,
 	"resource_speed_idle": 0.3,
 	"tumor_cost": 0.10,
 	"vessel_cost": 0.25,
