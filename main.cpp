@@ -521,6 +521,7 @@ int main(int argc, char* argv[]) {
   Game::registerValue("resource_speed_idle",&resourceSpeedIdle);
   Game::registerValue("tumor_cost",&tumorCost);
   Game::registerValue("vessel_cost",&vesselCost);
+  Game::registerValue("autoclick_duration",&autoclickDuration);
   Game::registerValue("vessel_count",&vesselCount);
   Game::registerValue("burst_radius",&burstRadius);
   Bonus::configure();
