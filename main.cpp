@@ -425,9 +425,10 @@ void game() {
         SCA::Branch* branch(sca.nearest(hit,64));
         if(branch!=NULL) {
           Point3f inc(branch->position()-hit);
+          int maxi(inc.norm()*2);
           inc.normalize();
           inc *= .5f;
-          for(int i(0); i<128 && !isTumor(world.voxel(hit.x(),hit.y(),hit.z())); i++)
+          for(int i(0); i<maxi && !isTumor(world.voxel(hit.x(),hit.y(),hit.z())); i++)
             hit += inc;
           startTumor(hit,growthVPS,Time(growthDuration*1000000.f));
           resource -= tumorCost;
