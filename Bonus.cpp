@@ -60,20 +60,25 @@ void Bonus::deactivate() {
     }
 }
 void Bonus::draw(L::GL::Program& program, const L::GL::Camera& cam) const {
-  Point2f p;
-  if(cam.worldToScreen(_position,p)) {
-    p = Window::normalizedToPixels(p);
+  Point2f screenCenter;
+  if(cam.worldToScreen(_position,screenCenter)) {
+    Point3f worldTL(_position-cam.right()*4+cam.up()*4);
+    Point2f screenOffset;
+    cam.worldToScreen(worldTL,screenOffset);
+    screenCenter = Window::normalizedToPixels(screenCenter);
+    screenOffset = Window::normalizedToPixels(screenOffset);
+    screenOffset -= screenCenter;
     GL::color((_active)?Color(255,255,255,128):Color::white);
     program.uniform("texture",*_image);
     glBegin(GL_QUADS);
     glTexCoord2f(0,0);
-    glVertex2f(p.x()-32,p.y()-32);
+    glVertex2f(screenCenter.x()-screenOffset.x(),screenCenter.y()-screenOffset.y());
     glTexCoord2f(0,1);
-    glVertex2f(p.x()-32,p.y()+32);
+    glVertex2f(screenCenter.x()-screenOffset.x(),screenCenter.y()+screenOffset.y());
     glTexCoord2f(1,1);
-    glVertex2f(p.x()+32,p.y()+32);
+    glVertex2f(screenCenter.x()+screenOffset.x(),screenCenter.y()+screenOffset.y());
     glTexCoord2f(1,0);
-    glVertex2f(p.x()+32,p.y()-32);
+    glVertex2f(screenCenter.x()+screenOffset.x(),screenCenter.y()-screenOffset.y());
     glEnd();
   }
 }
