@@ -19,7 +19,7 @@
 	"cursor_radius": 32,
 	"cursor_point_color": "#000000ff",
 	"background_disk_color": "#ffffff44",
-	"inner_disk_color": "#B28F0044",
+	"inner_disk_color": "#B28F0066",
 	
 	"tumor": "#ff0054",
 	"tumor_thirsty": "#e47d6e",
@@ -39,7 +39,7 @@
 	"sca_color": "#2558e066"
 	
 	"vessel_count": 2,
-	"burst_radius": 8,
+	"burst_radius": 14,
 
 	"irrigation_sphere_center": "0,60,175",
 	"irrigation_sphere_radius": 32,
@@ -53,7 +53,7 @@
 	"thirst_appearance_factor": 1,
 
 	"chemo_vps":12 ,
-	"chemo_duration": 1.5,
+	"chemo_duration": 0,
 	"chemo_propagation_factor": 1,
 	"chemo_organ_factor": 0,
 	"chemo_disappearance_factor": 0.5,
@@ -65,9 +65,9 @@
 	"vessel_cost": 0.45,
 	"autoaim_radius": 8,
 	
-	"budding_vps": 25,
+	"budding_vps": 15,
 	"budding_factor": 0,
-	"budding_duration": 3.5,
+	"budding_duration": 5,
 	"budding_max_distance":35,
 	"budding_min_y": 0,
 	"budding_count": 4,
@@ -111,7 +111,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "-53,131,162",
+			"position": "-9,116,160",
 			"modifications":[
 				{
 					"value": "vessel_count",
@@ -127,7 +127,7 @@
 		},
 		{
 			"icon": "Image/Bonus/resource.png",
-			"position": "15,135,155",
+			"position": "1,154,158",
 			"modifications":[
 				{
 					"value": "resource_speed",
@@ -138,7 +138,7 @@
 		},
 		{
 			"icon": "Image/Bonus/resource.png",
-			"position": "-15,135,155",
+			"position": "3,129,159",
 			"modifications":[
 				{
 					"value": "resource_speed",
@@ -356,7 +356,7 @@
 			"time": 180,
 			"value": "chemo_budding_factor",
 			"operation": "add",
-			"parameter": 1.2
+			"parameter": 2
 		},
 		{
 			"time": 180,
@@ -368,43 +368,37 @@
 			"time": 195,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": 3
+			"parameter": 4
 		},
 		{
 			"time": 215,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": -1
+			"parameter": -4
 		},
 		{
-			"time": 225,
+			"time": 222,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": -1
+			"parameter": 4
 		},
-		{
-			"time": 240,
-			"value": "chemo_budding_factor",
-			"operation": "add",
-			"parameter": -1.5
-		},
-
 		{
 			"time": 260,
 			"value": "chemo_budding_curve",
 			"operation": "add",
 			"parameter": -3
 		},
-		{	"time": 260,
-			"value": "chemo_budding_factor",
+		{
+			"time": 265,
+			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": 1.7
+			"parameter": -4
 		},
 		{
 			"time": 275,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": 0
+			"parameter": 4
 		},
 		{
 			"time": 310,
