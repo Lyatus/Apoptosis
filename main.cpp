@@ -57,8 +57,7 @@ float resource(1);
 int tumorCount, tumorThirstyCount;
 
 float irrigationValue(const Point3f& p) {
-  return std::max(Shape::fromDistance(p.dist(irrigationSphereCenter)-irrigationSphereRadius),
-                  Shape::fromDistance(sca.distance(p,irrigationRadius+1)-irrigationRadius));
+  return Shape::fromDistance(sca.distance(p,irrigationRadius+1)-irrigationRadius);
 }
 Voxel growth(Automaton& automaton, int x, int y, int z, bool& processable) {
   Voxel current(automaton.voxel(x,y,z));
