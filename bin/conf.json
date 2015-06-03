@@ -38,8 +38,8 @@
 	"sca_avoid_attempts": 1024,
 	"sca_color": "#2558e066"
 	
-	"vessel_count": 2,
-	"burst_radius": 14,
+	"vessel_count": 3,
+	"burst_radius": 12,
 
 	"irrigation_sphere_center": "0,60,175",
 	"irrigation_sphere_radius": 32,
@@ -127,7 +127,7 @@
 		},
 		{
 			"icon": "Image/Bonus/resource.png",
-			"position": "1,154,158",
+			"position": "3,129,159",
 			"modifications":[
 				{
 					"value": "resource_speed",
@@ -138,7 +138,7 @@
 		},
 		{
 			"icon": "Image/Bonus/resource.png",
-			"position": "3,129,159",
+			"position": "-18,140,158",
 			"modifications":[
 				{
 					"value": "resource_speed",
@@ -308,7 +308,7 @@
 		},
 		{
 			"icon": "Image/Bonus/vessel.png",
-			"position": "17,287,175",
+			"position": "5,284,149",
 			"modifications":[
 				{
 					"value": "vessel_cost",
@@ -330,7 +330,7 @@
 		},
 		{
 			"icon": "Image/Bonus/vessel.png",
-			"position": "94,332,145",
+			"position": "-14,322,138",
 			"modifications":[
 				{
 					"value": "vessel_budding_factor",
@@ -341,7 +341,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "-31,374,123",
+			"position": "-16,355,130",
 			"modifications":[
 				{
 					"value": "growth_vps",
