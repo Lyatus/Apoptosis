@@ -13,3 +13,4 @@ obj/*
 *.exp
 *.lib
 *.pdb
+bin/world
