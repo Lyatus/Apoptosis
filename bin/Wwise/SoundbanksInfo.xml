@@ -33,6 +33,14 @@
 					<ShortName>Bubble6.wav</ShortName>
 					<Path>SFX\Bubble6_4231625D.wem</Path>
 				</File>
+				<File Id="172312704" Language="SFX">
+					<ShortName>placeholder_gauge.wav</ShortName>
+					<Path>SFX\placeholder_gauge_60201D15.wem</Path>
+				</File>
+				<File Id="189453205" Language="SFX">
+					<ShortName>Voice-F-01-fx-amb.wav</ShortName>
+					<Path>SFX\Voice-F-01-fx-amb_4231625D.wem</Path>
+				</File>
 				<File Id="314428476" Language="SFX">
 					<ShortName>Voice-F-07-fx.wav</ShortName>
 					<Path>SFX\Voice-F-07-fx_4231625D.wem</Path>
@@ -60,10 +68,6 @@
 				<File Id="772107398" Language="SFX">
 					<ShortName>Bubble5.wav</ShortName>
 					<Path>SFX\Bubble5_4231625D.wem</Path>
-				</File>
-				<File Id="831439882" Language="SFX">
-					<ShortName>circle_gauge_sound_2.wav</ShortName>
-					<Path>SFX\circle_gauge_sound_2_E9A07B62.wem</Path>
 				</File>
 				<File Id="870835506" Language="SFX">
 					<ShortName>FeedB_click_tumor_wrong.wav</ShortName>
