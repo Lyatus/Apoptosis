@@ -39,7 +39,7 @@
 	"sca_color": "#2558e066"
 	
 	"vessel_count": 2,
-	"burst_radius": 64,
+	"burst_radius": 8,
 
 	"irrigation_sphere_center": "0,60,175",
 	"irrigation_sphere_radius": 32,

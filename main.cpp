@@ -286,22 +286,6 @@ void menu() {
   }
   gui->clear();
 }
-List<Point3f> burst(float pixelRadius, float worldRadius, int count) {
-  List<Point3f> wtr;
-  if(count) {
-    Point3f center;
-    Point2f pixelToNormalized(1.f/Window::width(),1.f/Window::height());
-    if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),center,512)) {
-      wtr.push_back(center);
-      Point3f hit;
-      for(int i(1); i<count; i++)
-        if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()+pixelToNormalized*Point2f::random()*Rand::next(0.f,pixelRadius)),hit,512)
-            && hit.dist(center)<worldRadius)
-          wtr.push_back(hit);
-    }
-  }
-  return wtr;
-}
 bool isTumor(Voxel v) {
   return v.type()==Voxel::TUMOR
          ||v.type()==Voxel::TUMOR_IDLE
@@ -310,6 +294,24 @@ bool isTumor(Voxel v) {
          ||v.type()==Voxel::TUMOR_THIRSTY_IDLE
          ||v.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO
          ||v.type()==Voxel::VESSEL;
+}
+List<Point3f> burst(float radius, int count) {
+  List<Point3f> wtr;
+  int i(0);
+  if(count) {
+    Point3f center, hit;
+    Point2f pixelToNormalized(1.f/Window::width(),1.f/Window::height());
+    if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),center,512)) {
+      if(isTumor(world.voxel(center.x(),center.y(),center.z())))
+        wtr.push_back(center);
+      while(wtr.size()<count && ++i<256) {
+        hit = center+Point3f::random()*radius;
+        if(isTumor(world.voxel(hit.x(),hit.y(),hit.z())))
+          wtr.push_back(hit);
+      }
+    }
+  }
+  return wtr;
 }
 void game() {
   fadeTimer.setoff();
@@ -395,11 +397,10 @@ void game() {
           case Window::Event::RBUTTON:
             if(resource>vesselCost) {
               bool vesselAdded(false);
-              for(auto&& hit : burst(burstRadius,32,vesselCount))
-                if(anywhere || isTumor(world.voxel(hit.x(),hit.y(),hit.z()))) {
-                  sca.addTarget(hit);
-                  vesselAdded = true;
-                }
+              for(auto&& hit : burst(burstRadius,vesselCount)) {
+                sca.addTarget(hit);
+                vesselAdded = true;
+              }
               if(vesselAdded)
                 resource -= vesselCost;
             }
