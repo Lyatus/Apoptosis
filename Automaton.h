@@ -16,7 +16,7 @@ class Automaton {
     L::Time _end;
     bool _shouldStop;
 
-    L::Interval3i _zone;
+    L::Interval3i _zone, _nextZone;
     L::Point3i _min, _max;
     int _size;
 

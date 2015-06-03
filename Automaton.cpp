@@ -15,10 +15,12 @@ void Automaton::yield() {
 
 Automaton::Automaton(World& world, Process process, float vps, const Time& end) : _world(world), _process(process), _vps(vps), _factor(0), _end(end), _shouldStop(false), _size(0) {}
 void Automaton::include(const L::Point3i& p) {
-  _zone.add(p-Point3i(1,1,1));
-  _zone.add(p+Point3i(1,1,1));
+  _nextZone.add(p-Point3i(1,1,1));
+  _nextZone.add(p+Point3i(1,1,1));
 }
 void Automaton::update() {
+  _zone = _nextZone;
+  _nextZone.clear();
   if(_zone.empty())
     _size = 0;
   else {
@@ -28,7 +30,6 @@ void Automaton::update() {
     _max = _zone.max()+Point3i(1,1,1);
     _size = std::max(1,_zone.size().product());
     bufferMax = _zone.size().y()*_zone.size().z();
-    _zone.clear();
     bool processing(true);
     while(processing || !_buffer.empty()) {
       if(processing) {
@@ -88,11 +89,11 @@ void Automaton::draw() const {
 void Automaton::updateAll() {
   while(true) {
     _timer.setoff();
-    fuse();
     for(int i(0); i<_automata.size(); i++)
       _automata[i]->update();
     for(int i(0); i<_automata.size(); i++)
       _automata[i]->_factor = std::max(.002f,_automata[i]->_vps*_timer.since().fSeconds());
+    fuse();
     clean();
     Coroutine::yield();
   }
@@ -108,6 +109,7 @@ void Automaton::fuse() {
                                            (_automata[i]->_vps+_automata[j]->_vps)/2,
                                            (_automata[i]->_end+_automata[j]->_end)/2));
         automaton->_zone = _automata[i]->_zone+_automata[j]->_zone;
+        automaton->_nextZone = _automata[i]->_nextZone+_automata[j]->_nextZone;
         automaton->_size = std::max(1,automaton->_zone.size().product());
         remove(_automata[std::max(i,j)]);
         remove(_automata[std::min(i,j)]);
@@ -158,18 +160,3 @@ void Automaton::drawAll() {
     a->draw();
   });
 }
-/*
-void Automaton::init() {
-  for(int i(0); i<threadCount; i++)
-    threads[i] = new std::thread(updateThread,i);
-}
-void Automaton::term() {
-  for(int i(0); i<threadCount; i++)
-    stopThread[i] = true;
-  startSem.post(threadCount);
-  for(int i(0); i<threadCount; i++) {
-    threads[i]->join();
-    delete threads[i];
-  }
-}
-*/
