@@ -36,7 +36,7 @@ Timer fadeTimer;
 Time start;
 
 // Gameplay configuration
-float resourceSpeed, resourceSpeedIdle, tumorCost, vesselCost, autoclickDuration;
+float resourceSpeed, resourceSpeedIdle, tumorCost, vesselCost, autoaimRadius;
 
 float irrigationRadius;
 Point3f irrigationSphereCenter;
@@ -373,11 +373,23 @@ void game() {
       if(event.type == Window::Event::BUTTONDOWN)
         switch(event.button) {
           case Window::Event::LBUTTON:
-            if(resource>tumorCost && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)
-                && isTumor(world.voxel(hit.x(),hit.y(),hit.z()))) {
-              startTumor(hit,growthVPS,Time(growthDuration*1000000.f));
-              resource -= tumorCost;
-              Wwise::postEvent("Tumor_right");
+            if(resource>tumorCost && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
+              if(!isTumor(world.voxel(hit.x(),hit.y(),hit.z()))) {
+                SCA::Branch* branch(sca.nearest(hit,irrigationRadius+autoaimRadius));
+                if(branch!=NULL) {
+                  Point3f inc(branch->position()-hit);
+                  int maxi(inc.norm()*2);
+                  inc.normalize();
+                  inc *= .5f;
+                  for(int i(0); i<maxi && !isTumor(world.voxel(hit.x(),hit.y(),hit.z())); i++)
+                    hit += inc;
+                }
+              }
+              if(world.voxel(hit.x(),hit.y(),hit.z()).type()!=Voxel::ORGAN) {
+                startTumor(hit,growthVPS,Time(growthDuration*1000000.f));
+                resource -= tumorCost;
+                Wwise::postEvent("Tumor_right");
+              } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             break;
           case Window::Event::RBUTTON:
@@ -512,7 +524,7 @@ int main(int argc, char* argv[]) {
   Game::registerValue("resource_speed_idle",&resourceSpeedIdle);
   Game::registerValue("tumor_cost",&tumorCost);
   Game::registerValue("vessel_cost",&vesselCost);
-  Game::registerValue("autoclick_duration",&autoclickDuration);
+  Game::registerValue("autoaim_radius",&autoaimRadius);
   Game::registerValue("vessel_count",&vesselCount);
   Game::registerValue("burst_radius",&burstRadius);
   Bonus::configure();

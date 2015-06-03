@@ -62,7 +62,7 @@
 	"resource_speed_idle": 0.3,
 	"tumor_cost": 0.10,
 	"vessel_cost": 0.25,
-	"autoclick_duration": 0.75,
+	"autoaim_radius": 4,
 	
 	"budding_vps": 25,
 	"budding_factor": 0,
