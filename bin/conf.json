@@ -38,8 +38,8 @@
 	"sca_avoid_attempts": 1024,
 	"sca_color": "#2558e066"
 	
-	"vessel_count": 2,
-	"burst_radius": 8,
+	"vessel_count": 3,
+	"burst_radius": 10,
 
 	"irrigation_sphere_center": "0,60,175",
 	"irrigation_sphere_radius": 32,
@@ -62,14 +62,14 @@
 	"resource_speed_idle": 0.3,
 	"tumor_cost": 0.35,
 	"vessel_cost": 0.45,
-	"autoaim_radius": 8,
+	"autoaim_radius": 14,
 	
 	"budding_vps": 25,
 	"budding_factor": 0,
-	"budding_duration": 2.5,
+	"budding_duration": 3.5,
 	"budding_max_distance":35,
 	"budding_min_y": 0,
-	"budding_count": 6,
+	"budding_count": 4,
 	"vessel_budding_factor": 0,
 	"chemo_budding_factor": 0,
 	"chemo_budding_curve": 1,
@@ -77,7 +77,7 @@
 	"bonuses":[
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "3,87,168",
+			"position": "3,80,168",
 			"modifications":[
 				{
 					"value": "growth_duration",
@@ -122,6 +122,28 @@
 		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "-30,93,167",
+			"modifications":[
+				{
+					"value": "tumor_cost",
+					"operation": "add",
+					"parameter": -0.05
+				}
+			]
+		},
+		{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "-30,174,156",
+			"modifications":[
+				{
+					"value": "tumor_cost",
+					"operation": "add",
+					"parameter": -0.05
+				}
+			]
+		},
+		{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "6,179,161",
 			"modifications":[
 				{
 					"value": "tumor_cost",
@@ -235,7 +257,7 @@
 				{
 					"value": "budding_factor",
 					"operation": "add",
-					"parameter": 0.01
+					"parameter": 0.03
 				}
 			]
 		},
