@@ -343,14 +343,18 @@ void game() {
   Coroutine searchCoroutine(search), automataCoroutine(Automaton::updateAll);
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
-    world.update();
-    Wwise::update();
+    // Update camera
     cam.update(world,deltaTime);
+    // Update world
+    world.update();
+    // Update Wwise
+    Wwise::listen(cam);
+    Wwise::rtpc("Circle_gauge",resource);
+    Wwise::update();
     automataCoroutine.jumpFor(Time(automataTPF*1000000.f));
     searchCoroutine.jumpFor(Time(searchTPF*1000000.f));
     sca.update(world);
     resource = std::min(1.f,resource+deltaTime*((Automaton::has(growth)||Automaton::has(thirst))?resourceSpeed:resourceSpeedIdle));
-    Wwise::rtpc("Circle_gauge",resource);
     if(checktimer.every(Time(0,100))) {
       Bonus::updateAll(world);
       Event::updateAll(Time::now()-start);
