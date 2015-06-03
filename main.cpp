@@ -350,6 +350,7 @@ void game() {
     searchCoroutine.jumpFor(Time(searchTPF*1000000.f));
     sca.update(world);
     resource = std::min(1.f,resource+deltaTime*((Automaton::has(growth)||Automaton::has(thirst))?resourceSpeed:resourceSpeedIdle));
+    Wwise::rtpc("Circle_gauge",resource);
     if(checktimer.every(Time(0,100))) {
       Bonus::updateAll(world);
       Event::updateAll(Time::now()-start);
