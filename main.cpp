@@ -340,6 +340,9 @@ void game() {
   Timer timer, checktimer, clicktimer;
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
   startTumor(irrigationSphereCenter,growthVPS,Time(growthDuration*1000000.f));
+  sca.addTarget(Point3f(-4,70,179));
+  sca.addTarget(Point3f(19,62,176));
+  sca.addTarget(Point3f(-8,50,177));
   Coroutine searchCoroutine(search), automataCoroutine(Automaton::updateAll);
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
