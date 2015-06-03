@@ -38,8 +38,8 @@
 	"sca_avoid_attempts": 1024,
 	"sca_color": "#2558e066"
 	
-	"vessel_count": 3,
-	"burst_radius": 10,
+	"vessel_count": 2,
+	"burst_radius": 8,
 
 	"irrigation_sphere_center": "0,60,175",
 	"irrigation_sphere_radius": 32,
@@ -47,7 +47,7 @@
 
 	"growth_vps": 15,
 	"growth_duration": 4,
-	"growth_start_radius": 0.5,
+	"growth_start_radius": 1.5,
 	
 	"thirst_vps": 25,
 	"thirst_appearance_factor": 1,
@@ -63,7 +63,7 @@
 	"resource_speed_idle": 0.3,
 	"tumor_cost": 0.35,
 	"vessel_cost": 0.45,
-	"autoaim_radius": 12,
+	"autoaim_radius": 8,
 	
 	"budding_vps": 25,
 	"budding_factor": 0,
