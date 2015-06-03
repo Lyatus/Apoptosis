@@ -44,7 +44,7 @@ float irrigationSphereRadius;
 
 float growthVPS, growthDuration, growthStartRadius;
 float thirstVPS, thirstAppearanceFactor;
-float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoDuration, chemoDisappearanceFactor;
+float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoDuration, chemoDisappearanceFactor, chemoCount;
 float buddingVPS, buddingDuration, buddingMinY, buddingCount, buddingMaxDistance;
 float vesselCount, burstRadius;
 float buddingFactor, vesselBuddingFactor, chemoBuddingFactor;
@@ -203,7 +203,7 @@ void search() {
                 startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
               if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
                 sca.addTarget(position);
-              if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && Rand::nextFloat()<(chemoBuddingFactor/tumorCount)*(chemoBuddingCurve/(Bonus::distanceToActive(position)+chemoBuddingCurve)) && !Automaton::has(chemo,position))
+              if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && !Automaton::has(chemo,(int)chemoCount) && Rand::nextFloat()<(chemoBuddingFactor/tumorCount)*(chemoBuddingCurve/(Bonus::distanceToActive(position)+chemoBuddingCurve)) && !Automaton::has(chemo,position))
                 startChemo(position,Time(chemoDuration*1000000.f));
             }
       Coroutine::yield();
@@ -513,6 +513,7 @@ int main(int argc, char* argv[]) {
   Game::registerValue("chemo_organ_factor",&chemoOrganFactor);
   Game::registerValue("chemo_duration",&chemoDuration);
   Game::registerValue("chemo_disappearance_factor",&chemoDisappearanceFactor);
+  Game::registerValue("chemo_count",&chemoCount);
   Game::registerValue("budding_vps",&buddingVPS);
   Game::registerValue("budding_duration",&buddingDuration);
   Game::registerValue("budding_factor",&buddingFactor);
