@@ -33,6 +33,10 @@
 					<ShortName>Bubble6.wav</ShortName>
 					<Path>SFX\Bubble6_4231625D.wem</Path>
 				</File>
+				<File Id="172312704" Language="SFX">
+					<ShortName>placeholder_gauge.wav</ShortName>
+					<Path>SFX\placeholder_gauge_60201D15.wem</Path>
+				</File>
 				<File Id="314428476" Language="SFX">
 					<ShortName>Voice-F-07-fx.wav</ShortName>
 					<Path>SFX\Voice-F-07-fx_4231625D.wem</Path>
@@ -53,9 +57,9 @@
 					<ShortName>Bubble7.wav</ShortName>
 					<Path>SFX\Bubble7_4231625D.wem</Path>
 				</File>
-				<File Id="472009716" Language="SFX">
-					<ShortName>Glassworks_Opening_01.wav</ShortName>
-					<Path>SFX\Glassworks_Opening_01_304B40D5.wem</Path>
+				<File Id="501132209" Language="SFX">
+					<ShortName>Philip-Glass-Metamorphosis-Two.wav</ShortName>
+					<Path>SFX\Philip-Glass-Metamorphosis-Two_20C378B8.wem</Path>
 				</File>
 				<File Id="772107398" Language="SFX">
 					<ShortName>Bubble5.wav</ShortName>
