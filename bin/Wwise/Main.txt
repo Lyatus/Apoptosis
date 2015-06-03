@@ -15,7 +15,6 @@ Effect plug-ins	ID	Name	Type				Notes
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	56660461	Voice-F-08-fx	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Voice-F-08-fx_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\Placeholder\Voice-F-08-fx		642220
 	104157723	Bubble6	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble6_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble6		26736
-	172312704	gauge	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\placeholder_gauge_60201D15.wem		\Actor-Mixer Hierarchy\Default Work Unit\Feedback\gauge		536303
 	314428476	Voice-F-07-fx	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Voice-F-07-fx_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\Placeholder\Voice-F-07-fx		505403
 	362923797	Bubble2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble2_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble2		29904
 	391236202	Bubble4	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble4_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble4		38398
@@ -23,6 +22,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	465665579	Bubble7	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble7_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble7		39493
 	501132209	Placeholder	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Philip-Glass-Metamorphosis-Two_20C378B8.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Placeholder		18348597
 	772107398	Bubble5	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble5_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble5		51457
+	831439882	gauge	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\circle_gauge_sound_2_E9A07B62.wem		\Actor-Mixer Hierarchy\Default Work Unit\Feedback\gauge		20011
 	870835506	Tumor_wrong	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\FeedB_click_tumor_wrong_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_wrong		12468
 	879796040	Bubble3	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble3_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble3		28869
 	903042498	Rumble	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Underwater_Rumble_22F7C9A0.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Rumble		6387544
