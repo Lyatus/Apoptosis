@@ -39,7 +39,7 @@
 	"sca_color": "#2558e066"
 	
 	"vessel_count": 3,
-	"burst_radius": 12,
+	"burst_radius": 8,
 
 	"irrigation_sphere_center": "0,60,175",
 	"irrigation_sphere_radius": 32,
@@ -63,7 +63,7 @@
 	"resource_speed_idle": 0.3,
 	"tumor_cost": 0.35,
 	"vessel_cost": 0.45,
-	"autoaim_radius": 8,
+	"autoaim_radius": 12,
 	
 	"budding_vps": 15,
 	"budding_factor": 0,
@@ -193,7 +193,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "6,179,161",
+			"position": "29,167,163",
 			"modifications":[
 				{
 					"value": "tumor_cost",
@@ -215,7 +215,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "27,190,163",
+			"position": "25,204,162",
 			"modifications":[
 				{
 					"value": "growth_duration",
@@ -232,22 +232,48 @@
 					"value": "vessel_count",
 					"operation": "add",
 					"parameter": 1
-				},
-				{
-					"value": "burst_radius",
-					"operation": "add",
-					"parameter": 8
 				}
 			]
 		},
 		{
 			"icon": "Image/Bonus/vessel.png",
-			"position": "3,216,163",
+			"position": "-3,264,135",
 			"modifications":[
 				{
 					"value": "vessel_budding_factor",
 					"operation": "add",
 					"parameter": 0.005
+				}
+			]
+		},
+		{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "12,180,157",
+			"modifications":[
+				{
+					"value": "budding_factor",
+					"operation": "add",
+					"parameter": 1
+				},
+				{
+					"value": "budding_vps",
+					"operation": "add",
+					"parameter": 10
+				},
+				{
+					"value": "budding_count",
+					"operation": "add",
+					"parameter": -3
+				},
+				{
+					"value": "budding_duration",
+					"operation": "add",
+					"parameter": 2
+				},
+				{
+					"value": "thirst_appearance_factor",
+					"operation": "add",
+					"parameter": -0.5
 				}
 			]
 		},
@@ -329,17 +355,6 @@
 			]
 		},
 		{
-			"icon": "Image/Bonus/vessel.png",
-			"position": "-14,322,138",
-			"modifications":[
-				{
-					"value": "vessel_budding_factor",
-					"operation": "add",
-					"parameter": 0.002
-				}
-			]
-		},
-		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "-16,355,130",
 			"modifications":[
@@ -353,7 +368,7 @@
 	],
 	"events":[
 		{
-			"time": 180,
+			"time": 99180,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": 2
@@ -401,7 +416,7 @@
 			"parameter": 4
 		},
 		{
-			"time": 310,
+			"time": 99310,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": -2
