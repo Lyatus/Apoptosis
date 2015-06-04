@@ -45,7 +45,7 @@
 	"irrigation_sphere_radius": 32,
 	"irrigation_radius": 7,
 
-	"growth_vps": 20,
+	"growth_vps": 15,
 	"growth_duration": 3,
 	"growth_start_radius": 1.5,
 	
@@ -78,13 +78,8 @@
 	"bonuses":[
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "2,77,172",
+			"position": "3,80,169",
 			"modifications":[
-				{
-					"value": "growth_vps",
-					"operation": "add",
-					"parameter": -5
-				},
 				{
 					"value": "growth_duration",
 					"operation": "add",
@@ -93,41 +88,8 @@
 			]
 		},
 		{
-			"icon": "Image/Bonus/vessel.png",
-			"position": "-8,88,167",
-			"modifications":[
-				{
-					"value": "vessel_cost",
-					"operation": "add",
-					"parameter": -0.05
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/resource.png",
-			"position": "23,98,168",
-			"modifications":[
-				{
-					"value": "resource_speed",
-					"operation": "add",
-					"parameter": 0.01
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/vessel.png",
-			"position": "0,114,163",
-			"modifications":[
-				{
-					"value": "vessel_count",
-					"operation": "add",
-					"parameter": 1
-				}
-			]
-		},
-		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "19,126,161",
+			"position": "-30,93,167",
 			"modifications":[
 				{
 					"value": "tumor_cost",
@@ -137,8 +99,41 @@
 			]
 		},
 		{
+			"icon": "Image/Bonus/vessel.png",
+			"position": "20,107,164",
+			"modifications":[
+				{
+					"value": "vessel_cost",
+					"operation": "add",
+					"parameter": -0.05
+				}
+			]
+		},
+		{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "-9,116,160",
+			"modifications":[
+				{
+					"value": "vessel_count",
+					"operation": "add",
+					"parameter": 1
+				}
+			]
+		},
+		{
 			"icon": "Image/Bonus/resource.png",
-			"position": "-18,135,153",
+			"position": "18,130,159",
+			"modifications":[
+				{
+					"value": "resource_speed",
+					"operation": "add",
+					"parameter": 0.01
+				}
+			]
+		},
+		{
+			"icon": "Image/Bonus/resource.png",
+			"position": "-18,140,153",
 			"modifications":[
 				{
 					"value": "resource_speed",
@@ -220,7 +215,7 @@
 				{
 					"value": "growth_duration",
 					"operation": "add",
-					"parameter": 0.50
+					"parameter": 0.12
 				}
 			]
 		},
@@ -236,34 +231,44 @@
 			]
 		},
 		{
-			"icon": "Image/Bonus/tumor.png",
+			"icon": "Image/Bonus/vessel.png",
 			"position": "-3,264,135",
 			"modifications":[
 				{
-					"value": "growth_vps",
+					"value": "vessel_budding_factor",
 					"operation": "add",
-					"parameter": 0.25
+					"parameter": 0.005
 				}
 			]
 		},
 		{
-			"icon": "Image/Bonus/vessel.png",
+			"icon": "Image/Bonus/tumor.png",
 			"position": "12,205,157",
 			"modifications":[
-								{
-					"value": "vessel_budding_factor",
+				{
+					"value": "budding_factor",
 					"operation": "add",
-					"parameter": 0.01
-				},
-								{
-					"value": "growth_duration",
-					"operation": "add",
-					"parameter": -2
+					"parameter": 1
 				},
 				{
-					"value": "resource_speed",
+					"value": "budding_vps",
 					"operation": "add",
-					"parameter": 0.3
+					"parameter": 10
+				},
+				{
+					"value": "budding_count",
+					"operation": "add",
+					"parameter": -3
+				},
+				{
+					"value": "budding_duration",
+					"operation": "add",
+					"parameter": 2
+				},
+				{
+					"value": "thirst_appearance_factor",
+					"operation": "add",
+					"parameter": -0.5
 				}
 			]
 		},
@@ -279,24 +284,24 @@
 			]
 		},
 		{
-			"icon": "Image/Bonus/resource.png",
+			"icon": "Image/Bonus/vessel.png",
 			"position": "54,232,154",
 			"modifications":[
 				{
-					"value": "resource_speed",
+					"value": "vessel_cost",
 					"operation": "add",
-					"parameter": 0.005
+					"parameter": -0.025
 				}
 			]
 		},
 		{
-			"icon": "Image/Bonus/resource.png",
+			"icon": "Image/Bonus/vessel.png",
 			"position": "-44,217,155",
 			"modifications":[
 				{
-					"value": "resource_speed",
+					"value": "vessel_cost",
 					"operation": "add",
-					"parameter": 0.005
+					"parameter": -0.025
 				}
 			]
 		},
@@ -305,31 +310,31 @@
 			"position": "-64,232,149",
 			"modifications":[
 				{
-					"value": "resource_speed",
+					"value": "vessel_cost",
 					"operation": "add",
-					"parameter": 0.005
+					"parameter": -0.025
 				}
 			]
 		},
 		{
-			"icon": "Image/Bonus/resource.png",
+			"icon": "Image/Bonus/vessel.png",
 			"position": "-50,238,128",
 			"modifications":[
 				{
-					"value": "resource_speed",
+					"value": "vessel_cost",
 					"operation": "add",
-					"parameter": 0.005
+					"parameter": -0.025
 				}
 			]
 		},
 		{
-			"icon": "Image/Bonus/tumor.png",
+			"icon": "Image/Bonus/vessel.png",
 			"position": "-70,242,134",
 			"modifications":[
 				{
-					"value": "growth_vps",
+					"value": "vessel_cost",
 					"operation": "add",
-					"parameter": 0.25
+					"parameter": -0.025
 				}
 			]
 		},
@@ -355,18 +360,18 @@
 				{
 					"value": "budding_duration",
 					"operation": "add",
-					"parameter": -1
+					"parameter": -2
 				}
 			]
 		},
 		{
-			"icon": "Image/Bonus/tumor.png",
+			"icon": "Image/Bonus/vessel.png",
 			"position": "37,242,140",
 			"modifications":[
 				{
-					"value": "growth_vps",
+					"value": "vessel_cost",
 					"operation": "add",
-					"parameter": 0.25
+					"parameter": -0.025
 				}
 			]
 		},
