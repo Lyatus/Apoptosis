@@ -368,6 +368,26 @@
 	],
 	"events":[
 		{
+			"time": 2.7,
+			"operation": "tumor",
+			"position": "0,60,175"
+		},
+		{
+			"time": 2.7,
+			"operation": "vessel",
+			"position": "-4,70,179"
+		},
+		{
+			"time": 3,
+			"operation": "vessel",
+			"position": "19,62,176"
+		},
+		{
+			"time": 3.2,
+			"operation": "vessel",
+			"position": "-8,50,177"
+		},
+		{
 			"time": 99180,
 			"value": "chemo_budding_factor",
 			"operation": "add",
