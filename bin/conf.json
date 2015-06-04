@@ -41,7 +41,7 @@
 	"vessel_count": 3,
 	"burst_radius": 8,
 
-	"irrigation_sphere_center": "0,60,175",
+	"irrigation_sphere_center": "0,60,185",
 	"irrigation_sphere_radius": 32,
 	"irrigation_radius": 8,
 
@@ -78,7 +78,7 @@
 	"bonuses":[
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "3,80,168",
+			"position": "3,80,169",
 			"modifications":[
 				{
 					"value": "growth_duration",
@@ -363,24 +363,29 @@
 	],
 	"events":[
 		{
-			"time": 2.7,
+			"time": 5,
 			"operation": "tumor",
 			"position": "0,60,175"
 		},
 		{
-			"time": 2.7,
+			"time": 7.6,
 			"operation": "vessel",
 			"position": "-4,70,179"
 		},
 		{
-			"time": 3,
+			"time": 7.8,
 			"operation": "vessel",
 			"position": "19,62,176"
 		},
 		{
-			"time": 3.2,
+			"time": 7.9,
 			"operation": "vessel",
 			"position": "-8,50,177"
+		},
+		{
+			"time": 8,
+			"operation": "vessel",
+			"position": "0,60,175"
 		},
 		{
 			"time": 180,
