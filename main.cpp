@@ -157,8 +157,7 @@ Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
 void startTumor(const Point3f& start, float vps, const Time& duration) {
   Automaton* automaton(new Automaton(world,growth,vps,Time::now()+duration));
   world.voxelSphere(start,growthStartRadius,Voxel::TUMOR_START,Voxel::max);
-  automaton->include(start);
-  Automaton::add(automaton);
+  Automaton::add(automaton,"Tumor_start",start);
 }
 void startGrowth(const Point3f& start) {
   startTumor(start,growthVPS,Time(growthDuration*1000000.f));
@@ -169,13 +168,13 @@ void startBud(const Point3f& start) {
 void startThirst(const Point3f& start) {
   Automaton* automaton(new Automaton(world,thirst,thirstVPS));
   automaton->include(start);
-  Automaton::add(automaton);
+  Automaton::add(automaton,"Thirst_start",start);
 }
 void startChemo(const Point3f& start) {
   Automaton* automaton(new Automaton(world,chemo,chemoVPS,Time::now()+Time(chemoDuration*1000000.f)));
   world.voxelSphere(start,1.f,Voxel::TUMOR_IDLE_CHEMO,Voxel::max);
   automaton->include(start);
-  Automaton::add(automaton);
+  Automaton::add(automaton,"Chemo_start",start);
 }
 void search() {
   Point3i ci(0), cmin(0), cmax(0);

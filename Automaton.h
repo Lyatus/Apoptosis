@@ -2,8 +2,7 @@
 #define DEF_Cancer_Automaton
 
 #include <L/L.h>
-#include <thread>
-#include <mutex>
+#include <L/interface/wwise.h>
 #include "World.h"
 
 class Automaton {
@@ -15,6 +14,7 @@ class Automaton {
     float _vps, _factor;
     L::Time _end;
     bool _shouldStop;
+    L::Set<AkGameObjectID> _wwiseGameObjects;
 
     L::Interval3i _zone, _nextZone;
     L::Point3i _min, _max;
@@ -40,7 +40,7 @@ class Automaton {
     static void updateAll();
     static void fuse();
     static void clean();
-    static void add(Automaton*);
+    static void add(Automaton*, const L::String&, const L::Point3i&);
     static void remove(Automaton*);
     static bool has(Process);
     static bool has(Process,const L::Point3i&);

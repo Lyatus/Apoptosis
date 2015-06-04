@@ -13,7 +13,8 @@ void Automaton::yield() {
   _timer.unpause();
 }
 
-Automaton::Automaton(World& world, Process process, float vps, const Time& end) : _world(world), _process(process), _vps(vps), _factor(0), _end(end), _shouldStop(false), _size(0) {}
+Automaton::Automaton(World& world, Process process, float vps, const Time& end)
+  : _world(world), _process(process), _vps(vps), _factor(0), _end(end), _shouldStop(false), _size(0) {}
 void Automaton::include(const L::Point3i& p) {
   _nextZone.add(p-Point3i(1,1,1));
   _nextZone.add(p+Point3i(1,1,1));
@@ -111,9 +112,11 @@ void Automaton::fuse() {
         automaton->_zone = _automata[i]->_zone+_automata[j]->_zone;
         automaton->_nextZone = _automata[i]->_nextZone+_automata[j]->_nextZone;
         automaton->_size = std::max(1,automaton->_zone.size().product());
+        automaton->_wwiseGameObjects += _automata[i]->_wwiseGameObjects;
+        automaton->_wwiseGameObjects += _automata[j]->_wwiseGameObjects;
         remove(_automata[std::max(i,j)]);
         remove(_automata[std::min(i,j)]);
-        add(automaton);
+        _automata.push(automaton);
         return fuse();
       }
 }
@@ -122,12 +125,17 @@ void Automaton::clean() {
   for(int i(0); i<_automata.size(); i++) { // Check for automata that should be removed
     if(_automata[i]->_end<now) // Automaton should stop
       _automata[i]->_shouldStop = true;
-    if(_automata[i]->_shouldStop && !_automata[i]->_size) // Automaton is ready to be removed
+    if(_automata[i]->_shouldStop && !_automata[i]->_size) { // Automaton is ready to be removed
+      for(int j(0); j<_automata[i]->_wwiseGameObjects.size(); j++)
+        Wwise::postEvent("Automaton_end",_automata[i]->_wwiseGameObjects[j]);
       remove(_automata[i--]);
+    }
   }
 }
-void Automaton::add(Automaton* a) {
+void Automaton::add(Automaton* a, const String& eventName, const Point3i& startPosition) {
   _automata.push(a);
+  a->include(startPosition);
+  a->_wwiseGameObjects.insert(Wwise::postEvent(eventName,startPosition));
 }
 void Automaton::remove(Automaton* a) {
   for(int i(0); i<_automata.size(); i++)
