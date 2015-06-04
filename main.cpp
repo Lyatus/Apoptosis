@@ -438,6 +438,9 @@ void game() {
           case Window::Event::NUM2:
             Wwise::postEvent("Music_event_1");
             break;
+          case Window::Event::NUM8:
+            Wwise::postEvent("lol_event");
+            break;
           default:
             break;
         }

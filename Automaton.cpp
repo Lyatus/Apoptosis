@@ -159,7 +159,7 @@ bool Automaton::has(Process p, const Point3i& pt) {
 }
 bool Automaton::has(Process p, int count) {
   for(int i(0); i<_automata.size(); i++)
-    if(_automata[i]->_process==p && --count<=0)
+    if(_automata[i]->_process==p && (count-=_automata[i]->_wwiseGameObjects.size())<=0)
       return true;
   return false;
 }
