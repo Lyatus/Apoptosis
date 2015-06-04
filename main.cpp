@@ -1,4 +1,4 @@
-#include <L/L.h>
+#include "main.h" // I know it's wrong
 #include <L/interface/stb.h>
 #include <L/interface/obj.h>
 #include <L/interface/json.h>
@@ -160,13 +160,19 @@ void startTumor(const Point3f& start, float vps, const Time& duration) {
   automaton->include(start);
   Automaton::add(automaton);
 }
+void startGrowth(const Point3f& start) {
+  startTumor(start,growthVPS,Time(growthDuration*1000000.f));
+}
+void startBud(const Point3f& start) {
+  startTumor(start,buddingVPS,Time(buddingDuration*1000000.f));
+}
 void startThirst(const Point3f& start) {
   Automaton* automaton(new Automaton(world,thirst,thirstVPS));
   automaton->include(start);
   Automaton::add(automaton);
 }
-void startChemo(const Point3f& start, const Time& duration) {
-  Automaton* automaton(new Automaton(world,chemo,chemoVPS,Time::now()+duration));
+void startChemo(const Point3f& start) {
+  Automaton* automaton(new Automaton(world,chemo,chemoVPS,Time::now()+Time(chemoDuration*1000000.f)));
   world.voxelSphere(start,1.f,Voxel::TUMOR_IDLE_CHEMO,Voxel::max);
   automaton->include(start);
   Automaton::add(automaton);
@@ -199,11 +205,11 @@ void search() {
               if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
                 cam.addPoint(chunk->position()+Point3i(x,y,z));
               if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && position.y()>buddingMinY && !Automaton::has(growth,(int)buddingCount) && Rand::nextFloat()<(buddingFactor * ((buddingMaxDistance-Bonus::distanceToInactive(position))/buddingMaxDistance)) && !Automaton::has(growth,position))
-                startTumor(position,buddingVPS,Time(buddingDuration*1000000.f));
+                startBud(position);
               if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
                 sca.addTarget(position);
               if(chemoBudPotential && voxel.type()==Voxel::TUMOR_IDLE && !Automaton::has(chemo,(int)chemoCount) && Rand::nextFloat()<(chemoBuddingFactor/tumorCount)*(chemoBuddingCurve/(Bonus::distanceToActive(position)+chemoBuddingCurve)) && !Automaton::has(chemo,position))
-                startChemo(position,Time(chemoDuration*1000000.f));
+                startChemo(position);
             }
       Coroutine::yield();
     }
@@ -338,10 +344,6 @@ void game() {
   gui->place(text,Point2i(0,0),GUI::TL,GUI::TL);
   Timer timer, checktimer, clicktimer;
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
-  startTumor(irrigationSphereCenter,growthVPS,Time(growthDuration*1000000.f));
-  sca.addTarget(Point3f(-4,70,179));
-  sca.addTarget(Point3f(19,62,176));
-  sca.addTarget(Point3f(-8,50,177));
   Coroutine searchCoroutine(search), automataCoroutine(Automaton::updateAll);
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
@@ -395,7 +397,7 @@ void game() {
                 }
               }
               if(world.voxel(hit.x(),hit.y(),hit.z()).type()!=Voxel::ORGAN) {
-                startTumor(hit,growthVPS,Time(growthDuration*1000000.f));
+                startGrowth(hit);
                 resource -= tumorCost;
                 Wwise::postEvent("Tumor_right");
               } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
@@ -414,7 +416,7 @@ void game() {
             break;
           case Window::Event::SPACE:
             if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512))
-              startChemo(hit,Time(chemoDuration*1000000.f));
+              startChemo(hit);
             break;
           case Window::Event::ENTER:
             anywhere = !anywhere;
@@ -537,7 +539,7 @@ int main(int argc, char* argv[]) {
   Game::registerValue("vessel_count",&vesselCount);
   Game::registerValue("burst_radius",&burstRadius);
   Bonus::configure();
-  Event::configure();
+  Event::configure(&world,&sca);
   automataTPF = Conf::getFloat("automata_tpf");
   searchTPF = Conf::getFloat("search_tpf");
   menuFadeDuration = Conf::getFloat("menu_fade_duration");

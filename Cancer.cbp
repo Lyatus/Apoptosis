@@ -106,6 +106,7 @@
 		<Unit filename="World.cpp" />
 		<Unit filename="World.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="main.h" />
 		<Unit filename="shapes.h" />
 		<Unit filename="shapes/Curve.cpp" />
 		<Unit filename="shapes/Curve.h" />
