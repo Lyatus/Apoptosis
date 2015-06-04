@@ -354,6 +354,7 @@ void game() {
     // Update Wwise
     Wwise::listen(cam);
     Wwise::rtpc("Circle_gauge",resource);
+    Wwise::rtpc("Tumor_growing",growthDuration);
     Wwise::update();
     automataCoroutine.jumpFor(Time(automataTPF*1000000.f));
     searchCoroutine.jumpFor(Time(searchTPF*1000000.f));
@@ -397,9 +398,10 @@ void game() {
                 }
               }
               if(world.voxel(hit.x(),hit.y(),hit.z()).type()!=Voxel::ORGAN) {
-                startGrowth(hit);
-                resource -= tumorCost;
                 Wwise::postEvent("Tumor_right");
+                startGrowth(hit);
+                Wwise::postEvent("Tumor_start",hit);
+                resource -= tumorCost;
               } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             break;
@@ -555,7 +557,6 @@ int main(int argc, char* argv[]) {
   UI::configure();
   // Wwise initialization
   Wwise::init(AKTEXT("Wwise/"));
-  Wwise::registerObject(100);
   Wwise::loadBank(AKTEXT("Init.bnk"));
   Wwise::loadBank(AKTEXT("Main.bnk"));
   // OpenGL initialization
