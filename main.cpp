@@ -365,20 +365,19 @@ void game() {
       Event::updateAll(Time::now()-start);
       tumorCount = world.typeCount(Voxel::TUMOR) + world.typeCount(Voxel::TUMOR_IDLE);
       tumorThirstyCount = world.typeCount(Voxel::TUMOR_THIRSTY) + world.typeCount(Voxel::TUMOR_THIRSTY_IDLE);
-      if(tumorCount) {
-        Point3f hit;
-        world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512);
-        if(debugText)
-          text->sText("tumor: "+ToString(tumorCount)+"\n"
-                      "thirsty: "+ToString(tumorThirstyCount)+"\n"
-                      "anywhere: "+ToString(anywhere)+"\n"
-                      "budding: "+ToString(budding)+"\n"
-                      "cursor position: "+ToString((Point3i)hit)+"\n"
-                      "distance to bonus: "+ToString(Bonus::distanceToInactive(hit))+"\n"
-                      "time: "+Time::format("%M:%S",Time::now()-start)+"\n"
-                      "fps: "+ToString(1/deltaTime)+"\n");
-        else text->sText("");
-      }
+      Point3f hit;
+      world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512);
+      if(debugText)
+        text->sText("tumor: "+ToString(tumorCount)+"\n"
+                    "thirsty: "+ToString(tumorThirstyCount)+"\n"
+                    "anywhere: "+ToString(anywhere)+"\n"
+                    "budding: "+ToString(budding)+"\n"
+                    "cursor position: "+ToString((Point3i)hit)+"\n"
+                    "cursor distance: "+ToString(hit.dist(cam.position()))+"\n"
+                    "distance to bonus: "+ToString(Bonus::distanceToInactive(hit))+"\n"
+                    "time: "+Time::format("%M:%S",Time::now()-start)+"\n"
+                    "fps: "+ToString(1/deltaTime)+"\n");
+      else text->sText("");
     }
     while(Window::newEvent(event)) {
       if(gui->event(event)) continue;
