@@ -135,7 +135,7 @@ void Automaton::clean() {
 void Automaton::add(Automaton* a, const String& eventName, const Point3i& startPosition) {
   _automata.push(a);
   a->include(startPosition);
-  a->_wwiseGameObjects.insert(Wwise::postEvent(eventName,startPosition));
+  a->_wwiseGameObjects.push(Wwise::postEvent(eventName,startPosition));
 }
 void Automaton::remove(Automaton* a) {
   for(int i(0); i<_automata.size(); i++)

@@ -14,7 +14,7 @@ class Automaton {
     float _vps, _factor;
     L::Time _end;
     bool _shouldStop;
-    L::Set<AkGameObjectID> _wwiseGameObjects;
+    L::Array<AkGameObjectID> _wwiseGameObjects;
 
     L::Interval3i _zone, _nextZone;
     L::Point3i _min, _max;
