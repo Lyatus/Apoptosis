@@ -167,13 +167,11 @@ void startBud(const Point3f& start) {
 }
 void startThirst(const Point3f& start) {
   Automaton* automaton(new Automaton(world,thirst,thirstVPS));
-  automaton->include(start);
   Automaton::add(automaton,"Thirst_start",start);
 }
 void startChemo(const Point3f& start) {
   Automaton* automaton(new Automaton(world,chemo,chemoVPS,Time::now()+Time(chemoDuration*1000000.f)));
   world.voxelSphere(start,1.f,Voxel::TUMOR_IDLE_CHEMO,Voxel::max);
-  automaton->include(start);
   Automaton::add(automaton,"Chemo_start",start);
 }
 void search() {
@@ -353,7 +351,6 @@ void game() {
     // Update Wwise
     Wwise::listen(cam);
     Wwise::rtpc("Circle_gauge",resource);
-    Wwise::rtpc("Tumor_growing",growthDuration);
     Wwise::update();
     automataCoroutine.jumpFor(Time(automataTPF*1000000.f));
     searchCoroutine.jumpFor(Time(searchTPF*1000000.f));
@@ -398,7 +395,6 @@ void game() {
               if(world.voxel(hit.x(),hit.y(),hit.z()).type()!=Voxel::ORGAN) {
                 Wwise::postEvent("Tumor_right");
                 startGrowth(hit);
-                Wwise::postEvent("Tumor_start",hit);
                 resource -= tumorCost;
               } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
