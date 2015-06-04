@@ -46,10 +46,10 @@
 	"irrigation_radius": 8,
 
 	"growth_vps": 15,
-	"growth_duration": 4,
+	"growth_duration": 3,
 	"growth_start_radius": 1.5,
 	
-	"thirst_vps": 25,
+	"thirst_vps": 16,
 	"thirst_appearance_factor": 1,
 
 	"chemo_vps":12 ,
@@ -117,17 +117,12 @@
 					"value": "vessel_count",
 					"operation": "add",
 					"parameter": 1
-				},
-				{
-					"value": "burst_radius",
-					"operation": "add",
-					"parameter": 12
 				}
 			]
 		},
 		{
 			"icon": "Image/Bonus/resource.png",
-			"position": "3,129,159",
+			"position": "18,130,159",
 			"modifications":[
 				{
 					"value": "resource_speed",
@@ -215,7 +210,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "25,204,162",
+			"position": "43,184,162",
 			"modifications":[
 				{
 					"value": "growth_duration",
@@ -248,7 +243,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "12,180,157",
+			"position": "12,205,157",
 			"modifications":[
 				{
 					"value": "budding_factor",
@@ -368,7 +363,7 @@
 	],
 	"events":[
 		{
-			"time": 99180,
+			"time": 180,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": 2
@@ -416,7 +411,7 @@
 			"parameter": 4
 		},
 		{
-			"time": 99310,
+			"time": 310,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": -2
