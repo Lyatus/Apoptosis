@@ -24,7 +24,7 @@ void SphericalCamera::addPoint(const L::Point3f& point) {
   _centerTarget = _interval.center();
   _radius = _interval.size().norm()*.75f;
 }
-void SphericalCamera::update(World& world, float deltaTime) {
+bool SphericalCamera::update(World& world, float deltaTime) {
   Point3f oldPosition(position());
   if(_fovyTarget!=_fovy)
     fovy(_fovy+(_fovyTarget-_fovy)*10.f*deltaTime);
@@ -51,6 +51,7 @@ void SphericalCamera::update(World& world, float deltaTime) {
   float forwardDotUp(forward().dot(Point3f(0,1,0))), forwardDotForward(forward().dot(Point3f(0,0,1)));
   if(world.spherecast(position(),4) || forwardDotUp>.99f || forwardDotUp<-.99f || forwardDotForward<_minAngle)
     position(oldPosition);
+  return _speed.norm()>.1f;
 }
 void SphericalCamera::event(World& world, const L::Window::Event& e) {
   static int x, y;
