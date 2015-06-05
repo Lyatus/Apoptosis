@@ -14,8 +14,9 @@ class Bonus {
     L::Array<float*> _values;
     L::Array<Operation> _operations;
     L::Array<float> _parameters;
+    L::Time _duration, _end;
     float _radius;
-    bool _active;
+    bool _active, _timed;
 
   public:
     Bonus() {}
