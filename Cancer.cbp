@@ -82,6 +82,7 @@
 			<Add library="AkTremoloFX" />
 		</Linker>
 		<Unit filename="../L/interface/wwise.cpp" />
+		<Unit filename="../L/interface/wwise.h" />
 		<Unit filename="Automaton.cpp" />
 		<Unit filename="Automaton.h" />
 		<Unit filename="Bonus.cpp" />
