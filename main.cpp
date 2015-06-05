@@ -351,6 +351,7 @@ void game() {
     // Update Wwise
     Wwise::listen(cam);
     Wwise::rtpc("Circle_gauge",resource);
+    Wwise::rtpc("Time_passing",(Time::now()-start).fSeconds());
     Wwise::update();
     automataCoroutine.jumpFor(Time(automataTPF*1000000.f));
     searchCoroutine.jumpFor(Time(searchTPF*1000000.f));
