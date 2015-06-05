@@ -6,7 +6,7 @@ float UI::cursorRadius;
 Color UI::cursorPointColor, UI::backgroundDiskColor, UI::innerDiskColor;
 GL::Mesh* UI::disk;
 
-void ::UI::drawCursor(float value) {
+void UI::drawCursor(float value) {
   glClear(GL_DEPTH_BUFFER_BIT);
   glPushMatrix();
   glTranslatef(Window::mousePosition().x(),Window::mousePosition().y(),0);
@@ -23,7 +23,7 @@ void ::UI::drawCursor(float value) {
   disk->draw();
   glPopMatrix();
 }
-void ::UI::drawCursor() {
+void UI::drawCursor() {
   glClear(GL_DEPTH_BUFFER_BIT);
   glPushMatrix();
   glTranslatef(Window::mousePosition().x(),Window::mousePosition().y(),0);
@@ -34,6 +34,24 @@ void ::UI::drawCursor() {
   glVertex2f(20,10);
   glEnd();
   glPopMatrix();
+}
+void UI::drawTip(GL::Program& program, const GL::Camera& cam, const Ref<GL::Texture>& tex, const Point3f& point) {
+  Point2f screenPoint;
+  if(cam.worldToScreen(point,screenPoint)) {
+    screenPoint = Window::normalizedToPixels(screenPoint);
+    GL::color(Color::white);
+    program.uniform("texture",*tex);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,1);
+    glVertex2i(screenPoint.x(),screenPoint.y());
+    glTexCoord2f(1,1);
+    glVertex2i(screenPoint.x()+tex->width(),screenPoint.y());
+    glTexCoord2f(1,0);
+    glVertex2i(screenPoint.x()+tex->width(),screenPoint.y()-tex->height());
+    glTexCoord2f(0,0);
+    glVertex2i(screenPoint.x(),screenPoint.y()-tex->height());
+    glEnd();
+  }
 }
 void UI::configure() {
   cursorRadius = Conf::getFloat("cursor_radius");

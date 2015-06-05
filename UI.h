@@ -12,6 +12,7 @@ class UI {
   public:
     static void drawCursor(float value);
     static void drawCursor();
+    static void drawTip(L::GL::Program&, const L::GL::Camera&, const L::Ref<L::GL::Texture>&, const L::Point3f&);
     static void configure();
 };
 
