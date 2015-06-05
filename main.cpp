@@ -56,6 +56,12 @@ Automaton* thirstAutomatonP;
 float resource(1);
 int tumorCount, tumorThirstyCount;
 
+// Tutorial
+int tutoStep(0);
+Time tutoDelay;
+bool movedCamera(false), placedTumor(false), placedVessel(false);
+Point3f tutoCameraPosition, tutoTumorPosition, tutoVesselPosition;
+
 float irrigationValue(const Point3f& p) {
   return Shape::fromDistance(sca.distance(p,irrigationRadius+1)-irrigationRadius);
 }
@@ -335,6 +341,9 @@ void game() {
   GL::PostProcess pp(Window::width(),Window::height());
   // Textures fetching
   GL::Texture voxelTexture(Image::Bitmap(Conf::getString("texture_path")));
+  Ref<GL::Texture> tutorialCamera(new GL::Texture(Image::Bitmap("Image/Tutorial/camera.png")));
+  Ref<GL::Texture> tutorialTumor(new GL::Texture(Image::Bitmap("Image/Tutorial/tumor.png")));
+  Ref<GL::Texture> tutorialVessel(new GL::Texture(Image::Bitmap("Image/Tutorial/vessel.png")));
   // GUI initialization
   Point3f hit;
   GUI::Text* text(new GUI::Text());
@@ -345,7 +354,7 @@ void game() {
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
     // Update camera
-    cam.update(world,deltaTime);
+    movedCamera |= cam.update(world,deltaTime);
     // Update world
     world.update();
     // Update Wwise
@@ -394,6 +403,7 @@ void game() {
                 }
               }
               if(world.voxel(hit.x(),hit.y(),hit.z()).type()!=Voxel::ORGAN) {
+                placedTumor = true;
                 Wwise::postEvent("Tumor_right");
                 startGrowth(hit);
                 resource -= tumorCost;
@@ -406,6 +416,7 @@ void game() {
               for(auto&& hit : burst(burstRadius,vesselCount)) {
                 sca.addTarget(hit);
                 vesselAdded = true;
+                placedVessel = true;
               }
               if(vesselAdded)
                 resource -= vesselCost;
@@ -485,6 +496,27 @@ void game() {
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
     Bonus::drawAll(guiProgram,cam);
+    switch(tutoStep) { // Draw tutorial
+      case 0:
+        if(Time::now()-start>tutoDelay)
+          tutoStep = 1;
+        break;
+      case 1: // Camera movement
+        if(!movedCamera)
+          UI::drawTip(guiProgram,cam,tutorialCamera,tutoCameraPosition);
+        else tutoStep = 2;
+        break;
+      case 2: // Tumor
+        if(!placedTumor)
+          UI::drawTip(guiProgram,cam,tutorialTumor,tutoTumorPosition);
+        else tutoStep = 3;
+        break;
+      case 3: // Vessel
+        if(!placedVessel)
+          UI::drawTip(guiProgram,cam,tutorialVessel,tutoVesselPosition);
+        else tutoStep = 4;
+        break;
+    }
     UI::drawCursor(resource);
     // Fade
     float since(fadeTimer.since().fSeconds());
@@ -548,6 +580,10 @@ int main(int argc, char* argv[]) {
   irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
   irrigationSphereRadius = Conf::getFloat("irrigation_sphere_radius");
   ambientLevel = Conf::getFloat("ambient_level");
+  tutoDelay = Time(Conf::getFloat("tuto_delay")*1000000.f);
+  tutoCameraPosition = Conf::getPoint("tuto_camera_position");
+  tutoTumorPosition = Conf::getPoint("tuto_tumor_position");
+  tutoVesselPosition = Conf::getPoint("tuto_vessel_position");
   cam.reset(irrigationSphereCenter);
   // GUI initialization
   gui = new GUI::RelativeContainer(Point2i(Window::width(),Window::height()));

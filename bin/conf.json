@@ -75,6 +75,11 @@
 	"chemo_budding_factor": 0,
 	"chemo_budding_curve": 1,
 	
+	"tuto_delay": 2,
+	"tuto_camera_position": "9,54,176",
+	"tuto_tumor_position": "9,54,176",
+	"tuto_vessel_position": "9,54,176",
+	
 	"bonuses":[
 		{
 			"icon": "Image/Bonus/tumor.png",
