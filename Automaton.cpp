@@ -4,7 +4,7 @@ using namespace L;
 using namespace GL;
 
 Array<Automaton*> Automaton::_automata;
-L::Buffer<65536,Voxel> Automaton::_buffer;
+L::StaticRing<65536,Voxel> Automaton::_buffer;
 L::Timer Automaton::_timer;
 
 void Automaton::yield() {

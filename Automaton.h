@@ -21,7 +21,7 @@ class Automaton {
     int _size;
 
     static L::Array<Automaton*> _automata;
-    static L::Buffer<65536,Voxel> _buffer;
+    static L::StaticRing<65536,Voxel> _buffer;
     static L::Timer _timer;
     static void yield();
 
