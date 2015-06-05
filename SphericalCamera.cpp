@@ -51,7 +51,7 @@ bool SphericalCamera::update(World& world, float deltaTime) {
   float forwardDotUp(forward().dot(Point3f(0,1,0))), forwardDotForward(forward().dot(Point3f(0,0,1)));
   if(world.spherecast(position(),4) || forwardDotUp>.99f || forwardDotUp<-.99f || forwardDotForward<_minAngle)
     position(oldPosition);
-  return _speed.norm()>.1f;
+  return _speed.norm()>.5f;
 }
 void SphericalCamera::event(World& world, const L::Window::Event& e) {
   static int x, y;
