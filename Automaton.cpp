@@ -16,8 +16,8 @@ void Automaton::yield() {
 Automaton::Automaton(World& world, Process process, float vps, const Time& end)
   : _world(world), _process(process), _vps(vps), _factor(0), _end(end), _shouldStop(false), _size(0) {}
 void Automaton::include(const L::Point3i& p) {
-  _nextZone.add(p-Point3i(1,1,1));
-  _nextZone.add(p+Point3i(1,1,1));
+  _nextZone.add(p-Point3i(2,2,2));
+  _nextZone.add(p+Point3i(2,2,2));
 }
 void Automaton::update() {
   _zone = _nextZone;
