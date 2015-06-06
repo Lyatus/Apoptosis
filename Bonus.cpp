@@ -2,6 +2,7 @@
 
 #include "Conf.h"
 #include "Game.h"
+#include "main.h"
 
 using namespace L;
 
@@ -10,7 +11,7 @@ Map<String,Ref<GL::Texture> > Bonus::_images;
 
 Bonus::Bonus(const L::Dynamic::Var& v)
   : _position(Conf::getPointFrom(v["position"])),
-    _end(0),
+    _duration(0), _end(0),
     _active(false), _timed(false) {
   if(v.as<Dynamic::Node>().has("icon")) {
     if(!_images.has(v["icon"].as<String>()))
@@ -20,6 +21,11 @@ Bonus::Bonus(const L::Dynamic::Var& v)
   if(v.as<Dynamic::Node>().has("duration")) {
     _timed = true;
     _duration = Time(v["duration"].as<float>()*1000000.f);
+  }
+  if(v.as<Dynamic::Node>().has("tumors")) {
+    const Dynamic::Array& tumors(v["tumors"].as<Dynamic::Array>());
+    for(int i(0); i<tumors.size(); i++)
+      _tumors.push(Conf::getPointFrom(tumors[i]));
   }
   const Dynamic::Array& modifications(v["modifications"].as<Dynamic::Array>());
   for(int i(0); i<modifications.size(); i++) {
@@ -44,6 +50,8 @@ void Bonus::update(World& world) {
 }
 void Bonus::activate() {
   _active = true;
+  if(!_tumors.empty()) // In case it spawns tumors, activate only once
+    _timed = true;
   if(_timed && _end==0)
     _end = Time::now()+_duration;
   for(int i(0); i<_values.size(); i++)
@@ -55,6 +63,8 @@ void Bonus::activate() {
         *_values[i] *= _parameters[i];
         break;
     }
+  for(int i(0); i<_tumors.size(); i++)
+    startGrowth(_tumors[i]);
 }
 void Bonus::deactivate() {
   _active = false;

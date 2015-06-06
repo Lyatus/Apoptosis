@@ -96,6 +96,9 @@
 					"parameter": 0.25
 				}
 			]
+			"tumors":[
+				"19,85,169"
+			]
 		},
 		{
 			"icon": "Image/Bonus/vessel.png",
