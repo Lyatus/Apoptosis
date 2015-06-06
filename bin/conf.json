@@ -91,6 +91,7 @@
 					"parameter": 0.25
 				}
 			]
+		},
 		{
 			"icon": "Image/Bonus/vessel.png",
 			"position": "19,85,169",
@@ -223,10 +224,9 @@
 				}
 			]
 		},
-				{
+		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "2,77,172",
-			"modifications":
+			"position": "12,206,165",
 			"tumors":[
 				"-1,216,163",
 				"26,219,167"
@@ -313,7 +313,6 @@
 		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "-4,235,134",
-			"modifications":
 			"tumors":[
 				"-14,252,131",
 				"-19,239,132",
@@ -334,7 +333,6 @@
 		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "-30,240,134",
-			"modifications":
 			"tumors":[
 				"-38,229,142",
 				"-35,243,133"
