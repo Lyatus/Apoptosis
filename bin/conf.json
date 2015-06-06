@@ -110,7 +110,7 @@
 		},
 		{
 			"icon": "Image/Bonus/resource.png",
-			"position": "-1,93,168",
+			"position": "10,104,170",
 			"modifications":[
 				{
 					"value": "resource_speed",
