@@ -12,28 +12,29 @@ Map<String,Ref<GL::Texture> > Bonus::_images;
 Bonus::Bonus(const L::Dynamic::Var& v)
   : _position(Conf::getPointFrom(v["position"])),
     _duration(0), _end(0),
-    _active(false), _timed(false), _activated(false) {
+    _active(false), _timed(false) {
   if(v.as<Dynamic::Node>().has("icon")) {
     if(!_images.has(v["icon"].as<String>()))
       _image = _images[v["icon"].as<String>()] = new GL::Texture(Image::Bitmap(v["icon"].as<String>()));
     else _image = _images[v["icon"].as<String>()];
   } else _image = _images["default"];
-  if(v.as<Dynamic::Node>().has("duration")) {
-    _timed = true;
+  if(v.as<Dynamic::Node>().has("duration"))
     _duration = Time(v["duration"].as<float>()*1000000.f);
-  }
   if(v.as<Dynamic::Node>().has("tumors")) {
+    _duration = -1;
     const Dynamic::Array& tumors(v["tumors"].as<Dynamic::Array>());
     for(int i(0); i<tumors.size(); i++)
       _tumors.push(Conf::getPointFrom(tumors[i]));
   }
-  const Dynamic::Array& modifications(v["modifications"].as<Dynamic::Array>());
-  for(int i(0); i<modifications.size(); i++) {
-    _values.push(Game::value(modifications[i]["value"].as<String>()));
-    if(modifications[i]["operation"].as<String>()=="mult")
-      _operations.push(MULT);
-    else _operations.push(ADD);
-    _parameters.push(modifications[i]["parameter"].as<float>());
+  if(v.as<Dynamic::Node>().has("modifications")) {
+    const Dynamic::Array& modifications(v["modifications"].as<Dynamic::Array>());
+    for(int i(0); i<modifications.size(); i++) {
+      _values.push(Game::value(modifications[i]["value"].as<String>()));
+      if(modifications[i]["operation"].as<String>()=="mult")
+        _operations.push(MULT);
+      else _operations.push(ADD);
+      _parameters.push(modifications[i]["parameter"].as<float>());
+    }
   }
 }
 void Bonus::update(World& world) {
@@ -41,21 +42,23 @@ void Bonus::update(World& world) {
   bool tumored(world.spherecast(_position,8,[](Voxel voxel) {
     return voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR;
   }));
-  if(tumored && !_active)
-    activate();
-  else if(!tumored && _active)
-    deactivate();
-  if(_active && _timed && Time::now()>_end)
-    deactivate();
+  if(timed()) { // Timed bonus (or spawner)
+    if(tumored && !_active && !activated()) {
+      _end = Time::now()+_duration;
+      activate();
+    }
+    else if(_active && Time::now()>_end)
+      deactivate();
+  }
+  else{ // Classic bonus
+    if(tumored && !_active)
+      activate();
+    else if(!tumored && _active)
+      deactivate();
+  }
 }
 void Bonus::activate() {
-  _active = _activated = true;
-  if(_timed && _activated) // Don't activate timed bonuses twice
-    return;
-  if(!_tumors.empty()) // In case it spawns tumors, activate only once
-    _timed = true;
-  if(_timed && _end==0)
-    _end = Time::now()+_duration;
+  _active = true;
   for(int i(0); i<_values.size(); i++)
     switch(_operations[i]) {
       case ADD:

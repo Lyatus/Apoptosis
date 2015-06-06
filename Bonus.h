@@ -17,7 +17,7 @@ class Bonus {
     L::Array<L::Point3f> _tumors;
     L::Time _duration, _end;
     float _radius;
-    bool _active, _timed, _activated;
+    bool _active, _timed;
 
   public:
     Bonus() {}
@@ -26,6 +26,10 @@ class Bonus {
     void activate();
     void deactivate();
     void draw(L::GL::Program&, const L::GL::Camera&) const;
+
+    inline bool timed() const {return _duration!=0;}
+    inline bool spawner() const {return !_tumors.empty();}
+    inline bool activated() const {return _end!=0;}
 
     static void updateAll(World&);
     static void drawAll(L::GL::Program&,const L::GL::Camera&);
