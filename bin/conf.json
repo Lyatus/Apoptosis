@@ -86,20 +86,11 @@
 			"position": "2,77,172",
 			"modifications":[
 				{
-					"value": "growth_vps",
-					"operation": "add",
-					"parameter": -5
-				},
-				{
 					"value": "growth_duration",
 					"operation": "add",
 					"parameter": 0.25
 				}
 			]
-			"tumors":[
-				"19,85,169"
-			]
-		},
 		{
 			"icon": "Image/Bonus/vessel.png",
 			"position": "19,85,169",
@@ -107,7 +98,7 @@
 				{
 					"value": "vessel_cost",
 					"operation": "add",
-					"parameter": -0.05
+					"parameter": -0.1
 				}
 			]
 		},
@@ -118,7 +109,7 @@
 				{
 					"value": "resource_speed",
 					"operation": "add",
-					"parameter": 0.01
+					"parameter": 0.015
 				}
 			]
 		},
@@ -140,7 +131,7 @@
 				{
 					"value": "tumor_cost",
 					"operation": "add",
-					"parameter": -0.05
+					"parameter": -0.10
 				}
 			]
 		},
@@ -172,8 +163,8 @@
 			"modifications":[
 				{
 					"value": "growth_vps",
-					"operation": "mult",
-					"parameter": 1.2
+					"operation": "add",
+					"parameter": 3
 				}
 			]
 		},
@@ -217,7 +208,7 @@
 				{
 					"value": "vessel_cost",
 					"operation": "add",
-					"parameter": -0.025
+					"parameter": -0.01
 				}
 			]
 		},
@@ -230,6 +221,15 @@
 					"operation": "add",
 					"parameter": 0.50
 				}
+			]
+		},
+				{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "2,77,172",
+			"modifications":
+			"tumors":[
+				"-1,216,163",
+				"26,219,167"
 			]
 		},
 		{
@@ -250,28 +250,7 @@
 				{
 					"value": "growth_vps",
 					"operation": "add",
-					"parameter": 0.25
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/vessel.png",
-			"position": "12,205,157",
-			"modifications":[
-								{
-					"value": "vessel_budding_factor",
-					"operation": "add",
-					"parameter": 0.01
-				},
-								{
-					"value": "growth_duration",
-					"operation": "add",
-					"parameter": -2
-				},
-				{
-					"value": "resource_speed",
-					"operation": "add",
-					"parameter": 0.3
+					"parameter": 2
 				}
 			]
 		},
@@ -286,17 +265,7 @@
 				}
 			]
 		},
-		{
-			"icon": "Image/Bonus/resource.png",
-			"position": "54,232,154",
-			"modifications":[
-				{
-					"value": "resource_speed",
-					"operation": "add",
-					"parameter": 0.005
-				}
-			]
-		},
+
 		{
 			"icon": "Image/Bonus/resource.png",
 			"position": "-44,217,155",
@@ -305,6 +274,28 @@
 					"value": "resource_speed",
 					"operation": "add",
 					"parameter": 0.005
+				}
+			]
+		},
+				{
+			"icon": "Image/Bonus/vessel.png",
+			"position": "0,222,145",
+			"modifications":[
+				{
+					"value": "vessel_cost",
+					"operation": "add",
+					"parameter": -0.015
+				}
+			]
+		},
+		{
+			"icon": "Image/Bonus/vessel.png",
+			"position": "-28,229,132",
+			"modifications":[
+				{
+					"value": "vessel_cost",
+					"operation": "add",
+					"parameter": -0.015
 				}
 			]
 		},
@@ -320,6 +311,16 @@
 			]
 		},
 		{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "-4,235,134",
+			"modifications":
+			"tumors":[
+				"-14,252,131",
+				"-19,239,132",
+				"-11,226,138"
+			]
+		},
+		{
 			"icon": "Image/Bonus/resource.png",
 			"position": "-50,238,128",
 			"modifications":[
@@ -332,38 +333,21 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
+			"position": "-30,240,134",
+			"modifications":
+			"tumors":[
+				"-38,229,142",
+				"-35,243,133"
+			]
+		},
+		{
+			"icon": "Image/Bonus/tumor.png",
 			"position": "-70,242,134",
 			"modifications":[
 				{
 					"value": "growth_vps",
 					"operation": "add",
 					"parameter": 0.25
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/tumor.png",
-			"position": "22,231,141",
-			"modifications":[
-				{
-					"value": "budding_factor",
-					"operation": "add",
-					"parameter": 1
-				},
-				{
-					"value": "budding_vps",
-					"operation": "add",
-					"parameter": -10
-				},
-				{
-					"value": "budding_count",
-					"operation": "add",
-					"parameter": 1
-				},
-				{
-					"value": "budding_duration",
-					"operation": "add",
-					"parameter": -1
 				}
 			]
 		},
@@ -380,12 +364,23 @@
 		},
 		{
 			"icon": "Image/Bonus/vessel.png",
-			"position": "0,222,145",
+			"position": "-37,248,134",
 			"modifications":[
 				{
 					"value": "vessel_cost",
 					"operation": "add",
-					"parameter": -0.025
+					"parameter": -0.015
+				}
+			]
+		},
+		{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "-81,263,150",
+			"modifications":[
+				{
+					"value": "growth_vps",
+					"operation": "add",
+					"parameter": 0.25
 				}
 			]
 		},
@@ -396,66 +391,7 @@
 				{
 					"value": "vessel_cost",
 					"operation": "add",
-					"parameter": -0.025
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/tumor.png",
-			"position": "20,269,140",
-			"modifications":[
-				{
-					"value": "budding_factor",
-					"operation": "add",
-					"parameter": 1
-				},
-				{
-					"value": "budding_vps",
-					"operation": "add",
-					"parameter": 0
-				},
-				{
-					"value": "budding_count",
-					"operation": "add",
-					"parameter": 1
-				},
-				{
-					"value": "budding_duration",
-					"operation": "add",
-					"parameter": -1
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/vessel.png",
-			"position": "-28,229,132",
-			"modifications":[
-				{
-					"value": "vessel_cost",
-					"operation": "add",
-					"parameter": -0.025
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/vessel.png",
-			"position": "-37,248,134",
-			"modifications":[
-				{
-					"value": "vessel_cost",
-					"operation": "add",
-					"parameter": -0.025
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/tumor.png",
-			"position": "-81,263,150",
-			"modifications":[
-				{
-					"value": "growth_vps",
-					"operation": "mult",
-					"parameter": 1.2
+					"parameter": -0.015
 				}
 			]
 		}
@@ -485,6 +421,12 @@
 			"time": 8,
 			"operation": "vessel",
 			"position": "0,60,175"
+		},
+		{
+			"time": 99180,
+			"value": "growth_vps",
+			"operation": "add",
+			"parameter": -5
 		},
 		{
 			"time": 99180,
