@@ -12,7 +12,7 @@ Map<String,Ref<GL::Texture> > Bonus::_images;
 Bonus::Bonus(const L::Dynamic::Var& v)
   : _position(Conf::getPointFrom(v["position"])),
     _duration(0), _end(0),
-    _active(false), _timed(false) {
+    _active(false), _timed(false), _activated(false) {
   if(v.as<Dynamic::Node>().has("icon")) {
     if(!_images.has(v["icon"].as<String>()))
       _image = _images[v["icon"].as<String>()] = new GL::Texture(Image::Bitmap(v["icon"].as<String>()));
@@ -49,7 +49,9 @@ void Bonus::update(World& world) {
     deactivate();
 }
 void Bonus::activate() {
-  _active = true;
+  _active = _activated = true;
+  if(_timed && _activated) // Don't activate timed bonuses twice
+    return;
   if(!_tumors.empty()) // In case it spawns tumors, activate only once
     _timed = true;
   if(_timed && _end==0)
