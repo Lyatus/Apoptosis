@@ -47,8 +47,8 @@
 
 	"growth_vps": 20,
 	"growth_duration": 3,
-	"growth_start_radius": 1,
-	"growth_count": 4,
+	"growth_start_radius": 1.2,
+	"growth_count": 10,
 	
 	"thirst_vps": 20,
 	"thirst_appearance_factor": 1,
@@ -308,7 +308,7 @@
 		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "-4,235,134",
-			"duration": 6,
+			"duration": 7,
 			"tumors":[
 				"-14,252,131",
 				"-19,239,132",
@@ -322,7 +322,6 @@
 				}]
 		},
 		{
-			"icon": "Image/Bonus/tumor.png",
 			"position": "-17,252,130",
 			"tumors":[
 				"-17,265,133",
@@ -343,7 +342,6 @@
 			]
 		},
 		{
-			"icon": "Image/Bonus/tumor.png",
 			"position": "-23,240,131",
 			"tumors":[
 				"-38,229,142",
@@ -397,28 +395,34 @@
 		{
 			"icon": "Image/Bonus/vessel.png",
 			"position": "-39,267,139",
-			"duration":20
+			"duration":30
 			"modifications":[
-								{
+				{
 					"value": "vessel_budding_factor",
 					"operation": "add",
 					"parameter": 0.01
 				},
-								{
+				{
 					"value": "growth_duration",
 					"operation": "add",
-					"parameter": -2.75
+					"parameter": -2
 				},
-								{
+				{
 					"value": "growth_vps",
 					"operation": "add",
-					"parameter": -10
+					"parameter": -5
 				},
 				{
 					"value": "resource_speed",
 					"operation": "add",
-					"parameter": 0.35
+					"parameter": 0.8
+				},
+				{
+					"value": "growth_count",
+					"operation": "add",
+					"parameter": +20
 				}
+				
 			]
 		}
 	],
@@ -455,7 +459,7 @@
 			"parameter": -5
 		},
 		{
-			"time": 180,
+			"time": 99180,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": 2
@@ -509,7 +513,7 @@
 			"parameter": 1
 		},
 		{
-			"time": 310,
+			"time": 99310,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": -2
