@@ -17,7 +17,7 @@ Bonus::Bonus(const L::Dynamic::Var& v)
     if(!_images.has(v["icon"].as<String>()))
       _image = _images[v["icon"].as<String>()] = new GL::Texture(Image::Bitmap(v["icon"].as<String>()));
     else _image = _images[v["icon"].as<String>()];
-  } else _image = _images["default"];
+  }
   if(v.as<Dynamic::Node>().has("duration"))
     _duration = Time(v["duration"].as<float>()*1000000.f);
   if(v.as<Dynamic::Node>().has("tumors")) {
@@ -83,6 +83,7 @@ void Bonus::deactivate() {
     }
 }
 void Bonus::draw(L::GL::Program& program, const L::GL::Camera& cam) const {
+  if(_image.null()) return; // There's nothing to draw (default cat pictures are not appreciated)
   Point2f screenCenter;
   if(cam.worldToScreen(_position,screenCenter)) {
     Point3f worldTL(_position-cam.right()*4+cam.up()*4);
