@@ -42,7 +42,7 @@ float irrigationRadius;
 Point3f irrigationSphereCenter;
 float irrigationSphereRadius;
 
-float growthVPS, growthDuration, growthStartRadius;
+float growthVPS, growthDuration, growthStartRadius, growthCount;
 float thirstVPS, thirstAppearanceFactor;
 float chemoVPS, chemoPropagationFactor, chemoOrganFactor, chemoDuration, chemoDisappearanceFactor, chemoCount;
 float buddingVPS, buddingDuration, buddingMinY, buddingCount, buddingMaxDistance;
@@ -391,7 +391,7 @@ void game() {
       if(event.type == Window::Event::BUTTONDOWN)
         switch(event.button) {
           case Window::Event::LBUTTON:
-            if(resource>tumorCost && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
+            if(resource>tumorCost && !Automaton::has(growth,growthCount) && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
               if(!isTumor(world.voxel(hit.x(),hit.y(),hit.z()))) {
                 SCA::Branch* branch(sca.nearest(hit,irrigationRadius+autoaimRadius));
                 if(branch!=NULL) {
@@ -547,6 +547,7 @@ int main(int argc, char* argv[]) {
   Game::registerValue("growth_vps",&growthVPS);
   Game::registerValue("growth_duration",&growthDuration);
   Game::registerValue("growth_start_radius",&growthStartRadius);
+  Game::registerValue("growth_count",&growthCount);
   Game::registerValue("thirst_vps",&thirstVPS);
   Game::registerValue("thirst_appearance_factor",&thirstAppearanceFactor);
   Game::registerValue("chemo_vps",&chemoVPS);
