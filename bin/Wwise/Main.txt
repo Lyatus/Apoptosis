@@ -1,12 +1,21 @@
 Event	ID	Name			Wwise Object Path	Notes
+	280537711	lol_event			\Default Work Unit\Amb-Music\lol_event	
 	315054063	Tumor_start			\Default Work Unit\Actions\Tumor_start	
-	645030294	lol_music			\Default Work Unit\Amb-Music\lol_music	
+	626662343	Automaton_end			\Default Work Unit\Actions\Automaton_end	
 	1365727304	Tumor_wrong			\Default Work Unit\Actions\Tumor_wrong	
 	2095930298	General_start			\Default Work Unit\Amb-Music\General_start	
+	2959387200	Thirst_start			\Default Work Unit\Actions\Thirst_start	
 	3212785023	Music_event_1			\Default Work Unit\Amb-Music\Music_event_1	
-	3379246069	Tumor_stop			\Default Work Unit\Actions\Tumor_stop	
 	4037692801	Tumor_right			\Default Work Unit\Actions\Tumor_right	
 	4179009848	Voice_event_1			\Default Work Unit\Narration\Voice_event_1	
+
+State Group	ID	Name			Wwise Object Path	Notes
+	4233958113	tumor_in_out			\Default Work Unit\tumor_in_out	
+
+State	ID	Name	State Group			Notes
+	645492555	out	tumor_in_out			
+	748895195	None	tumor_in_out			
+	1752637612	in	tumor_in_out			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	2068220409	Circle_gauge			\Default Work Unit\Circle_gauge	
@@ -31,4 +40,5 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	870835506	Tumor_wrong	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\FeedB_click_tumor_wrong_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_wrong		12468
 	879796040	Bubble3	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble3_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble3		28869
 	903042498	Rumble	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Underwater_Rumble_22F7C9A0.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Rumble		6387544
+	968364274	Tumor_life	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\lava_bubbling_cut_FE74E139.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_life		658140
 

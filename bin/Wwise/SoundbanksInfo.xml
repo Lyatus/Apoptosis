@@ -18,12 +18,13 @@
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<IncludedEvents>
+				<Event Id="626662343" Name="Automaton_end"/>
 				<Event Id="2095930298" Name="General_start"/>
-				<Event Id="645030294" Name="lol_music"/>
+				<Event Id="280537711" Name="lol_event"/>
 				<Event Id="3212785023" Name="Music_event_1"/>
+				<Event Id="2959387200" Name="Thirst_start"/>
 				<Event Id="4037692801" Name="Tumor_right"/>
 				<Event Id="315054063" Name="Tumor_start"/>
-				<Event Id="3379246069" Name="Tumor_stop"/>
 				<Event Id="1365727304" Name="Tumor_wrong"/>
 				<Event Id="4179009848" Name="Voice_event_1"/>
 			</IncludedEvents>
@@ -87,6 +88,10 @@
 				<File Id="903042498" Language="SFX">
 					<ShortName>Underwater_Rumble.wav</ShortName>
 					<Path>SFX\Underwater_Rumble_22F7C9A0.wem</Path>
+				</File>
+				<File Id="968364274" Language="SFX">
+					<ShortName>lava_bubbling_cut.wav</ShortName>
+					<Path>SFX\lava_bubbling_cut_FE74E139.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>
