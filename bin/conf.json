@@ -81,7 +81,7 @@
 	"tuto_tumor_position": "-1,69,178",
 	"tuto_vessel_position": "0,76,175",
 	
-	"bonus_active_color": "#FFFFFF88",
+	"bonus_active_color": "#B2000088",
 	"bonus_inactive_color": "#FFFFFF",
 	"bonus_expired_color": "#00000000",
 	"bonuses":[
@@ -459,7 +459,7 @@
 			"parameter": -5
 		},
 		{
-			"time": 99180,
+			"time": 180,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": 2
@@ -513,7 +513,7 @@
 			"parameter": 1
 		},
 		{
-			"time": 99310,
+			"time": 310,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": -2
