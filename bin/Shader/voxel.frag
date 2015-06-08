@@ -34,7 +34,7 @@ void main(){
 	//normal = normalize(tangentMatrix*((2*triplanar(normalMap,overtex.xyz/32.0,onormal).xyz)-1));
 	
 	// Texture mapping
-	vec4 textureColor = triplanar(texture,overtex.xyz/128.0,normal);
+	vec4 textureColor = triplanar(texture,overtex.xyz/32.0,normal);
 	//textureColor = vec3(1.0,1.0,1.0);
 	
 	// Lighting

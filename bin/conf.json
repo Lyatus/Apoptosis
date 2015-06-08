@@ -14,12 +14,12 @@
 
 	"ambient_level": 0.7,
 	"intro_background": "#ffffff",
-	"background": "#cab7fe",
+	"background": "#ffffff",
 	
-	"cursor_radius": 32,
-	"cursor_point_color": "#000000ff",
-	"background_disk_color": "#ffffff44",
-	"inner_disk_color": "#B28F0066",
+	"cursor_radius": 45,
+	"cursor_point_color": "#ffffffff",
+	"background_disk_color": "#2f3f9264",
+	"inner_disk_color": "#ff005466",
 	
 	"tumor": "#ff0054",
 	"tumor_thirsty": "#e47d6e",
