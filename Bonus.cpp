@@ -21,7 +21,8 @@ Bonus::Bonus(const L::Dynamic::Var& v)
   if(v.as<Dynamic::Node>().has("duration"))
     _duration = Time(v["duration"].as<float>()*1000000.f);
   if(v.as<Dynamic::Node>().has("tumors")) {
-    _duration = -1;
+    if(_duration==0)
+      _duration = -1;
     const Dynamic::Array& tumors(v["tumors"].as<Dynamic::Array>());
     for(int i(0); i<tumors.size(); i++)
       _tumors.push(Conf::getPointFrom(tumors[i]));
@@ -46,11 +47,9 @@ void Bonus::update(World& world) {
     if(tumored && !_active && !activated()) {
       _end = Time::now()+_duration;
       activate();
-    }
-    else if(_active && Time::now()>_end)
+    } else if(_active && Time::now()>_end)
       deactivate();
-  }
-  else{ // Classic bonus
+  } else { // Classic bonus
     if(tumored && !_active)
       activate();
     else if(!tumored && _active)
