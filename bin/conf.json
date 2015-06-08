@@ -313,6 +313,14 @@
 		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "-4,235,134",
+			"duration": 10,
+			"modifications":[
+				{
+					"value": "vessel_budding_factor",
+					"operation": "add",
+					"parameter": 1
+				}
+			]
 			"tumors":[
 				"-14,252,131",
 				"-19,239,132",
@@ -332,7 +340,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "-30,240,134",
+			"position": "-23,240,131",
 			"tumors":[
 				"-38,229,142",
 				"-35,243,133"
