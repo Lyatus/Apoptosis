@@ -8,6 +8,7 @@ class Bonus {
   private:
     static L::Array<Bonus> _bonuses;
     static L::Map<L::String,L::Ref<L::GL::Texture> > _images;
+    static L::Color _activeColor, _inactiveColor, _expiredColor;
     typedef enum {ADD,MULT} Operation;
     L::Point3f _position;
     L::Ref<L::GL::Texture> _image;

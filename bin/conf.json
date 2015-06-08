@@ -81,6 +81,9 @@
 	"tuto_tumor_position": "-1,69,178",
 	"tuto_vessel_position": "0,76,175",
 	
+	"bonus_active_color": "#FFFFFF88",
+	"bonus_inactive_color": "#FFFFFF",
+	"bonus_expired_color": "#00000000",
 	"bonuses":[
 		{
 			"icon": "Image/Bonus/tumor.png",

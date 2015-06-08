@@ -8,6 +8,7 @@ using namespace L;
 
 Array<Bonus> Bonus::_bonuses;
 Map<String,Ref<GL::Texture> > Bonus::_images;
+Color Bonus::_activeColor, Bonus::_inactiveColor, Bonus::_expiredColor;
 
 Bonus::Bonus(const L::Dynamic::Var& v)
   : _position(Conf::getPointFrom(v["position"])),
@@ -93,11 +94,11 @@ void Bonus::draw(L::GL::Program& program, const L::GL::Camera& cam) const {
     screenOffset = Window::normalizedToPixels(screenOffset);
     screenOffset -= screenCenter;
     if(_active)
-      GL::color(Color(255,255,255,128));
+      GL::color(_activeColor);
     else if(_end!=0)
-      GL::color(Color(255,0,0,128));
+      GL::color(_expiredColor);
     else
-      GL::color(Color::white);
+      GL::color(_inactiveColor);
     program.uniform("texture",*_image);
     glBegin(GL_QUADS);
     glTexCoord2f(0,0);
@@ -142,4 +143,7 @@ void Bonus::configure() {
   const Dynamic::Array& bonuses(Conf::get()["bonuses"].as<Dynamic::Array>());
   for(int i(0); i<bonuses.size(); i++)
     _bonuses.push(bonuses[i]);
+  _activeColor = Conf::getColor("bonus_active_color");
+  _inactiveColor = Conf::getColor("bonus_inactive_color");
+  _expiredColor = Conf::getColor("bonus_expired_color");
 }
