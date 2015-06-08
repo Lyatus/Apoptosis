@@ -30,6 +30,7 @@
 	"camera_min_angle": .45,
 	"camera_min_fovy": 40,
 	"camera_max_fovy": 80,
+	"audio_viewport_radius": 16,
 	
 	"sca_drag_factor": .5,
 	"sca_random_factor": 0.5,
@@ -42,7 +43,6 @@
 	"burst_radius": 8,
 
 	"irrigation_sphere_center": "0,60,185",
-	"irrigation_sphere_radius": 32,
 	"irrigation_radius": 7,
 
 	"growth_vps": 20,

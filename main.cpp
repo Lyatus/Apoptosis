@@ -358,7 +358,7 @@ void game() {
     // Update world
     world.update();
     // Update Wwise
-    Wwise::listen(cam);
+    Wwise::listen(cam.listenerPosition(),cam.forward(),cam.up());
     Wwise::rtpc("Circle_gauge",resource);
     Wwise::rtpc("Time_passing",(Time::now()-start).fSeconds());
     Wwise::update();
@@ -381,6 +381,7 @@ void game() {
                     "cursor position: "+ToString((Point3i)hit)+"\n"
                     "cursor distance: "+ToString(hit.dist(cam.position()))+"\n"
                     "distance to bonus: "+ToString(Bonus::distanceToInactive(hit))+"\n"
+                    "listener distance: "+ToString(cam.listenerDistance())+"\n"
                     "time: "+Time::format("%M:%S",Time::now()-start)+"\n"
                     "fps: "+ToString(1/deltaTime)+"\n");
       else text->sText("");
@@ -578,7 +579,6 @@ int main(int argc, char* argv[]) {
   introDarkDuration = Conf::getFloat("intro_dark_duration");
   gameFadeDuration = Conf::getFloat("game_fade_duration");
   irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
-  irrigationSphereRadius = Conf::getFloat("irrigation_sphere_radius");
   ambientLevel = Conf::getFloat("ambient_level");
   tutoDelay = Time(Conf::getFloat("tuto_delay")*1000000.f);
   tutoCameraPosition = Conf::getPoint("tuto_camera_position");

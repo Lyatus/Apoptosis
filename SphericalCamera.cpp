@@ -4,7 +4,7 @@
 
 using namespace L;
 
-float SphericalCamera::_minAngle, SphericalCamera::_minFovy, SphericalCamera::_maxFovy, SphericalCamera::_minFovx, SphericalCamera::_maxFovx;
+float SphericalCamera::_minAngle, SphericalCamera::_minFovy, SphericalCamera::_maxFovy, SphericalCamera::_minFovx, SphericalCamera::_maxFovx, SphericalCamera::_audioViewportRadius;
 
 void SphericalCamera::reset(const L::Point3f& point) {
   _interval.clear();
@@ -72,4 +72,5 @@ void SphericalCamera::configure() {
   _maxFovy = Conf::getFloat("camera_max_fovy");
   _minFovx = _minFovy*Window::aspect();
   _maxFovx = _maxFovy*Window::aspect();
+  _audioViewportRadius = Conf::getFloat("audio_viewport_radius");
 }
