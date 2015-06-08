@@ -116,7 +116,7 @@
 		},
 		{
 			"icon": "Image/Bonus/vessel.png",
-			"position": "0,114,163",
+			"position": "0,114,166",
 			"modifications":[
 				{
 					"value": "vessel_count",
@@ -127,12 +127,12 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "19,126,161",
+			"position": "19,126,160",
 			"modifications":[
 				{
 					"value": "tumor_cost",
 					"operation": "add",
-					"parameter": -0.05
+					"parameter": -0.03
 				}
 			]
 		},
@@ -171,7 +171,7 @@
 		},
 		{
 			"icon": "Image/Bonus/vessel.png",
-			"position": "1,163,159",
+			"position": "1,163,158",
 			"modifications":[
 				{
 					"value": "vessel_cost",
@@ -182,7 +182,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "-30,174,156",
+			"position": "-30,174,155",
 			"modifications":[
 				{
 					"value": "tumor_cost",
@@ -248,7 +248,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "-3,264,135",
+			"position": "-3,264,134",
 			"modifications":[
 				{
 					"value": "growth_vps",
@@ -303,17 +303,6 @@
 			]
 		},
 		{
-			"icon": "Image/Bonus/vessel.png",
-			"position": "-64,232,149",
-			"modifications":[
-				{
-					"value": "resource_speed",
-					"operation": "add",
-					"parameter": 0.005
-				}
-			]
-		},
-		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "-4,235,134",
 			"duration": 4
@@ -360,7 +349,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "-70,242,134",
+			"position": "-70,242,133",
 			"modifications":[
 				{
 					"value": "growth_duration",
@@ -404,15 +393,26 @@
 		},
 		{
 			"icon": "Image/Bonus/vessel.png",
-			"position": "-39,267,140",
+			"position": "-39,267,139",
+			"duration":25
 			"modifications":[
-				{
-					"value": "vessel_cost",
+								{
+					"value": "vessel_budding_factor",
 					"operation": "add",
-					"parameter": -0.015
+					"parameter": 0.01
+				},
+								{
+					"value": "growth_duration",
+					"operation": "add",
+					"parameter": -1.5
+				},
+				{
+					"value": "resource_speed",
+					"operation": "add",
+					"parameter": 0.35
 				}
 			]
-		}
+		},
 	],
 	"events":[
 		{
@@ -462,19 +462,19 @@
 			"time": 180,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": 4
+			"parameter": 3
 		},
 		{
 			"time": 215,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": -4
+			"parameter": -3
 		},
 		{
 			"time": 222,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": 4
+			"parameter": 3
 		},
 		{
 			"time": 260,
@@ -486,19 +486,19 @@
 			"time": 265,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": -4
+			"parameter": -3
 		},
 		{
 			"time": 275,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": 4
+			"parameter": 3
 		},
 		{
 			"time": 305,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": 3
+			"parameter": 1
 		},
 		{
 			"time": 310,
