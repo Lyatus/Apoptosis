@@ -10,6 +10,7 @@
 #include "Conf.h"
 #include "Event.h"
 #include "Game.h"
+#include "Resource.h"
 #include "SCA.h"
 #include "shapes.h"
 #include "SphericalCamera.h"
@@ -28,7 +29,7 @@ SphericalCamera cam;
 
 // Graphic configuration
 float ambientLevel;
-bool displayAutomata(false), displayVessels(true), displayTargets(false), debugText(true);
+bool displayAutomata(false), displayVessels(true), displayTargets(false), debugText(false);
 float automataTPF, searchTPF;
 // GUI configuration
 float menuFadeDuration, gameFadeDuration, introDarkDuration;
@@ -326,7 +327,7 @@ void game() {
   clearcolor(Conf::getColor("background"));
   // Light initialization
   GL::Light light;
-  light.position(-1,1,-1,0);
+  light.position(-1,2,-1,0);
   // Programs initialization
   GL::Program voxelProgram(GL::Shader(File("Shader/voxel.vert"),GL_VERTEX_SHADER),
                            GL::Shader(File("Shader/voxel.frag"),GL_FRAGMENT_SHADER));
@@ -336,14 +337,13 @@ void game() {
                            GL::Shader(File("Shader/debug.frag"),GL_FRAGMENT_SHADER));
   GL::Program guiProgram(GL::Shader(File("Shader/gui.vert"),GL_VERTEX_SHADER),
                          GL::Shader(File("Shader/gui.frag"),GL_FRAGMENT_SHADER));
-  GL::Program ppProgram(GL::Shader(File("Shader/pp.vert"),GL_VERTEX_SHADER),
-                        GL::Shader(File("Shader/pp.frag"),GL_FRAGMENT_SHADER));
+  Ref<GL::Program> ppProgram(Resource::program("Shader/pp"));
   GL::PostProcess pp(Window::width(),Window::height());
   // Textures fetching
-  GL::Texture voxelTexture(Image::Bitmap(Conf::getString("texture_path")));
-  Ref<GL::Texture> tutorialCamera(new GL::Texture(Image::Bitmap("Image/Tutorial/camera.png")));
-  Ref<GL::Texture> tutorialTumor(new GL::Texture(Image::Bitmap("Image/Tutorial/tumor.png")));
-  Ref<GL::Texture> tutorialVessel(new GL::Texture(Image::Bitmap("Image/Tutorial/vessel.png")));
+  Ref<GL::Texture> voxelTexture(Resource::texture(Conf::getString("texture_path")));
+  Ref<GL::Texture> tutorialCamera(Resource::texture("Image/Tutorial/camera.png"));
+  Ref<GL::Texture> tutorialTumor(Resource::texture("Image/Tutorial/tumor.png"));
+  Ref<GL::Texture> tutorialVessel(Resource::texture("Image/Tutorial/vessel.png"));
   // GUI initialization
   Point3f hit;
   GUI::Text* text(new GUI::Text());
@@ -391,28 +391,18 @@ void game() {
       if(event.type == Window::Event::BUTTONDOWN)
         switch(event.button) {
           case Window::Event::LBUTTON:
-            if(resource>tumorCost && !Automaton::has(growth,growthCount) && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
-              if(!isTumor(world.voxel(hit.x(),hit.y(),hit.z()))) {
-                SCA::Branch* branch(sca.nearest(hit,irrigationRadius+autoaimRadius));
-                if(branch!=NULL) {
-                  Point3f inc(branch->position()-hit);
-                  int maxi(inc.norm()*2);
-                  inc.normalize();
-                  inc *= .5f;
-                  for(int i(0); i<maxi && !isTumor(world.voxel(hit.x(),hit.y(),hit.z())); i++)
-                    hit += inc;
-                }
-              }
-              if(world.voxel(hit.x(),hit.y(),hit.z()).type()!=Voxel::ORGAN) {
-                placedTumor = true;
-                Wwise::postEvent("Tumor_right");
-                startGrowth(hit);
-                resource -= tumorCost;
-              } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
-            } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
+            if(tumorCost<resource && !Automaton::has(growth,growthCount) && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)
+            &&  world.spherecast(hit,4,[](Voxel v) {return v.type()==Voxel::ORGAN;})
+            && sca.distance(hit,autoaimRadius)<autoaimRadius) {
+              placedTumor = true;
+              Wwise::postEvent("Tumor_right");
+              startGrowth(hit);
+              resource -= tumorCost;
+            }
+            else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             break;
           case Window::Event::RBUTTON:
-            if(resource>vesselCost) {
+            if(vesselCost<resource) {
               bool vesselAdded(false);
               for(auto&& hit : burst(burstRadius,vesselCount)) {
                 sca.addTarget(hit);
@@ -472,7 +462,7 @@ void game() {
     voxelProgram.uniform("time",(Time::now()-start).fSeconds());
     voxelProgram.uniform("view",cam.view());
     voxelProgram.uniform("projection",cam.projection());
-    voxelProgram.uniform("texture",voxelTexture,GL_TEXTURE0);
+    voxelProgram.uniform("texture",*voxelTexture,GL_TEXTURE0);
     voxelProgram.uniform("eye",cam.position());
     voxelProgram.uniform("sphereCenter",cam.center());
     voxelProgram.uniform("sphereRadius",cam.radius()*.75f);
@@ -483,15 +473,15 @@ void game() {
     //GL::Utils::drawAxes();
     if(displayAutomata)
       Automaton::drawAll();
-    glDisable(GL_DEPTH_TEST);
     polyProgram.use();
     polyProgram.uniform("view",cam.view());
     polyProgram.uniform("projection",cam.projection());
+    glDisable(GL_DEPTH_TEST);
     if(displayVessels)
       sca.draw();
     if(displayTargets)
       sca.drawTargets();
-    pp.postrender(ppProgram);
+    pp.postrender(*ppProgram);
     glDisable(GL_DEPTH_TEST); // Start drawing GUI
     guiProgram.use();
     guiProgram.uniform("projection",guicam.projection());
