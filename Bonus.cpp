@@ -3,22 +3,19 @@
 #include "Conf.h"
 #include "Game.h"
 #include "main.h"
+#include "Resource.h"
 
 using namespace L;
 
 Array<Bonus> Bonus::_bonuses;
-Map<String,Ref<GL::Texture> > Bonus::_images;
 Color Bonus::_activeColor, Bonus::_inactiveColor, Bonus::_expiredColor;
 
 Bonus::Bonus(const L::Dynamic::Var& v)
   : _position(Conf::getPointFrom(v["position"])),
     _duration(0), _end(0),
     _active(false), _timed(false) {
-  if(v.as<Dynamic::Node>().has("icon")) {
-    if(!_images.has(v["icon"].as<String>()))
-      _image = _images[v["icon"].as<String>()] = new GL::Texture(Image::Bitmap(v["icon"].as<String>()));
-    else _image = _images[v["icon"].as<String>()];
-  }
+  if(v.as<Dynamic::Node>().has("icon"))
+    _image = Resource::texture(v["icon"].as<String>());
   if(v.as<Dynamic::Node>().has("duration"))
     _duration = Time(v["duration"].as<float>()*1000000.f);
   if(v.as<Dynamic::Node>().has("tumors")) {
@@ -83,8 +80,9 @@ void Bonus::deactivate() {
         break;
     }
 }
-void Bonus::draw(L::GL::Program& program, const L::GL::Camera& cam) const {
+void Bonus::draw(L::GL::Program& program, const SphericalCamera& cam) const {
   if(_image.null()) return; // There's nothing to draw (default cat pictures are not appreciated)
+  if(_position.dist(cam.center())>cam.radius()*.75f) return;
   Point2f screenCenter;
   if(cam.worldToScreen(_position,screenCenter)) {
     Point3f worldTL(_position-cam.right()*4+cam.up()*4);
@@ -117,7 +115,7 @@ void Bonus::updateAll(World& world) {
     bonus.update(world);
   });
 }
-void Bonus::drawAll(L::GL::Program& program, const L::GL::Camera& cam) {
+void Bonus::drawAll(L::GL::Program& program, const SphericalCamera& cam) {
   _bonuses.foreach([&program,&cam](const Bonus& bonus) {
     bonus.draw(program,cam);
   });
@@ -139,7 +137,6 @@ float Bonus::distanceToInactive(const Point3f& p) {
   return sqrt(mag);
 }
 void Bonus::configure() {
-  _images["default"] = new GL::Texture(Image::Bitmap("Image/chat.png"));
   const Dynamic::Array& bonuses(Conf::get()["bonuses"].as<Dynamic::Array>());
   for(int i(0); i<bonuses.size(); i++)
     _bonuses.push(bonuses[i]);

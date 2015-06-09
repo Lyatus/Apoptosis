@@ -3,11 +3,11 @@
 
 #include <L/L.h>
 #include "World.h"
+#include "SphericalCamera.h"
 
 class Bonus {
   private:
     static L::Array<Bonus> _bonuses;
-    static L::Map<L::String,L::Ref<L::GL::Texture> > _images;
     static L::Color _activeColor, _inactiveColor, _expiredColor;
     typedef enum {ADD,MULT} Operation;
     L::Point3f _position;
@@ -26,14 +26,14 @@ class Bonus {
     void update(World&);
     void activate();
     void deactivate();
-    void draw(L::GL::Program&, const L::GL::Camera&) const;
+    void draw(L::GL::Program&, const SphericalCamera&) const;
 
     inline bool timed() const {return _duration!=0;}
     inline bool spawner() const {return !_tumors.empty();}
     inline bool activated() const {return _end!=0;}
 
     static void updateAll(World&);
-    static void drawAll(L::GL::Program&,const L::GL::Camera&);
+    static void drawAll(L::GL::Program&,const SphericalCamera&);
     static float distanceToActive(const L::Point3f&);
     static float distanceToInactive(const L::Point3f&);
     static void configure();
