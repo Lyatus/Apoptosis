@@ -7,7 +7,7 @@
 
 class World {
   public:
-    static const int size = 256;
+    static const int size = 64;
     static const int radius = size/2;
     static const int arraySize = size*size*size;
   private:
