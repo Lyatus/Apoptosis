@@ -350,7 +350,7 @@ void game() {
   Ref<GL::Texture> tutorialTumor(Resource::texture("Image/Tutorial/tumor.png"));
   Ref<GL::Texture> tutorialVessel(Resource::texture("Image/Tutorial/vessel.png"));
   // GUI initialization
-  Point3f hit;
+  Point3f mouseWorld;
   GUI::Text* text(new GUI::Text());
   gui->place(text,Point2i(0,0),GUI::TL,GUI::TL);
   Timer timer, checktimer, clicktimer;
@@ -358,15 +358,18 @@ void game() {
   Coroutine searchCoroutine(search), automataCoroutine(Automaton::updateAll);
   while(Window::loop()) {
     float deltaTime(timer.frame().fSeconds());
-    // Update camera
-    movedCamera |= cam.update(world,deltaTime);
-    // Update world
-    world.update();
+    movedCamera |= cam.update(world,deltaTime); // Update camera
+    world.update(); // Update world
     // Update Wwise
     Wwise::listen(cam.listenerPosition(),cam.forward(),cam.up());
     Wwise::rtpc("Circle_gauge",resource);
     Wwise::rtpc("Time_passing",(Time::now()-start).fSeconds());
     Wwise::update();
+    // Cast mouse ray
+    bool canPlaceTumor(false);
+    bool mouseHits(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),mouseWorld,512));
+    if(mouseHits && world.spherecast(mouseWorld,4,[](Voxel v) {return v.type()==Voxel::ORGAN;}) && sca.distance(mouseWorld,autoaimRadius)<autoaimRadius)
+    canPlaceTumor = true;
     automataCoroutine.jumpFor(Time(automataTPF*1000000.f));
     searchCoroutine.jumpFor(Time(searchTPF*1000000.f));
     sca.update(world);
@@ -376,16 +379,14 @@ void game() {
       Event::updateAll(Time::now()-start);
       tumorCount = world.typeCount(Voxel::TUMOR) + world.typeCount(Voxel::TUMOR_IDLE);
       tumorThirstyCount = world.typeCount(Voxel::TUMOR_THIRSTY) + world.typeCount(Voxel::TUMOR_THIRSTY_IDLE);
-      Point3f hit;
-      world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512);
       if(debugText)
         text->sText("tumor: "+ToString(tumorCount)+"\n"
                     "thirsty: "+ToString(tumorThirstyCount)+"\n"
                     "anywhere: "+ToString(anywhere)+"\n"
                     "budding: "+ToString(budding)+"\n"
-                    "cursor position: "+ToString((Point3i)hit)+"\n"
-                    "cursor distance: "+ToString(hit.dist(cam.position()))+"\n"
-                    "distance to bonus: "+ToString(Bonus::distanceToInactive(hit))+"\n"
+                    "cursor position: "+ToString((Point3i)mouseWorld)+"\n"
+                    "cursor distance: "+ToString(mouseWorld.dist(cam.position()))+"\n"
+                    "distance to bonus: "+ToString(Bonus::distanceToInactive(mouseWorld))+"\n"
                     "listener distance: "+ToString(cam.listenerDistance())+"\n"
                     "time: "+Time::format("%M:%S",Time::now()-start)+"\n"
                     "fps: "+ToString(1/deltaTime)+"\n");
@@ -396,19 +397,17 @@ void game() {
       if(event.type == Window::Event::BUTTONDOWN)
         switch(event.button) {
           case Window::Event::LBUTTON:
-            if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
-              Automaton* chemoAutomaton(Automaton::get(chemo,hit));
+            if(true) {
+              Automaton* chemoAutomaton(Automaton::get(chemo,mouseWorld));
               if(chemoAutomaton)
                 chemoAutomaton->mulTime(.0f);
-              else if(tumorCost<resource && !Automaton::has(growth,growthCount) && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)
-              &&  world.spherecast(hit,4,[](Voxel v) {return v.type()==Voxel::ORGAN;})
-              && sca.distance(hit,autoaimRadius)<autoaimRadius) {
+              else if(tumorCost<resource && !Automaton::has(growth,growthCount)
+                      && canPlaceTumor) {
                 placedTumor = true;
                 Wwise::postEvent("Tumor_right");
-                startGrowth(hit);
+                startGrowth(mouseWorld);
                 resource -= tumorCost;
-              }
-              else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
+              } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             }
             break;
           case Window::Event::RBUTTON:
@@ -424,8 +423,8 @@ void game() {
             }
             break;
           case Window::Event::SPACE:
-            if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512))
-              startChemo(hit);
+            if(mouseHits)
+              startChemo(mouseWorld);
             break;
           case Window::Event::ENTER:
             anywhere = !anywhere;
@@ -518,7 +517,7 @@ void game() {
         else tutoStep = 4;
         break;
     }
-    UI::drawCursor(resource);
+    UI::drawCursor(guiProgram,canPlaceTumor);
     // Fade
     float since(fadeTimer.since().fSeconds());
     float fade(std::min(1.f,since/gameFadeDuration));
