@@ -36,6 +36,7 @@ class Automaton {
     inline float vps() const {return _vps;}
     inline bool shouldStop() const { return _shouldStop;}
     inline Voxel voxel(int x, int y, int z) const {return _world.voxel(x,y,z);}
+    void mulTime(float);
 
     static void updateAll();
     static void fuse();

@@ -87,6 +87,12 @@ void Automaton::draw() const {
   glVertex3i(_zone.min().x(),_zone.max().y(),_zone.max().z());
   glEnd();
 }
+
+void Automaton::mulTime(float x) {
+  Time now(Time::now());
+  _end = ((_end-now)*x)+now;
+}
+
 void Automaton::updateAll() {
   while(true) {
     _timer.setoff();
