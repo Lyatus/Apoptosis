@@ -399,7 +399,7 @@ void game() {
             if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
               Automaton* chemoAutomaton(Automaton::get(chemo,hit));
               if(chemoAutomaton)
-                chemoAutomaton->mulTime(.5f);
+                chemoAutomaton->mulTime(.0f);
               else if(tumorCost<resource && !Automaton::has(growth,growthCount) && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)
               &&  world.spherecast(hit,4,[](Voxel v) {return v.type()==Voxel::ORGAN;})
               && sca.distance(hit,autoaimRadius)<autoaimRadius) {
