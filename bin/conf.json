@@ -7,7 +7,7 @@
 
 	"menu_fade_duration": 0.1,
 	"intro_dark_duration": 0.1,
-	"game_fade_duration": 8,
+	"game_fade_duration": 0.1,
 
 	"texture_path": "Image/tissue.png",
 	"model_path": "Model/organ.obj",
@@ -40,7 +40,7 @@
 	"sca_color": "#2558e066"
 	
 	"vessel_count": 3,
-	"burst_radius": 8,
+	"burst_radius": 9,
 
 	"irrigation_sphere_center": "148,48,243",
 	"irrigation_radius": 7,
@@ -137,6 +137,11 @@
 					"value": "tumor_cost",
 					"operation": "add",
 					"parameter": -0.03
+				},
+				{
+					"value": "autoaim_radius",
+					"operation": "add",
+					"parameter": 3
 				}
 			]
 		},
@@ -306,126 +311,61 @@
 			]
 		},
 		{
-			"icon": "Image/Bonus/tumor.png",
-			"position": "-4,235,134",
-			"duration": 7,
-			"tumors":[
-				"-14,252,131",
-				"-19,239,132",
-				"-11,226,138"
-			],
+			"icon": "Image/Bonus/vessel.png",
+			"position": "31,185,163",
 			"modifications":[
 				{
 					"value": "vessel_budding_factor",
 					"operation": "add",
 					"parameter": 0.015
-				}]
-		},
-		{
-			"position": "-17,252,130",
-			"tumors":[
-				"-17,265,133",
-				"-24,260,132",
-				"2,,257,134",
-				"8,249,136"
-			]
-		},
-		{
-			"icon": "Image/Bonus/resource.png",
-			"position": "-50,238,128",
-			"modifications":[
-				{
-					"value": "resource_speed",
-					"operation": "add",
-					"parameter": 0.005
-				}
-			]
-		},
-		{
-			"position": "-23,240,131",
-			"tumors":[
-				"-38,229,142",
-				"-35,243,133"
-			]
-		},
-		{
-			"icon": "Image/Bonus/tumor.png",
-			"position": "-70,242,133",
-			"modifications":[
-				{
-					"value": "growth_duration",
-					"operation": "add",
-					"parameter": 0.25
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/tumor.png",
-			"position": "37,242,140",
-			"modifications":[
-				{
-					"value": "growth_duration",
-					"operation": "add",
-					"parameter": 0.25
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/vessel.png",
-			"position": "-37,248,134",
-			"modifications":[
-				{
-					"value": "vessel_cost",
-					"operation": "add",
-					"parameter": -0.01
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/tumor.png",
-			"position": "-81,263,150",
-			"modifications":[
-				{
-					"value": "growth_vps",
-					"operation": "add",
-					"parameter": 1
-				}
-			]
-		},
-		{
-			"icon": "Image/Bonus/vessel.png",
-			"position": "-39,267,139",
-			"duration":30
-			"modifications":[
-				{
-					"value": "vessel_budding_factor",
-					"operation": "add",
-					"parameter": 0.01
 				},
 				{
-					"value": "growth_duration",
+					"value": "autoaim_radius",
 					"operation": "add",
-					"parameter": -2
-				},
-				{
-					"value": "growth_vps",
-					"operation": "add",
-					"parameter": -5
-				},
-				{
-					"value": "resource_speed",
-					"operation": "add",
-					"parameter": 0.8
-				},
-				{
-					"value": "growth_count",
-					"operation": "add",
-					"parameter": +20
+					"parameter": 5
 				}
 				
 			]
+		},
+		{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "0,185,158",
+			"tumors":[
+					"-20,167,164",
+					"-25,211,160"
+			]
+		},
+		{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "-26,153,163",
+			"tumors":[
+					"2,137,158",
+					"-32,138,161"
+			]
+		},
+		{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "-57,137,167",
+			"tumors":[
+					"-67,157,172",
+					"-67,123,168"
+			]
+		},
+		{
+			"position": "-67,157,172",
+			"tumors":[
+					"-77,103,176",
+					"-94,112,179"
+			]
+		},
+		{
+			"position": "-67,123,168",
+			"tumors":[
+					"-40,139,162",
+					"-29,115,163"
+			]
 		}
-	],
+	]
 	"events":[
 		{
 			"time": 7,
@@ -463,7 +403,13 @@
 			"time": 180,
 			"value": "chemo_duration",
 			"operation": "add",
-			"parameter": 3
+			"parameter": 5
+		},
+		{
+			"time": 200,
+			"value": "chemo_count",
+			"operation": "add",
+			"parameter": 1
 		},
 		{
 			"time": 215,
@@ -476,6 +422,12 @@
 			"value": "chemo_duration",
 			"operation": "add",
 			"parameter": 3
+		},
+		{
+			"time": 240,
+			"value": "chemo_count",
+			"operation": "add",
+			"parameter": 1
 		},
 		{
 			"time": 260,
@@ -496,8 +448,8 @@
 			"parameter": 3
 		},
 		{
-			"time": 305,
-			"value": "chemo_duration",
+			"time": 300,
+			"value": "chemo_count",
 			"operation": "add",
 			"parameter": 1
 		},
