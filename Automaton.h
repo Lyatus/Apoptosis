@@ -45,6 +45,7 @@ class Automaton {
     static bool has(Process);
     static bool has(Process,const L::Point3i&);
     static bool has(Process,int);
+    static Automaton* get(Process,const L::Point3i&);
     static void drawAll();
 };
 
