@@ -130,19 +130,19 @@ Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
         case Voxel::ORGAN_CHEMO:
           wtr.type(Voxel::ORGAN);
           break;
-        case Voxel::TUMOR_IDLE_CHEMO:
+        case Voxel::TUMOR_CHEMO:
           wtr.type(Voxel::TUMOR_IDLE);
           break;
-        case Voxel::TUMOR_THIRSTY_IDLE_CHEMO:
+        case Voxel::TUMOR_THIRSTY_CHEMO:
           wtr.type(Voxel::TUMOR_THIRSTY_IDLE);
           break;
       }
   } else if(wtr.empty())
     wtr.type(Voxel::NOTHING);
   else {
-    bool chemo(wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_IDLE_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO);
+    bool chemo(wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_CHEMO);
     Voxel other(automaton.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2));
-    bool otherChemo(other.type()==Voxel::ORGAN_CHEMO || other.type()==Voxel::TUMOR_IDLE_CHEMO || other.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO);
+    bool otherChemo(other.type()==Voxel::ORGAN_CHEMO || other.type()==Voxel::TUMOR_CHEMO || other.type()==Voxel::TUMOR_THIRSTY_CHEMO);
     if(chemo && other.empty())
       wtr.value(std::max(0.f,wtr.value()-Rand::nextFloat()*automaton.factor()*((wtr.type()==Voxel::ORGAN_CHEMO)?chemoOrganFactor:1)));
     if(!chemo && otherChemo &&  Rand::nextFloat()<chemoPropagationFactor*((wtr.type()==Voxel::ORGAN)?chemoOrganFactor:1))
@@ -151,14 +151,14 @@ Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
           wtr.type(Voxel::ORGAN_CHEMO);
           break;
         case Voxel::TUMOR_IDLE:
-          wtr.type(Voxel::TUMOR_IDLE_CHEMO);
+          wtr.type(Voxel::TUMOR_CHEMO);
           break;
         case Voxel::TUMOR_THIRSTY_IDLE:
-          wtr.type(Voxel::TUMOR_THIRSTY_IDLE_CHEMO);
+          wtr.type(Voxel::TUMOR_THIRSTY_CHEMO);
           break;
       }
   }
-  processable = wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_IDLE_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO;
+  processable = wtr.type()==Voxel::ORGAN_CHEMO || wtr.type()==Voxel::TUMOR_CHEMO || wtr.type()==Voxel::TUMOR_THIRSTY_CHEMO;
   return wtr;
 }
 void startTumor(const Point3f& start, float vps, const Time& duration) {
@@ -178,7 +178,7 @@ void startThirst(const Point3f& start) {
 }
 void startChemo(const Point3f& start) {
   Automaton* automaton(new Automaton(world,chemo,chemoVPS,Time::now()+Time(chemoDuration*1000000.f)));
-  world.voxelSphere(start,1.f,Voxel::TUMOR_IDLE_CHEMO,Voxel::max);
+  world.voxelSphere(start,1.f,Voxel::TUMOR_CHEMO,Voxel::max);
   Automaton::add(automaton,"Chemo_start",start);
 }
 void search() {
@@ -298,11 +298,16 @@ void menu() {
 bool isTumor(Voxel v) {
   return v.type()==Voxel::TUMOR
          ||v.type()==Voxel::TUMOR_IDLE
-         ||v.type()==Voxel::TUMOR_IDLE_CHEMO
+         ||v.type()==Voxel::TUMOR_CHEMO
          ||v.type()==Voxel::TUMOR_THIRSTY
          ||v.type()==Voxel::TUMOR_THIRSTY_IDLE
-         ||v.type()==Voxel::TUMOR_THIRSTY_IDLE_CHEMO
+         ||v.type()==Voxel::TUMOR_THIRSTY_CHEMO
          ||v.type()==Voxel::VESSEL;
+}
+bool isChemo(Voxel v) {
+  return v.type()==Voxel::TUMOR_CHEMO
+         ||v.type()==Voxel::TUMOR_THIRSTY_CHEMO
+         || v.type()==Voxel::ORGAN_CHEMO;
 }
 List<Point3f> burst(float radius, int count) {
   List<Point3f> wtr;
@@ -391,15 +396,20 @@ void game() {
       if(event.type == Window::Event::BUTTONDOWN)
         switch(event.button) {
           case Window::Event::LBUTTON:
-            if(tumorCost<resource && !Automaton::has(growth,growthCount) && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)
-            &&  world.spherecast(hit,4,[](Voxel v) {return v.type()==Voxel::ORGAN;})
-            && sca.distance(hit,autoaimRadius)<autoaimRadius) {
-              placedTumor = true;
-              Wwise::postEvent("Tumor_right");
-              startGrowth(hit);
-              resource -= tumorCost;
+            if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)) {
+              Automaton* chemoAutomaton(Automaton::get(chemo,hit));
+              if(chemoAutomaton)
+                chemoAutomaton->mulTime(.5f);
+              else if(tumorCost<resource && !Automaton::has(growth,growthCount) && world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),hit,512)
+              &&  world.spherecast(hit,4,[](Voxel v) {return v.type()==Voxel::ORGAN;})
+              && sca.distance(hit,autoaimRadius)<autoaimRadius) {
+                placedTumor = true;
+                Wwise::postEvent("Tumor_right");
+                startGrowth(hit);
+                resource -= tumorCost;
+              }
+              else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             }
-            else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
             break;
           case Window::Event::RBUTTON:
             if(vesselCost<resource) {

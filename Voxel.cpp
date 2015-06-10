@@ -17,7 +17,7 @@ void Voxel::configure() {
   _colors[VESSEL] = Conf::getColor("vessel");
   _colors[TUMOR] = _colors[TUMOR_IDLE] = _colors[TUMOR_START] = Conf::getColor("tumor");
   _colors[TUMOR_THIRSTY] = _colors[TUMOR_THIRSTY_IDLE] = Conf::getColor("tumor_thirsty");
-  _colors[ORGAN_CHEMO] = _colors[TUMOR_IDLE_CHEMO] = _colors[TUMOR_THIRSTY_IDLE_CHEMO] = Conf::getColor("chemo");
+  _colors[ORGAN_CHEMO] = _colors[TUMOR_CHEMO] = _colors[TUMOR_THIRSTY_CHEMO] = Conf::getColor("chemo");
 }
 
 Voxel Voxel::set(Voxel a,Voxel b) {

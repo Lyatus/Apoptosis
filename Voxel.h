@@ -24,8 +24,8 @@ class Voxel {
       ORGAN, ORGAN_CHEMO,
       VESSEL,
       TUMOR_START,
-      TUMOR, TUMOR_IDLE, TUMOR_IDLE_CHEMO,
-      TUMOR_THIRSTY, TUMOR_THIRSTY_IDLE, TUMOR_THIRSTY_IDLE_CHEMO
+      TUMOR, TUMOR_IDLE, TUMOR_CHEMO,
+      TUMOR_THIRSTY, TUMOR_THIRSTY_IDLE, TUMOR_THIRSTY_CHEMO
     };
     Voxel(float value = 0, L::byte type = 0);
     bool operator==(const Voxel& other) const {return _type==other._type && _value==other._value;}
