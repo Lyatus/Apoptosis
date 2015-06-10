@@ -38,7 +38,11 @@ Bonus::Bonus(const L::Dynamic::Var& v)
 }
 void Bonus::update(World& world) {
   Voxel voxel(world.voxel(_position.x(),_position.y(),_position.z()));
-  bool tumored(world.spherecast(_position,8,isTumor));
+  bool tumored(world.spherecast(_position,8,[](Voxel v) {
+    return v.type()==Voxel::TUMOR
+           ||v.type()==Voxel::TUMOR_IDLE
+           ||v.type()==Voxel::TUMOR_CHEMO;
+  }));
   if(timed()) { // Timed bonus (or spawner)
     if(tumored && !_active && !activated()) {
       _end = Time::now()+_duration;
