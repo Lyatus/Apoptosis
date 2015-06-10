@@ -1,10 +1,13 @@
 #include "UI.h"
 
+#include "Resource.h"
+
 using namespace L;
 
 float UI::cursorRadius;
 Color UI::cursorPointColor, UI::backgroundDiskColor, UI::innerDiskColor;
 GL::Mesh* UI::disk;
+Ref<GL::Texture> UI::cursorRight, UI::cursorWrong;
 
 void UI::drawCursor(float value) {
   glClear(GL_DEPTH_BUFFER_BIT);
@@ -21,6 +24,25 @@ void UI::drawCursor(float value) {
   glPopMatrix();
   GL::color(cursorPointColor);
   disk->draw();
+  glPopMatrix();
+}
+void UI::drawCursor(L::GL::Program& program, bool right) {
+  Ref<GL::Texture> tex((right)?cursorRight:cursorWrong);
+  glClear(GL_DEPTH_BUFFER_BIT);
+  glPushMatrix();
+  glTranslatef(Window::mousePosition().x(),Window::mousePosition().y(),0);
+  GL::color(Color::white);
+  program.uniform("texture",*tex);
+  glBegin(GL_QUADS);
+  glTexCoord2f(0,0);
+  glVertex2f(-tex->width()/2,-tex->height()/2);
+  glTexCoord2f(0,1);
+  glVertex2f(-tex->width()/2,tex->height()/2);
+  glTexCoord2f(1,1);
+  glVertex2f(tex->width()/2,tex->height()/2);
+  glTexCoord2f(1,0);
+  glVertex2f(tex->width()/2,-tex->height()/2);
+  glEnd();
   glPopMatrix();
 }
 void UI::drawCursor() {
@@ -59,5 +81,7 @@ void UI::configure() {
   backgroundDiskColor = Conf::getColor("background_disk_color");
   innerDiskColor = Conf::getColor("inner_disk_color");
   disk = new GL::Mesh();
+  cursorRight = (Resource::texture("Image/cursor_right.png"));
+  cursorWrong = (Resource::texture("Image/cursor_wrong.png"));
   GL::makeDisc(*disk,32);
 }
