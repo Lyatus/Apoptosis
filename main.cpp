@@ -366,10 +366,8 @@ void game() {
     Wwise::rtpc("Time_passing",(Time::now()-start).fSeconds());
     Wwise::update();
     // Cast mouse ray
-    bool canPlaceTumor(false);
     bool mouseHits(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),mouseWorld,512));
-    if(mouseHits && world.spherecast(mouseWorld,4,[](Voxel v) {return v.type()==Voxel::ORGAN;}) && sca.distance(mouseWorld,autoaimRadius)<autoaimRadius)
-    canPlaceTumor = true;
+    bool canPlaceTumor(mouseHits && world.spherecast(mouseWorld,4,[](Voxel v) {return v.type()==Voxel::ORGAN;}) && sca.distance(mouseWorld,autoaimRadius)<autoaimRadius);
     automataCoroutine.jumpFor(Time(automataTPF*1000000.f));
     searchCoroutine.jumpFor(Time(searchTPF*1000000.f));
     sca.update(world);
@@ -517,7 +515,7 @@ void game() {
         else tutoStep = 4;
         break;
     }
-    UI::drawCursor(guiProgram,canPlaceTumor);
+    UI::drawCursor(resource);
     // Fade
     float since(fadeTimer.since().fSeconds());
     float fade(std::min(1.f,since/gameFadeDuration));
