@@ -8,6 +8,7 @@ float UI::cursorRadius;
 Color UI::cursorPointColor, UI::backgroundDiskColor, UI::innerDiskColor;
 GL::Mesh* UI::disk;
 Ref<GL::Texture> UI::cursorRight, UI::cursorWrong;
+L::Interval2i UI::resourceBarInt;
 
 void UI::drawCursor(float value) {
   glClear(GL_DEPTH_BUFFER_BIT);
@@ -75,6 +76,25 @@ void UI::drawTip(GL::Program& program, const GL::Camera& cam, const Ref<GL::Text
     glEnd();
   }
 }
+void UI::drawResourceBar(float value) {
+  drawBar(resourceBarInt,Color(255,255,255,76),Color::white,value);
+}
+void UI::drawBar(const L::Interval2i& i, const L::Color& background, const L::Color& fill, float value) {
+  float fillx((i.max().x()-i.min().x())*value);
+  GL::whiteTexture().bind();
+  glBegin(GL_QUADS);
+  GL::color(background);
+  glVertex2f(i.min().x(),i.min().y());
+  glVertex2f(i.min().x(),i.max().y());
+  glVertex2f(i.max().x(),i.max().y());
+  glVertex2f(i.max().x(),i.min().y());
+  GL::color(fill);
+  glVertex2f(i.min().x(),i.min().y());
+  glVertex2f(i.min().x(),i.max().y());
+  glVertex2f(i.min().x()+fillx,i.max().y());
+  glVertex2f(i.min().x()+fillx,i.min().y());
+  glEnd();
+}
 void UI::configure() {
   cursorRadius = Conf::getFloat("cursor_radius");
   cursorPointColor = Conf::getColor("cursor_point_color");
@@ -84,4 +104,6 @@ void UI::configure() {
   cursorRight = (Resource::texture("Image/cursor_right.png"));
   cursorWrong = (Resource::texture("Image/cursor_wrong.png"));
   GL::makeDisc(*disk,32);
+  resourceBarInt.add(Point2i(200,Window::height()-107));
+  resourceBarInt.add(Point2i(Window::width()-200,Window::height()-100));
 }
