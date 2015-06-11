@@ -10,11 +10,12 @@ class Event {
     static L::Array<Event> _events;
     static World* _world;
     static SCA* _sca;
-    typedef enum {ADD,MULT,VESSEL,TUMOR} Operation;
+    typedef enum {ADD,MULT,VESSEL,TUMOR,WWISE} Operation;
     float* _value;
     Operation _operation;
     float _parameter;
     L::Point3f _position;
+    L::String _name;
     L::Time _time;
 
   public:

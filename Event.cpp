@@ -21,6 +21,8 @@ Event::Event(const L::Dynamic::Var& v) {
     _operation = VESSEL;
   else if(v["operation"].as<String>()=="tumor")
     _operation = TUMOR;
+  else if(v["operation"].as<String>()=="wwise")
+    _operation = WWISE;
   else throw Exception("Unkwown event operation");
   if(_operation==ADD || _operation==MULT) {
     _parameter = v["parameter"].as<float>();
@@ -41,6 +43,9 @@ bool Event::update(const Time& time) {
         break;
       case TUMOR:
         startGrowth(_position);
+        break;
+      case WWISE:
+        Wwise::postEvent(_name);
         break;
     }
     return true;
