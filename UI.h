@@ -5,13 +5,12 @@
 #include "Conf.h"
 
 class UI {
-  private:
+  public:
     static float cursorRadius, crossSize, crossThickness;
     static L::Color cursorPointColor, backgroundDiskColor, innerDiskColor, crossColor;
     static L::GL::Mesh* disk;
     static L::Ref<L::GL::Texture> cursorRight, cursorWrong;
     static L::Interval2i resourceBarInt;
-  public:
     static void drawCursor(float value,bool);
     static void drawCursor(L::GL::Program&,bool);
     static void drawCursor();
