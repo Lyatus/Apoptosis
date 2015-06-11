@@ -56,7 +56,7 @@ bool SphericalCamera::update(World& world, float deltaTime) {
 void SphericalCamera::event(World& world, const L::Window::Event& e) {
   static int x, y;
   if(e.type==Window::Event::MOUSEMOVE) {
-    if(Window::isPressed(Window::Event::MBUTTON)) {
+    if(Window::isPressed(Window::Event::RBUTTON)) {
       _speed.x() += (e.x-x)*.035f;
       _speed.y() += (e.y-y)*.035f;
     }

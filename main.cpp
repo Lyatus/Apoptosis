@@ -41,7 +41,6 @@ float resourceSpeed, resourceSpeedIdle, tumorCost, vesselCost, autoaimRadius;
 
 float irrigationRadius;
 Point3f irrigationSphereCenter;
-float irrigationSphereRadius;
 
 float growthVPS, growthDuration, growthStartRadius, growthCount;
 float thirstVPS, thirstAppearanceFactor;
@@ -51,7 +50,7 @@ float vesselCount, burstRadius;
 float buddingFactor, vesselBuddingFactor, chemoBuddingFactor;
 float chemoBuddingCurve;
 bool anywhere(false), budding(true);
-Automaton* thirstAutomatonP;
+Time clickLapse;
 
 // Gameplay tracking
 float resource(1);
@@ -399,6 +398,7 @@ void game() {
               Automaton* chemoAutomaton(Automaton::get(chemo,mouseWorld));
               if(chemoAutomaton)
                 chemoAutomaton->mulTime(.0f);
+              /*
               else if(tumorCost<resource && !Automaton::has(growth,growthCount)
                       && canPlaceTumor) {
                 placedTumor = true;
@@ -406,8 +406,10 @@ void game() {
                 startGrowth(mouseWorld);
                 resource -= tumorCost;
               } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
+              */
             }
             break;
+          /*
           case Window::Event::RBUTTON:
             if(vesselCost<resource) {
               bool vesselAdded(false);
@@ -420,6 +422,7 @@ void game() {
                 resource -= vesselCost;
             }
             break;
+          */
           case Window::Event::SPACE:
             if(mouseHits)
               startChemo(mouseWorld);
@@ -456,6 +459,12 @@ void game() {
         }
       cam.event(world,event);
     }
+    if(Window::isPressed(Window::Event::LBUTTON) && clicktimer.every(clickLapse) && tumorCost<resource && !Automaton::has(growth,growthCount) && canPlaceTumor) {
+      placedTumor = true;
+      Wwise::postEvent("Tumor_right");
+      startGrowth(mouseWorld);
+      resource -= tumorCost;
+    } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
     if(Window::isPressed(Window::Event::ESCAPE))
       break;
     glEnable(GL_DEPTH_TEST);
@@ -494,6 +503,7 @@ void game() {
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
     Bonus::drawAll(guiProgram,cam);
+    /*
     switch(tutoStep) { // Draw tutorial
       case 0:
         if(Time::now()-start>tutoDelay)
@@ -515,6 +525,7 @@ void game() {
         else tutoStep = 4;
         break;
     }
+    */
     UI::drawCursor(resource);
     // Fade
     float since(fadeTimer.since().fSeconds());
@@ -576,8 +587,9 @@ int main(int argc, char* argv[]) {
   menuFadeDuration = Conf::getFloat("menu_fade_duration");
   introDarkDuration = Conf::getFloat("intro_dark_duration");
   gameFadeDuration = Conf::getFloat("game_fade_duration");
-  irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
   ambientLevel = Conf::getFloat("ambient_level");
+  clickLapse = Time(Conf::getFloat("click_lapse")*1000000.f);
+  irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
   tutoDelay = Time(Conf::getFloat("tuto_delay")*1000000.f);
   tutoCameraPosition = Conf::getPoint("tuto_camera_position");
   tutoTumorPosition = Conf::getPoint("tuto_tumor_position");

@@ -16,7 +16,7 @@
 	"intro_background": "#ffffff",
 	"background": "#ffffff",
 	
-	"cursor_radius": 45,
+	"cursor_radius": 32,
 	"cursor_point_color": "#ffffffff",
 	"background_disk_color": "#2f3f9264",
 	"inner_disk_color": "#ff005466",
@@ -28,7 +28,7 @@
 	"chemo": "#001F00",
 	
 	"camera_min_angle": .45,
-	"camera_min_fovy": 40,
+	"camera_min_fovy": 25,
 	"camera_max_fovy": 65,
 	"audio_viewport_radius": 16,
 	
@@ -41,7 +41,8 @@
 	
 	"vessel_count": 3,
 	"burst_radius": 9,
-
+	
+	"click_lapse": .1,
 	"irrigation_sphere_center": "148,48,243",
 	"irrigation_radius": 7,
 
@@ -72,7 +73,7 @@
 	"budding_max_distance":35,
 	"budding_min_y": 0,
 	"budding_count": 4,
-	"vessel_budding_factor": 0,
+	"vessel_budding_factor": 0.001,
 	"chemo_budding_factor": 0,
 	"chemo_budding_curve": 1,
 	
