@@ -4,8 +4,8 @@
 
 using namespace L;
 
-float UI::cursorRadius;
-Color UI::cursorPointColor, UI::backgroundDiskColor, UI::innerDiskColor;
+float UI::cursorRadius, UI::crossSize, UI::crossThickness;
+Color UI::cursorPointColor, UI::backgroundDiskColor, UI::innerDiskColor, UI::crossColor;
 GL::Mesh* UI::disk;
 Ref<GL::Texture> UI::cursorRight, UI::cursorWrong;
 L::Interval2i UI::resourceBarInt;
@@ -26,8 +26,9 @@ void UI::drawCursor(float value, bool can) {
   GL::color(cursorPointColor);
   disk->draw();
   if(!can) {
-    float inner(cursorRadius/(sqrt(2)*2));
-    glLineWidth(5);
+    float inner(cursorRadius/(sqrt(2)/crossSize));
+    glLineWidth(crossThickness);
+    GL::color(crossColor);
     glBegin(GL_LINES);
     glVertex2f(-inner,-inner);
     glVertex2f(inner,inner);
@@ -107,9 +108,12 @@ void UI::drawBar(const L::Interval2i& i, const L::Color& background, const L::Co
 }
 void UI::configure() {
   cursorRadius = Conf::getFloat("cursor_radius");
+  crossSize = Conf::getFloat("cross_size");
+  crossThickness = Conf::getFloat("cross_thickness");
   cursorPointColor = Conf::getColor("cursor_point_color");
   backgroundDiskColor = Conf::getColor("background_disk_color");
   innerDiskColor = Conf::getColor("inner_disk_color");
+  crossColor = Conf::getColor("cross_color");
   disk = new GL::Mesh();
   cursorRight = (Resource::texture("Image/cursor_right.png"));
   cursorWrong = (Resource::texture("Image/cursor_wrong.png"));

@@ -6,8 +6,8 @@
 
 class UI {
   private:
-    static float cursorRadius;
-    static L::Color cursorPointColor, backgroundDiskColor, innerDiskColor;
+    static float cursorRadius, crossSize, crossThickness;
+    static L::Color cursorPointColor, backgroundDiskColor, innerDiskColor, crossColor;
     static L::GL::Mesh* disk;
     static L::Ref<L::GL::Texture> cursorRight, cursorWrong;
     static L::Interval2i resourceBarInt;

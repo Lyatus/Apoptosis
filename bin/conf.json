@@ -17,7 +17,10 @@
 	"background": "#ffffff",
 	
 	"cursor_radius": 32,
+	"cross_size": 0.5,
+	"cross_thickness": 5,
 	"cursor_point_color": "#ffffffff",
+	"cross_color": "#ffffffff",
 	"background_disk_color": "#2f3f9264",
 	"inner_disk_color": "#ff005466",
 	
