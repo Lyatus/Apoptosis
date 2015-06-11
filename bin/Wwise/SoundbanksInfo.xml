@@ -41,10 +41,6 @@
 					<ShortName>Bubble6.wav</ShortName>
 					<Path>SFX\Bubble6_4231625D.wem</Path>
 				</File>
-				<File Id="153421067" Language="SFX">
-					<ShortName>BONUS.wav</ShortName>
-					<Path>SFX\BONUS_67A38C59.wem</Path>
-				</File>
 				<File Id="189453205" Language="SFX">
 					<ShortName>Voice-F-01-fx-amb.wav</ShortName>
 					<Path>SFX\Voice-F-01-fx-amb_4231625D.wem</Path>

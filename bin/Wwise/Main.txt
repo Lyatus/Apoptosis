@@ -9,14 +9,6 @@ Event	ID	Name			Wwise Object Path	Notes
 	4037692801	Tumor_right			\Default Work Unit\Actions\Tumor_right	
 	4179009848	Voice_event_1			\Default Work Unit\Narration\Voice_event_1	
 
-State Group	ID	Name			Wwise Object Path	Notes
-	4233958113	tumor_in_out			\Default Work Unit\tumor_in_out	
-
-State	ID	Name	State Group			Notes
-	645492555	out	tumor_in_out			
-	748895195	None	tumor_in_out			
-	1752637612	in	tumor_in_out			
-
 Effect plug-ins	ID	Name	Type				Notes
 	701863527	Inside_My_Head	Wwise RoomVerb			
 	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
@@ -25,7 +17,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	56660461	Voice-F-08-fx	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Voice-F-08-fx_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\Placeholder\Voice-F-08-fx		642220
 	80300493	lol	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Lego Racers Music - Menu_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\lol		2558650
 	104157723	Bubble6	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble6_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble6		26736
-	153421067	Tumor_life	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\BONUS_67A38C59.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_life		350377
 	189453205	Voice-F-01-fx-amb	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Voice-F-01-fx-amb_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\Placeholder\Voice-F-01-fx-amb		2685113
 	314428476	Voice-F-07-fx	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Voice-F-07-fx_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\Placeholder\Voice-F-07-fx		505403
 	362923797	Bubble2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble2_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble2		29904
