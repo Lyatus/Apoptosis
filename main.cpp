@@ -463,12 +463,17 @@ void game() {
         }
       cam.event(world,event);
     }
-    if(Window::isPressed(Window::Event::LBUTTON) && clicktimer.every(clickLapse) && tumorCost<resource && !Automaton::has(growth,growthCount) && canPlaceTumor) {
-      placedTumor = true;
-      Wwise::postEvent("Tumor_right");
-      startGrowth(mouseWorld);
-      resource -= tumorCost;
-    } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
+    if(Window::isPressed(Window::Event::LBUTTON) && clicktimer.every(clickLapse)) {
+      Point3f hit;
+      Point2f pixelToNormalized(1.f/Window::width(),1.f/Window::height());
+      if(tumorCost<resource && !Automaton::has(growth,growthCount) && canPlaceTumor)
+        if(world.raycast(cam.position(),cam.screenToRay((Point2f::random()*pixelToNormalized*UI::cursorRadius)+Window::normalizedMousePosition()),hit,512)) {
+          placedTumor = true;
+          Wwise::postEvent("Tumor_right");
+          startGrowth(hit);
+          resource -= tumorCost;
+        } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
+    }
     if(Window::isPressed(Window::Event::ESCAPE))
       break;
     glEnable(GL_DEPTH_TEST);
