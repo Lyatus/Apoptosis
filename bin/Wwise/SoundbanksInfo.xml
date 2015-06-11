@@ -41,6 +41,10 @@
 					<ShortName>Bubble6.wav</ShortName>
 					<Path>SFX\Bubble6_4231625D.wem</Path>
 				</File>
+				<File Id="153421067" Language="SFX">
+					<ShortName>BONUS.wav</ShortName>
+					<Path>SFX\BONUS_67A38C59.wem</Path>
+				</File>
 				<File Id="189453205" Language="SFX">
 					<ShortName>Voice-F-01-fx-amb.wav</ShortName>
 					<Path>SFX\Voice-F-01-fx-amb_4231625D.wem</Path>
@@ -73,10 +77,6 @@
 					<ShortName>Bubble5.wav</ShortName>
 					<Path>SFX\Bubble5_4231625D.wem</Path>
 				</File>
-				<File Id="831439882" Language="SFX">
-					<ShortName>circle_gauge_sound_2.wav</ShortName>
-					<Path>SFX\circle_gauge_sound_2_4231625D.wem</Path>
-				</File>
 				<File Id="870835506" Language="SFX">
 					<ShortName>FeedB_click_tumor_wrong.wav</ShortName>
 					<Path>SFX\FeedB_click_tumor_wrong_4231625D.wem</Path>
@@ -88,10 +88,6 @@
 				<File Id="903042498" Language="SFX">
 					<ShortName>Underwater_Rumble.wav</ShortName>
 					<Path>SFX\Underwater_Rumble_22F7C9A0.wem</Path>
-				</File>
-				<File Id="968364274" Language="SFX">
-					<ShortName>lava_bubbling_cut.wav</ShortName>
-					<Path>SFX\lava_bubbling_cut_FE74E139.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>
