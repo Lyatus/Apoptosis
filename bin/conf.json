@@ -46,12 +46,12 @@
 	"irrigation_sphere_center": "148,48,243",
 	"irrigation_radius": 7,
 
-	"growth_vps": 12,
-	"growth_duration": 3,
-	"growth_start_radius": 1.2,
-	"growth_count": 10,
+	"growth_vps": 10,
+	"growth_duration": 2,
+	"growth_start_radius": 1,
+	"growth_count": 25,
 	
-	"thirst_vps": 20,
+	"thirst_vps": 35,
 	"thirst_appearance_factor": 1,
 
 	"chemo_vps":12 ,
@@ -61,10 +61,10 @@
 	"chemo_disappearance_factor": 0.5,
 	"chemo_count": 2,
 	
-	"resource_speed": 0.105,
+	"resource_speed": 0.18,
 	"resource_speed_idle": 0.7,
-	"tumor_cost": 0.35,
-	"vessel_cost": 0.42,
+	"tumor_cost": 0.10,
+	"vessel_cost": 0,
 	"autoaim_radius": 14,
 	
 	"budding_vps": 15,
@@ -73,7 +73,7 @@
 	"budding_max_distance":35,
 	"budding_min_y": 0,
 	"budding_count": 4,
-	"vessel_budding_factor": 0.001,
+	"vessel_budding_factor": 0.0008,
 	"chemo_budding_factor": 0,
 	"chemo_budding_curve": 1,
 	
@@ -92,8 +92,8 @@
 			"modifications":[
 				{
 					"value": "growth_duration",
-					"operation": "add",
-					"parameter": 0.5
+					"operation": "mult",
+					"parameter": 1.1
 				}
 			]
 		},
@@ -102,9 +102,9 @@
 			"position": "123,66,234",
 			"modifications":[
 				{
-					"value": "vessel_cost",
+					"value": "autoaim_radius",
 					"operation": "add",
-					"parameter": -0.01
+					"parameter": 1
 				}
 			]
 		},
@@ -124,7 +124,7 @@
 			"position": "107,29,226",
 			"modifications":[
 				{
-					"value": "vessel_count",
+					"value": "autoaim_radius",
 					"operation": "add",
 					"parameter": 1
 				}
@@ -135,14 +135,9 @@
 			"position": "94,14,227",
 			"modifications":[
 				{
-					"value": "tumor_cost",
-					"operation": "add",
-					"parameter": -0.03
-				},
-				{
 					"value": "autoaim_radius",
 					"operation": "add",
-					"parameter": 3
+					"parameter": 1
 				}
 			]
 		},
@@ -152,6 +147,11 @@
 			"modifications":[
 				{
 					"value": "resource_speed",
+					"operation": "add",
+					"parameter": 0.01
+				},
+				{
+					"value": "vessel_budding_factor",
 					"operation": "add",
 					"parameter": 0.001
 				}
@@ -184,9 +184,9 @@
 			"position": "50,17,200",
 			"modifications":[
 				{
-					"value": "vessel_cost",
+					"value": "autoaim_radius",
 					"operation": "add",
-					"parameter": -0.03
+					"parameter": 1
 				}
 			]
 		},
@@ -195,9 +195,9 @@
 			"position": "70,33,199",
 			"modifications":[
 				{
-					"value": "tumor_cost",
+					"value": "resource_speed",
 					"operation": "add",
-					"parameter": -0.03
+					"parameter": 0.01
 				}
 			]
 		},
@@ -208,7 +208,7 @@
 				{
 					"value": "tumor_cost",
 					"operation": "add",
-					"parameter": -0.03
+					"parameter": 0.025
 				}
 			]
 		},
@@ -217,9 +217,9 @@
 			"position": "67,63,187",
 			"modifications":[
 				{
-					"value": "vessel_cost",
+					"value": "autoaim_radius",
 					"operation": "add",
-					"parameter": -0.01
+					"parameter": 0.5
 				}
 			]
 		},
@@ -250,9 +250,9 @@
 			"position": "71,97,189",
 			"modifications":[
 				{
-					"value": "vessel_count",
+					"value": "autoaim_radius",
 					"operation": "add",
-					"parameter": 1
+					"parameter": 0.5
 				}
 			]
 		},
@@ -272,9 +272,9 @@
 			"position": "58,123,183",
 			"modifications":[
 				{
-					"value": "vessel_cost",
+					"value": "autoaim_radius",
 					"operation": "add",
-					"parameter": -0.01
+					"parameter": 2
 				}
 			]
 		},
@@ -285,7 +285,7 @@
 				{
 					"value": "resource_speed",
 					"operation": "add",
-					"parameter": 0.005
+					"parameter": 0.01
 				}
 			]
 		},
@@ -294,9 +294,9 @@
 			"position": "65,155,172",
 			"modifications":[
 				{
-					"value": "vessel_cost",
+					"value": "autoaim_radius",
 					"operation": "add",
-					"parameter": -0.01
+					"parameter": 2
 				}
 			]
 		},
@@ -305,9 +305,9 @@
 			"position": "105,168,201",
 			"modifications":[
 				{
-					"value": "vessel_cost",
+					"value": "autoaim_radius",
 					"operation": "add",
-					"parameter": -0.01
+					"parameter": 2
 				}
 			]
 		},
@@ -316,16 +316,10 @@
 			"position": "31,185,163",
 			"modifications":[
 				{
-					"value": "vessel_budding_factor",
-					"operation": "add",
-					"parameter": 0.015
-				},
-				{
 					"value": "autoaim_radius",
 					"operation": "add",
-					"parameter": 5
+					"parameter": 2
 				}
-				
 			]
 		},
 		{
