@@ -106,25 +106,29 @@ void Automaton::updateAll() {
   }
 }
 void Automaton::fuse() {
-  for(int i(0); i<_automata.size(); i++) // Check for automata that should fuse
-    for(int j(0); j<_automata.size(); j++)
-      if(i!=j && _automata[i]->_process==_automata[j]->_process
-          && _automata[i]->shouldStop() == _automata[j]->shouldStop()
-          && (_automata[i]->_zone && _automata[j]->_zone)) {
-        Automaton *automaton(new Automaton(_automata[i]->_world,
-                                           _automata[i]->_process,
-                                           (_automata[i]->_vps+_automata[j]->_vps)/2,
-                                           (_automata[i]->_end+_automata[j]->_end)/2));
-        automaton->_zone = _automata[i]->_zone+_automata[j]->_zone;
-        automaton->_nextZone = _automata[i]->_nextZone+_automata[j]->_nextZone;
-        automaton->_size = std::max(1,automaton->_zone.size().product());
-        automaton->_wwiseGameObjects += _automata[i]->_wwiseGameObjects;
-        automaton->_wwiseGameObjects += _automata[j]->_wwiseGameObjects;
-        remove(_automata[std::max(i,j)]);
-        remove(_automata[std::min(i,j)]);
-        _automata.push(automaton);
-        return fuse();
-      }
+  bool fused;
+  do{
+    fused = false;
+    for(int i(0); i<_automata.size() && !fused; i++) // Check for automata that should fuse
+      for(int j(0); j<_automata.size() && !fused; j++)
+        if(i!=j && _automata[i]->_process==_automata[j]->_process
+            && _automata[i]->shouldStop() == _automata[j]->shouldStop()
+            && (_automata[i]->_zone && _automata[j]->_zone)) {
+          Automaton *automaton(new Automaton(_automata[i]->_world,
+                                             _automata[i]->_process,
+                                             (_automata[i]->_vps+_automata[j]->_vps)/2,
+                                             (_automata[i]->_end+_automata[j]->_end)/2));
+          automaton->_zone = _automata[i]->_zone+_automata[j]->_zone;
+          automaton->_nextZone = _automata[i]->_nextZone+_automata[j]->_nextZone;
+          automaton->_size = std::max(1,automaton->_zone.size().product());
+          automaton->_wwiseGameObjects += _automata[i]->_wwiseGameObjects;
+          automaton->_wwiseGameObjects += _automata[j]->_wwiseGameObjects;
+          remove(_automata[std::max(i,j)]);
+          remove(_automata[std::min(i,j)]);
+          _automata.push(automaton);
+          fused = true;
+        }
+  }while(fused);
 }
 void Automaton::clean() {
   Time now(Time::now());
@@ -171,6 +175,9 @@ Automaton* Automaton::get(Process p,const L::Point3i& pt) {
     if(_automata[i]->_process==p && _automata[i]->_zone.contains(pt))
       return _automata[i];
   return NULL;
+}
+int Automaton::count() {
+  return _automata.size();
 }
 void Automaton::drawAll() {
   _automata.foreach([](Automaton*& a) {

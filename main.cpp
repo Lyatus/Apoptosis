@@ -172,7 +172,7 @@ void startBud(const Point3f& start) {
   startTumor(start,buddingVPS,Time(buddingDuration*1000000.f));
 }
 void startThirst(const Point3f& start) {
-  Automaton* automaton(new Automaton(world,thirst,thirstVPS));
+  Automaton* automaton(new Automaton(world,thirst,thirstVPS,Time(0,0,2)));
   Automaton::add(automaton,"Thirst_start",start);
 }
 void startChemo(const Point3f& start) {
@@ -385,6 +385,7 @@ void game() {
                     "cursor distance: "+ToString(mouseWorld.dist(cam.position()))+"\n"
                     "distance to bonus: "+ToString(Bonus::distanceToInactive(mouseWorld))+"\n"
                     "resource for duration: "+ToString(resourceForDuration)+"\n"
+                    "automata count: "+ToString(Automaton::count())+"\n"
                     "listener distance: "+ToString(cam.listenerDistance())+"\n"
                     "time: "+Time::format("%M:%S",Time::now()-start)+"\n"
                     "fps: "+ToString(1/deltaTime)+"\n");
