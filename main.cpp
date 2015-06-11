@@ -49,7 +49,7 @@ float buddingVPS, buddingDuration, buddingMinY, buddingCount, buddingMaxDistance
 float vesselCount, burstRadius;
 float buddingFactor, vesselBuddingFactor, chemoBuddingFactor;
 float chemoBuddingCurve;
-bool anywhere(false), budding(true);
+bool anywhere(false), budding(true), resourceForDuration(false);
 Time clickLapse;
 
 // Gameplay tracking
@@ -166,7 +166,7 @@ void startTumor(const Point3f& start, float vps, const Time& duration) {
   Automaton::add(automaton,"Tumor_start",start);
 }
 void startGrowth(const Point3f& start) {
-  startTumor(start,growthVPS,Time(growthDuration*1000000.f));
+  startTumor(start,growthVPS,Time(growthDuration*1000000.f*((resourceForDuration)?resource:1.f)));
 }
 void startBud(const Point3f& start) {
   startTumor(start,buddingVPS,Time(buddingDuration*1000000.f));
@@ -384,6 +384,7 @@ void game() {
                     "cursor position: "+ToString((Point3i)mouseWorld)+"\n"
                     "cursor distance: "+ToString(mouseWorld.dist(cam.position()))+"\n"
                     "distance to bonus: "+ToString(Bonus::distanceToInactive(mouseWorld))+"\n"
+                    "resource for duration: "+ToString(resourceForDuration)+"\n"
                     "listener distance: "+ToString(cam.listenerDistance())+"\n"
                     "time: "+Time::format("%M:%S",Time::now()-start)+"\n"
                     "fps: "+ToString(1/deltaTime)+"\n");
@@ -432,6 +433,9 @@ void game() {
             break;
           case Window::Event::B:
             budding = !budding;
+            break;
+          case Window::Event::R:
+            resourceForDuration = !resourceForDuration;
             break;
           case Window::Event::W:
             displayVessels = !displayVessels;
