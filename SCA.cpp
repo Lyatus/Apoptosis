@@ -104,6 +104,7 @@ float SCA::distance(const Point3f& point, float maxDistance) const {
 
 void SCA::draw() {
   GL::color(color);
+  glLineWidth(16);
   for(int i(0); i<_branches.size(); i++)
     _branches[i]->draw();
 }

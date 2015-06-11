@@ -612,8 +612,8 @@ int main(int argc, char* argv[]) {
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glEnable(GL_CULL_FACE);
+  glEnable(GL_LINE_SMOOTH);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-  glLineWidth(16);
   // Load world first
   File file("world");
   if(file.exists())
