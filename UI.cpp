@@ -10,7 +10,7 @@ GL::Mesh* UI::disk;
 Ref<GL::Texture> UI::cursorRight, UI::cursorWrong;
 L::Interval2i UI::resourceBarInt;
 
-void UI::drawCursor(float value) {
+void UI::drawCursor(float value, bool can) {
   glClear(GL_DEPTH_BUFFER_BIT);
   glPushMatrix();
   glTranslatef(Window::mousePosition().x(),Window::mousePosition().y(),0);
@@ -25,6 +25,16 @@ void UI::drawCursor(float value) {
   glPopMatrix();
   GL::color(cursorPointColor);
   disk->draw();
+  if(!can) {
+    float inner(cursorRadius/(sqrt(2)*2));
+    glLineWidth(5);
+    glBegin(GL_LINES);
+    glVertex2f(-inner,-inner);
+    glVertex2f(inner,inner);
+    glVertex2f(inner,-inner);
+    glVertex2f(-inner,inner);
+    glEnd();
+  }
   glPopMatrix();
 }
 void UI::drawCursor(L::GL::Program& program, bool right) {

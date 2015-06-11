@@ -530,7 +530,7 @@ void game() {
         break;
     }
     */
-    UI::drawCursor(resource);
+    UI::drawCursor(resource,canPlaceTumor);
     // Fade
     float since(fadeTimer.since().fSeconds());
     float fade(std::min(1.f,since/gameFadeDuration));
