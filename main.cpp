@@ -172,8 +172,13 @@ void startBud(const Point3f& start) {
   startTumor(start,buddingVPS,Time(buddingDuration*1000000.f));
 }
 void startThirst(const Point3f& start) {
-  Automaton* automaton(new Automaton(world,thirst,thirstVPS,Time(0,0,2)));
-  Automaton::add(automaton,"Thirst_start",start);
+  Automaton* current(Automaton::get(thirst,start));
+  if(current)
+    current->include(start);
+  else {
+    Automaton* automaton(new Automaton(world,thirst,thirstVPS));
+    Automaton::add(automaton,"Thirst_start",start);
+  }
 }
 void startChemo(const Point3f& start) {
   Automaton* automaton(new Automaton(world,chemo,chemoVPS,Time::now()+Time(chemoDuration*1000000.f)));

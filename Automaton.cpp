@@ -18,6 +18,8 @@ Automaton::Automaton(World& world, Process process, float vps, const Time& end)
 void Automaton::include(const L::Point3i& p) {
   _nextZone.add(p-Point3i(2,2,2));
   _nextZone.add(p+Point3i(2,2,2));
+  _zone.add(p-Point3i(2,2,2));
+  _zone.add(p+Point3i(2,2,2));
 }
 void Automaton::update() {
   _zone = _nextZone;
