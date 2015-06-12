@@ -9,14 +9,6 @@ Event	ID	Name			Wwise Object Path	Notes
 	4037692801	Tumor_right			\Default Work Unit\Actions\Tumor_right	
 	4179009848	Voice_event_1			\Default Work Unit\Narration\Voice_event_1	
 
-State Group	ID	Name			Wwise Object Path	Notes
-	4233958113	tumor_in_out			\Default Work Unit\tumor_in_out	
-
-State	ID	Name	State Group			Notes
-	645492555	out	tumor_in_out			
-	748895195	None	tumor_in_out			
-	1752637612	in	tumor_in_out			
-
 Effect plug-ins	ID	Name	Type				Notes
 	701863527	Inside_My_Head	Wwise RoomVerb			
 	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
