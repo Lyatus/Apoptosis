@@ -116,7 +116,7 @@ Voxel thirst(Automaton& automaton, int x, int y, int z, bool& processable) {
   if(wtr.empty())
     wtr.type(Voxel::NOTHING);
   else if(wtr.type()==Voxel::TUMOR_THIRSTY_IDLE
-          && (Rand::nextFloat()<.01f || automaton.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2).empty())) {
+          && (Rand::nextFloat()<.05f || automaton.voxel(x+Rand::nextInt()%2,y+Rand::nextInt()%2,z+Rand::nextInt()%2).empty())) {
     if(wtr.value()<=irrigationValue(Point3f(x,y,z)))
       wtr.type(Voxel::TUMOR_IDLE);
     else
