@@ -62,6 +62,10 @@ Time tutoDelay;
 bool movedCamera(false), placedTumor(false), placedVessel(false);
 Point3f tutoCameraPosition, tutoTumorPosition, tutoVesselPosition;
 
+// Wwise plugin
+AK_FUNC(AK::IAkPlugin *, CreateHV_Plug1_WwisePluginEngine)(AK::IAkPluginMemAlloc *in_pAllocator);
+AK_FUNC(AK::IAkPluginParam *, CreateHV_Plug1_WwisePluginEngineParams)(AK::IAkPluginMemAlloc * in_pAllocator);
+
 float irrigationValue(const Point3f& p) {
   return Shape::fromDistance(sca.distance(p,irrigationRadius+1)-irrigationRadius);
 }
@@ -545,11 +549,6 @@ void game() {
     Window::swapBuffers();
   }
 }
-AK_FUNC( AK::IAkPlugin *, CreateHV_Plug1_WwisePluginEngine) (AK::IAkPluginMemAlloc *in_pAllocator);
-
-// Static creation function that returns an instance of the sound engine plug-in
-// parameter node to be hooked by the sound engine plug-in manager.
-AK_FUNC(AK::IAkPluginParam *, CreateHV_Plug1_WwisePluginEngineParams) (AK::IAkPluginMemAlloc * in_pAllocator);
 int main(int argc, char* argv[]) {
   // Interfaces initialization
   new STB();
