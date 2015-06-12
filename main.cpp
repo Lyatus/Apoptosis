@@ -468,13 +468,13 @@ void game() {
     if(Window::isPressed(Window::Event::LBUTTON) && clicktimer.every(clickLapse)) {
       Point3f hit;
       Point2f pixelToNormalized(1.f/Window::width(),1.f/Window::height());
-      if(tumorCost<resource && !Automaton::has(growth,growthCount) && canPlaceTumor)
-        if(world.raycast(cam.position(),cam.screenToRay((Point2f::random()*pixelToNormalized*UI::cursorRadius)+Window::normalizedMousePosition()),hit,512)) {
-          placedTumor = true;
-          Wwise::postEvent("Tumor_right");
-          startGrowth(hit);
-          resource -= tumorCost;
-        } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
+      if(canPlaceTumor && tumorCost<resource && !Automaton::has(growth,growthCount)
+          && world.raycast(cam.position(),cam.screenToRay((Point2f::random()*pixelToNormalized*UI::cursorRadius)+Window::normalizedMousePosition()),hit,512)) {
+        placedTumor = true;
+        Wwise::postEvent("Tumor_right");
+        startGrowth(hit);
+        resource -= tumorCost;
+      } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
     }
     if(Window::isPressed(Window::Event::ESCAPE))
       break;
@@ -545,6 +545,11 @@ void game() {
     Window::swapBuffers();
   }
 }
+AK_FUNC( AK::IAkPlugin *, CreateHV_Plug1_WwisePluginEngine) (AK::IAkPluginMemAlloc *in_pAllocator);
+
+// Static creation function that returns an instance of the sound engine plug-in
+// parameter node to be hooked by the sound engine plug-in manager.
+AK_FUNC(AK::IAkPluginParam *, CreateHV_Plug1_WwisePluginEngineParams) (AK::IAkPluginMemAlloc * in_pAllocator);
 int main(int argc, char* argv[]) {
   // Interfaces initialization
   new STB();
@@ -612,6 +617,7 @@ int main(int argc, char* argv[]) {
   UI::configure();
   // Wwise initialization
   Wwise::init(AKTEXT("Wwise/"));
+  AK::SoundEngine::RegisterPlugin(AkPluginTypeSource, 64, 100, CreateHV_Plug1_WwisePluginEngine, CreateHV_Plug1_WwisePluginEngineParams);
   Wwise::loadBank(AKTEXT("Init.bnk"));
   Wwise::loadBank(AKTEXT("Main.bnk"));
   // OpenGL initialization

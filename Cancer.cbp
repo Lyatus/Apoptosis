@@ -80,6 +80,7 @@
 			<Add library="AkTimeStretchFX" />
 			<Add library="AkToneSource" />
 			<Add library="AkTremoloFX" />
+			<Add library="HV_Plug1_WwisePluginEngine" />
 		</Linker>
 		<Unit filename="../L/interface/wwise.cpp" />
 		<Unit filename="../L/interface/wwise.h" />
