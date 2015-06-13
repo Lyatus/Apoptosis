@@ -327,7 +327,7 @@
 		},
 		{
 			"icon": "Image/Bonus/vessel.png",
-			"position": "97,216,177",
+			"position": "98,194,174",
 			"modifications":[
 				{
 					"value": "growth_duration",
