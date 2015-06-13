@@ -32,7 +32,7 @@ float ambientLevel;
 bool displayAutomata(false), displayVessels(true), displayTargets(false), debugText(false);
 float automataTPF, searchTPF;
 // GUI configuration
-float menuFadeDuration, gameFadeDuration, introDarkDuration;
+float menuFadeDuration, gameFadeDuration, introDarkDuration, gameDuration;
 Timer fadeTimer;
 Time start;
 
@@ -348,8 +348,7 @@ void game() {
                           GL::Shader(File("Shader/poly.frag"),GL_FRAGMENT_SHADER));
   GL::Program debugProgram(GL::Shader(File("Shader/debug.vert"),GL_VERTEX_SHADER),
                            GL::Shader(File("Shader/debug.frag"),GL_FRAGMENT_SHADER));
-  GL::Program guiProgram(GL::Shader(File("Shader/gui.vert"),GL_VERTEX_SHADER),
-                         GL::Shader(File("Shader/gui.frag"),GL_FRAGMENT_SHADER));
+  Ref<GL::Program> guiProgram(Resource::program("Shader/gui"));
   Ref<GL::Program> ppProgram(Resource::program("Shader/pp"));
   GL::PostProcess pp(Window::width(),Window::height());
   // Textures fetching
@@ -457,7 +456,7 @@ void game() {
         resource -= tumorCost;
       } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
     }
-    if(Window::isPressed(Window::Event::ESCAPE))
+    if(Window::isPressed(Window::Event::ESCAPE) || fadeTimer.since().fSeconds()>gameDuration)
       break;
     glEnable(GL_DEPTH_TEST);
     pp.prerender();
@@ -491,9 +490,9 @@ void game() {
       sca.drawTargets();
     pp.postrender(*ppProgram);
     glDisable(GL_DEPTH_TEST); // Start drawing GUI
-    guiProgram.use();
-    guiProgram.uniform("projection",guicam.projection());
-    Bonus::drawAll(guiProgram,cam);
+    guiProgram->use();
+    guiProgram->uniform("projection",guicam.projection());
+    Bonus::drawAll(*guiProgram,cam);
     switch(tutoStep) { // Draw tutorial
       case 0:
         if(Time::now()-start>tutoDelay)
@@ -501,12 +500,12 @@ void game() {
         break;
       case 1: // Camera movement
         if(!movedCamera)
-          UI::drawTip(guiProgram,cam,tutorialCamera,tutoCameraPosition);
+          UI::drawTip(*guiProgram,cam,tutorialCamera,tutoCameraPosition);
         else tutoStep = 2;
         break;
       case 2: // Tumor
         if(!placedTumor)
-          UI::drawTip(guiProgram,cam,tutorialTumor,tutoTumorPosition);
+          UI::drawTip(*guiProgram,cam,tutorialTumor,tutoTumorPosition);
         else tutoStep = 3;
         break;
       case 3: // Chemo
@@ -522,7 +521,7 @@ void game() {
         }
         break;
     }
-    gui->draw(guiProgram);
+    gui->draw(*guiProgram);
     UI::drawCursor(resource,canPlaceTumor);
     // Fade
     float since(fadeTimer.since().fSeconds());
@@ -530,6 +529,25 @@ void game() {
     mask(Color::from(0,0,0,1.f-fade));
     Window::swapBuffers();
   }
+  gui->clear();
+}
+void credits() {
+  clearcolor(Color::black);
+  Ref<GL::Program> guiProgram(Resource::program("Shader/gui"));
+  gui->place(new GUI::Image(Image::Bitmap("Image/credits.png")),Point2i(0,0),GUI::CC,GUI::CC);
+  while(Window::loop()) {
+    while(Window::newEvent(event))
+      gui->event(event);
+    if(Window::isPressed(Window::Event::ESCAPE))
+      Window::close();
+    Wwise::update();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    guiProgram->use();
+    guiProgram->uniform("projection",guicam.projection());
+    gui->draw(*guiProgram);
+    Window::swapBuffers();
+  }
+  gui->clear();
 }
 int main(int argc, char* argv[]) {
   // Interfaces initialization
@@ -584,6 +602,7 @@ int main(int argc, char* argv[]) {
   menuFadeDuration = Conf::getFloat("menu_fade_duration");
   introDarkDuration = Conf::getFloat("intro_dark_duration");
   gameFadeDuration = Conf::getFloat("game_fade_duration");
+  gameDuration = Conf::getFloat("game_duration");
   ambientLevel = Conf::getFloat("ambient_level");
   clickLapse = Time(Conf::getFloat("click_lapse")*1000000.f);
   irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
@@ -622,6 +641,7 @@ int main(int argc, char* argv[]) {
   // Iterate through phases
   menu();
   game();
+  credits();
   // Terminate
   Wwise::term();
   return 0;

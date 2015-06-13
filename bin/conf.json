@@ -8,6 +8,7 @@
 	"menu_fade_duration": 2,
 	"intro_dark_duration": 36,
 	"game_fade_duration": 2,
+	"game_duration": 600,
 
 	"texture_path": "Image/tissue.png",
 	"model_path": "Model/organ.obj",
