@@ -58,9 +58,9 @@ int tumorCount, tumorThirstyCount;
 
 // Tutorial
 int tutoStep(0);
-Time tutoDelay;
-bool movedCamera(false), placedTumor(false), placedVessel(false);
-Point3f tutoCameraPosition, tutoTumorPosition, tutoVesselPosition;
+Time tutoDelay, tutoChemoStart, tutoChemoEnd;
+bool movedCamera(false), placedTumor(false);
+Point3f tutoCameraPosition, tutoTumorPosition;
 
 // Wwise plugin
 AK_FUNC(AK::IAkPlugin *, CreateHV_Plug1_WwisePluginEngine)(AK::IAkPluginMemAlloc *in_pAllocator);
@@ -356,7 +356,7 @@ void game() {
   Ref<GL::Texture> voxelTexture(Resource::texture(Conf::getString("texture_path")));
   Ref<GL::Texture> tutorialCamera(Resource::texture("Image/Tutorial/camera.png"));
   Ref<GL::Texture> tutorialTumor(Resource::texture("Image/Tutorial/tumor.png"));
-  Ref<GL::Texture> tutorialVessel(Resource::texture("Image/Tutorial/vessel.png"));
+  Ref<GUI::Base> tutorialChemo(new GUI::Image(Resource::texture("Image/Tutorial/chemo.png")));
   // GUI initialization
   Point3f mouseWorld;
   GUI::Text* text(new GUI::Text());
@@ -408,31 +408,8 @@ void game() {
               Automaton* chemoAutomaton(Automaton::get(chemo,mouseWorld));
               if(chemoAutomaton)
                 chemoAutomaton->mulTime(.0f);
-              /*
-              else if(tumorCost<resource && !Automaton::has(growth,growthCount)
-                      && canPlaceTumor) {
-                placedTumor = true;
-                Wwise::postEvent("Tumor_right");
-                startGrowth(mouseWorld);
-                resource -= tumorCost;
-              } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
-              */
             }
             break;
-          /*
-          case Window::Event::RBUTTON:
-            if(vesselCost<resource) {
-              bool vesselAdded(false);
-              for(auto&& hit : burst(burstRadius,vesselCount)) {
-                sca.addTarget(hit);
-                vesselAdded = true;
-                placedVessel = true;
-              }
-              if(vesselAdded)
-                resource -= vesselCost;
-            }
-            break;
-          */
           case Window::Event::SPACE:
             if(mouseHits)
               startChemo(mouseWorld);
@@ -516,7 +493,6 @@ void game() {
     glDisable(GL_DEPTH_TEST); // Start drawing GUI
     guiProgram.use();
     guiProgram.uniform("projection",guicam.projection());
-    gui->draw(guiProgram);
     Bonus::drawAll(guiProgram,cam);
     switch(tutoStep) { // Draw tutorial
       case 0:
@@ -533,12 +509,20 @@ void game() {
           UI::drawTip(guiProgram,cam,tutorialTumor,tutoTumorPosition);
         else tutoStep = 3;
         break;
-      case 3: // Vessel
-        if(!placedVessel)
-          UI::drawTip(guiProgram,cam,tutorialVessel,tutoVesselPosition);
-        else tutoStep = 4;
+      case 3: // Chemo
+        if(Time::now()-start>tutoChemoStart) {
+          gui->place(tutorialChemo,Point2i(0,0),GUI::BR,GUI::BR);
+          tutoStep = 4;
+        }
+        break;
+      case 4: // Chemo end
+        if(Time::now()-start>tutoChemoEnd) {
+          gui->detach(tutorialChemo);
+          tutoStep = 5;
+        }
         break;
     }
+    gui->draw(guiProgram);
     UI::drawCursor(resource,canPlaceTumor);
     // Fade
     float since(fadeTimer.since().fSeconds());
@@ -604,9 +588,10 @@ int main(int argc, char* argv[]) {
   clickLapse = Time(Conf::getFloat("click_lapse")*1000000.f);
   irrigationSphereCenter = Conf::getPoint("irrigation_sphere_center");
   tutoDelay = Time(Conf::getFloat("tuto_delay")*1000000.f);
+  tutoChemoStart = Time(Conf::getFloat("tuto_chemo_start")*1000000.f);
+  tutoChemoEnd = Time(Conf::getFloat("tuto_chemo_end")*1000000.f);
   tutoCameraPosition = Conf::getPoint("tuto_camera_position");
   tutoTumorPosition = Conf::getPoint("tuto_tumor_position");
-  tutoVesselPosition = Conf::getPoint("tuto_vessel_position");
   cam.reset(irrigationSphereCenter);
   // GUI initialization
   gui = new GUI::RelativeContainer(Point2i(Window::width(),Window::height()));

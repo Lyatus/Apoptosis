@@ -81,9 +81,10 @@
 	"chemo_budding_curve": 1,
 	
 	"tuto_delay": 9,
+	"tuto_chemo_start": 250,
+	"tuto_chemo_end": 320,
 	"tuto_camera_position": "9,54,176",
 	"tuto_tumor_position": "-1,69,178",
-	"tuto_vessel_position": "0,76,175",
 	
 	"bonus_active_color": "#B2000000",
 	"bonus_inactive_color": "#000000",
