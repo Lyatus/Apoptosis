@@ -1,6 +1,7 @@
 #include "SphericalCamera.h"
 
 #include "Conf.h"
+#include "Game.h"
 
 using namespace L;
 
@@ -67,9 +68,9 @@ void SphericalCamera::event(World& world, const L::Window::Event& e) {
     _fovyTarget = std::max(_minFovy,std::min(_maxFovy,_fovyTarget+(float)-e.y/16));
 }
 void SphericalCamera::configure() {
-  _minAngle = Conf::getFloat("camera_min_angle");
-  _minFovy = Conf::getFloat("camera_min_fovy");
-  _maxFovy = Conf::getFloat("camera_max_fovy");
+  Game::registerValue("camera_min_angle",&_minAngle);
+  Game::registerValue("camera_min_fovy",&_minFovy);
+  Game::registerValue("camera_max_fovy",&_maxFovy);
   _minFovx = _minFovy*Window::aspect();
   _maxFovx = _maxFovy*Window::aspect();
   _audioViewportRadius = Conf::getFloat("audio_viewport_radius");
