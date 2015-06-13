@@ -518,7 +518,6 @@ void game() {
     guiProgram.uniform("projection",guicam.projection());
     gui->draw(guiProgram);
     Bonus::drawAll(guiProgram,cam);
-    /*
     switch(tutoStep) { // Draw tutorial
       case 0:
         if(Time::now()-start>tutoDelay)
@@ -540,7 +539,6 @@ void game() {
         else tutoStep = 4;
         break;
     }
-    */
     UI::drawCursor(resource,canPlaceTumor);
     // Fade
     float since(fadeTimer.since().fSeconds());
