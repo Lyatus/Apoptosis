@@ -29,8 +29,8 @@ Event::Event(const L::Dynamic::Var& v) {
     _value = Game::value(v["value"].as<String>());
   } else _position = Conf::getPointFrom(v["position"]);
 }
-bool Event::update(const Time& time) {
-  if(_time<time) {
+bool Event::update() {
+  if(_time<Game::sinceStart()) {
     switch(_operation) {
       case ADD:
         *_value += _parameter;
@@ -52,11 +52,10 @@ bool Event::update(const Time& time) {
   }
   return false;
 }
-void Event::updateAll(const Time& time) {
+void Event::updateAll() {
   for(int i(0); i<_events.size(); i++)
-    if(_events[i].update(time)) {
+    if(_events[i].update())
       _events.erase(i--);
-    }
 }
 void Event::configure(World* world, SCA* sca) {
   _world = world;

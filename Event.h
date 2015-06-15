@@ -21,8 +21,8 @@ class Event {
   public:
     Event() {}
     Event(const L::Dynamic::Var&);
-    bool update(const L::Time&);
-    static void updateAll(const L::Time&);
+    bool update();
+    static void updateAll();
     static void configure(World*, SCA*);
 };
 

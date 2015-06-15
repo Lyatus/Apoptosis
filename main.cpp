@@ -34,7 +34,6 @@ float automataTPF, searchTPF;
 // GUI configuration
 float menuFadeDuration, gameFadeDuration, introDarkDuration, gameDuration;
 Timer fadeTimer;
-Time start;
 
 // Gameplay configuration
 float resourceSpeed, resourceSpeedIdle, tumorCost, vesselCost, autoaimRadius;
@@ -165,7 +164,7 @@ Voxel chemo(Automaton& automaton, int x, int y, int z, bool& processable) {
   return wtr;
 }
 void startTumor(const Point3f& start, float vps, const Time& duration) {
-  Automaton* automaton(new Automaton(world,growth,vps,Time::now()+duration));
+  Automaton* automaton(new Automaton(world,growth,vps,Game::now()+duration));
   world.voxelSphere(start,growthStartRadius,Voxel::TUMOR_START,Voxel::max);
   Automaton::add(automaton,"Tumor_start",start);
 }
@@ -185,7 +184,7 @@ void startThirst(const Point3f& start) {
   }
 }
 void startChemo(const Point3f& start) {
-  Automaton* automaton(new Automaton(world,chemo,chemoVPS,Time::now()+Time(chemoDuration*1000000.f)));
+  Automaton* automaton(new Automaton(world,chemo,chemoVPS,Game::now()+Time(chemoDuration*1000000.f)));
   world.voxelSphere(start,1.f,Voxel::TUMOR_CHEMO,Voxel::max);
   Automaton::add(automaton,"Chemo_start",start);
 }
@@ -284,7 +283,6 @@ void menu() {
     else if(!fading && clicked) {
       fading = true;
       fadeTimer.setoff();
-      start = Time::now();
       Game::start();
     }
     Wwise::update();
@@ -361,17 +359,18 @@ void game() {
   Point3f mouseWorld;
   GUI::Text* text(new GUI::Text());
   gui->place(text,Point2i(0,0),GUI::TL,GUI::TL);
-  Timer timer, checktimer, clicktimer;
+  Timer checktimer, clicktimer;
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
   Coroutine searchCoroutine(search), automataCoroutine(Automaton::updateAll);
+  Game::frame();
   while(Window::loop()) {
-    float deltaTime(timer.frame().fSeconds());
+    float deltaTime(Game::frame().fSeconds());
     movedCamera |= cam.update(world,deltaTime); // Update camera
     world.update(); // Update world
     // Update Wwise
     Wwise::listen(cam.listenerPosition(),cam.forward(),cam.up());
     Wwise::rtpc("Circle_gauge",resource);
-    Wwise::rtpc("Time_passing",(Time::now()-start).fSeconds());
+    Wwise::rtpc("Time_passing",Game::sinceStart().fSeconds());
     Wwise::update();
     // Cast mouse ray
     bool mouseHits(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),mouseWorld,512));
@@ -382,7 +381,7 @@ void game() {
     resource = std::min(1.f,resource+deltaTime*((Automaton::has(growth)||Automaton::has(thirst))?resourceSpeed:resourceSpeedIdle));
     if(checktimer.every(Time(0,100))) {
       Bonus::updateAll(world);
-      Event::updateAll(Time::now()-start);
+      Event::updateAll();
       tumorCount = world.typeCount(Voxel::TUMOR) + world.typeCount(Voxel::TUMOR_IDLE);
       tumorThirstyCount = world.typeCount(Voxel::TUMOR_THIRSTY) + world.typeCount(Voxel::TUMOR_THIRSTY_IDLE);
       if(debugText)
@@ -395,7 +394,7 @@ void game() {
                     "distance to bonus: "+ToString(Bonus::distanceToInactive(mouseWorld))+"\n"
                     "automata count: "+ToString(Automaton::count())+"\n"
                     "listener distance: "+ToString(cam.listenerDistance())+"\n"
-                    "time: "+Time::format("%M:%S",Time::now()-start)+"\n"
+                    "time: "+Time::format("%M:%S",Game::sinceStart())+"\n"
                     "fps: "+ToString(1/deltaTime)+"\n");
       else text->sText("");
     }
@@ -457,7 +456,7 @@ void game() {
         resource -= tumorCost;
       } else Wwise::postEvent("Tumor_wrong"); // Wrong because wrong place
     }
-    if(Window::isPressed(Window::Event::ESCAPE) || fadeTimer.since().fSeconds()>gameDuration)
+    if(Window::isPressed(Window::Event::ESCAPE) || Game::sinceStart().fSeconds()>gameDuration)
       break;
     glEnable(GL_DEPTH_TEST);
     pp.prerender();
@@ -467,7 +466,7 @@ void game() {
     light.set(GL_LIGHT0);
     voxelProgram.use(); // Draw voxels
     voxelProgram.uniform("ambientLevel",ambientLevel);
-    voxelProgram.uniform("time",(Time::now()-start).fSeconds());
+    voxelProgram.uniform("time",Game::sinceStart().fSeconds());
     voxelProgram.uniform("view",cam.view());
     voxelProgram.uniform("projection",cam.projection());
     voxelProgram.uniform("texture",*voxelTexture,GL_TEXTURE0);
@@ -496,7 +495,7 @@ void game() {
     Bonus::drawAll(*guiProgram,cam);
     switch(tutoStep) { // Draw tutorial
       case 0:
-        if(Time::now()-start>tutoDelay)
+        if(Game::sinceStart()>tutoDelay)
           tutoStep = 1;
         break;
       case 1: // Camera movement
@@ -510,13 +509,13 @@ void game() {
         else tutoStep = 3;
         break;
       case 3: // Chemo
-        if(Time::now()-start>tutoChemoStart) {
+        if(Game::sinceStart()>tutoChemoStart) {
           gui->place(tutorialChemo,Point2i(0,0),GUI::BR,GUI::BR);
           tutoStep = 4;
         }
         break;
       case 4: // Chemo end
-        if(Time::now()-start>tutoChemoEnd) {
+        if(Game::sinceStart()>tutoChemoEnd) {
           gui->detach(tutorialChemo);
           tutoStep = 5;
         }

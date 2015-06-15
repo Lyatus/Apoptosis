@@ -6,19 +6,14 @@
 class Game {
   private:
     static L::Map<L::String,float*> _valueMap;
-    static L::Time _start;
+    static L::Time _start, _delta, _since, _now;
   public:
     static void registerValue(const L::String&,float*);
     inline static float* value(const L::String& name) {return _valueMap[name];}
-    inline static void start() {_start = L::Time::now();}
-    inline static L::Time sinceStart() {return L::Time::now()-_start;}
+    static L::Time frame();
+    static void start();
+    inline static const L::Time& sinceStart() {return _since;}
+    inline static const L::Time& now() {return _now;}
 };
 
 #endif
-
-
-
-
-
-
-
