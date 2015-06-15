@@ -6,9 +6,9 @@
 	"search_tpf": .002,
 
 	"menu_fade_duration": 2,
-	"intro_dark_duration": 36,
+	"intro_dark_duration": 40,
 	"game_fade_duration": 2,
-	"game_duration": 600,
+	"game_duration": 9600,
 
 	"texture_path": "Image/tissue.png",
 	"model_path": "Model/organ.obj",
@@ -55,10 +55,10 @@
 	"growth_start_radius": 1,
 	"growth_count": 25,
 	
-	"thirst_vps": 28,
+	"thirst_vps": 30,
 	"thirst_appearance_factor": 1,
 
-	"chemo_vps":30 ,
+	"chemo_vps":38 ,
 	"chemo_duration": 3,
 	"chemo_propagation_factor": 1,
 	"chemo_organ_factor": 0,
@@ -285,7 +285,7 @@
 		},
 		{
 			"icon": "Image/Bonus/vessel.png",
-			"position": "58,123,183",
+			"position": "58,123,182",
 			"modifications":[
 				{
 					"value": "autoaim_radius",
@@ -417,6 +417,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
+			"appearance": 365,
 			"position": "-26,153,163",
 			"duration": 1,
 			"modifications":[
@@ -427,23 +428,30 @@
 				}
 				],
 			"tumors":[
-			"-56,166,165",
-			"-44,119,163"
+			"-29,181,155",
+			"-55,166,165"
 			]
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
+			"appearance": 365,
+			"duration": 1,
 			"position": "-57,137,167",
 			"modifications":[
 				{
-					"value":"irrigation_radius",
+					"value":"growth_duration",
 					"operation":"add",
-					"parameter": 1.5
+					"parameter": 2
 				}
+				],
+			"tumors":[
+			"-74,150,177",
+			"-81,134,176"
 			]
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
+			"appearance": 365,
 			"position": "-104,205,192",
 			"duration": 1,
 			"modifications":[
@@ -456,6 +464,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
+			"appearance": 365,
 			"position": "-137,167,201",
 			"duration": 1,
 			"modifications":[
@@ -468,6 +477,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
+			"appearance": 365,
 			"position": "-134,122,208",
 			"duration": 1,
 			"modifications":[
@@ -480,6 +490,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
+			"appearance": 365,
 			"position": "-49,95,172",
 			"duration": 1,
 			"modifications":[
@@ -491,12 +502,13 @@
 				],
 			"tumors":
 			[
-			"-35,82,170",
-			"-61,82,178"
+			"-82,101,179",
+			"-79,66,188"
 			]
 		},
 			{
-				"position": "-35,82,170",
+				"position": "-79,66,188",
+				"appearance": 365,
 				"duration": 1,
 				"modifications":[
 					{
@@ -507,99 +519,61 @@
 					],
 				"tumors":
 				[
-				"-55,66,185"
+				"-106,80,200"
 				]
 			},
-			{
-				"position": "-61,82,178",
-				"duration": 1,
-				"modifications":[
-					{
-					"value":"growth_duration",
-					"operation": "add",
-					"parameter": 2
-					}
-					],
-				"tumors":
-				[
-				"-25,67,175"
-				]
-			},
-				{
-					"position": "-55,66,185",
-					"duration": 1,
-					"modifications":[
-						{
-						"value":"growth_duration",
-						"operation": "add",
-						"parameter": 2
-						}
-						],
-					"tumors":
-					[
-					"-17,48,181"
-					]
-				},
-				{
-					"position": "-25,67,175",
-					"duration": 1,
-					"modifications":[
-						{
-						"value":"growth_duration",
-						"operation": "add",
-						"parameter": 2
-						}
-						],
-					"tumors":
-					[
-					"-67,50,186"
-					]
-				},
-					{
-						"position": "-17,48,181",
-						"duration": 1,
-						"modifications":[
-						{
-						"value":"growth_duration",
-						"operation": "add",
-						"parameter": 2
-						}
-						],
-						"tumors":
-						[
-						"-46,19,197"
-						]
-					},
-					{
-						"position": "-67,50,186",
-						"duration": 1,
-						"modifications":[
-						{
-						"value":"growth_duration",
-						"operation": "add",
-						"parameter": 2
-						}
-						],
-						"tumors":
-						[
-						"-10,24,204"
-						]
-					},
 		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "-101,44,198",
+			"appearance": 365,
 			"duration": 1,
 			"modifications":[
 			{
 				"value":"growth_duration",
 				"operation": "add",
 				"parameter": 2
-			}
+			},
 			]
-
+			"tumors":[
+			"-73,31,194",
+			"-124,37,209"
+			]
 		},
+				{
+				"position": "-73,31,194",
+				"appearance": 365,
+				"duration": 1,
+				"modifications":[
+					{
+					"value":"growth_duration",
+					"operation": "add",
+					"parameter": 2
+					}
+					],
+				"tumors":
+				[
+				"-70,-2,202"
+				]
+			},
+				{
+				"position": "-124,37,209",
+				"appearance": 365,
+				"duration": 1,
+				"modifications":[
+					{
+					"value":"growth_duration",
+					"operation": "add",
+					"parameter": 2
+					}
+					],
+				"tumors":
+				[
+				"-138,77,203"
+				]
+			},
 		{
 			"icon": "Image/Bonus/tumor.png",
+			"appearance": 365,
 			"position": "-90,267,156",
 			"duration": 1,
 			"modifications":[
@@ -608,10 +582,33 @@
 				"operation": "add",
 				"parameter": 2
 			}
+			],
+			"tumors":[
+			"-90,293,180",
+			""-113,258,178",
+			"-109,283,176"
 			]
 		},
 		{
+				"position": "-109,283,176",
+				"appearance": 365,
+				"duration": 1,
+				"modifications":[
+					{
+					"value":"growth_duration",
+					"operation": "add",
+					"parameter": 2
+					}
+					],
+				"tumors":
+				[
+				"-121,304,205",
+				"-136,279,205"
+				]
+			},
+		{
 			"icon": "Image/Bonus/tumor.png",
+			"appearance": 365,
 			"position": "-19,275,140",
 			"duration": 1,
 			"modifications":[
@@ -620,6 +617,10 @@
 				"operation": "add",
 				"parameter": 2
 			}
+			],
+			"tumors":[
+			"-11,250,131",
+			"-48,262,137"
 			]
 		}
 	]
@@ -637,18 +638,18 @@
 			"parameter":1
 		},
 		{
-			"time": 5,
+			"time": 40,
 			"operation": "tumor",
 			"position": "148,48,239"
 		},
 		{
-			"time": 6,
+			"time": 41,
 			"value":"growth_vps"
 			"operation": "add",
 			"parameter":-4
 		},
 		{
-			"time": 6,
+			"time": 41,
 			"value":"growth_duration"
 			"operation": "add",
 			"parameter":-1
