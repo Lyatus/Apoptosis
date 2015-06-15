@@ -9,9 +9,10 @@ float SphericalCamera::_minAngle, SphericalCamera::_minFovy, SphericalCamera::_m
 
 void SphericalCamera::reset(const L::Point3f& point) {
   _interval.clear();
+  _centerTarget = _center = point;
   addPoint(point-Point3f(16,16,16));
   addPoint(point+Point3f(16,16,16));
-  position(point+Point3f(0,0,-128));
+  position(point+Point3f(0,0,-64));
   _fovyTarget = _maxFovy;
   fovy(_maxFovy);
 }
