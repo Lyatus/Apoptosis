@@ -351,7 +351,7 @@ void game() {
   Ref<GL::Program> ppProgram(Resource::program("Shader/pp"));
   GL::PostProcess pp(Window::width(),Window::height());
   // Textures fetching
-  Ref<GL::Texture> voxelTexture(Resource::texture(Conf::getString("texture_path")));
+  Ref<GL::Texture> voxelTexture(Resource::texture(Conf::getString("texture_path"),true));
   Ref<GL::Texture> tutorialCamera(Resource::texture("Image/Tutorial/camera.png"));
   Ref<GL::Texture> tutorialTumor(Resource::texture("Image/Tutorial/tumor.png"));
   Ref<GUI::Base> tutorialChemo(new GUI::Image(Resource::texture("Image/Tutorial/chemo.png")));

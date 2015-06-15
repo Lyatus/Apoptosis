@@ -15,7 +15,7 @@ Bonus::Bonus(const L::Dynamic::Var& v)
     _duration(0), _end(0), _appearance(0),
     _active(false), _timed(false) {
   if(v.as<Dynamic::Node>().has("icon"))
-    _image = Resource::texture(v["icon"].as<String>());
+    _image = Resource::texture(v["icon"].as<String>(),true);
   if(v.as<Dynamic::Node>().has("duration"))
     _duration = Time(v["duration"].as<float>()*1000000.f);
   if(v.as<Dynamic::Node>().has("appearance"))

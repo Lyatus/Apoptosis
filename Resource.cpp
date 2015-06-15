@@ -6,9 +6,9 @@ L::Map<L::String,L::Ref<L::GL::Texture> > Resource::_textures;
 L::Map<L::String,L::Ref<L::GL::Mesh> > Resource::_meshes;
 L::Map<L::String,L::Ref<L::GL::Program> > Resource::_programs;
 
-const L::Ref<L::GL::Texture>& Resource::texture(const L::String& path) {
+const L::Ref<L::GL::Texture>& Resource::texture(const L::String& path, bool mipmaps) {
   if(!_textures.has(path))
-    return _textures[path] = new GL::Texture(Image::Bitmap(path));
+    return _textures[path] = new GL::Texture(Image::Bitmap(path),mipmaps);
   return _textures[path];
 }
 const L::Ref<L::GL::Mesh>& Resource::mesh(const L::String& path) {
