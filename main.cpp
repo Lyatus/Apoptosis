@@ -284,6 +284,7 @@ void menu() {
     else if(!fading && clicked) {
       fading = true;
       fadeTimer.setoff();
+      start = Time::now();
       Game::start();
     }
     Wwise::update();
