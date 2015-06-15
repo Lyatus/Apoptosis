@@ -12,12 +12,14 @@ Color Bonus::_activeColor, Bonus::_inactiveColor, Bonus::_expiredColor;
 
 Bonus::Bonus(const L::Dynamic::Var& v)
   : _position(Conf::getPointFrom(v["position"])),
-    _duration(0), _end(0),
+    _duration(0), _end(0), _appearance(0),
     _active(false), _timed(false) {
   if(v.as<Dynamic::Node>().has("icon"))
     _image = Resource::texture(v["icon"].as<String>());
   if(v.as<Dynamic::Node>().has("duration"))
     _duration = Time(v["duration"].as<float>()*1000000.f);
+  if(v.as<Dynamic::Node>().has("appearance"))
+    _appearance = Time(v["appearance"].as<float>()*1000000.f);
   if(v.as<Dynamic::Node>().has("tumors")) {
     if(_duration==0)
       _duration = -1;
@@ -37,6 +39,7 @@ Bonus::Bonus(const L::Dynamic::Var& v)
   }
 }
 void Bonus::update(World& world) {
+  if(Game::sinceStart()<_appearance) return; // Does not appear yet
   Voxel voxel(world.voxel(_position.x(),_position.y(),_position.z()));
   bool tumored(world.spherecast(_position,8,[](Voxel v) {
     return v.type()==Voxel::TUMOR
@@ -83,8 +86,9 @@ void Bonus::deactivate() {
     }
 }
 void Bonus::draw(L::GL::Program& program, const SphericalCamera& cam) const {
+  if(Game::sinceStart()<_appearance) return; // Does not appear yet
   if(_image.null()) return; // There's nothing to draw (default cat pictures are not appreciated)
-  if(_position.dist(cam.center())>cam.radius()*.75f) return;
+  if(_position.dist(cam.center())>cam.radius()*.75f) return; // Too far to be drawn
   Point2f screenCenter;
   if(cam.worldToScreen(_position,screenCenter)) {
     Point3f worldTL(_position-cam.right()*4+cam.up()*4);

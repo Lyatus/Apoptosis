@@ -16,7 +16,7 @@ class Bonus {
     L::Array<Operation> _operations;
     L::Array<float> _parameters;
     L::Array<L::Point3f> _tumors;
-    L::Time _duration, _end;
+    L::Time _duration, _end, _appearance;
     float _radius;
     bool _active, _timed;
 

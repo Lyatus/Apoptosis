@@ -284,7 +284,7 @@ void menu() {
     else if(!fading && clicked) {
       fading = true;
       fadeTimer.setoff();
-      start = Time::now();
+      Game::start();
     }
     Wwise::update();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
