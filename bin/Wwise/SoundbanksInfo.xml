@@ -27,11 +27,40 @@
 				<Event Id="315054063" Name="Tumor_start"/>
 				<Event Id="1365727304" Name="Tumor_wrong"/>
 				<Event Id="4179009848" Name="Voice_event_1"/>
+				<Event Id="1453312792" Name="Voice_event_10"/>
+				<Event Id="1453312793" Name="Voice_event_11"/>
+				<Event Id="1453312794" Name="Voice_event_12"/>
+				<Event Id="1453312795" Name="Voice_event_13"/>
+				<Event Id="1453312796" Name="Voice_event_14"/>
+				<Event Id="1453312797" Name="Voice_event_15"/>
+				<Event Id="1453312798" Name="Voice_event_16"/>
+				<Event Id="1453312799" Name="Voice_event_17"/>
+				<Event Id="1453312784" Name="Voice_event_18"/>
+				<Event Id="1453312785" Name="Voice_event_19"/>
+				<Event Id="4179009851" Name="Voice_event_2"/>
+				<Event Id="1503645649" Name="Voice_event_20"/>
+				<Event Id="1503645648" Name="Voice_event_21"/>
+				<Event Id="1503645651" Name="Voice_event_22"/>
+				<Event Id="1503645650" Name="Voice_event_23"/>
+				<Event Id="1503645653" Name="Voice_event_24"/>
+				<Event Id="1503645652" Name="Voice_event_25"/>
+				<Event Id="1503645655" Name="Voice_event_26"/>
+				<Event Id="4179009850" Name="Voice_event_3"/>
+				<Event Id="4179009853" Name="Voice_event_4"/>
+				<Event Id="4179009852" Name="Voice_event_5"/>
+				<Event Id="4179009855" Name="Voice_event_6"/>
+				<Event Id="4179009854" Name="Voice_event_7"/>
+				<Event Id="4179009841" Name="Voice_event_8"/>
+				<Event Id="4179009840" Name="Voice_event_9"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
-				<File Id="56660461" Language="SFX">
-					<ShortName>Voice-F-08-fx.wav</ShortName>
-					<Path>SFX\Voice-F-08-fx_4231625D.wem</Path>
+				<File Id="4329944" Language="SFX">
+					<ShortName>03.wav</ShortName>
+					<Path>SFX\03_4231625D.wem</Path>
+				</File>
+				<File Id="71791293" Language="SFX">
+					<ShortName>24.wav</ShortName>
+					<Path>SFX\24_4231625D.wem</Path>
 				</File>
 				<File Id="80300493" Language="SFX">
 					<ShortName>Lego Racers Music - Menu.wav</ShortName>
@@ -41,13 +70,29 @@
 					<ShortName>Bubble6.wav</ShortName>
 					<Path>SFX\Bubble6_4231625D.wem</Path>
 				</File>
-				<File Id="189453205" Language="SFX">
-					<ShortName>Voice-F-01-fx-amb.wav</ShortName>
-					<Path>SFX\Voice-F-01-fx-amb_4231625D.wem</Path>
+				<File Id="124328453" Language="SFX">
+					<ShortName>22.wav</ShortName>
+					<Path>SFX\22_4231625D.wem</Path>
 				</File>
-				<File Id="314428476" Language="SFX">
-					<ShortName>Voice-F-07-fx.wav</ShortName>
-					<Path>SFX\Voice-F-07-fx_4231625D.wem</Path>
+				<File Id="194361983" Language="SFX">
+					<ShortName>11.wav</ShortName>
+					<Path>SFX\11_4231625D.wem</Path>
+				</File>
+				<File Id="221652388" Language="SFX">
+					<ShortName>17.wav</ShortName>
+					<Path>SFX\17_4231625D.wem</Path>
+				</File>
+				<File Id="226061229" Language="SFX">
+					<ShortName>13.wav</ShortName>
+					<Path>SFX\13_4231625D.wem</Path>
+				</File>
+				<File Id="260585748" Language="SFX">
+					<ShortName>01.wav</ShortName>
+					<Path>SFX\01_4231625D.wem</Path>
+				</File>
+				<File Id="263717991" Language="SFX">
+					<ShortName>23.wav</ShortName>
+					<Path>SFX\23_4231625D.wem</Path>
 				</File>
 				<File Id="362923797" Language="SFX">
 					<ShortName>Bubble2.wav</ShortName>
@@ -57,21 +102,81 @@
 					<ShortName>Bubble4.wav</ShortName>
 					<Path>SFX\Bubble4_4231625D.wem</Path>
 				</File>
+				<File Id="409338300" Language="SFX">
+					<ShortName>19.wav</ShortName>
+					<Path>SFX\19_4231625D.wem</Path>
+				</File>
 				<File Id="449711483" Language="SFX">
 					<ShortName>Bubble1.wav</ShortName>
 					<Path>SFX\Bubble1_4231625D.wem</Path>
+				</File>
+				<File Id="460393098" Language="SFX">
+					<ShortName>21.wav</ShortName>
+					<Path>SFX\21_4231625D.wem</Path>
 				</File>
 				<File Id="465665579" Language="SFX">
 					<ShortName>Bubble7.wav</ShortName>
 					<Path>SFX\Bubble7_4231625D.wem</Path>
 				</File>
+				<File Id="488912897" Language="SFX">
+					<ShortName>08.wav</ShortName>
+					<Path>SFX\08_4231625D.wem</Path>
+				</File>
 				<File Id="501132209" Language="SFX">
 					<ShortName>Philip-Glass-Metamorphosis-Two.wav</ShortName>
 					<Path>SFX\Philip-Glass-Metamorphosis-Two_4231625D.wem</Path>
 				</File>
+				<File Id="542013845" Language="SFX">
+					<ShortName>02.wav</ShortName>
+					<Path>SFX\02_4231625D.wem</Path>
+				</File>
+				<File Id="564871056" Language="SFX">
+					<ShortName>20.wav</ShortName>
+					<Path>SFX\20_4231625D.wem</Path>
+				</File>
+				<File Id="633143173" Language="SFX">
+					<ShortName>14.wav</ShortName>
+					<Path>SFX\14_4231625D.wem</Path>
+				</File>
+				<File Id="644364267" Language="SFX">
+					<ShortName>15.wav</ShortName>
+					<Path>SFX\15_4231625D.wem</Path>
+				</File>
+				<File Id="653868174" Language="SFX">
+					<ShortName>26.wav</ShortName>
+					<Path>SFX\26_4231625D.wem</Path>
+				</File>
+				<File Id="659721178" Language="SFX">
+					<ShortName>10.wav</ShortName>
+					<Path>SFX\10_4231625D.wem</Path>
+				</File>
+				<File Id="755952865" Language="SFX">
+					<ShortName>07.wav</ShortName>
+					<Path>SFX\07_4231625D.wem</Path>
+				</File>
 				<File Id="772107398" Language="SFX">
 					<ShortName>Bubble5.wav</ShortName>
 					<Path>SFX\Bubble5_4231625D.wem</Path>
+				</File>
+				<File Id="780769339" Language="SFX">
+					<ShortName>05.wav</ShortName>
+					<Path>SFX\05_4231625D.wem</Path>
+				</File>
+				<File Id="811727355" Language="SFX">
+					<ShortName>06.wav</ShortName>
+					<Path>SFX\06_4231625D.wem</Path>
+				</File>
+				<File Id="839219038" Language="SFX">
+					<ShortName>16.wav</ShortName>
+					<Path>SFX\16_4231625D.wem</Path>
+				</File>
+				<File Id="862675670" Language="SFX">
+					<ShortName>04.wav</ShortName>
+					<Path>SFX\04_4231625D.wem</Path>
+				</File>
+				<File Id="870781323" Language="SFX">
+					<ShortName>09.wav</ShortName>
+					<Path>SFX\09_4231625D.wem</Path>
 				</File>
 				<File Id="870835506" Language="SFX">
 					<ShortName>FeedB_click_tumor_wrong.wav</ShortName>
@@ -81,9 +186,21 @@
 					<ShortName>Bubble3.wav</ShortName>
 					<Path>SFX\Bubble3_4231625D.wem</Path>
 				</File>
+				<File Id="887420164" Language="SFX">
+					<ShortName>12.wav</ShortName>
+					<Path>SFX\12_4231625D.wem</Path>
+				</File>
 				<File Id="903042498" Language="SFX">
 					<ShortName>Underwater_Rumble.wav</ShortName>
 					<Path>SFX\Underwater_Rumble_22F7C9A0.wem</Path>
+				</File>
+				<File Id="970253643" Language="SFX">
+					<ShortName>25.wav</ShortName>
+					<Path>SFX\25_4231625D.wem</Path>
+				</File>
+				<File Id="1000347171" Language="SFX">
+					<ShortName>18.wav</ShortName>
+					<Path>SFX\18_4231625D.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>
