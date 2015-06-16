@@ -24,10 +24,20 @@ Event::Event(const L::Dynamic::Var& v) {
   else if(v["operation"].as<String>()=="wwise")
     _operation = WWISE;
   else throw Exception("Unkwown event operation");
-  if(_operation==ADD || _operation==MULT) {
-    _parameter = v["parameter"].as<float>();
-    _value = Game::value(v["value"].as<String>());
-  } else _position = Conf::getPointFrom(v["position"]);
+  switch(_operation) {
+    case ADD:
+    case MULT:
+      _parameter = v["parameter"].as<float>();
+      _value = Game::value(v["value"].as<String>());
+      break;
+    case TUMOR:
+    case VESSEL:
+      _position = Conf::getPointFrom(v["position"]);
+      break;
+    case WWISE:
+      _name = v["name"].as<String>();
+      break;
+  }
 }
 bool Event::update() {
   if(_time<Game::sinceStart()) {
