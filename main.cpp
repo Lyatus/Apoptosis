@@ -48,7 +48,6 @@ float buddingVPS, buddingDuration, buddingMinY, buddingCount, buddingMaxDistance
 float vesselCount, burstRadius;
 float buddingFactor, vesselBuddingFactor, chemoBuddingFactor;
 float chemoBuddingCurve;
-bool anywhere(false), budding(true);
 Time clickLapse;
 
 // Gameplay tracking
@@ -199,7 +198,7 @@ void search() {
       Chunk* chunk(&world.chunk(ci.x(),ci.y(),ci.z()));
       bool thirstPotential(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
       bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE) || chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
-      bool budPotential(budding && chunk->typeCount(Voxel::TUMOR_IDLE) && chunk->typeCount(Voxel::ORGAN));
+      bool budPotential(chunk->typeCount(Voxel::TUMOR_IDLE) && chunk->typeCount(Voxel::ORGAN));
       bool vesselBudPotential(vesselBuddingFactor>0 && (chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE)));
       bool chemoBudPotential(chemoBuddingFactor>0 && chunk->typeCount(Voxel::TUMOR_IDLE));
       if(thirstPotential || camPotential || budPotential || vesselBudPotential || chemoBudPotential)
@@ -389,8 +388,6 @@ void game() {
       if(debugText)
         text->sText("tumor: "+ToString(tumorCount)+"\n"
                     "thirsty: "+ToString(tumorThirstyCount)+"\n"
-                    "anywhere: "+ToString(anywhere)+"\n"
-                    "budding: "+ToString(budding)+"\n"
                     "cursor position: "+ToString((Point3i)mouseWorld)+"\n"
                     "cursor distance: "+ToString(mouseWorld.dist(cam.position()))+"\n"
                     "distance to bonus: "+ToString(Bonus::distanceToInactive(mouseWorld))+"\n"
@@ -414,12 +411,6 @@ void game() {
           case Window::Event::SPACE:
             if(mouseHits)
               startChemo(mouseWorld);
-            break;
-          case Window::Event::ENTER:
-            anywhere = !anywhere;
-            break;
-          case Window::Event::B:
-            budding = !budding;
             break;
           case Window::Event::W:
             displayVessels = !displayVessels;

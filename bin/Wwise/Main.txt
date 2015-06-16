@@ -3,11 +3,36 @@ Event	ID	Name			Wwise Object Path	Notes
 	315054063	Tumor_start			\Default Work Unit\Actions\Tumor_start	
 	626662343	Automaton_end			\Default Work Unit\Actions\Automaton_end	
 	1365727304	Tumor_wrong			\Default Work Unit\Actions\Tumor_wrong	
+	1453312784	Voice_event_18			\Default Work Unit\Narration\Voice_event_18	
+	1453312785	Voice_event_19			\Default Work Unit\Narration\Voice_event_19	
+	1453312792	Voice_event_10			\Default Work Unit\Narration\Voice_event_10	
+	1453312793	Voice_event_11			\Default Work Unit\Narration\Voice_event_11	
+	1453312794	Voice_event_12			\Default Work Unit\Narration\Voice_event_12	
+	1453312795	Voice_event_13			\Default Work Unit\Narration\Voice_event_13	
+	1453312796	Voice_event_14			\Default Work Unit\Narration\Voice_event_14	
+	1453312797	Voice_event_15			\Default Work Unit\Narration\Voice_event_15	
+	1453312798	Voice_event_16			\Default Work Unit\Narration\Voice_event_16	
+	1453312799	Voice_event_17			\Default Work Unit\Narration\Voice_event_17	
+	1503645648	Voice_event_21			\Default Work Unit\Narration\Voice_event_21	
+	1503645649	Voice_event_20			\Default Work Unit\Narration\Voice_event_20	
+	1503645650	Voice_event_23			\Default Work Unit\Narration\Voice_event_23	
+	1503645651	Voice_event_22			\Default Work Unit\Narration\Voice_event_22	
+	1503645652	Voice_event_25			\Default Work Unit\Narration\Voice_event_25	
+	1503645653	Voice_event_24			\Default Work Unit\Narration\Voice_event_24	
+	1503645655	Voice_event_26			\Default Work Unit\Narration\Voice_event_26	
 	2095930298	General_start			\Default Work Unit\Amb-Music\General_start	
 	2959387200	Thirst_start			\Default Work Unit\Actions\Thirst_start	
 	3212785023	Music_event_1			\Default Work Unit\Amb-Music\Music_event_1	
 	4037692801	Tumor_right			\Default Work Unit\Actions\Tumor_right	
+	4179009840	Voice_event_9			\Default Work Unit\Narration\Voice_event_9	
+	4179009841	Voice_event_8			\Default Work Unit\Narration\Voice_event_8	
 	4179009848	Voice_event_1			\Default Work Unit\Narration\Voice_event_1	
+	4179009850	Voice_event_3			\Default Work Unit\Narration\Voice_event_3	
+	4179009851	Voice_event_2			\Default Work Unit\Narration\Voice_event_2	
+	4179009852	Voice_event_5			\Default Work Unit\Narration\Voice_event_5	
+	4179009853	Voice_event_4			\Default Work Unit\Narration\Voice_event_4	
+	4179009854	Voice_event_7			\Default Work Unit\Narration\Voice_event_7	
+	4179009855	Voice_event_6			\Default Work Unit\Narration\Voice_event_6	
 
 Effect plug-ins	ID	Name	Type				Notes
 	701863527	Inside_My_Head	Wwise RoomVerb			
@@ -17,18 +42,41 @@ Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 	425504170	plug1	plug1		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_life\plug1	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	56660461	Voice-F-08-fx	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Voice-F-08-fx_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\Placeholder\Voice-F-08-fx		642220
+	4329944	03	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\03_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\03		510713
+	71791293	24	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\24_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\24		516073
 	80300493	lol	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Lego Racers Music - Menu_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\lol		2558650
 	104157723	Bubble6	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble6_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble6		26736
-	189453205	Voice-F-01-fx-amb	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Voice-F-01-fx-amb_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\Placeholder\Voice-F-01-fx-amb		2685113
-	314428476	Voice-F-07-fx	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Voice-F-07-fx_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\Placeholder\Voice-F-07-fx		505403
+	124328453	22	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\22_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\22		470993
+	194361983	11	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\11_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\11		687871
+	221652388	17	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\17_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\17		540692
+	226061229	13	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\13_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\13		426220
+	260585748	01	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\01_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\01		1835101
+	263717991	23	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\23_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\23		273855
 	362923797	Bubble2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble2_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble2		29904
 	391236202	Bubble4	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble4_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble4		38398
+	409338300	19	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\19_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\19		521500
 	449711483	Bubble1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble1_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble1		40019
+	460393098	21	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\21_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\21		752524
 	465665579	Bubble7	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble7_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble7		39493
-	501132209	Placeholder	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Philip-Glass-Metamorphosis-Two_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Placeholder		18348597
+	488912897	08	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\08_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\08		659181
+	501132209	Mus1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Philip-Glass-Metamorphosis-Two_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Mus1		18348597
+	542013845	02	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\02_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\02		1055447
+	564871056	20	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\20_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\20		601929
+	633143173	14	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\14_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\14		374921
+	644364267	15	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\15_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\15		660164
+	653868174	26	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\26_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\26		1214944
+	659721178	10	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\10_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\10		1052949
+	755952865	07	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\07_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\07		959988
 	772107398	Bubble5	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble5_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble5		51457
-	870835506	Tumor_wrong	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\FeedB_click_tumor_wrong_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_wrong		12468
+	780769339	05	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\05_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\05		318635
+	811727355	06	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\06_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\06		1005954
+	839219038	16	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\16_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\16		1039146
+	862675670	04	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\04_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\04		368867
+	870781323	09	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\09_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\09		791666
+	870835506	Tumor_wrong	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\FeedB_click_tumor_wrong_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Feedback\Tumor_wrong		12468
 	879796040	Bubble3	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble3_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble3		28869
+	887420164	12	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\12_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\12		739646
 	903042498	Rumble	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Underwater_Rumble_22F7C9A0.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Rumble		6387544
+	970253643	25	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\25_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\25		296918
+	1000347171	18	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\18_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\18		386352
 
