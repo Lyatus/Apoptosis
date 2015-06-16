@@ -294,6 +294,34 @@
 							]
 						},
 		{
+			"icon": "Image/Bonus/vessel.png",
+			"position": "147,103,232",
+			"modifications":[
+				{
+					"value": "autoaim_radius",
+					"operation": "add",
+					"parameter": 0.5
+				}
+			]
+		},
+						{	
+							"position": "147,103,232",
+							"duration": 1,
+							"tumors": ["131,134,234"],
+							"modifications":[
+								{
+								"value": "growth_duration",
+								"operation": "add",
+								"parameter": 2
+								},
+								{	
+								"value": "growth_vps",
+								"operation": "add",
+								"parameter": 3
+								}
+							]
+						},
+		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "-8,5,205",
 			"modifications":[
@@ -304,6 +332,23 @@
 				}
 			]
 		},
+						{	
+							"position": "-8,5,205",
+							"duration": 1,
+							"tumors": ["-23,29,202"],
+							"modifications":[
+								{
+								"value": "growth_duration",
+								"operation": "add",
+								"parameter": 2
+								},
+								{	
+								"value": "growth_vps",
+								"operation": "add",
+								"parameter": 3
+								}
+							]
+						},
 		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "32,87,176",
@@ -315,6 +360,23 @@
 				}
 			]
 		},
+						{	
+							"position": "32,87,176",
+							"duration": 1,
+							"tumors": ["19,107,167"],
+							"modifications":[
+								{
+								"value": "growth_duration",
+								"operation": "add",
+								"parameter": 2
+								},
+								{	
+								"value": "growth_vps",
+								"operation": "add",
+								"parameter": 3
+								}
+							]
+						},
 		{
 			"icon": "Image/Bonus/vessel.png",
 			"position": "58,123,182",
@@ -326,6 +388,23 @@
 				}
 			]
 		},
+						{	
+							"position": "58,123,182",
+							"duration": 1,
+							"tumors": ["98,120,212"],
+							"modifications":[
+								{
+								"value": "growth_duration",
+								"operation": "add",
+								"parameter": 2
+								},
+								{	
+								"value": "growth_vps",
+								"operation": "add",
+								"parameter": 3
+								}
+							]
+						},
 		{
 			"icon": "Image/Bonus/vessel.png",
 			"position": "65,155,172",
