@@ -297,6 +297,7 @@ void menu() {
       mask(Color::from(0,0,0,fade));
       if(since > menuFadeDuration+introDarkDuration)
         break;
+      Event::updateAll();
     }
     Window::swapBuffers();
   }
