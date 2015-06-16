@@ -105,13 +105,13 @@ void Bonus::draw(L::GL::Program& program, const SphericalCamera& cam) const {
       GL::color(_inactiveColor);
     program.uniform("texture",*_image);
     glBegin(GL_QUADS);
-    glTexCoord2f(0,0);
-    glVertex2f(screenCenter.x()-screenOffset.x(),screenCenter.y()-screenOffset.y());
-    glTexCoord2f(0,1);
-    glVertex2f(screenCenter.x()-screenOffset.x(),screenCenter.y()+screenOffset.y());
     glTexCoord2f(1,1);
-    glVertex2f(screenCenter.x()+screenOffset.x(),screenCenter.y()+screenOffset.y());
+    glVertex2f(screenCenter.x()-screenOffset.x(),screenCenter.y()-screenOffset.y());
     glTexCoord2f(1,0);
+    glVertex2f(screenCenter.x()-screenOffset.x(),screenCenter.y()+screenOffset.y());
+    glTexCoord2f(0,0);
+    glVertex2f(screenCenter.x()+screenOffset.x(),screenCenter.y()+screenOffset.y());
+    glTexCoord2f(0,1);
     glVertex2f(screenCenter.x()+screenOffset.x(),screenCenter.y()-screenOffset.y());
     glEnd();
   }
