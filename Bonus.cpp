@@ -9,6 +9,7 @@ using namespace L;
 
 Array<Bonus> Bonus::_bonuses;
 Color Bonus::_activeColor, Bonus::_inactiveColor, Bonus::_expiredColor;
+float Bonus::_radius;
 
 Bonus::Bonus(const L::Dynamic::Var& v)
   : _position(Conf::getPointFrom(v["position"])),
@@ -91,7 +92,7 @@ void Bonus::draw(L::GL::Program& program, const SphericalCamera& cam) const {
   if(_position.dist(cam.center())>cam.radius()*.75f) return; // Too far to be drawn
   Point2f screenCenter;
   if(cam.worldToScreen(_position,screenCenter)) {
-    Point3f worldTL(_position-cam.right()*4+cam.up()*4);
+    Point3f worldTL(_position-cam.right()*_radius+cam.up()*_radius);
     Point2f screenOffset;
     cam.worldToScreen(worldTL,screenOffset);
     screenCenter = Window::normalizedToPixels(screenCenter);
@@ -149,4 +150,5 @@ void Bonus::configure() {
   _activeColor = Conf::getColor("bonus_active_color");
   _inactiveColor = Conf::getColor("bonus_inactive_color");
   _expiredColor = Conf::getColor("bonus_expired_color");
+  _radius = Conf::getFloat("bonus_radius");
 }

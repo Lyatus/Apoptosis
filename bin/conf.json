@@ -90,6 +90,7 @@
 	"bonus_active_color": "#B2000000",
 	"bonus_inactive_color": "#ffffff",
 	"bonus_expired_color": "#00000000",
+	"bonus_radius": 3,
 	"bonuses":[
 	{
 			"icon": "Image/Bonus/tumor.png",

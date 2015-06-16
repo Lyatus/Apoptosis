@@ -9,6 +9,7 @@ class Bonus {
   private:
     static L::Array<Bonus> _bonuses;
     static L::Color _activeColor, _inactiveColor, _expiredColor;
+    static float _radius;
     typedef enum {ADD,MULT} Operation;
     L::Point3f _position;
     L::Ref<L::GL::Texture> _image;
@@ -17,7 +18,6 @@ class Bonus {
     L::Array<float> _parameters;
     L::Array<L::Point3f> _tumors;
     L::Time _duration, _end, _appearance;
-    float _radius;
     bool _active, _timed;
 
   public:
