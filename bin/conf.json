@@ -6,7 +6,7 @@
 	"search_tpf": .002,
 
 	"menu_fade_duration": 2,
-	"intro_dark_duration": 0.1,
+	"intro_dark_duration": 37,
 	"game_fade_duration": 2,
 	"game_duration": 630,
 
@@ -849,30 +849,30 @@
 		
 		
 		{
-			"time": 4,
+			"time": 41,
 			"operation": "tumor",
 			"position": "148,48,239"
 		},
 		{
-			"time": 3,
+			"time": 40,
 			"value":"growth_vps",
 			"operation": "add",
 			"parameter":4
 		},
 		{
-			"time": 4,
+			"time": 40,
 			"value":"growth_duration",
 			"operation": "add",
 			"parameter":1
 		},
 		{
-			"time": 5,
+			"time": 42,
 			"value":"growth_vps",
 			"operation": "add",
 			"parameter":-4
 		},
 		{
-			"time": 5,
+			"time": 42,
 			"value":"growth_duration",
 			"operation": "add",
 			"parameter":-1
