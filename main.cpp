@@ -518,13 +518,20 @@ void game() {
     UI::drawCursor(resource,canPlaceTumor);
     // Fade
     float since(fadeTimer.since().fSeconds());
-    float fade(std::min(1.f,since/gameFadeDuration));
-    mask(Color::from(0,0,0,1.f-fade));
+    float gameSince(Game::sinceStart().fSeconds());
+    if(since<gameFadeDuration) {
+      float fade(std::min(1.f,since/gameFadeDuration));
+      mask(Color::from(0,0,0,1.f-fade));
+    } else if(gameSince>gameDuration-gameFadeDuration) {
+      float fade(std::min(1.f,(gameSince-(gameDuration-gameFadeDuration))/gameFadeDuration));
+      mask(Color::from(0,0,0,fade));
+    }
     Window::swapBuffers();
   }
   gui->clear();
 }
 void credits() {
+  fadeTimer.setoff();
   clearcolor(Color::black);
   Ref<GL::Program> guiProgram(Resource::program("Shader/gui"));
   gui->place(new GUI::Image(Image::Bitmap("Image/credits.png")),Point2i(0,0),GUI::CC,GUI::CC);
@@ -538,6 +545,9 @@ void credits() {
     guiProgram->use();
     guiProgram->uniform("projection",guicam.projection());
     gui->draw(*guiProgram);
+    float since(fadeTimer.since().fSeconds());
+    float fade(std::min(1.f,since/gameFadeDuration));
+    mask(Color::from(0,0,0,1.f-fade));
     Window::swapBuffers();
   }
   gui->clear();
