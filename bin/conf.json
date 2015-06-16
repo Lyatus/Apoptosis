@@ -670,6 +670,136 @@
 			"parameter":1
 		},
 		{
+			"time": 3,
+			"operation": "wwise",
+			"name": "Voice_event_1"
+		},
+		{
+			"time": 58,
+			"operation": "wwise",
+			"name": "Voice_event_2"
+		},
+		{
+			"time": 94,
+			"operation": "wwise",
+			"name": "Voice_event_3"
+		},
+		{
+			"time": 119,
+			"operation": "wwise",
+			"name": "Voice_event_4"
+		},
+		{
+			"time": 136,
+			"operation": "wwise",
+			"name": "Voice_event_5"
+		},
+		{
+			"time": 154,
+			"operation": "wwise",
+			"name": "Voice_event_6"
+		},
+		{
+			"time": 186,
+			"operation": "wwise",
+			"name": "Voice_event_7"
+		},
+		{
+			"time": 211,
+			"operation": "wwise",
+			"name": "Voice_event_8"
+		},
+		{
+			"time": 230,
+			"operation": "wwise",
+			"name": "Voice_event_9"
+		},
+		{
+			"time": 251,
+			"operation": "wwise",
+			"name": "Voice_event_10"
+		},
+		{
+			"time": 271,
+			"operation": "wwise",
+			"name": "Voice_event_11"
+		},
+		{
+			"time": 286,
+			"operation": "wwise",
+			"name": "Voice_event_12"
+		},
+		{
+			"time": 303,
+			"operation": "wwise",
+			"name": "Voice_event_13"
+		},
+		{
+			"time": 316,
+			"operation": "wwise",
+			"name": "Voice_event_14"
+		},
+		{
+			"time": 333,
+			"operation": "wwise",
+			"name": "Voice_event_15"
+		},
+		{
+			"time": 369,
+			"operation": "wwise",
+			"name": "Voice_event_16"
+		},
+		{
+			"time": 395,
+			"operation": "wwise",
+			"name": "Voice_event_17"
+		},
+		{
+			"time": 412,
+			"operation": "wwise",
+			"name": "Voice_event_18"
+		},
+		{
+			"time": 433,
+			"operation": "wwise",
+			"name": "Voice_event_19"
+		},
+		{
+			"time": 451,
+			"operation": "wwise",
+			"name": "Voice_event_20"
+		},
+		{
+			"time": 470,
+			"operation": "wwise",
+			"name": "Voice_event_21"
+		},
+		{
+			"time": 497,
+			"operation": "wwise",
+			"name": "Voice_event_22"
+		},
+		{
+			"time": 524,
+			"operation": "wwise",
+			"name": "Voice_event_23"
+		},
+		{
+			"time": 538,
+			"operation": "wwise",
+			"name": "Voice_event_24"
+		},
+		{
+			"time": 571,
+			"operation": "wwise",
+			"name": "Voice_event_25"
+		},
+		{
+			"time": 596,
+			"operation": "wwise",
+			"name": "Voice_event_26"
+		},
+		{
 			"time": 40,
 			"operation": "tumor",
 			"position": "148,48,239"
