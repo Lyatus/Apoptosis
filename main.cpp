@@ -373,6 +373,7 @@ void game() {
     Wwise::listen(cam.listenerPosition(),cam.forward(),cam.up());
     Wwise::rtpc("Circle_gauge",resource);
     Wwise::rtpc("Time_passing",Game::sinceStart().fSeconds());
+    Wwise::rtpc("Random",Rand::nextFloat());
     Wwise::update();
     // Cast mouse ray
     bool mouseHits(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),mouseWorld,512));
