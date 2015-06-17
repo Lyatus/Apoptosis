@@ -238,16 +238,6 @@ void fillObj(const char* filename, byte type) {
       world.fill(Triangle(vertices[FromString<int>(line[1])-1],vertices[FromString<int>(line[2])-1],vertices[FromString<int>(line[3])-1],4),type,Voxel::max);
   }
 }
-void fillTerrain(const Interval3i& interval) {
-  Perlin<2> perlin(16);
-  Point3i i(interval.min());
-  float height(interval.max().y()-interval.min().y());
-  while(i.increment(interval.min(),interval.max())) {
-    float distance(i.y()-(((perlin.value(Point2f((float)(i.x()-interval.min().x())/32,(float)(i.z()-interval.min().z())/32))+1)/2)*height));
-    float value(Shape::fromDistance(distance));
-    world.updateVoxel(i.x(),i.y(),i.z(),Voxel(value,Voxel::ORGAN),Voxel::max);
-  }
-}
 void mask(const Color& color) {
   glClear(GL_DEPTH_BUFFER_BIT);
   GL::Program::unuse();
