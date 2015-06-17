@@ -26,6 +26,7 @@ Window::Event event;
 Ref<GUI::RelativeContainer> gui;
 GL::Camera guicam;
 SphericalCamera cam;
+Perlin<1> perlin(16);
 
 // Graphic configuration
 float ambientLevel;
@@ -374,6 +375,7 @@ void game() {
     Wwise::rtpc("Circle_gauge",resource);
     Wwise::rtpc("Time_passing",Game::sinceStart().fSeconds());
     Wwise::rtpc("Random",Rand::nextFloat());
+    Wwise::rtpc("Perlin",perlin.value(Game::sinceStart().fSeconds()));
     Wwise::update();
     // Cast mouse ray
     bool mouseHits(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),mouseWorld,512));
