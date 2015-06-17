@@ -1,5 +1,6 @@
 #include "SCA.h"
 
+#include <L/interface/wwise.h>
 #include "Conf.h"
 
 using namespace L;
@@ -82,6 +83,7 @@ bool SCA::update(World& world) {
       Branch newBranch(branch.next(world));
       world.fill(Line(branch.position(),newBranch.position(),branchRadius),Voxel::VESSEL,Voxel::max);
       addBranch(newBranch);
+      Wwise::postEvent("Vessel_grow",newBranch.position());
       _changed = addedBranch = true;
     }
   }
