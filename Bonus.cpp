@@ -63,7 +63,6 @@ void Bonus::update(World& world) {
 }
 void Bonus::activate() {
   _active = true;
-  Wwise::postEvent("Bonus_pick");
   for(int i(0); i<_values.size(); i++)
     switch(_operations[i]) {
       case ADD:
@@ -75,6 +74,8 @@ void Bonus::activate() {
     }
   for(int i(0); i<_tumors.size(); i++)
     startGrowth(_tumors[i]);
+  if(!_image.null())
+    Wwise::postEvent("Bonus_pick");
 }
 void Bonus::deactivate() {
   _active = false;
