@@ -19,10 +19,12 @@
 			<Path>Main.bnk</Path>
 			<IncludedEvents>
 				<Event Id="626662343" Name="Automaton_end"/>
+				<Event Id="3250772846" Name="Bonus_pick"/>
+				<Event Id="2996780470" Name="Click_start"/>
 				<Event Id="2095930298" Name="General_start"/>
 				<Event Id="280537711" Name="lol_event"/>
 				<Event Id="3212785023" Name="Music_event_1"/>
-				<Event Id="2959387200" Name="Thirst_start"/>
+				<Event Id="3050945240" Name="New_Event"/>
 				<Event Id="4037692801" Name="Tumor_right"/>
 				<Event Id="315054063" Name="Tumor_start"/>
 				<Event Id="1365727304" Name="Tumor_wrong"/>
@@ -78,6 +80,10 @@
 					<ShortName>11.wav</ShortName>
 					<Path>SFX\11_4231625D.wem</Path>
 				</File>
+				<File Id="204703912" Language="SFX">
+					<ShortName>start.wav</ShortName>
+					<Path>SFX\start_4231625D.wem</Path>
+				</File>
 				<File Id="221652388" Language="SFX">
 					<ShortName>17.wav</ShortName>
 					<Path>SFX\17_4231625D.wem</Path>
@@ -85,6 +91,10 @@
 				<File Id="226061229" Language="SFX">
 					<ShortName>13.wav</ShortName>
 					<Path>SFX\13_4231625D.wem</Path>
+				</File>
+				<File Id="256665748" Language="SFX">
+					<ShortName>lava2_reverse.wav</ShortName>
+					<Path>SFX\lava2_reverse_4231625D.wem</Path>
 				</File>
 				<File Id="260585748" Language="SFX">
 					<ShortName>01.wav</ShortName>
@@ -101,6 +111,10 @@
 				<File Id="391236202" Language="SFX">
 					<ShortName>Bubble4.wav</ShortName>
 					<Path>SFX\Bubble4_4231625D.wem</Path>
+				</File>
+				<File Id="398812558" Language="SFX">
+					<ShortName>lava3_reverse.wav</ShortName>
+					<Path>SFX\lava3_reverse_4231625D.wem</Path>
 				</File>
 				<File Id="409338300" Language="SFX">
 					<ShortName>19.wav</ShortName>
@@ -122,13 +136,29 @@
 					<ShortName>08.wav</ShortName>
 					<Path>SFX\08_4231625D.wem</Path>
 				</File>
+				<File Id="493589491" Language="SFX">
+					<ShortName>lava3.wav</ShortName>
+					<Path>SFX\lava3_4231625D.wem</Path>
+				</File>
 				<File Id="501132209" Language="SFX">
 					<ShortName>Philip-Glass-Metamorphosis-Two.wav</ShortName>
 					<Path>SFX\Philip-Glass-Metamorphosis-Two_4231625D.wem</Path>
 				</File>
+				<File Id="532240914" Language="SFX">
+					<ShortName>2-16 Bass Impact Synthesized Whir  S.wav</ShortName>
+					<Path>SFX\2-16 Bass Impact Synthesized Whir  S_F1FAA1E1.wem</Path>
+				</File>
+				<File Id="535095414" Language="SFX">
+					<ShortName>lava1_reverse.wav</ShortName>
+					<Path>SFX\lava1_reverse_4231625D.wem</Path>
+				</File>
 				<File Id="542013845" Language="SFX">
 					<ShortName>02.wav</ShortName>
 					<Path>SFX\02_4231625D.wem</Path>
+				</File>
+				<File Id="556490982" Language="SFX">
+					<ShortName>lava1.wav</ShortName>
+					<Path>SFX\lava1_4231625D.wem</Path>
 				</File>
 				<File Id="564871056" Language="SFX">
 					<ShortName>20.wav</ShortName>
@@ -149,6 +179,10 @@
 				<File Id="659721178" Language="SFX">
 					<ShortName>10.wav</ShortName>
 					<Path>SFX\10_4231625D.wem</Path>
+				</File>
+				<File Id="702001608" Language="SFX">
+					<ShortName>bonus.wav</ShortName>
+					<Path>SFX\bonus_4231625D.wem</Path>
 				</File>
 				<File Id="755952865" Language="SFX">
 					<ShortName>07.wav</ShortName>
@@ -178,10 +212,6 @@
 					<ShortName>09.wav</ShortName>
 					<Path>SFX\09_4231625D.wem</Path>
 				</File>
-				<File Id="870835506" Language="SFX">
-					<ShortName>FeedB_click_tumor_wrong.wav</ShortName>
-					<Path>SFX\FeedB_click_tumor_wrong_4231625D.wem</Path>
-				</File>
 				<File Id="879796040" Language="SFX">
 					<ShortName>Bubble3.wav</ShortName>
 					<Path>SFX\Bubble3_4231625D.wem</Path>
@@ -193,6 +223,10 @@
 				<File Id="903042498" Language="SFX">
 					<ShortName>Underwater_Rumble.wav</ShortName>
 					<Path>SFX\Underwater_Rumble_22F7C9A0.wem</Path>
+				</File>
+				<File Id="934552941" Language="SFX">
+					<ShortName>lava2.wav</ShortName>
+					<Path>SFX\lava2_4231625D.wem</Path>
 				</File>
 				<File Id="970253643" Language="SFX">
 					<ShortName>25.wav</ShortName>
