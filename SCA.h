@@ -10,7 +10,7 @@ class SCA {
     class Branch {
       private:
         Branch* _parent;
-        L::Point3f _position, _direction, _originalDirection;
+        L::Point3f _position, _direction, _originalDirection, _prevPosition;
         int _growCount;
       public:
         Branch(Branch*,const L::Point3f&,const L::Point3f&);

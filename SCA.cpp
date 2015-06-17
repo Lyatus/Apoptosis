@@ -9,7 +9,7 @@ float SCA::dragFactor, SCA::randomFactor, SCA::branchLength, SCA::branchRadius;
 int SCA::avoidAttempts;
 
 SCA::Branch::Branch(Branch* parent,const L::Point3f& position,const L::Point3f& direction)
-  : _parent(parent), _position(position), _originalDirection(direction) {
+  : _parent(parent), _position(position), _originalDirection(direction), _prevPosition(position-direction) {
   reset();
 }
 void SCA::Branch::reset() {
@@ -42,10 +42,8 @@ SCA::Branch SCA::Branch::next(World& world) {
   return Branch(this,bestNextPosition,bestNextDirection);
 }
 void SCA::Branch::draw() {
-  glBegin(GL_LINES);
   glVertex3f(_position.x(),_position.y(),_position.z());
-  glVertex3f((_position-_originalDirection).x(),(_position-_originalDirection).y(),(_position-_originalDirection).z());
-  glEnd();
+  glVertex3f(_prevPosition.x(),_prevPosition.y(),_prevPosition.z());
 }
 
 SCA::SCA(float minDist, float maxDist)
@@ -105,8 +103,10 @@ float SCA::distance(const Point3f& point, float maxDistance) const {
 void SCA::draw() {
   GL::color(color);
   glLineWidth(16);
+  glBegin(GL_LINES);
   for(int i(0); i<_branches.size(); i++)
     _branches[i]->draw();
+  glEnd();
 }
 void SCA::drawTargets() {
   GL::color(Color::red);
