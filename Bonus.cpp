@@ -118,9 +118,8 @@ void Bonus::draw(L::GL::Program& program, const SphericalCamera& cam) const {
   }
 }
 void Bonus::updateAll(World& world) {
-  _bonuses.foreach([&world](Bonus& bonus) {
-    bonus.update(world);
-  });
+  for(int i(0); i<_bonuses.size(); i++)
+    _bonuses[i].update(world);
 }
 void Bonus::drawAll(L::GL::Program& program, const SphericalCamera& cam) {
   for(int i(0); i<_bonuses.size(); i++)
