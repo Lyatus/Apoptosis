@@ -127,18 +127,16 @@ void Bonus::drawAll(L::GL::Program& program, const SphericalCamera& cam) {
 }
 float Bonus::distanceToActive(const Point3f& p) {
   float mag(std::numeric_limits<float>::max());
-  _bonuses.foreach([&mag,&p](const Bonus& bonus) {
-    if(bonus._active)
-      mag = std::min(mag,bonus._position.distSquared(p));
-  });
+  for(int i(0); i<_bonuses.size(); i++)
+    if(_bonuses[i]._active)
+      mag = std::min(mag,_bonuses[i]._position.distSquared(p));
   return sqrt(mag);
 }
 float Bonus::distanceToInactive(const Point3f& p) {
   float mag(std::numeric_limits<float>::max());
-  _bonuses.foreach([&mag,&p](const Bonus& bonus) {
-    if(!bonus._active)
-      mag = std::min(mag,bonus._position.distSquared(p));
-  });
+  for(int i(0); i<_bonuses.size(); i++)
+    if(!_bonuses[i]._active)
+      mag = std::min(mag,_bonuses[i]._position.distSquared(p));
   return sqrt(mag);
 }
 void Bonus::configure() {
