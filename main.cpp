@@ -532,6 +532,7 @@ void game() {
   gui->clear();
 }
 void credits() {
+  Wwise::postEvent("End_display");
   fadeTimer.setoff();
   clearcolor(Color::black);
   Ref<GL::Program> guiProgram(Resource::program("Shader/gui"));
