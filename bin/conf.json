@@ -1345,6 +1345,12 @@
 			"parameter": -15
 		},
 		{
+			"time": 350,
+			"value": "chemo_vps",
+			"operation": "add",
+			"parameter": 15
+		},
+		{
 		"time":360,
 		"value":"vessel_budding_factor",
 		"operation":"mult",
