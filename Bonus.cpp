@@ -123,9 +123,8 @@ void Bonus::updateAll(World& world) {
   });
 }
 void Bonus::drawAll(L::GL::Program& program, const SphericalCamera& cam) {
-  _bonuses.foreach([&program,&cam](const Bonus& bonus) {
-    bonus.draw(program,cam);
-  });
+  for(int i(0); i<_bonuses.size(); i++)
+    _bonuses[i].draw(program,cam);
 }
 float Bonus::distanceToActive(const Point3f& p) {
   float mag(std::numeric_limits<float>::max());
