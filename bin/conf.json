@@ -1345,12 +1345,6 @@
 			"parameter": -15
 		},
 		{
-			"time": 480,
-			"value": "budding_factor",
-			"operation": "add",
-			"parameter": 10
-		},
-		{
 		"time":360,
 		"value":"vessel_budding_factor",
 		"operation":"mult",
