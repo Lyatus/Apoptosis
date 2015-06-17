@@ -1,5 +1,6 @@
 #include "Bonus.h"
 
+#include <L/interface/wwise.h>
 #include "Conf.h"
 #include "Game.h"
 #include "main.h"
@@ -62,6 +63,7 @@ void Bonus::update(World& world) {
 }
 void Bonus::activate() {
   _active = true;
+  Wwise::postEvent("Bonus_pick");
   for(int i(0); i<_values.size(); i++)
     switch(_operations[i]) {
       case ADD:
