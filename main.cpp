@@ -283,6 +283,7 @@ void menu() {
       fading = true;
       fadeTimer.setoff();
       Game::start();
+      Wwise::postEvent("Click_start");
     }
     Wwise::update();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
