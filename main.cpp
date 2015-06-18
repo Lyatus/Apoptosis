@@ -328,7 +328,6 @@ List<Point3f> burst(float radius, int count) {
   return wtr;
 }
 void game() {
-  fadeTimer.setoff();
   clearcolor(Conf::getColor("background"));
   // Light initialization
   GL::Light light;
@@ -355,6 +354,7 @@ void game() {
   Timer checktimer, clicktimer;
   sca.addBranch(SCA::Branch(NULL,irrigationSphereCenter,Point3f(0,0,0)));
   Coroutine searchCoroutine(search), automataCoroutine(Automaton::updateAll);
+  fadeTimer.setoff();
   Game::frame();
   while(Window::loop()) {
     float deltaTime(Game::frame().fSeconds());
