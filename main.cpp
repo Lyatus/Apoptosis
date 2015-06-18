@@ -198,8 +198,8 @@ void search() {
     if(world.chunkExists(ci.x(),ci.y(),ci.z())) {
       Chunk* chunk(&world.chunk(ci.x(),ci.y(),ci.z()));
       bool thirstPotential(chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
-      bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_IDLE) || chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE));
-      bool budPotential(chunk->typeCount(Voxel::TUMOR_IDLE) && chunk->typeCount(Voxel::ORGAN));
+      bool camPotential(chunk->typeCount(Voxel::TUMOR) || chunk->typeCount(Voxel::TUMOR_THIRSTY));
+      bool budPotential(vesselBuddingFactor>0 && chunk->typeCount(Voxel::TUMOR_IDLE) && chunk->typeCount(Voxel::ORGAN));
       bool vesselBudPotential(vesselBuddingFactor>0 && (chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE)));
       bool chemoBudPotential(chemoBuddingFactor>0 && chunk->typeCount(Voxel::TUMOR_IDLE));
       if(thirstPotential || camPotential || budPotential || vesselBudPotential || chemoBudPotential)
