@@ -387,6 +387,7 @@ void game() {
                     "distance to bonus: "+ToString(Bonus::distanceToInactive(mouseWorld))+"\n"
                     "automata count: "+ToString(Automaton::count())+"\n"
                     "listener distance: "+ToString(cam.listenerDistance())+"\n"
+                    "world interval: "+ToString(world.interval())+"\n"
                     "time: "+Time::format("%M:%S",Game::sinceStart())+"\n"
                     "fps: "+ToString(1/deltaTime)+"\n");
       else text->sText("");
