@@ -146,7 +146,7 @@
 				</File>
 				<File Id="532240914" Language="SFX">
 					<ShortName>2-16 Bass Impact Synthesized Whir  S.wav</ShortName>
-					<Path>SFX\2-16 Bass Impact Synthesized Whir  S_F1FAA1E1.wem</Path>
+					<Path>SFX\2-16 Bass Impact Synthesized Whir  S_6D0B8C4A.wem</Path>
 				</File>
 				<File Id="535095414" Language="SFX">
 					<ShortName>lava1_reverse.wav</ShortName>
@@ -180,13 +180,13 @@
 					<ShortName>10.wav</ShortName>
 					<Path>SFX\10_4231625D.wem</Path>
 				</File>
-				<File Id="702001608" Language="SFX">
-					<ShortName>bonus.wav</ShortName>
-					<Path>SFX\bonus_4231625D.wem</Path>
-				</File>
 				<File Id="755952865" Language="SFX">
 					<ShortName>07.wav</ShortName>
 					<Path>SFX\07_4231625D.wem</Path>
+				</File>
+				<File Id="756448266" Language="SFX">
+					<ShortName>bonus2.wav</ShortName>
+					<Path>SFX\bonus2_4231625D.wem</Path>
 				</File>
 				<File Id="772107398" Language="SFX">
 					<ShortName>Bubble5.wav</ShortName>
