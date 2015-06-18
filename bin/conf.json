@@ -2,8 +2,8 @@
 	"fullscreen": true,
 	"cursor": false,
 	"width": 1280, "height": 720,
-	"automata_tpf": .015,
-	"search_tpf": .002,
+	"automata_tpf": 0.015,
+	"search_tpf": 0.002,
 
 	"menu_fade_duration": 2,
 	"intro_dark_duration": 35.5,
@@ -31,22 +31,22 @@
 	"vessel": "#8ce7fe",
 	"chemo": "#001F00",
 	
-	"camera_min_angle": .45,
+	"camera_min_angle": 0.45,
 	"camera_min_fovy": 35,
 	"camera_max_fovy": 65,
 	"audio_viewport_radius": 16,
 	
-	"sca_drag_factor": .5,
+	"sca_drag_factor": 0.5,
 	"sca_random_factor": 0.5,
 	"sca_branch_length": 2,
 	"sca_branch_radius": 1,
 	"sca_avoid_attempts": 1024,
-	"sca_color": "#2558e066"
+	"sca_color": "#2558e066",
 	
 	"vessel_count": 3,
 	"burst_radius": 9,
 	
-	"click_lapse": .1,
+	"click_lapse": 0.1,
 	"irrigation_sphere_center": "148,48,243",
 	"irrigation_radius": 8,
 
@@ -584,10 +584,10 @@
 					"value": "growth_vps",
 					"operation": "add",
 					"parameter": 1
-				},
+				}
+],
 			"tumors":[
 			"67,247,149"
-			]
 			]
 		},
 		{
@@ -714,7 +714,7 @@
 				"operation": "add",
 				"parameter": 2
 				}
-				]
+				],
 			"tumors": [
 			"-160,164,213",
 			"-162,116,246"
@@ -1220,7 +1220,7 @@
 			}
 
 			
-	]
+	],
 	"events":[
 		{
 			"time": 3,
