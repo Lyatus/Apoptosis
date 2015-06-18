@@ -47,23 +47,30 @@ int World::typeCount(L::byte type) const {
   }
   return wtr;
 }
-Chunk& World::chunk(int x, int y, int z, bool create) {
+Chunk& World::chunk(int x, int y, int z) {
   Chunk*& chunk = _chunks[x+radius][y+radius][z+radius];
   if(chunk) return *chunk; // The chunk is already created
-  else if(create) { // It isn't created and we're allowed to create it
+  else { // It isn't created and we're allowed to create it
     _interval.add(Point3i(x+radius,y+radius,z+radius));
     _interval.add(Point3i(x+radius+1,y+radius+1,z+radius+1));
     return *(chunk = new Chunk(x,y,z));
-  } else throw Exception("Tried to access unavailable chunk.");
+  }
 }
-bool World::chunkExists(int x, int y, int z) {
+Chunk* World::chunkPointer(int x, int y, int z) {
   return _chunks[x+radius][y+radius][z+radius];
 }
-const Voxel& World::voxel(int x, int y, int z, bool create) {
+bool World::chunkExists(int x, int y, int z) {
+  return chunkPointer(x,y,z);
+}
+const Voxel& World::voxel(int x, int y, int z) {
   int cx, cy, cz, vx, vy, vz;
   chunkKey(x,y,z,cx,cy,cz);
-  voxelKey(x,y,z,vx,vy,vz);
-  return chunk(cx,cy,cz,create).voxel(vx,vy,vz);
+  Chunk* chunk(chunkPointer(cx,cy,cz));
+  if(chunk){
+    voxelKey(x,y,z,vx,vy,vz);
+    chunk->voxel(vx,vy,vz);
+  }
+  else return Voxel();
 }
 float World::valueAt(const Point3f& point) {
   int x(floor(point.x())), y(floor(point.y())), z(floor(point.z()));

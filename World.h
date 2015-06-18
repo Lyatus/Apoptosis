@@ -20,9 +20,10 @@ class World {
     void update();
     void updateAll();
     int typeCount(L::byte type) const;
-    Chunk& chunk(int x, int y, int z, bool create = true);
+    Chunk& chunk(int x, int y, int z);
+    Chunk* chunkPointer(int x, int y, int z);
     bool chunkExists(int x, int y, int z);
-    const Voxel& voxel(int x, int y, int z, bool create = true);
+    const Voxel& voxel(int x, int y, int z);
     float valueAt(const L::Point3f&);
     void updateVoxel(int x, int y, int z, const Voxel&, Voxel::Updater);
     inline const L::Interval3i& interval() const {return _interval;}
