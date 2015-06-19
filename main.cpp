@@ -285,7 +285,7 @@ void menu() {
       float since(Game::sinceStart().fSeconds());
       float fade(std::min(1.f,since/menuFadeDuration));
       mask(Color::from(0,0,0,fade));
-      Wwise::rtpc("Time_passing",since);
+      Wwise::rtpc("Time",since);
       if(since > menuFadeDuration+introDarkDuration)
         break;
       Game::frame();
@@ -363,7 +363,7 @@ void game() {
     // Update Wwise
     Wwise::listen(cam.listenerPosition(),cam.forward(),cam.up());
     Wwise::rtpc("Circle_gauge",resource);
-    Wwise::rtpc("Time_passing",Game::sinceStart().fSeconds());
+    Wwise::rtpc("Time",Game::sinceStart().fSeconds());
     Wwise::rtpc("Random",Rand::nextFloat());
     Wwise::rtpc("Perlin",perlin.value(Game::sinceStart().fSeconds()));
     Wwise::update();
