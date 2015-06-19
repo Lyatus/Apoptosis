@@ -44,7 +44,7 @@ void Automaton::update() {
           processing = false;
       }
       if(_buffer.size()>bufferMax || !processing) {
-        _world.updateVoxel(iw.x(),iw.y(),iw.z(),_buffer.read(),Voxel::set);
+        _world.setVoxel(iw.x(),iw.y(),iw.z(),_buffer.read());
         _buffer.pop();
         iw.increment(_min,_max);
       }
@@ -109,7 +109,7 @@ void Automaton::updateAll() {
 }
 void Automaton::fuse() {
   bool fused;
-  do{
+  do {
     fused = false;
     for(int i(0); i<_automata.size() && !fused; i++) // Check for automata that should fuse
       for(int j(0); j<_automata.size() && !fused; j++)
@@ -130,7 +130,7 @@ void Automaton::fuse() {
           _automata.push(automaton);
           fused = true;
         }
-  }while(fused);
+  } while(fused);
 }
 void Automaton::clean() {
   Time now(Time::now());

@@ -15,7 +15,6 @@ class World {
     L::Interval3i _interval;
   public:
     World();
-    void foreachChunk(void (*)(Chunk*));
     void draw(const L::GL::Camera&);
     void update();
     void updateAll();
@@ -26,6 +25,7 @@ class World {
     const Voxel& voxel(int x, int y, int z);
     float valueAt(const L::Point3f&);
     void updateVoxel(int x, int y, int z, const Voxel&, Voxel::Updater);
+    void setVoxel(int x, int y, int z, const Voxel&);
     inline const L::Interval3i& interval() const {return _interval;}
 
     bool raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, float distance);

@@ -6,20 +6,12 @@ using namespace GL;
 World::World() {
   memset(_chunks,0,arraySize*sizeof(Chunk*));
 }
-void World::foreachChunk(void (*f)(Chunk*)) {
-  Point3i i(_interval.min());
-  while(i.increment(_interval.min(),_interval.max())) {
-    Chunk* chunk(_chunks[i.x()][i.y()][i.z()]);
-    if(chunk) f(chunk);
-  }
-}
 void World::draw(const Camera& camera) {
-  int count(0);
   Point3i i(_interval.min());
   while(i.increment(_interval.min(),_interval.max())) {
     Chunk* chunk(_chunks[i.x()][i.y()][i.z()]);
-    if(chunk && chunk->draw(camera))
-      count++;
+    if(chunk)
+      chunk->draw(camera);
   }
 }
 void World::update() {
@@ -63,14 +55,15 @@ bool World::chunkExists(int x, int y, int z) {
   return chunkPointer(x,y,z);
 }
 const Voxel& World::voxel(int x, int y, int z) {
-  int cx, cy, cz, vx, vy, vz;
+  static const Voxel empty;
+  int cx, cy, cz;
   chunkKey(x,y,z,cx,cy,cz);
   Chunk* chunk(chunkPointer(cx,cy,cz));
-  if(chunk){
+  if(chunk) {
+    int vx, vy, vz;
     voxelKey(x,y,z,vx,vy,vz);
     chunk->voxel(vx,vy,vz);
-  }
-  else return Voxel();
+  } else return empty;
 }
 float World::valueAt(const Point3f& point) {
   int x(floor(point.x())), y(floor(point.y())), z(floor(point.z()));
@@ -102,6 +95,21 @@ void World::updateVoxel(int x, int y, int z, const Voxel& v, Voxel::Updater u) {
   if(!vx && !vz) chunk(cx-1,cy,cz-1).voxel(Chunk::size,vy,Chunk::size,nv);
   if(!vy && !vz) chunk(cx,cy-1,cz-1).voxel(vx,Chunk::size,Chunk::size,nv);
   if(!vx && !vy && !vz) chunk(cx-1,cy-1,cz-1).voxel(Chunk::size,Chunk::size,Chunk::size,nv);
+}
+void World::setVoxel(int x, int y, int z, const Voxel& v) {
+  int cx, cy, cz, vx, vy, vz;
+  chunkKey(x,y,z,cx,cy,cz);
+  voxelKey(x,y,z,vx,vy,vz);
+  Chunk& voxelChunk(chunk(cx,cy,cz)); // Chunk where the main instance of the voxel is
+  voxelChunk.voxel(vx,vy,vz,v); // Set value
+  // Check for possible neighbors being affected by the change
+  if(!vx) chunk(cx-1,cy,cz).voxel(Chunk::size,vy,vz,v);
+  if(!vy) chunk(cx,cy-1,cz).voxel(vx,Chunk::size,vz,v);
+  if(!vx && !vy) chunk(cx-1,cy-1,cz).voxel(Chunk::size,Chunk::size,vz,v);
+  if(!vz) chunk(cx,cy,cz-1).voxel(vx,vy,Chunk::size,v);
+  if(!vx && !vz) chunk(cx-1,cy,cz-1).voxel(Chunk::size,vy,Chunk::size,v);
+  if(!vy && !vz) chunk(cx,cy-1,cz-1).voxel(vx,Chunk::size,Chunk::size,v);
+  if(!vx && !vy && !vz) chunk(cx-1,cy-1,cz-1).voxel(Chunk::size,Chunk::size,Chunk::size,v);
 }
 
 bool World::raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, float distance) {
