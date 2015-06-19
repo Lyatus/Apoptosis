@@ -1371,7 +1371,7 @@
 			"time": 40,
 			"value":"growth_vps",
 			"operation": "add",
-			"parameter":4
+			"parameter":2
 		},
 		{
 			"time": 40,
@@ -1383,7 +1383,7 @@
 			"time": 42,
 			"value":"growth_vps",
 			"operation": "add",
-			"parameter":-4
+			"parameter":-2
 		},
 		{
 			"time": 42,
@@ -1392,7 +1392,7 @@
 			"parameter":-1
 		},
 		{
-			"time": 250,
+			"time": 257,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": 15
@@ -1455,7 +1455,7 @@
 		"time":360,
 		"value":"growth_duration",
 		"operation":"add",
-		"parameter": -1.5
+		"parameter": -2
 		},
 		
 		
@@ -1469,15 +1469,15 @@
 		},
 		{
 			"time": 479,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":2.5
+			"parameter":2
 		},
 		{
 			"time": 481,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":-2.5
+			"parameter":-2
 		},
 		
 		
@@ -1491,15 +1491,15 @@
 		},
 		{
 			"time": 489,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":2.5
+			"parameter":2
 		},
 		{
 			"time": 491,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":-2.5
+			"parameter":-2
 		},
 		
 		
@@ -1513,15 +1513,15 @@
 		},
 		{
 			"time": 499,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":2.5
+			"parameter":2
 		},
 		{
 			"time": 501,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":-2.5
+			"parameter":-2
 		},
 		
 		
@@ -1535,15 +1535,15 @@
 		},
 		{
 			"time": 509,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":2.5
+			"parameter":2
 		},
 		{
 			"time": 511,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":-2.5
+			"parameter":-2
 		},
 		
 		
@@ -1556,15 +1556,15 @@
 		},
 		{
 			"time": 519,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":2.5
+			"parameter":2
 		},
 		{
 			"time": 521,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":-2.5
+			"parameter":-2
 		},
 		
 		
@@ -1577,19 +1577,24 @@
 		},
 		{
 			"time": 529,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":2.5
+			"parameter":2
 		},
 		{
 			"time": 531,
-			"value":"growth_duration",
+			"value":"growth_vps",
 			"operation": "add",
-			"parameter":-2.5
+			"parameter":-2
 		},
 		
 		
-		
+		{
+			"time": 540,
+			"value":"growth_vps",
+			"operation": "add",
+			"parameter":3
+		},		
 		
 		
 		{
@@ -1597,18 +1602,7 @@
 			"operation": "tumor",
 			"position": "-37,205,156"
 		},
-		{
-			"time": 539,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 541,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
+
 		
 		
 		
@@ -1619,18 +1613,7 @@
 			"operation": "tumor",
 			"position": "-83,203,179"
 		},
-		{
-			"time": 544,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 546,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
+
 		
 		
 		
@@ -1641,18 +1624,7 @@
 			"operation": "tumor",
 			"position": "-99,162,182"
 		},
-		{
-			"time": 549,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 551,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
+
 		
 		
 		
@@ -1663,18 +1635,7 @@
 			"operation": "tumor",
 			"position": "25,240,136"
 		},
-		{
-			"time": 554,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 556,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
+
 		
 		
 		
@@ -1685,18 +1646,7 @@
 			"operation": "tumor",
 			"position": "-104,127,184"
 		},
-		{
-			"time": 559,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 561,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
+
 		
 		
 		
@@ -1707,18 +1657,7 @@
 			"operation": "tumor",
 			"position": "-53,241,137"
 		},
-		{
-			"time": 564,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 566,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
+
 		
 		
 		
@@ -1729,18 +1668,7 @@
 			"operation": "tumor",
 			"position": "-60,284,158"
 		},
-		{
-			"time": 569,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 571,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
+
 		
 		
 		
@@ -1751,18 +1679,7 @@
 			"operation": "tumor",
 			"position": "-95,290,178"
 		},
-		{
-			"time": 574,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 576,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
+
 		
 		
 		
@@ -1773,19 +1690,7 @@
 			"operation": "tumor",
 			"position": "-116,245,198"
 		},
-		{
-			"time": 579,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 581,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
-		
+
 		
 		
 		
@@ -1795,18 +1700,7 @@
 			"operation": "tumor",
 			"position": "56,240,148"
 		},
-		{
-			"time": 584,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 586,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
+
 		
 		
 		
@@ -1817,18 +1711,7 @@
 			"operation": "tumor",
 			"position": "74,281,159"
 		},
-		{
-			"time": 589,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 591,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
+
 		
 		
 		
@@ -1839,18 +1722,7 @@
 			"operation": "tumor",
 			"position": "-50,315,137"
 		},
-		{
-			"time": 594,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 596,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
-		},
+
 		
 		
 		
@@ -1860,18 +1732,7 @@
 			"time": 600,
 			"operation": "tumor",
 			"position": "-105,323,150"
-		},
-		{
-			"time": 599,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":2.5
-		},
-		{
-			"time": 601,
-			"value":"growth_duration",
-			"operation": "add",
-			"parameter":-2.5
 		}
+
 	]
 }
