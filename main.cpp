@@ -389,7 +389,7 @@ void game() {
                     "listener distance: "+ToString(cam.listenerDistance())+"\n"
                     "world interval: "+ToString(world.interval())+"\n"
                     "time: "+Time::format("%M:%S",Game::sinceStart())+"\n"
-                    "fps: "+ToString(1/deltaTime)+"\n");
+                    "fps: "+ToString<int>(1/deltaTime)+"\n");
       else text->sText("");
     }
     while(Window::newEvent(event)) {
