@@ -1490,6 +1490,24 @@
 		"operation":"add",
 		"parameter": -1.5
 		},
+		{
+			"time": 360,
+			"value":"autoaim_radius",
+			"operation": "add",
+			"parameter":5
+		},
+		{
+			"time": 360,
+			"value":"growth_count",
+			"operation": "add",
+			"parameter":10
+		},
+		{
+			"time": 540,
+			"value":"tumor_cost",
+			"operation": "add",
+			"parameter":0.3
+		},	
 		
 		
 		
@@ -1642,7 +1660,7 @@
 			"time": 540,
 			"value":"autoaim_radius",
 			"operation": "add",
-			"parameter":10
+			"parameter":5
 		},		
 		
 		
