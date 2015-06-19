@@ -115,7 +115,7 @@ void World::setVoxel(int x, int y, int z, const Voxel& v) {
 bool World::raycast(L::Point3f start, L::Point3f direction, L::Point3f& hit, float distance) {
   direction.normalize();
   hit = start;
-  for(float i(0); i<distance; i+=.1f) {
+  for(float i(0); i<distance; i+=.5f) {
     hit = start + direction*i;
     if(voxel(hit.x(),hit.y(),hit.z()).solid())
       return true;
