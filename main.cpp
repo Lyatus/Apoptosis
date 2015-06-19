@@ -209,12 +209,12 @@ void search() {
               Voxel voxel(chunk->voxel(x,y,z));
               Point3i position(chunk->position()+Point3i(x,y,z));
               if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE && Rand::nextFloat()<thirstAppearanceFactor  && !Automaton::has(thirst,position)) {
-                if(irrigationValue(Point3f(x,y,z))<1.f)
+                if(irrigationValue(position)<1.f)
                   startThirst(position);
-                else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(chunk->voxel(x,y,z).value(),Voxel::TUMOR_IDLE),Voxel::set);
+                else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(voxel.value(),Voxel::TUMOR_IDLE),Voxel::set);
               }
               if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
-                cam.addPoint(chunk->position()+Point3i(x,y,z));
+                cam.addPoint(position);
               if(budPotential && voxel.type()==Voxel::TUMOR_IDLE && !Automaton::has(growth,(int)buddingCount) && Rand::nextFloat()<buddingFactor && !Automaton::has(growth,position))
                 startBud(position);
               if(vesselBudPotential && (voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE) && Rand::nextFloat()<vesselBuddingFactor)
