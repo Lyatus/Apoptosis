@@ -272,7 +272,6 @@ void menu() {
       Window::close();
     else if(!fading && clicked) {
       fading = true;
-      fadeTimer.setoff();
       Game::start();
       Wwise::postEvent("Click_start");
     }
@@ -283,9 +282,10 @@ void menu() {
     gui->draw(guiProgram);
     UI::drawCursor();
     if(fading) {
-      float since(fadeTimer.since().fSeconds());
+      float since(Game::sinceStart().fSeconds());
       float fade(std::min(1.f,since/menuFadeDuration));
       mask(Color::from(0,0,0,fade));
+      Wwise::rtpc("Time_passing",since);
       if(since > menuFadeDuration+introDarkDuration)
         break;
       Game::frame();
