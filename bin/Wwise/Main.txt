@@ -38,6 +38,7 @@ Event	ID	Name			Wwise Object Path	Notes
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	1827960979	Perlin			\Default Work Unit\Perlin	
+	2595438510	Time_passing			\Default Work Unit\Time_passing	
 	3048058352	Random			\Default Work Unit\Random	
 
 Effect plug-ins	ID	Name	Type				Notes
@@ -51,6 +52,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	4329944	03	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\03_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\03		510713
 	71791293	24	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\24_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\24		516073
 	80300493	lol	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Lego Racers Music - Menu_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\lol		2558883
+	102318600	Start	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Start_boom_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Start		150318
 	104157723	Bubble6	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble6_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble6		26739
 	124328453	22	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\22_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\22		470975
 	194361983	11	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\11_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\11		687805
@@ -70,7 +72,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	488912897	08	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\08_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\08		659181
 	493589491	lava3	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\lava3_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_bass\lava3		429579
 	501132209	Mus1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Philip-Glass-Metamorphosis-Two_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Mus1		18348163
-	532240914	Start	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\2-16 Bass Impact Synthesized Whir  S_6D0B8C4A.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Start		150419
 	535095414	lava1_reverse	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\lava1_reverse_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_bass\lava1_reverse		271002
 	542013845	02	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\02_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\02		1055513
 	556490982	lava1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\lava1_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_bass\lava1		292177
@@ -89,8 +90,9 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	870781323	09	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\09_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\09		791666
 	879796040	Bubble3	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble3_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble3		28854
 	887420164	12	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\12_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\12		739620
-	903042498	Rumble	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Underwater_Rumble_22F7C9A0.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Rumble		6387659
+	903042498	Rumble	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Underwater_Rumble_22F7C9A0.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Amb_blend\Rumble		6387659
 	934552941	lava2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\lava2_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_bass\lava2		332056
 	970253643	25	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\25_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\25		296906
+	992308086	Amb_light	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\amb_light2_54A8DACD.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Amb_blend\Amb_light		2281369
 	1000347171	18	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\18_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\18		386339
 

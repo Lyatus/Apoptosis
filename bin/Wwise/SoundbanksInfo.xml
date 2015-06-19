@@ -68,6 +68,10 @@
 					<ShortName>Lego Racers Music - Menu.wav</ShortName>
 					<Path>SFX\Lego Racers Music - Menu_4231625D.wem</Path>
 				</File>
+				<File Id="102318600" Language="SFX">
+					<ShortName>Start_boom.wav</ShortName>
+					<Path>SFX\Start_boom_4231625D.wem</Path>
+				</File>
 				<File Id="104157723" Language="SFX">
 					<ShortName>Bubble6.wav</ShortName>
 					<Path>SFX\Bubble6_4231625D.wem</Path>
@@ -143,10 +147,6 @@
 				<File Id="501132209" Language="SFX">
 					<ShortName>Philip-Glass-Metamorphosis-Two.wav</ShortName>
 					<Path>SFX\Philip-Glass-Metamorphosis-Two_4231625D.wem</Path>
-				</File>
-				<File Id="532240914" Language="SFX">
-					<ShortName>2-16 Bass Impact Synthesized Whir  S.wav</ShortName>
-					<Path>SFX\2-16 Bass Impact Synthesized Whir  S_6D0B8C4A.wem</Path>
 				</File>
 				<File Id="535095414" Language="SFX">
 					<ShortName>lava1_reverse.wav</ShortName>
@@ -231,6 +231,10 @@
 				<File Id="970253643" Language="SFX">
 					<ShortName>25.wav</ShortName>
 					<Path>SFX\25_4231625D.wem</Path>
+				</File>
+				<File Id="992308086" Language="SFX">
+					<ShortName>amb_light2.wav</ShortName>
+					<Path>SFX\amb_light2_54A8DACD.wem</Path>
 				</File>
 				<File Id="1000347171" Language="SFX">
 					<ShortName>18.wav</ShortName>
