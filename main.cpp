@@ -211,7 +211,7 @@ void search() {
               if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE && Rand::nextFloat()<thirstAppearanceFactor  && !Automaton::has(thirst,position)) {
                 if(irrigationValue(position)<1.f)
                   startThirst(position);
-                else world.updateVoxel(position.x(),position.y(),position.z(),Voxel(voxel.value(),Voxel::TUMOR_IDLE),Voxel::set);
+                else world.setVoxel(position.x(),position.y(),position.z(),Voxel(voxel.value(),Voxel::TUMOR_IDLE));
               }
               if(camPotential && (voxel.type()==Voxel::TUMOR || voxel.type()==Voxel::TUMOR_IDLE || voxel.type()==Voxel::TUMOR_THIRSTY || voxel.type()==Voxel::TUMOR_THIRSTY_IDLE))
                 cam.addPoint(position);
