@@ -437,7 +437,7 @@ void game() {
       Point3f hit;
       Point2f pixelToNormalized(1.f/Window::width(),1.f/Window::height());
       if(canPlaceTumor && tumorCost<resource && !Automaton::has(growth,growthCount)
-          && world.raycast(cam.position(),cam.screenToRay((Point2f::random()*pixelToNormalized*UI::cursorRadius)+Window::normalizedMousePosition()),hit,512)) {
+          && world.raycast(cam.position(),cam.screenToRay((Point2f::random()*pixelToNormalized*UI::cursorRadius)+Window::normalizedMousePosition()),hit,1024)) {
         placedTumor = true;
         Wwise::postEvent("Tumor_right");
         startGrowth(hit);
