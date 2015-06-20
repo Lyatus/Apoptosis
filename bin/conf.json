@@ -8,7 +8,7 @@
 	"menu_fade_duration": 2,
 	"intro_dark_duration": 35.5,
 	"game_fade_duration": 2,
-	"game_duration": 630,
+	"game_duration": 635,
 
 	"texture_path": "Image/tissue.png",
 	"model_path": "Model/organ.obj",
@@ -53,12 +53,12 @@
 	"growth_vps": 13,
 	"growth_duration": 2,
 	"growth_start_radius": 1,
-	"growth_count": 20,
+	"growth_count": 30,
 	
 	"thirst_vps": 22,
 	"thirst_appearance_factor": 1,
 
-	"chemo_vps":25 ,
+	"chemo_vps":18 ,
 	"chemo_duration": 3,
 	"chemo_propagation_factor": 1,
 	"chemo_organ_factor": 0.05,
@@ -649,9 +649,8 @@
 			"position": "-69,20,196"
 		},
 						{
-							"position": "-69,20,1966",
+							"position": "-69,20,196",
 							"duration": 1,
-							"tumors": ["-9,44,179"],
 							"modifications":[
 								{
 								"value": "growth_duration",
@@ -664,6 +663,10 @@
 								"parameter": 3
 								}
 							]
+							"tumors":
+							[
+								"-25,55,177"
+							]
 						},
 						
 						
@@ -674,7 +677,7 @@
 						
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 365,
+			"appearance": 370,
 			"position": "-90,267,156",
 			"duration": 1.5,
 			"modifications":[
@@ -690,8 +693,9 @@
 			]
 		},
 		{
+				"icon": "Image/Bonus/tumor.png",
 				"position": "-109,283,176",
-				"appearance": 365,
+				"appearance": 370,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -708,7 +712,7 @@
 			},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 365,
+			"appearance": 370,
 			"position": "-19,275,140",
 			"duration": 1.5,
 			"modifications":[
@@ -725,7 +729,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 365,
+			"appearance": 370,
 			"position": "-26,153,163",
 			"duration": 1.5,
 			"modifications":[
@@ -742,7 +746,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 365,
+			"appearance": 370,
 			"duration": 1.5,
 			"position": "-57,137,167",
 			"modifications":[
@@ -759,7 +763,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 365,
+			"appearance": 370,
 			"position": "-134,122,208",
 			"duration": 1.5,
 			"modifications":[
@@ -776,7 +780,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 365,
+			"appearance": 370,
 			"position": "-49,95,172",
 			"duration": 1.5,
 			"modifications":[
@@ -792,9 +796,10 @@
 			"-79,66,188"
 			]
 		},
-			{
+			{	
+				"icon": "Image/Bonus/tumor.png",
 				"position": "-79,66,188",
-				"appearance": 365,
+				"appearance": 370,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -811,7 +816,7 @@
 		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "-101,44,198",
-			"appearance": 365,
+			"appearance": 370,
 			"duration": 1.5,
 			"modifications":[
 			{
@@ -827,7 +832,7 @@
 		},
 				{
 				"position": "-73,31,194",
-				"appearance": 365,
+				"appearance": 370,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -843,7 +848,7 @@
 			},
 				{
 				"position": "-124,37,209",
-				"appearance": 365,
+				"appearance": 370,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -860,7 +865,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "-116,157,188",
-				"appearance": 365,
+				"appearance": 370,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -880,7 +885,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "-71,331,132",
-				"appearance": 365,
+				"appearance": 370,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -898,7 +903,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "-6,393,119",
-				"appearance": 365,
+				"appearance": 370,
 				"duration": 1,
 				"modifications":[
 					{
@@ -913,25 +918,25 @@
 				"-5,399,119"
 				]
 			},
-								{
-								"position": "-84,340,1322",
-								"appearance": 365,
-								"duration": 1.5,
-								"modifications":[
-									{
-									"value":"growth_duration",
-									"operation": "add",
-									"parameter": 1
-									}
-								],
-				"tumors":
+			{
+				"position": "-84,340,1322",
+				"appearance": 370,
+				"duration": 1.5,
+				"modifications":[
+					{
+					"value":"growth_duration",
+					"operation": "add",
+					"parameter": 1
+					}
+					],
+					"tumors":
 				[
 				"-66,371,129"
 				]
 			},
 								{
 								"position": "-5,399,119",
-								"appearance": 365,
+								"appearance": 370,
 								"duration": 1.5,
 								"modifications":[
 									{
@@ -948,7 +953,7 @@
 			},
 								{
 								"position": "12,400,120",
-								"appearance": 365,
+								"appearance": 370,
 								"duration": 1.5,
 								"modifications":[
 									{
@@ -966,7 +971,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "-127,394,160",
-				"appearance": 365,
+				"appearance": 370,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -984,7 +989,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "1,234,135",
-				"appearance": 365,
+				"appearance": 370,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -1001,7 +1006,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "14,319,150",
-				"appearance": 365,
+				"appearance": 370,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -1019,7 +1024,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "135,331,171",
-				"appearance": 365,
+				"appearance": 370,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -1033,6 +1038,24 @@
 				"159,325,209",
 				"146,336,182",
 				"121,342,156"
+				]
+			},
+{
+				"icon": "Image/Bonus/tumor.png",
+				"position": "-144,224,202",
+				"appearance": 370,
+				"duration": 1.5,
+				"modifications":[
+					{
+					"value":"growth_duration",
+					"operation": "add",
+					"parameter": 1
+					}
+					],
+				"tumors":
+				[
+				"-134,293,204",
+				"-154,265,234"
 				]
 			},
 
@@ -1574,7 +1597,25 @@
 		
 		
 		
-		
+	
+		{
+			"time": 440,
+			"operation": "tumor",
+			"position": "9,139,157"
+		},
+		{
+			"time": 455,
+			"operation": "tumor",
+			"position": "-75,206,174"
+		},
+		{
+			"time": 470,
+			"operation": "tumor",
+			"position": "-28,58,176"
+		},
+
+
+	
 		
 		{
 			"time": 480,
@@ -1650,12 +1691,6 @@
 			"value":"growth_vps",
 			"operation": "add",
 			"parameter":3
-		},	
-		{
-			"time": 540,
-			"value":"autoaim_radius",
-			"operation": "add",
-			"parameter":5
 		},		
 		
 		
