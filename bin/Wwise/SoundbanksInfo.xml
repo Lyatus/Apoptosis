@@ -68,10 +68,6 @@
 					<ShortName>Lego Racers Music - Menu.wav</ShortName>
 					<Path>SFX\Lego Racers Music - Menu_4231625D.wem</Path>
 				</File>
-				<File Id="102318600" Language="SFX">
-					<ShortName>Start_boom.wav</ShortName>
-					<Path>SFX\Start_boom_4231625D.wem</Path>
-				</File>
 				<File Id="104157723" Language="SFX">
 					<ShortName>Bubble6.wav</ShortName>
 					<Path>SFX\Bubble6_4231625D.wem</Path>
@@ -100,13 +96,13 @@
 					<ShortName>lava2_reverse.wav</ShortName>
 					<Path>SFX\lava2_reverse_4231625D.wem</Path>
 				</File>
-				<File Id="260585748" Language="SFX">
-					<ShortName>01.wav</ShortName>
-					<Path>SFX\01_4231625D.wem</Path>
-				</File>
 				<File Id="263717991" Language="SFX">
 					<ShortName>23.wav</ShortName>
 					<Path>SFX\23_4231625D.wem</Path>
+				</File>
+				<File Id="299469069" Language="SFX">
+					<ShortName>drop_start.wav</ShortName>
+					<Path>SFX\drop_start_4231625D.wem</Path>
 				</File>
 				<File Id="362923797" Language="SFX">
 					<ShortName>Bubble2.wav</ShortName>
@@ -179,6 +175,10 @@
 				<File Id="659721178" Language="SFX">
 					<ShortName>10.wav</ShortName>
 					<Path>SFX\10_4231625D.wem</Path>
+				</File>
+				<File Id="707515098" Language="SFX">
+					<ShortName>01-bis.wav</ShortName>
+					<Path>SFX\01-bis_4231625D.wem</Path>
 				</File>
 				<File Id="755952865" Language="SFX">
 					<ShortName>07.wav</ShortName>
