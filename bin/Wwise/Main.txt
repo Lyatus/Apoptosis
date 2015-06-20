@@ -36,6 +36,11 @@ Event	ID	Name			Wwise Object Path	Notes
 	4179009854	Voice_event_7			\Default Work Unit\Narration\Voice_event_7	
 	4179009855	Voice_event_6			\Default Work Unit\Narration\Voice_event_6	
 
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	1827960979	Perlin			\Default Work Unit\Perlin	
+	2654366170	Time			\Default Work Unit\Time	
+	3048058352	Random			\Default Work Unit\Random	
+
 Effect plug-ins	ID	Name	Type				Notes
 	701863527	Inside_My_Head	Wwise RoomVerb			
 	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
