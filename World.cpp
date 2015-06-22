@@ -49,7 +49,10 @@ Chunk& World::chunk(int x, int y, int z) {
   }
 }
 Chunk* World::chunkPointer(int x, int y, int z) {
-  return _chunks[x+radius][y+radius][z+radius];
+  if(x<0 || y<0 || z<0 || x>=size || y>=size || z>=size)
+    return NULL;
+  else
+    return _chunks[x+radius][y+radius][z+radius];
 }
 bool World::chunkExists(int x, int y, int z) {
   return chunkPointer(x,y,z);
