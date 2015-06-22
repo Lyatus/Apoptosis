@@ -465,7 +465,6 @@ void game() {
     debugProgram.use(); // Draw debug
     debugProgram.uniform("view",cam.view());
     debugProgram.uniform("projection",cam.projection());
-    //GL::Utils::drawAxes();
     if(displayAutomata)
       Automaton::drawAll();
     polyProgram.use();
