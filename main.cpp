@@ -368,7 +368,7 @@ void game() {
     Wwise::rtpc("Perlin",perlin.value(Game::sinceStart().fSeconds()));
     Wwise::update();
     // Cast mouse ray
-    bool mouseHits(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),mouseWorld,1024));
+    bool mouseHits(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),mouseWorld,750));
     bool canPlaceTumor(mouseHits && world.spherecast(mouseWorld,4,[](Voxel v) {return v.type()==Voxel::ORGAN;}) && sca.distance(mouseWorld,autoaimRadius)<autoaimRadius);
     automataCoroutine.jumpFor(Time(automataTPF*1000000.f));
     searchCoroutine.jumpFor(Time(searchTPF*1000000.f));
@@ -437,7 +437,7 @@ void game() {
       Point3f hit;
       Point2f pixelToNormalized(1.f/Window::width(),1.f/Window::height());
       if(canPlaceTumor && tumorCost<resource && !Automaton::has(growth,growthCount)
-          && world.raycast(cam.position(),cam.screenToRay((Point2f::random()*pixelToNormalized*UI::cursorRadius)+Window::normalizedMousePosition()),hit,1024)) {
+          && world.raycast(cam.position(),cam.screenToRay((Point2f::random()*pixelToNormalized*UI::cursorRadius)+Window::normalizedMousePosition()),hit,750)) {
         placedTumor = true;
         Wwise::postEvent("Tumor_right");
         startGrowth(hit);
