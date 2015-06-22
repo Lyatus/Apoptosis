@@ -42,16 +42,8 @@ bool SphericalCamera::update(World& world, float deltaTime) {
   phiPosition(_speed.x()*-deltaTime);
   thetaPosition(_speed.y()*-deltaTime);
   _speed *= 1-deltaTime*10;
-  if(Window::isPressed(Window::Event::LEFT))
-    phiPosition(2*deltaTime);
-  if(Window::isPressed(Window::Event::RIGHT))
-    phiPosition(-2*deltaTime);
-  if(forward().dot(Point3f(0,1,0))<.99f && Window::isPressed(Window::Event::UP))
-    thetaPosition(2*deltaTime);
-  if(forward().dot(Point3f(0,1,0))>-.99f && Window::isPressed(Window::Event::DOWN))
-    thetaPosition(-2*deltaTime);
   float forwardDotUp(forward().dot(Point3f(0,1,0))), forwardDotForward(forward().dot(Point3f(0,0,1)));
-  if(world.spherecast(position(),4) || forwardDotUp>.99f || forwardDotUp<-.99f || forwardDotForward<_minAngle)
+  if(world.spherecast(position(),16) || forwardDotUp>.99f || forwardDotUp<-.99f || forwardDotForward<_minAngle)
     position(oldPosition);
   return _speed.norm()>.5f;
 }
