@@ -58,12 +58,12 @@
 	"thirst_vps": 22,
 	"thirst_appearance_factor": 1,
 
-	"chemo_vps":15 ,
+	"chemo_vps":10 ,
 	"chemo_duration": 3,
 	"chemo_propagation_factor": 1,
 	"chemo_organ_factor": 0.05,
 	"chemo_disappearance_factor": 0.5,
-	"chemo_count": 2,
+	"chemo_count": 1,
 	
 	"resource_speed": 0.18,
 	"resource_speed_idle": 0.7,
@@ -1557,34 +1557,28 @@
 			"time": 300,
 			"value": "chemo_vps",
 			"operation": "add",
-			"parameter": 15
+			"parameter": 10
 		},
 		{
 			"time": 310,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": -15
-		}
-		{
-			"time": 330,
-			"value": "chemo_count",
-			"operation": "add",
-			"parameter": 1
 		},
 		{
 			"time": 330,
 			"value": "chemo_vps",
 			"operation": "add",
-			"parameter": 5
+			"parameter": -5
 		},
 		{
-			"time": 380,
+			"time": 362,
 			"value": "chemo_vps",
 			"operation": "add",
-			"parameter": 15
+			"parameter": 7
 		},
 		{
-			"time": 392,
+			"time": 372,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": -60
