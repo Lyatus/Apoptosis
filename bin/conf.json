@@ -8,7 +8,7 @@
 	"menu_fade_duration": 2,
 	"intro_dark_duration": 35.5,
 	"game_fade_duration": 2,
-	"game_duration": 635,
+	"game_duration": 647,
 
 	"texture_path": "Image/tissue.png",
 	"model_path": "Model/organ.obj",
@@ -677,7 +677,7 @@
 						
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 370,
+			"appearance": 380,
 			"position": "-90,267,156",
 			"duration": 1.5,
 			"modifications":[
@@ -695,7 +695,7 @@
 		{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "-109,283,176",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -712,7 +712,7 @@
 			},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 370,
+			"appearance": 380,
 			"position": "-19,275,140",
 			"duration": 1.5,
 			"modifications":[
@@ -729,7 +729,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 370,
+			"appearance": 380,
 			"position": "-26,153,163",
 			"duration": 1.5,
 			"modifications":[
@@ -746,7 +746,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 370,
+			"appearance": 380,
 			"duration": 1.5,
 			"position": "-57,137,167",
 			"modifications":[
@@ -763,7 +763,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 370,
+			"appearance": 380,
 			"position": "-134,122,208",
 			"duration": 1.5,
 			"modifications":[
@@ -780,7 +780,7 @@
 		},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"appearance": 370,
+			"appearance": 380,
 			"position": "-49,95,172",
 			"duration": 1.5,
 			"modifications":[
@@ -797,9 +797,8 @@
 			]
 		},
 			{	
-				"icon": "Image/Bonus/tumor.png",
 				"position": "-79,66,188",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -816,7 +815,7 @@
 		{
 			"icon": "Image/Bonus/tumor.png",
 			"position": "-101,44,198",
-			"appearance": 370,
+			"appearance": 380,
 			"duration": 1.5,
 			"modifications":[
 			{
@@ -832,7 +831,7 @@
 		},
 				{
 				"position": "-73,31,194",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -848,7 +847,7 @@
 			},
 				{
 				"position": "-124,37,209",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -865,7 +864,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "-116,157,188",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -885,7 +884,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "-71,331,132",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -903,7 +902,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "-6,393,119",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1,
 				"modifications":[
 					{
@@ -920,7 +919,7 @@
 			},
 			{
 				"position": "-84,340,1322",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -936,7 +935,7 @@
 			},
 								{
 								"position": "-5,399,119",
-								"appearance": 370,
+								"appearance": 380,
 								"duration": 1.5,
 								"modifications":[
 									{
@@ -953,7 +952,7 @@
 			},
 								{
 								"position": "12,400,120",
-								"appearance": 370,
+								"appearance": 380,
 								"duration": 1.5,
 								"modifications":[
 									{
@@ -971,7 +970,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "-127,394,160",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -989,7 +988,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "1,234,135",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -1006,7 +1005,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "14,319,150",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -1024,7 +1023,7 @@
 				{
 				"icon": "Image/Bonus/tumor.png",
 				"position": "135,331,171",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -1043,7 +1042,7 @@
 {
 				"icon": "Image/Bonus/tumor.png",
 				"position": "-144,224,202",
-				"appearance": 370,
+				"appearance": 380,
 				"duration": 1.5,
 				"modifications":[
 					{
@@ -1058,6 +1057,41 @@
 				"-154,265,234"
 				]
 			},
+		{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "165,396,197",
+			"appearance": 380,
+			"duration": 1.5,
+			"modifications":[
+			{
+				"value":"growth_duration",
+				"operation": "add",
+				"parameter": 1
+			}
+			],
+			"tumors":[
+			"176,392,227",
+			"167,408,201",
+			"146,421,170"
+			]
+		},
+		{
+			"icon": "Image/Bonus/tumor.png",
+			"position": "102,471,147",
+			"appearance": 380,
+			"duration": 1.5,
+			"modifications":[
+			{
+				"value":"growth_duration",
+				"operation": "add",
+				"parameter": 1
+			}
+			],
+			"tumors":[
+			"75,444,126",
+			"73,406,120"
+			]
+		},
 
 			
 			
@@ -1410,77 +1444,77 @@
 			"name": "Voice_event_11"
 		},
 		{
-			"time": 286,
+			"time": 291,
 			"operation": "wwise",
 			"name": "Voice_event_12"
 		},
 		{
-			"time": 303,
+			"time": 308,
 			"operation": "wwise",
 			"name": "Voice_event_13"
 		},
 		{
-			"time": 316,
+			"time": 326,
 			"operation": "wwise",
 			"name": "Voice_event_14"
 		},
 		{
-			"time": 333,
+			"time": 343,
 			"operation": "wwise",
 			"name": "Voice_event_15"
 		},
 		{
-			"time": 369,
+			"time": 379,
 			"operation": "wwise",
 			"name": "Voice_event_16"
 		},
 		{
-			"time": 395,
+			"time": 405,
 			"operation": "wwise",
 			"name": "Voice_event_17"
 		},
 		{
-			"time": 412,
+			"time": 422,
 			"operation": "wwise",
 			"name": "Voice_event_18"
 		},
 		{
-			"time": 433,
+			"time": 443,
 			"operation": "wwise",
 			"name": "Voice_event_19"
 		},
 		{
-			"time": 451,
+			"time": 461,
 			"operation": "wwise",
 			"name": "Voice_event_20"
 		},
 		{
-			"time": 470,
+			"time": 480,
 			"operation": "wwise",
 			"name": "Voice_event_21"
 		},
 		{
-			"time": 497,
+			"time": 507,
 			"operation": "wwise",
 			"name": "Voice_event_22"
 		},
 		{
-			"time": 524,
+			"time": 534,
 			"operation": "wwise",
 			"name": "Voice_event_23"
 		},
 		{
-			"time": 538,
+			"time": 553,
 			"operation": "wwise",
 			"name": "Voice_event_24"
 		},
 		{
-			"time": 571,
+			"time": 586,
 			"operation": "wwise",
 			"name": "Voice_event_25"
 		},
 		{
-			"time": 596,
+			"time": 611,
 			"operation": "wwise",
 			"name": "Voice_event_26"
 		},
@@ -1544,13 +1578,13 @@
 			"parameter": 5
 		},
 		{
-			"time": 350,
+			"time": 360,
 			"value": "chemo_vps",
 			"operation": "add",
 			"parameter": 15
 		},
 		{
-			"time": 360,
+			"time": 380,
 			"value": "chemo_budding_factor",
 			"operation": "add",
 			"parameter": -60
