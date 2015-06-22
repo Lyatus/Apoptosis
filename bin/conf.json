@@ -58,7 +58,7 @@
 	"thirst_vps": 22,
 	"thirst_appearance_factor": 1,
 
-	"chemo_vps":18 ,
+	"chemo_vps":15 ,
 	"chemo_duration": 3,
 	"chemo_propagation_factor": 1,
 	"chemo_organ_factor": 0.05,
@@ -77,7 +77,7 @@
 	"budding_count": 5,
 	"vessel_budding_factor": 0.0016,
 	"chemo_budding_factor": 0,
-	"chemo_budding_curve": 1,
+	"chemo_budding_curve": 64,
 	
 	"tuto_delay": 9999999,
 	"tuto_chemo_start": 250,
