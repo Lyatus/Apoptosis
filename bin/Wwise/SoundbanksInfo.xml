@@ -20,11 +20,11 @@
 			<IncludedEvents>
 				<Event Id="626662343" Name="Automaton_end"/>
 				<Event Id="3250772846" Name="Bonus_pick"/>
+				<Event Id="2426937844" Name="Chemo_start"/>
 				<Event Id="2996780470" Name="Click_start"/>
 				<Event Id="2095930298" Name="General_start"/>
 				<Event Id="280537711" Name="lol_event"/>
 				<Event Id="3212785023" Name="Music_event_1"/>
-				<Event Id="3050945240" Name="New_Event"/>
 				<Event Id="4037692801" Name="Tumor_right"/>
 				<Event Id="315054063" Name="Tumor_start"/>
 				<Event Id="1365727304" Name="Tumor_wrong"/>
@@ -59,6 +59,10 @@
 				<File Id="4329944" Language="SFX">
 					<ShortName>03.wav</ShortName>
 					<Path>SFX\03_4231625D.wem</Path>
+				</File>
+				<File Id="21165556" Language="SFX">
+					<ShortName>chemo2_rev.wav</ShortName>
+					<Path>SFX\chemo2_rev_4231625D.wem</Path>
 				</File>
 				<File Id="71791293" Language="SFX">
 					<ShortName>24.wav</ShortName>
@@ -160,6 +164,14 @@
 					<ShortName>20.wav</ShortName>
 					<Path>SFX\20_4231625D.wem</Path>
 				</File>
+				<File Id="575426271" Language="SFX">
+					<ShortName>chemo4_rev.wav</ShortName>
+					<Path>SFX\chemo4_rev_4231625D.wem</Path>
+				</File>
+				<File Id="605153711" Language="SFX">
+					<ShortName>chemo5_rev.wav</ShortName>
+					<Path>SFX\chemo5_rev_4231625D.wem</Path>
+				</File>
 				<File Id="633143173" Language="SFX">
 					<ShortName>14.wav</ShortName>
 					<Path>SFX\14_4231625D.wem</Path>
@@ -195,6 +207,10 @@
 				<File Id="780769339" Language="SFX">
 					<ShortName>05.wav</ShortName>
 					<Path>SFX\05_4231625D.wem</Path>
+				</File>
+				<File Id="799394315" Language="SFX">
+					<ShortName>chemo3_rev.wav</ShortName>
+					<Path>SFX\chemo3_rev_4231625D.wem</Path>
 				</File>
 				<File Id="811727355" Language="SFX">
 					<ShortName>06.wav</ShortName>
