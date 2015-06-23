@@ -525,16 +525,28 @@ void game() {
   gui->clear();
 }
 void credits() {
+  int clicked(0);
   Wwise::postEvent("End_display");
   fadeTimer.setoff();
   clearcolor(Color::black);
   Ref<GL::Program> guiProgram(Resource::program("Shader/gui"));
-  gui->place(new GUI::Image(Image::Bitmap("Image/credits.png")),Point2i(0,0),GUI::CC,GUI::CC);
+  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/credits.png")),[](GUI::ActionListener* al, Dynamic::Var& v, GUI::Event e) {
+    if(e.type == GUI::Event::leftClick) {
+      (*v.as<int*>())++;
+      return true;
+    }
+    return false;
+  },&clicked),Point2i(0,0),GUI::CC,GUI::CC);
   while(Window::loop()) {
     while(Window::newEvent(event))
       gui->event(event);
     if(Window::isPressed(Window::Event::ESCAPE))
       Window::close();
+    if(clicked == 1) {
+      gui->clear();
+      gui->place(new GUI::Image(Image::Bitmap("Image/credits2.png")),Point2i(0,0),GUI::CC,GUI::CC);
+      clicked = 2;
+    }
     Wwise::update();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     guiProgram->use();
