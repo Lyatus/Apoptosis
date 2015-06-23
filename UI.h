@@ -12,7 +12,6 @@ class UI {
     static L::Ref<L::GL::Texture> cursorRight, cursorWrong;
     static L::Interval2i resourceBarInt;
     static void drawCursor(float value,bool);
-    static void drawCursor(L::GL::Program&,bool);
     static void drawCursor();
     static void drawTip(L::GL::Program&, const L::GL::Camera&, const L::Ref<L::GL::Texture>&, const L::Point3f&);
     static void drawResourceBar(float);

@@ -38,25 +38,6 @@ void UI::drawCursor(float value, bool can) {
   }
   glPopMatrix();
 }
-void UI::drawCursor(L::GL::Program& program, bool right) {
-  Ref<GL::Texture> tex((right)?cursorRight:cursorWrong);
-  glClear(GL_DEPTH_BUFFER_BIT);
-  glPushMatrix();
-  glTranslatef(Window::mousePosition().x(),Window::mousePosition().y(),0);
-  GL::color(Color::white);
-  program.uniform("texture",*tex);
-  glBegin(GL_QUADS);
-  glTexCoord2f(0,0);
-  glVertex2f(-tex->width()/2,-tex->height()/2);
-  glTexCoord2f(0,1);
-  glVertex2f(-tex->width()/2,tex->height()/2);
-  glTexCoord2f(1,1);
-  glVertex2f(tex->width()/2,tex->height()/2);
-  glTexCoord2f(1,0);
-  glVertex2f(tex->width()/2,-tex->height()/2);
-  glEnd();
-  glPopMatrix();
-}
 void UI::drawCursor() {
   glClear(GL_DEPTH_BUFFER_BIT);
   glPushMatrix();
@@ -115,8 +96,6 @@ void UI::configure() {
   innerDiskColor = Conf::getColor("inner_disk_color");
   crossColor = Conf::getColor("cross_color");
   disk = new GL::Mesh();
-  cursorRight = (Resource::texture("Image/cursor_right.png"));
-  cursorWrong = (Resource::texture("Image/cursor_wrong.png"));
   GL::makeDisc(*disk,32);
   resourceBarInt.add(Point2i(200,Window::height()-107));
   resourceBarInt.add(Point2i(Window::width()-200,Window::height()-100));
