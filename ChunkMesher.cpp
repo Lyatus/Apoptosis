@@ -338,11 +338,11 @@ ChunkMesher::ChunkMesher() {
 
 void ChunkMesher::build(Chunk& chunk) {
   memset(_edgeVertices,~0,sizeof(_edgeVertices));
-  _meshBuilder.reset(GL::Mesh::VERTEX|GL::Mesh::COLOR|GL::Mesh::NORMAL,262144,262144);
+  _meshBuilder.reset(GL::Mesh::VERTEX|GL::Mesh::COLOR,262144,262144);
   Point3i offset(chunk.position());
-  for(int x(0); x<Chunk::size; x++)
+  for(int z(0); z<Chunk::size; z++)
     for(int y(0); y<Chunk::size; y++)
-      for(int z(0); z<Chunk::size; z++) {
+      for(int x(0); x<Chunk::size; x++) {
         Voxel cell[8] = {chunk.voxel(x,y,z),
                          chunk.voxel(x+1,y,z),
                          chunk.voxel(x,y+1,z),
@@ -359,5 +359,4 @@ void ChunkMesher::build(Chunk& chunk) {
                                      vertex(offset,x,y,z,mesh[i+2],cell),
                                      vertex(offset,x,y,z,mesh[i+1],cell));
       }
-  _meshBuilder.computeNormals();
 }
