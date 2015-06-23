@@ -42,7 +42,7 @@ int World::typeCount(L::byte type) const {
 Chunk& World::chunk(int x, int y, int z) {
   Chunk*& chunk = _chunks[x+radius][y+radius][z+radius];
   if(chunk) return *chunk; // The chunk is already created
-  else { // It isn't created and we're allowed to create it
+  else { // Needs to be created
     _interval.add(Point3i(x+radius,y+radius,z+radius));
     _interval.add(Point3i(x+radius+1,y+radius+1,z+radius+1));
     return *(chunk = new Chunk(x,y,z));
