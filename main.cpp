@@ -203,9 +203,9 @@ void search() {
       bool vesselBudPotential(vesselBuddingFactor>0 && (chunk->typeCount(Voxel::TUMOR_THIRSTY) || chunk->typeCount(Voxel::TUMOR_THIRSTY_IDLE)));
       bool chemoBudPotential(chemoBuddingFactor>0 && chunk->typeCount(Voxel::TUMOR_IDLE));
       if(thirstPotential || camPotential || budPotential || vesselBudPotential || chemoBudPotential)
-        for(int x(0); x<Chunk::size; x++)
+        for(int z(0); z<Chunk::size; z++)
           for(int y(0); y<Chunk::size; y++)
-            for(int z(0); z<Chunk::size; z++) {
+            for(int x(0); x<Chunk::size; x++) {
               Voxel voxel(chunk->voxel(x,y,z));
               Point3i position(chunk->position()+Point3i(x,y,z));
               if(thirstPotential && voxel.type()==Voxel::TUMOR_THIRSTY_IDLE && Rand::nextFloat()<thirstAppearanceFactor  && !Automaton::has(thirst,position)) {
