@@ -8,9 +8,6 @@ L::Color Voxel::_colors[types];
 
 Voxel::Voxel(float value, L::byte type)
   : _value(value*(precision-1)), _type(type) {}
-Color Voxel::color() const {
-  return _colors[type()];
-}
 
 void Voxel::configure() {
   _colors[ORGAN] = Conf::getColor("organ");

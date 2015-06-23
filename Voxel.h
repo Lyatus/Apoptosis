@@ -28,8 +28,8 @@ class Voxel {
       TUMOR_THIRSTY, TUMOR_THIRSTY_IDLE, TUMOR_THIRSTY_CHEMO
     };
     Voxel(float value = 0, L::byte type = 0);
-    bool operator==(const Voxel& other) const {return _type==other._type && _value==other._value;}
-    bool operator!=(const Voxel& other) const {return _type!=other._type || _value!=other._value;}
+    inline bool operator==(const Voxel& other) const {return _type==other._type && _value==other._value;}
+    inline bool operator!=(const Voxel& other) const {return _type!=other._type || _value!=other._value;}
 
     inline bool solid() const {return _value>precisionHalf;}
     inline bool empty() const {return !_value;}
@@ -37,8 +37,8 @@ class Voxel {
     inline float value() const {return _value/(float)(precision-1);}
     inline L::byte type() const {return _type;}
     inline void value(float value) {_value = (T)(value*(precision-1));}
+    inline L::Color color() const {return _colors[type()];}
     inline void type(L::byte type) {_type = type;}
-    L::Color color() const;
 
     static void configure();
 
