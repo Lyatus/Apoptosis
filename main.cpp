@@ -403,6 +403,7 @@ void game() {
                 chemoAutomaton->mulTime(.0f);
             }
             break;
+          /*
           case Window::Event::SPACE:
             if(mouseHits)
               startChemo(mouseWorld);
@@ -416,9 +417,11 @@ void game() {
           case Window::Event::A:
             displayAutomata = !displayAutomata;
             break;
+          */
           case Window::Event::D:
             debugText = !debugText;
             break;
+          /*
           case Window::Event::NUM1:
             Wwise::postEvent("Voice_event_1");
             break;
@@ -428,6 +431,7 @@ void game() {
           case Window::Event::NUM8:
             Wwise::postEvent("lol_event");
             break;
+          */
           default:
             break;
         }
