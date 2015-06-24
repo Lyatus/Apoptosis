@@ -80,8 +80,8 @@
 	"chemo_budding_curve": 64,
 	
 	"tuto_delay": 39.5,
-	"tuto_chemo_start": 263,
-	"tuto_chemo_end": 293,
+	"tuto_chemo_start": 260,
+	"tuto_chemo_end": 290,
 	"tuto_camera_position": "158,58,234",
 	"tuto_tumor_position": "150,55,234",
 	
