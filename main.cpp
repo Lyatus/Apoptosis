@@ -501,7 +501,7 @@ void game() {
         break;
       case 3: // Chemo
         if(Game::sinceStart()>tutoChemoStart) {
-          gui->place(tutorialChemo,Point2i(0,0),GUI::BR,GUI::BR);
+          gui->place(tutorialChemo,Point2i(0,0),GUI::BC,GUI::BC);
           tutoStep = 4;
         }
         break;
