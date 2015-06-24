@@ -433,7 +433,7 @@
 						},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "32,87,176",
+			"position": "32,87,175",
 			"modifications": [
 				{
 					"value": "growth_duration",
@@ -969,7 +969,7 @@
 			},
 				{
 				"icon": "Image/Bonus/tumor.png",
-				"position": "-127,394,160",
+				"position": "-127,394,159",
 				"appearance": 388,
 				"duration": 1.5,
 				"modifications":[
@@ -1534,7 +1534,7 @@
 			"time": 257,
 			"value": "chemo_budding_factor",
 			"operation": "add",
-			"parameter": 60
+			"parameter": 40
 		},
 		{
 			"time": 270,
@@ -1582,7 +1582,7 @@
 			"time": 372,
 			"value": "chemo_budding_factor",
 			"operation": "add",
-			"parameter": -60
+			"parameter": -40
 		}
 
 		
