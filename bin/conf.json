@@ -22,7 +22,7 @@
 	"cross_thickness":4,
 	"cursor_point_color": "#ffffffff",
 	"cross_color": "#ffffffff",
-	"background_disk_color": "#2f3f9280",
+	"background_disk_color": "#c10e4880",
 	"inner_disk_color": "#ff005466",
 	
 	"tumor": "#ff0054",
