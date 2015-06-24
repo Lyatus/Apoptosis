@@ -22,6 +22,7 @@
 				<Event Id="3250772846" Name="Bonus_pick"/>
 				<Event Id="2426937844" Name="Chemo_start"/>
 				<Event Id="2996780470" Name="Click_start"/>
+				<Event Id="4179319803" Name="End_display"/>
 				<Event Id="2095930298" Name="General_start"/>
 				<Event Id="280537711" Name="lol_event"/>
 				<Event Id="3212785023" Name="Music_event_1"/>
@@ -113,6 +114,10 @@
 					<ShortName>Bubble2.wav</ShortName>
 					<Path>SFX\Bubble2_4231625D.wem</Path>
 				</File>
+				<File Id="372130891" Language="SFX">
+					<ShortName>first_music.wav</ShortName>
+					<Path>SFX\first_music_4231625D.wem</Path>
+				</File>
 				<File Id="391236202" Language="SFX">
 					<ShortName>Bubble4.wav</ShortName>
 					<Path>SFX\Bubble4_4231625D.wem</Path>
@@ -144,10 +149,6 @@
 				<File Id="493589491" Language="SFX">
 					<ShortName>lava3.wav</ShortName>
 					<Path>SFX\lava3_4231625D.wem</Path>
-				</File>
-				<File Id="501132209" Language="SFX">
-					<ShortName>Philip-Glass-Metamorphosis-Two.wav</ShortName>
-					<Path>SFX\Philip-Glass-Metamorphosis-Two_4231625D.wem</Path>
 				</File>
 				<File Id="535095414" Language="SFX">
 					<ShortName>lava1_reverse.wav</ShortName>

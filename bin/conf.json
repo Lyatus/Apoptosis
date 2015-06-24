@@ -499,7 +499,7 @@
 			]
 		},
 						{	
-							"position": "65,155,172",
+							"position": "65,155,171",
 							"duration": 1,
 							"tumors": ["105,164,203"],
 							"modifications":[
@@ -1388,7 +1388,22 @@
 			
 	],
 	"events":[
+
+
+
+
+
+		{
+			"time": 81,
+			"operation": "wwise",
+			"name": "Music_event_1"
+		},
 	
+
+
+
+
+
 		{
 			"time": 3,
 			"operation": "wwise",
