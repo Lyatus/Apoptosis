@@ -61,6 +61,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	204703912	First_click	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\start_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Feedback\First_click		76773
 	221652388	17	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\17_E4434134.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\17		542910
 	226061229	13	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\13_E4434134.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\13		428048
+	252308623	Mus2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\second_music_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Mus2		6922381
 	256665748	lava2_reverse	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\lava2_reverse_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_bass\lava2_reverse		322318
 	263717991	23	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\23_E4434134.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\23		275221
 	299469069	Start	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\drop_start_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Start		183724

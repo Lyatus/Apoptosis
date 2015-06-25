@@ -98,6 +98,10 @@
 					<ShortName>13.wav</ShortName>
 					<Path>SFX\13_E4434134.wem</Path>
 				</File>
+				<File Id="252308623" Language="SFX">
+					<ShortName>second_music.wav</ShortName>
+					<Path>SFX\second_music_4231625D.wem</Path>
+				</File>
 				<File Id="256665748" Language="SFX">
 					<ShortName>lava2_reverse.wav</ShortName>
 					<Path>SFX\lava2_reverse_4231625D.wem</Path>
