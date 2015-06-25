@@ -114,10 +114,6 @@
 					<ShortName>Bubble2.wav</ShortName>
 					<Path>SFX\Bubble2_4231625D.wem</Path>
 				</File>
-				<File Id="372130891" Language="SFX">
-					<ShortName>first_music.wav</ShortName>
-					<Path>SFX\first_music_4231625D.wem</Path>
-				</File>
 				<File Id="391236202" Language="SFX">
 					<ShortName>Bubble4.wav</ShortName>
 					<Path>SFX\Bubble4_4231625D.wem</Path>
@@ -217,6 +213,10 @@
 				<File Id="811727355" Language="SFX">
 					<ShortName>06.wav</ShortName>
 					<Path>SFX\06_E4434134.wem</Path>
+				</File>
+				<File Id="832947060" Language="SFX">
+					<ShortName>first_music.wav</ShortName>
+					<Path>SFX\first_music_4231625D.wem</Path>
 				</File>
 				<File Id="839219038" Language="SFX">
 					<ShortName>16.wav</ShortName>

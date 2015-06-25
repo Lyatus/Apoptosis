@@ -1399,7 +1399,12 @@
 			"name": "Music_event_1"
 		},
 	
-
+		{
+			"time": 487,
+			"operation": "wwise",
+			"name": "Music_event_2"
+		},
+	
 
 
 

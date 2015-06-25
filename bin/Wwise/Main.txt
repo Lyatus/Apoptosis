@@ -65,7 +65,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	263717991	23	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\23_E4434134.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\23		275221
 	299469069	Start	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\drop_start_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Start		183724
 	362923797	Bubble2	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble2_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble2		29898
-	372130891	Mus1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\first_music_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Mus1		6111571
 	391236202	Bubble4	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\Bubble4_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble4		38395
 	398812558	lava3_reverse	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\lava3_reverse_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_bass\lava3_reverse		431283
 	409338300	19	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\19_E4434134.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\19		523736
@@ -91,6 +90,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	780769339	05	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\05_E4434134.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\05		320151
 	799394315	chemo3_rev	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\chemo3_rev_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Feedback\Chemo follow\chemo3_rev		44206
 	811727355	06	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\06_E4434134.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\06		1009840
+	832947060	Mus1	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\first_music_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Mus1		5725095
 	839219038	16	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\16_E4434134.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\16		1042930
 	862675670	04	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\04_E4434134.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\04		370527
 	870781323	09	B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\SFX\09_E4434134.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\09		794580
