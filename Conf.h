@@ -8,6 +8,7 @@ class Conf {
     static L::Dynamic::Var _json;
   public:
     static void open(const L::String&);
+    static void load(const char*);
     static const L::Dynamic::Var& get();
     static L::String getString(const L::String&);
     static L::String getStringFrom(const L::Dynamic::Var&);

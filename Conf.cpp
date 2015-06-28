@@ -7,6 +7,9 @@ Dynamic::Var Conf::_json;
 void Conf::open(const String& path) {
   Interface<Dynamic::Var>::fromFile(_json,path);
 }
+void Conf::load(const char* str) {
+  Interface<Dynamic::Var>::in("json").from(_json,str);
+}
 const L::Dynamic::Var& Conf::get() {
   return _json;
 }

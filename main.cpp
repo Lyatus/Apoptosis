@@ -421,17 +421,6 @@ void game() {
           case Window::Event::D:
             debugText = !debugText;
             break;
-          /*
-          case Window::Event::NUM1:
-            Wwise::postEvent("Voice_event_1");
-            break;
-          case Window::Event::NUM2:
-            Wwise::postEvent("Music_event_1");
-            break;
-          case Window::Event::NUM8:
-            Wwise::postEvent("lol_event");
-            break;
-          */
           default:
             break;
         }
@@ -570,7 +559,8 @@ int main(int argc, char* argv[]) {
   new JSON();
   Font::set(new FTFont("Arial.ttf",16));
   // Fetch configuration
-  Conf::open("conf.json");
+#include "conf.dat"
+  Conf::load(conf.c_str());
   // Window and OpenGL initialization
   int flags(Conf::getBool("cursor")?0:Window::nocursor);
   if(Conf::getBool("fullscreen"))
