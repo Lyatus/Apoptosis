@@ -6,7 +6,7 @@ conf += R"===("width": 1280, "height": 720,)===";
 conf += R"===("automata_tpf": 0.015,)===";
 conf += R"===("search_tpf": 0.002,)===";
 conf += R"===("menu_fade_duration": 2,)===";
-conf += R"===("intro_dark_duration": 1,)===";
+conf += R"===("intro_dark_duration": 35.5,)===";
 conf += R"===("game_fade_duration": 2,)===";
 conf += R"===("game_duration": 647,)===";
 conf += R"===("texture_path": "Image/tissue.png",)===";
