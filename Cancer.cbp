@@ -31,6 +31,7 @@
 		<Compiler>
 			<Add option="/DGLEW_STATIC" />
 			<Add option="/DUNICODE" />
+			<Add directory="C:/Program Files (x86)/Audiokinetic/Wwise v2014.1.4 build 5248/SDK/include" />
 		</Compiler>
 		<Linker>
 			<Add library="L" />
@@ -81,6 +82,7 @@
 			<Add library="AkToneSource" />
 			<Add library="AkTremoloFX" />
 			<Add library="HV_Plug1_WwisePluginEngine" />
+			<Add directory="C:/Program Files (x86)/Audiokinetic/Wwise v2014.1.4 build 5248/SDK/Win32_vc120/Profile/lib" />
 		</Linker>
 		<Unit filename="../L/interface/wwise.cpp" />
 		<Unit filename="../L/interface/wwise.h" />
