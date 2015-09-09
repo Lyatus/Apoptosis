@@ -646,5 +646,5 @@ int main(int argc, char* argv[]) {
   credits();
   // Terminate
   Wwise::term();
-  return 0;
+  _exit(0);
 }
