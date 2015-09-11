@@ -22,9 +22,6 @@
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="microsoft_visual_c_2012" />
-				<Compiler>
-					<Add option="/Ox" />
-				</Compiler>
 				<Linker>
 					<Add option='/ENTRY:&quot;mainCRTStartup&quot;' />
 				</Linker>
