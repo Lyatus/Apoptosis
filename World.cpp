@@ -66,7 +66,7 @@ const Voxel& World::voxel(int x, int y, int z) {
   if(chunk) {
     int vx, vy, vz;
     voxelKey(x,y,z,vx,vy,vz);
-    chunk->voxel(vx,vy,vz);
+    return chunk->voxel(vx,vy,vz);
   } else return empty;
 }
 float World::valueAt(const Point3f& point) {
