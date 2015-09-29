@@ -19,6 +19,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1503645651	Voice_event_22			\Default Work Unit\Narration\Voice_event_22	
 	1503645652	Voice_event_25			\Default Work Unit\Narration\Voice_event_25	
 	1503645653	Voice_event_24			\Default Work Unit\Narration\Voice_event_24	
+	1503645654	Voice_event_27			\Default Work Unit\Narration\Voice_event_27	
 	1503645655	Voice_event_26			\Default Work Unit\Narration\Voice_event_26	
 	2095930298	General_start			\Default Work Unit\Amb-Music\General_start	
 	2426937844	Chemo_start			\Default Work Unit\Actions\Chemo_start	
