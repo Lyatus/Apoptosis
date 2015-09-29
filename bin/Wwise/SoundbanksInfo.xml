@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" SchemaVersion="10" SoundbankVersion="112">
 	<RootPaths>
-		<ProjectRoot>B:\Projets\Apoptosis\Wwise project\Apoptosis test1\</ProjectRoot>
-		<SourceFilesRoot>B:\Projets\Apoptosis\Wwise project\Apoptosis test1\.cache\Windows\</SourceFilesRoot>
+		<ProjectRoot>B:\Projets\Apoptosis\Wwise project\Apoptosis VA\</ProjectRoot>
+		<SourceFilesRoot>B:\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\</SourceFilesRoot>
 		<SoundBanksRoot>B:\Projets\Apoptosis\Cancer\bin\Wwise\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>B:\Projets\Apoptosis\Wwise project\Apoptosis test1\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
+		<ExternalSourcesOutputRoot>B:\Projets\Apoptosis\Wwise project\Apoptosis VA\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
@@ -58,17 +58,9 @@
 				<Event Id="4179009840" Name="Voice_event_9"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
-				<File Id="4329944" Language="SFX">
-					<ShortName>03.wav</ShortName>
-					<Path>SFX\03_E4434134.wem</Path>
-				</File>
 				<File Id="21165556" Language="SFX">
 					<ShortName>chemo2_rev.wav</ShortName>
 					<Path>SFX\chemo2_rev_4231625D.wem</Path>
-				</File>
-				<File Id="71791293" Language="SFX">
-					<ShortName>24.wav</ShortName>
-					<Path>SFX\24_E4434134.wem</Path>
 				</File>
 				<File Id="80300493" Language="SFX">
 					<ShortName>Lego Racers Music - Menu.wav</ShortName>
@@ -78,25 +70,9 @@
 					<ShortName>Bubble6.wav</ShortName>
 					<Path>SFX\Bubble6_4231625D.wem</Path>
 				</File>
-				<File Id="124328453" Language="SFX">
-					<ShortName>22.wav</ShortName>
-					<Path>SFX\22_E4434134.wem</Path>
-				</File>
-				<File Id="194361983" Language="SFX">
-					<ShortName>11.wav</ShortName>
-					<Path>SFX\11_E4434134.wem</Path>
-				</File>
 				<File Id="204703912" Language="SFX">
 					<ShortName>start.wav</ShortName>
 					<Path>SFX\start_4231625D.wem</Path>
-				</File>
-				<File Id="221652388" Language="SFX">
-					<ShortName>17.wav</ShortName>
-					<Path>SFX\17_E4434134.wem</Path>
-				</File>
-				<File Id="226061229" Language="SFX">
-					<ShortName>13.wav</ShortName>
-					<Path>SFX\13_E4434134.wem</Path>
 				</File>
 				<File Id="252308623" Language="SFX">
 					<ShortName>second_music.wav</ShortName>
@@ -105,10 +81,6 @@
 				<File Id="256665748" Language="SFX">
 					<ShortName>lava2_reverse.wav</ShortName>
 					<Path>SFX\lava2_reverse_4231625D.wem</Path>
-				</File>
-				<File Id="263717991" Language="SFX">
-					<ShortName>23.wav</ShortName>
-					<Path>SFX\23_E4434134.wem</Path>
 				</File>
 				<File Id="299469069" Language="SFX">
 					<ShortName>drop_start.wav</ShortName>
@@ -126,25 +98,13 @@
 					<ShortName>lava3_reverse.wav</ShortName>
 					<Path>SFX\lava3_reverse_4231625D.wem</Path>
 				</File>
-				<File Id="409338300" Language="SFX">
-					<ShortName>19.wav</ShortName>
-					<Path>SFX\19_E4434134.wem</Path>
-				</File>
 				<File Id="449711483" Language="SFX">
 					<ShortName>Bubble1.wav</ShortName>
 					<Path>SFX\Bubble1_4231625D.wem</Path>
 				</File>
-				<File Id="460393098" Language="SFX">
-					<ShortName>21.wav</ShortName>
-					<Path>SFX\21_E4434134.wem</Path>
-				</File>
 				<File Id="465665579" Language="SFX">
 					<ShortName>Bubble7.wav</ShortName>
 					<Path>SFX\Bubble7_4231625D.wem</Path>
-				</File>
-				<File Id="488912897" Language="SFX">
-					<ShortName>08.wav</ShortName>
-					<Path>SFX\08_E4434134.wem</Path>
 				</File>
 				<File Id="493589491" Language="SFX">
 					<ShortName>lava3.wav</ShortName>
@@ -154,17 +114,9 @@
 					<ShortName>lava1_reverse.wav</ShortName>
 					<Path>SFX\lava1_reverse_4231625D.wem</Path>
 				</File>
-				<File Id="542013845" Language="SFX">
-					<ShortName>02.wav</ShortName>
-					<Path>SFX\02_E4434134.wem</Path>
-				</File>
 				<File Id="556490982" Language="SFX">
 					<ShortName>lava1.wav</ShortName>
 					<Path>SFX\lava1_4231625D.wem</Path>
-				</File>
-				<File Id="564871056" Language="SFX">
-					<ShortName>20.wav</ShortName>
-					<Path>SFX\20_E4434134.wem</Path>
 				</File>
 				<File Id="575426271" Language="SFX">
 					<ShortName>chemo4_rev.wav</ShortName>
@@ -174,73 +126,25 @@
 					<ShortName>chemo5_rev.wav</ShortName>
 					<Path>SFX\chemo5_rev_4231625D.wem</Path>
 				</File>
-				<File Id="633143173" Language="SFX">
-					<ShortName>14.wav</ShortName>
-					<Path>SFX\14_E4434134.wem</Path>
-				</File>
-				<File Id="644364267" Language="SFX">
-					<ShortName>15.wav</ShortName>
-					<Path>SFX\15_E4434134.wem</Path>
-				</File>
-				<File Id="653868174" Language="SFX">
-					<ShortName>26.wav</ShortName>
-					<Path>SFX\26_E4434134.wem</Path>
-				</File>
-				<File Id="659721178" Language="SFX">
-					<ShortName>10.wav</ShortName>
-					<Path>SFX\10_E4434134.wem</Path>
-				</File>
 				<File Id="702001608" Language="SFX">
 					<ShortName>bonus.wav</ShortName>
 					<Path>SFX\bonus_4231625D.wem</Path>
-				</File>
-				<File Id="707515098" Language="SFX">
-					<ShortName>01-bis.wav</ShortName>
-					<Path>SFX\01-bis_E4434134.wem</Path>
-				</File>
-				<File Id="755952865" Language="SFX">
-					<ShortName>07.wav</ShortName>
-					<Path>SFX\07_E4434134.wem</Path>
 				</File>
 				<File Id="772107398" Language="SFX">
 					<ShortName>Bubble5.wav</ShortName>
 					<Path>SFX\Bubble5_4231625D.wem</Path>
 				</File>
-				<File Id="780769339" Language="SFX">
-					<ShortName>05.wav</ShortName>
-					<Path>SFX\05_E4434134.wem</Path>
-				</File>
 				<File Id="799394315" Language="SFX">
 					<ShortName>chemo3_rev.wav</ShortName>
 					<Path>SFX\chemo3_rev_4231625D.wem</Path>
-				</File>
-				<File Id="811727355" Language="SFX">
-					<ShortName>06.wav</ShortName>
-					<Path>SFX\06_E4434134.wem</Path>
 				</File>
 				<File Id="832947060" Language="SFX">
 					<ShortName>first_music.wav</ShortName>
 					<Path>SFX\first_music_4231625D.wem</Path>
 				</File>
-				<File Id="839219038" Language="SFX">
-					<ShortName>16.wav</ShortName>
-					<Path>SFX\16_E4434134.wem</Path>
-				</File>
-				<File Id="862675670" Language="SFX">
-					<ShortName>04.wav</ShortName>
-					<Path>SFX\04_E4434134.wem</Path>
-				</File>
-				<File Id="870781323" Language="SFX">
-					<ShortName>09.wav</ShortName>
-					<Path>SFX\09_E4434134.wem</Path>
-				</File>
 				<File Id="879796040" Language="SFX">
 					<ShortName>Bubble3.wav</ShortName>
 					<Path>SFX\Bubble3_4231625D.wem</Path>
-				</File>
-				<File Id="887420164" Language="SFX">
-					<ShortName>12.wav</ShortName>
-					<Path>SFX\12_E4434134.wem</Path>
 				</File>
 				<File Id="903042498" Language="SFX">
 					<ShortName>Underwater_Rumble.wav</ShortName>
@@ -250,17 +154,9 @@
 					<ShortName>lava2.wav</ShortName>
 					<Path>SFX\lava2_4231625D.wem</Path>
 				</File>
-				<File Id="970253643" Language="SFX">
-					<ShortName>25.wav</ShortName>
-					<Path>SFX\25_E4434134.wem</Path>
-				</File>
 				<File Id="992308086" Language="SFX">
 					<ShortName>amb_light2.wav</ShortName>
 					<Path>SFX\amb_light2_54A8DACD.wem</Path>
-				</File>
-				<File Id="1000347171" Language="SFX">
-					<ShortName>18.wav</ShortName>
-					<Path>SFX\18_E4434134.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>
