@@ -148,7 +148,7 @@
 						},
 		{
 			"icon": "Image/Bonus/tumor.png",
-			"position": "94,14,227",
+			"position": "94,14,225",
 			"modifications":[
 				{
 					"value": "autoaim_radius",
@@ -158,7 +158,7 @@
 			]
 		},
 						{	
-							"position": "94,14,227",
+							"position": "94,14,225",
 							"duration": 1,
 							"tumors": ["87,26,205"],
 							"modifications":[
