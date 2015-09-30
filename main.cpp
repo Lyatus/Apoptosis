@@ -559,7 +559,8 @@ int main(int argc, char* argv[]) {
   new JSON();
   Font::set(new FTFont("Arial.ttf",16));
   // Fetch configuration
-  Conf::open("conf.json");
+  #include "conf.dat"
+  Conf::load(conf.c_str());
   // Window and OpenGL initialization
   int flags(Conf::getBool("cursor")?0:Window::nocursor);
   if(Conf::getBool("fullscreen"))
