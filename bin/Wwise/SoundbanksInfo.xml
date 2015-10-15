@@ -95,13 +95,17 @@
 					<ShortName>14.wav</ShortName>
 					<Path>SFX\14_AD082FAE.wem</Path>
 				</File>
-				<File Id="234342343" Language="SFX">
-					<ShortName>mvt 1 v2.wav</ShortName>
-					<Path>SFX\mvt 1 v2_4231625D.wem</Path>
-				</File>
 				<File Id="256665748" Language="SFX">
 					<ShortName>lava2_reverse.wav</ShortName>
 					<Path>SFX\lava2_reverse_4231625D.wem</Path>
+				</File>
+				<File Id="257134877" Language="SFX">
+					<ShortName>mvt_2.wav</ShortName>
+					<Path>SFX\mvt_2_4231625D.wem</Path>
+				</File>
+				<File Id="259620273" Language="SFX">
+					<ShortName>mvt_1.wav</ShortName>
+					<Path>SFX\mvt_1_4231625D.wem</Path>
 				</File>
 				<File Id="280047679" Language="SFX">
 					<ShortName>23.wav</ShortName>
@@ -118,10 +122,6 @@
 				<File Id="356305902" Language="SFX">
 					<ShortName>06.wav</ShortName>
 					<Path>SFX\06_AD082FAE.wem</Path>
-				</File>
-				<File Id="357381296" Language="SFX">
-					<ShortName>mvt 2 v2.wav</ShortName>
-					<Path>SFX\mvt 2 v2_4231625D.wem</Path>
 				</File>
 				<File Id="359836143" Language="SFX">
 					<ShortName>09.wav</ShortName>

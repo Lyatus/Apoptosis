@@ -61,13 +61,13 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	123192390	11	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\11_AD082FAE.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\11		821058
 	204703912	First_click	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\start_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Feedback\First_click		76773
 	219096544	14	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\14_AD082FAE.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\14		794502
-	234342343	Mus1	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\mvt 1 v2_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Mus1		5894649
 	256665748	lava2_reverse	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\lava2_reverse_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Tumor\Tumor_bass\lava2_reverse		322318
+	257134877	Mus2	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\mvt_2_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Mus2		7134105
+	259620273	Mus1	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\mvt_1_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Mus1		5894649
 	280047679	23	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\23_AD082FAE.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\23		688534
 	299469069	Start	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\drop_start_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Start		183724
 	322768818	21	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\21_AD082FAE.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\21		751191
 	356305902	06	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\06_AD082FAE.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\06		984938
-	357381296	Mus2	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\mvt 2 v2_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Mus2		8133833
 	359836143	09	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\09_AD082FAE.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\09		838700
 	362923797	Bubble2	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\Bubble2_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble2		29898
 	391236202	Bubble4	J:\Save\Backup projets\Projets\Apoptosis\Wwise project\Apoptosis VA\.cache\Windows\SFX\Bubble4_4231625D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Amb\Bubbles\Bubble4		38395
