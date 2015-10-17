@@ -22,7 +22,7 @@ class Bonus {
 
   public:
     Bonus() {}
-    Bonus(const L::Dynamic::Var&);
+    Bonus(const L::Var&);
     void update(World&);
     void activate();
     void deactivate();

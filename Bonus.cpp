@@ -12,7 +12,7 @@ Array<Bonus> Bonus::_bonuses;
 Color Bonus::_activeColor, Bonus::_inactiveColor, Bonus::_expiredColor;
 float Bonus::_radius;
 
-Bonus::Bonus(const L::Dynamic::Var& v)
+Bonus::Bonus(const Var& v)
   : _position(Conf::getPointFrom(v["position"])),
     _duration(0), _end(0), _appearance(0),
     _active(false), _timed(false) {

@@ -228,10 +228,9 @@ void search() {
 }
 void fillObj(const char* filename, byte type) {
   Array<Point3f> vertices;
-  File file(filename);
-  file.open("r");
-  List<String> line;
-  while((line = file.readLine().explode(' ')).size()>0) {
+  FileStream file(filename,"rb");
+  Array<String> line;
+  while((line = String(file.line()).explode(' ')).size()>0) {
     if(line[0]=="v")
       vertices.push(Point3f(FromString<float>(line[1]),FromString<float>(line[2]),FromString<float>(line[3])));
     else if(line[0]=="f")
@@ -257,7 +256,7 @@ void menu() {
   clearcolor(Conf::getColor("intro_background"));
   GL::Program guiProgram(GL::Shader(File("Shader/gui.vert"),GL_VERTEX_SHADER),
                          GL::Shader(File("Shader/gui.frag"),GL_FRAGMENT_SHADER));
-  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/logo.png")),[](GUI::ActionListener* al, Dynamic::Var& v, GUI::Event e) {
+  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/logo.png")),[](GUI::ActionListener* al, Var& v, GUI::Event e) {
     if(e.type == GUI::Event::leftClick) {
       *v.as<bool*>() = true;
       return true;
@@ -317,11 +316,11 @@ List<Point3f> burst(float radius, int count) {
     Point2f pixelToNormalized(1.f/Window::width(),1.f/Window::height());
     if(world.raycast(cam.position(),cam.screenToRay(Window::normalizedMousePosition()),center,512)) {
       if(isTumor(world.voxel(center.x(),center.y(),center.z())))
-        wtr.push_back(center);
+        wtr.push(center);
       while(wtr.size()<count && ++i<256) {
         hit = center+Point3f::random()*radius;
         if(isTumor(world.voxel(hit.x(),hit.y(),hit.z())))
-          wtr.push_back(hit);
+          wtr.push(hit);
       }
     }
   }
@@ -523,7 +522,7 @@ void credits() {
   fadeTimer.setoff();
   clearcolor(Color::black);
   Ref<GL::Program> guiProgram(Resource::program("Shader/gui"));
-  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/credits.png")),[](GUI::ActionListener* al, Dynamic::Var& v, GUI::Event e) {
+  gui->place(new GUI::ActionListener(new GUI::Image(Image::Bitmap("Image/credits.png")),[](GUI::ActionListener* al, Var& v, GUI::Event e) {
     if(e.type == GUI::Event::leftClick) {
       (*v.as<int*>())++;
       return true;
@@ -635,7 +634,7 @@ int main(int argc, char* argv[]) {
   if(file.exists())
     world.read(file.open("rb"));
   else {
-    fillObj(Conf::getString("model_path").c_str(),Voxel::ORGAN);
+    fillObj(Conf::getString("model_path"),Voxel::ORGAN);
     world.write(file.open("wb"));
   }
   file.close();

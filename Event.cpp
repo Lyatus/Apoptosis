@@ -11,7 +11,7 @@ Array<Event> Event::_events;
 World* Event::_world;
 SCA* Event::_sca;
 
-Event::Event(const L::Dynamic::Var& v) {
+Event::Event(const Var& v) {
   _time = Time(1000000.f*v["time"].as<float>());
   if(v["operation"].as<String>()=="mult")
     _operation = MULT;
