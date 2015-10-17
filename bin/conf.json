@@ -6,7 +6,7 @@
 	"search_tpf": 0.002,
 
 	"menu_fade_duration": 2,
-	"intro_dark_duration": 45.5,
+	"intro_dark_duration": 1.5,
 	"game_fade_duration": 2,
 	"game_duration": 668,
 
